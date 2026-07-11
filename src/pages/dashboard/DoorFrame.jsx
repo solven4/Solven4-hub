@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Maximize2, RefreshCw } from 'lucide-react';
 import { useState, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/lib/supabase';
 
 const DOORS = {
@@ -31,6 +32,7 @@ export default function DoorFrame() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#03080F' }}>
+      <Helmet><title>{door.label} | S4 HUB</title></Helmet>
       {/* Door top bar */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '12px',

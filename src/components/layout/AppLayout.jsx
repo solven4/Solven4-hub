@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import SolvenOrb from '@/components/solven/SolvenOrb';
@@ -23,6 +24,7 @@ function AppContent({ isAdmin }) {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#03080F' }}>
+      <Helmet><title>S4 HUB | Command Center</title></Helmet>
       {/* Ambient background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 grid-pattern opacity-30" />
