@@ -147,7 +147,7 @@ export default function DoorFrame() {
           src={door.url}
           onLoad={async () => {
             setLoading(false);
-            // Bridge auth session to the door iframe (different localhost port = different localStorage origin)
+            // Bridge auth session to the door iframe (cross-origin, so postMessage is required)
             try {
               const { data: { session } } = await supabase.auth.getSession();
               if (session && iframeRef.current?.contentWindow) {

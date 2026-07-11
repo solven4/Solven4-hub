@@ -14,11 +14,11 @@ const MEMORY_KEY = 'solven_ai_memory';
 const MAX_MEMORY  = 50;
 
 const DOOR_MAP = {
-  ORACLE: { color: '#10B981', port: 5178 },
-  FORGE:  { color: '#D4A843', port: 5174 },
-  EDGE:   { color: '#06B6D4', port: 5176 },
-  NEXUS:  { color: '#EF4444', port: 5177 },
-  HUB:    { color: '#6366F1', port: 5175 },
+  ORACLE: { color: '#10B981', url: 'https://solven4-oracle-eight.vercel.app' },
+  FORGE:  { color: '#D4A843', url: 'https://solven4-forge-pi.vercel.app' },
+  EDGE:   { color: '#06B6D4', url: 'https://solven4-edge-six.vercel.app' },
+  NEXUS:  { color: '#EF4444', url: 'https://solven4-nexus-self.vercel.app' },
+  HUB:    { color: '#6366F1', url: 'https://solven4-hub.vercel.app' },
 };
 
 const QUICK_COMMANDS = [
@@ -41,11 +41,11 @@ const EXAMPLE_QUERIES = [
 const SYSTEM_PROMPT = `You are SOLVEN AI, the master intelligence assistant for SOLVEN4 — a 5-door AI financial ecosystem for MENA traders and IBs.
 
 You have awareness of all 5 doors:
-- HUB (port 5175): Central management, Profile, KYC, Subscriptions, Referral, Automation
-- EDGE (port 5176): Trader-facing door — Trade Journal, Analytics, Signals, Risk Control, Prop Room
-- FORGE (port 5174): IB management — Trader networks, Lead intelligence, Live signals, Content creation
-- ORACLE (port 5178): Intelligence & Education — Market signals, 11-section intelligence dashboard, Courses, Tools
-- NEXUS (port 5177): Business sales — CRM, Lead pipeline, Network hub, Marketing automation
+- HUB (solven4-hub.vercel.app): Central management, Profile, KYC, Subscriptions, Referral, Automation
+- EDGE (solven4-edge-six.vercel.app): Trader-facing door — Trade Journal, Analytics, Signals, Risk Control, Prop Room
+- FORGE (solven4-forge-pi.vercel.app): IB management — Trader networks, Lead intelligence, Live signals, Content creation
+- ORACLE (solven4-oracle-eight.vercel.app): Intelligence & Education — Market signals, 11-section intelligence dashboard, Courses, Tools
+- NEXUS (solven4-nexus-self.vercel.app): Business sales — CRM, Lead pipeline, Network hub, Marketing automation
 
 Answer in the user's language (Arabic if they write Arabic, English otherwise).
 Be specific, concise, and actionable. Reference which door handles what.
@@ -100,7 +100,7 @@ function DoorChip({ doorName }) {
   if (!door) return null;
   return (
     <button
-      onClick={() => window.open(`http://localhost:${door.port}`, '_blank')}
+      onClick={() => window.open(door.url, '_blank')}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '5px',
         padding: '3px 9px', borderRadius: '20px', marginTop: '6px', marginRight: '5px',
