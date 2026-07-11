@@ -9,7 +9,7 @@ export const DOORS = [
     tagline: 'Signal. Execute. Dominate.',
     desc: 'Real-time signals, trade journal, MT5 integration, AI coaching, and TradingDNA. Your edge — sharpened to a blade.',
     features: ['Signal Tracker', 'Trade Journal', 'MT5 Integration', 'AI Coach', 'TradingDNA', 'Backtesting', 'GlitchBox', 'Weekly Briefing'],
-    color: '#3B82F6',
+    color: '#06B6D4',
     colorKey: 'edge',
     textClass: 'text-s4-edge',
     borderClass: 'border-s4-edge/30',
