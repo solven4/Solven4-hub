@@ -255,7 +255,7 @@ export default function Sidebar({ isAdmin = false }) {
               S4 DOORS
             </div>
           )}
-          {DOOR_LINKS.map(({ key, label, color, port }) => (
+          {DOOR_LINKS.map(({ key, label, color, url }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '2px' }}>
               {/* Embed button — opens door inside HUB via DoorFrame route */}
               <button

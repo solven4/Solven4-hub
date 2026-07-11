@@ -3,10 +3,10 @@ import { X, Maximize2, Minimize2, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DOOR_CONFIG = {
-  EDGE:   { label: 'S4 EDGE',   color: '#06B6D4', port: 5176, subtitle: 'Trader Platform' },
-  FORGE:  { label: 'S4 FORGE',  color: '#D4A843', port: 5174, subtitle: 'IB Management' },
-  ORACLE: { label: 'S4 ORACLE', color: '#10B981', port: 5178, subtitle: 'Intelligence' },
-  NEXUS:  { label: 'S4 NEXUS',  color: '#EF4444', port: 5177, subtitle: 'Business Sales' },
+  EDGE:   { label: 'S4 EDGE',   color: '#06B6D4', url: 'https://solven4-edge-six.vercel.app',    subtitle: 'Trading Terminal' },
+  FORGE:  { label: 'S4 FORGE',  color: '#D4A843', url: 'https://solven4-forge-pi.vercel.app',    subtitle: 'IB Management' },
+  ORACLE: { label: 'S4 ORACLE', color: '#10B981', url: 'https://solven4-oracle-eight.vercel.app', subtitle: 'AI Analytics' },
+  NEXUS:  { label: 'S4 NEXUS',  color: '#EF4444', url: 'https://solven4-nexus-self.vercel.app',  subtitle: 'Business Hub' },
 };
 
 export default function DoorEmbed({ door, onClose }) {
@@ -15,7 +15,7 @@ export default function DoorEmbed({ door, onClose }) {
   const config = DOOR_CONFIG[door];
   if (!config || !door) return null;
 
-  const url = `http://localhost:${config.port}`;
+  const url = config.url;
 
   // Minimized taskbar chip
   if (minimized) {

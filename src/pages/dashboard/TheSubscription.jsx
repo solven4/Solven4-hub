@@ -116,7 +116,7 @@ export default function TheSubscription() {
       const res = await fetch('/api/checkout/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier: tierKey, userId: user.id, email: user.email }),
+        body: JSON.stringify({ tier: tierKey, userId: user.id, userEmail: user.email }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Checkout failed');
