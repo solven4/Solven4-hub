@@ -5,10 +5,10 @@ import { useState, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 
 const DOORS = {
-  edge:   { label: 'S4 EDGE',   color: '#06B6D4', url: 'http://localhost:5176', desc: 'Trading Intelligence' },
-  forge:  { label: 'S4 FORGE',  color: '#D4A843', url: 'http://localhost:5174', desc: 'IB Network' },
-  oracle: { label: 'S4 ORACLE', color: '#10B981', url: 'http://localhost:5178', desc: 'Intelligence Platform' },
-  nexus:  { label: 'S4 NEXUS',  color: '#EF4444', url: 'http://localhost:5177', desc: 'Business Hub' },
+  edge:   { label: 'S4 EDGE',   color: '#06B6D4', url: 'https://solven4-edge-six.vercel.app',   desc: 'Trading Intelligence' },
+  forge:  { label: 'S4 FORGE',  color: '#D4A843', url: 'https://solven4-forge-pi.vercel.app',   desc: 'IB Management' },
+  oracle: { label: 'S4 ORACLE', color: '#10B981', url: 'https://solven4-oracle-eight.vercel.app', desc: 'AI Analytics' },
+  nexus:  { label: 'S4 NEXUS',  color: '#EF4444', url: 'https://solven4-nexus-self.vercel.app', desc: 'Business Hub' },
 };
 
 export default function DoorFrame() {

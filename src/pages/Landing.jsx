@@ -5,10 +5,10 @@ import { SEO } from '@/components/SEO';
 
 const DOORS = [
   { id: 'HUB',    color: '#6366F1', label: 'S4 HUB',    title: 'Intelligence & Command',   desc: 'AI briefings, wallet, broker network, cross-door analytics', features: ['SOLVEN AI Daily Brief', 'Unified Wallet & Portfolio', 'Broker B2B Network'], href: '/dashboard', external: false },
-  { id: 'EDGE',   color: '#06B6D4', label: 'S4 EDGE',   title: 'Trader Platform',          desc: 'MT5 sync, signals, backtesting, trading DNA',                 features: ['MT5 Read-Only Sync', 'Live Signal Feed', 'Trading DNA Profile'], href: 'http://localhost:5176', external: true },
-  { id: 'FORGE',  color: '#D4A843', label: 'S4 FORGE',  title: 'IB Operator',              desc: 'Network management, commissions, channels, operator card',     features: ['IB Network Tree', 'Commission Tracker', 'S4 Channel Command'], href: 'http://localhost:5174', external: true },
-  { id: 'ORACLE', color: '#10B981', label: 'S4 ORACLE', title: 'Learning Academy',         desc: 'Courses, market analysis, daily briefings, tools',             features: ['Structured Courses', 'Market Analysis Hub', 'AI Learning Tools'], href: 'http://localhost:5178', external: true },
-  { id: 'NEXUS',  color: '#EF4444', label: 'S4 NEXUS',  title: 'Business Command',         desc: 'CRM, leads, automation, social command',                       features: ['Lead CRM Pipeline', 'Social Command Center', 'Workflow Automation'], href: 'http://localhost:5177', external: true },
+  { id: 'EDGE',   color: '#06B6D4', label: 'S4 EDGE',   title: 'Trader Platform',          desc: 'MT5 sync, signals, backtesting, trading DNA',                 features: ['MT5 Read-Only Sync', 'Live Signal Feed', 'Trading DNA Profile'], href: 'https://solven4-edge-six.vercel.app', external: true },
+  { id: 'FORGE',  color: '#D4A843', label: 'S4 FORGE',  title: 'IB Operator',              desc: 'Network management, commissions, channels, operator card',     features: ['IB Network Tree', 'Commission Tracker', 'S4 Channel Command'], href: 'https://solven4-forge-pi.vercel.app', external: true },
+  { id: 'ORACLE', color: '#10B981', label: 'S4 ORACLE', title: 'Learning Academy',         desc: 'Courses, market analysis, daily briefings, tools',             features: ['Structured Courses', 'Market Analysis Hub', 'AI Learning Tools'], href: 'https://solven4-oracle-eight.vercel.app', external: true },
+  { id: 'NEXUS',  color: '#EF4444', label: 'S4 NEXUS',  title: 'Business Command',         desc: 'CRM, leads, automation, social command',                       features: ['Lead CRM Pipeline', 'Social Command Center', 'Workflow Automation'], href: 'https://solven4-nexus-self.vercel.app', external: true },
 ];
 
 const FEATURES = [

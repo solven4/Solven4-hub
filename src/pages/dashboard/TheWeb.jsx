@@ -83,7 +83,7 @@ export default function TheWeb() {
           </p>
         </div>
         <a
-          href="http://localhost:5175"
+          href="https://solven4-forge-pi.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 bg-gold/10 border border-gold/20 text-gold text-xs font-heading font-bold px-4 py-2 rounded-xl hover:bg-gold/20 transition-colors tracking-wider"

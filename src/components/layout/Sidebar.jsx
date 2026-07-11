@@ -62,10 +62,10 @@ const NAV_GROUPS = [
 const SOLVEN_AI = { label: 'SOLVEN AI', Icon: Brain, to: '/dashboard/agent', accent: '#6366F1' };
 
 const DOOR_LINKS = [
-  { key: 'EDGE',   label: 'S4 EDGE',   color: '#06B6D4', port: 5176 },
-  { key: 'FORGE',  label: 'S4 FORGE',  color: '#D4A843', port: 5174 },
-  { key: 'ORACLE', label: 'S4 ORACLE', color: '#10B981', port: 5178 },
-  { key: 'NEXUS',  label: 'S4 NEXUS',  color: '#EF4444', port: 5177 },
+  { key: 'EDGE',   label: 'S4 EDGE',   color: '#06B6D4', url: 'https://solven4-edge-six.vercel.app' },
+  { key: 'FORGE',  label: 'S4 FORGE',  color: '#D4A843', url: 'https://solven4-forge-pi.vercel.app' },
+  { key: 'ORACLE', label: 'S4 ORACLE', color: '#10B981', url: 'https://solven4-oracle-eight.vercel.app' },
+  { key: 'NEXUS',  label: 'S4 NEXUS',  color: '#EF4444', url: 'https://solven4-nexus-self.vercel.app' },
 ];
 
 const S = {
@@ -286,7 +286,7 @@ export default function Sidebar({ isAdmin = false }) {
               {/* Open in new tab button */}
               {!collapsed && (
                 <button
-                  onClick={() => window.open(`http://localhost:${port}`, '_blank')}
+                  onClick={() => window.open(url, '_blank')}
                   style={{
                     width: '26px', height: '26px', borderRadius: '6px', flexShrink: 0,
                     background: 'transparent', border: '1px solid rgba(255,255,255,0.07)',
