@@ -15,8 +15,5 @@
       ]
     }
   ],
-  "crons": [
-    { "path": "/api/social/process-queue", "schedule": "* * * * *" },
-    { "path": "/api/seats/release-expired", "schedule": "*/5 * * * *" }
-  ]
+  "_crons_disabled": "requires Vercel Pro — re-enable when upgrading"
 }
