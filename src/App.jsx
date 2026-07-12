@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import AppLayout from '@/components/layout/AppLayout';
@@ -73,6 +74,7 @@ export default function App() {
     <HelmetProvider>
     <BrowserRouter>
       <Toaster position="top-right" theme="dark" richColors />
+      <SpeedInsights />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/auth/login" element={<PublicRoute><Login /></PublicRoute>} />
