@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
+import { sendEmail } from '../_lib/email.js';
 
 const DOOR_BUNDLES = {
   EDGE:   ['EDGE'],
@@ -143,6 +144,19 @@ export default async function handler(req, res) {
       `Currency: ${outcome_currency?.toUpperCase() || 'crypto'}\n` +
       `Payment ID: ${payment_id}`
     );
+
+    // Email: welcome + receipt (look up buyer email via profiles → auth)
+    try {
+      const { data: prof } = await supabase
+        .from('profiles').select('email, full_name').eq('id', userId).maybeSingle();
+      if (prof?.email) {
+        const doors = DOOR_BUNDLES[tier] || [tier];
+        await sendEmail('welcome', prof.email, { name: prof.full_name, tier, doors });
+        await sendEmail('payment_receipt', prof.email, {
+          name: prof.full_name, tier, amount: amountUsd, paymentId: String(payment_id), method: 'NOWPayments (crypto)',
+        });
+      }
+    } catch { /* email is best-effort */ }
 
     return res.json({ received: true });
 

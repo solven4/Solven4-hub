@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
+import { sendEmail } from '../_lib/email.js';
 
 const DOOR_BUNDLES = {
   EDGE:   ['EDGE'],
@@ -71,6 +72,26 @@ export default async function handler(req, res) {
   try {
     if (type === 'payment.succeeded') {
       const { id: paymentId, metadata, amount, customer } = data;
+
+      // ── ORACLE Brain tier upgrade (separate purpose, not a founding seat) ──
+      if (metadata?.purpose === 'oracle_tier') {
+        const { userId: upUser, targetTier } = metadata;
+        const { data: prof } = await supabase
+          .from('profiles').select('oracle_tier, email, full_name').eq('id', upUser).maybeSingle();
+        await supabase.from('profiles')
+          .update({ oracle_tier: targetTier, plan: targetTier, updated_at: new Date().toISOString() })
+          .eq('id', upUser);
+        await supabase.from('activities').insert({
+          user_id: upUser, activity_type: 'oracle_tier_upgraded',
+          metadata: { from: prof?.oracle_tier || 'signal', to: targetTier, paymentId },
+        }).catch(() => {});
+        if (prof?.email) {
+          await sendEmail('tier_upgrade', prof.email, { name: prof.full_name, tier: (targetTier || '').toUpperCase() });
+        }
+        await sendTelegramAlert(`⚡ <b>ORACLE TIER UPGRADE</b>\nUser: ${prof?.email || upUser}\nTo: <b>${targetTier}</b>\nAmount: $${amount / 100}`);
+        return res.json({ received: true, oracle_tier_upgraded: true });
+      }
+
       const { tier, userId, reservationId, userPhone, referralCode } = metadata || {};
 
       // Idempotency check — don't process twice
@@ -145,6 +166,15 @@ export default async function handler(req, res) {
           `Your lifetime access is now active.\n\nAmount: $${amountUsd} USD\n\n` +
           `Login at hub.solven4.com 🚀`
         );
+      }
+
+      // Email: welcome + receipt to buyer (Resend — no-op if key unset)
+      if (customer?.email) {
+        const doors = DOOR_BUNDLES[tier] || [tier];
+        await sendEmail('welcome', customer.email, { name: customer?.name, tier, doors });
+        await sendEmail('payment_receipt', customer.email, {
+          name: customer?.name, tier, amount: amountUsd, paymentId, method: 'Dodo Payments',
+        });
       }
 
       // Log security event
