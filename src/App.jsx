@@ -31,6 +31,7 @@ import TheLeaderboard from '@/pages/dashboard/TheLeaderboard';
 import TheCommission from '@/pages/dashboard/TheCommission';
 import TheAutomation from '@/pages/dashboard/TheAutomation';
 import LegalPages from '@/pages/legal/LegalPages';
+import MaintenanceGate from '@/components/MaintenanceGate';
 
 // NOTE: Admin functionality moved to the standalone SOLVEN4 COCKPIT platform
 // (C:\Projects\Opiom\Solven4\solven4_cockpit) — HUB is user-facing only.
@@ -71,6 +72,7 @@ export default function App() {
 
   return (
     <HelmetProvider>
+    <MaintenanceGate>
     <BrowserRouter>
       <Toaster position="top-right" theme="dark" richColors />
       <Routes>
@@ -109,6 +111,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </MaintenanceGate>
     </HelmetProvider>
   );
 }

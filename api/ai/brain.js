@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { createClient } from '@supabase/supabase-js';
 import { saveMemory, getRelevantMemories } from '../_lib/memory.js';
+import { applyCors, isAiThrottled, THROTTLE_MESSAGE } from '../_lib/guard.js';
 
 const PERSONA_SYSTEMS = {
   oracle: `You are THE ORACLE — SOLVEN4's market intelligence AI. You analyze forex markets, macroeconomic conditions, geopolitical events, and trading sentiment with authority and precision. You provide structured educational market analysis, never investment advice. Format responses with clear sections. Always end with: "⚠️ Educational analysis only. Trading carries significant risk."`,
@@ -20,14 +21,8 @@ function getSupabase() {
   );
 }
 
-function cors(res) {
-  res.setHeader('Access-Control-Allow-Origin', process.env.VITE_HUB_URL || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-}
-
 export default async function handler(req, res) {
-  cors(res);
+  applyCors(req, res, 'POST, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).end();
 
@@ -35,8 +30,12 @@ export default async function handler(req, res) {
   const baseSystem = PERSONA_SYSTEMS[personaId];
   if (!baseSystem) return res.status(400).json({ error: 'Invalid persona' });
 
-  const identifier = userId || req.headers['x-forwarded-for'] || 'anon';
   const supabase = getSupabase();
+
+  // Cost governor — platform-wide daily AI budget
+  if (await isAiThrottled(supabase)) {
+    return res.status(429).json({ error: THROTTLE_MESSAGE, throttled: true });
+  }
 
   // Simple rate limit via DB (no Redis dependency in dev)
   const since = new Date(Date.now() - 60000).toISOString();
