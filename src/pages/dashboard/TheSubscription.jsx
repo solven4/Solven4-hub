@@ -85,15 +85,36 @@ export default function TheSubscription() {
   const isFounder = !!memberTier;
 
   useEffect(() => {
-    fetch('/api/seats/inventory')
-      .then(r => r.json())
-      .then(data => {
-        const map = {};
-        (Array.isArray(data) ? data : []).forEach(t => { map[t.tier] = t; });
-        setInventory(map);
-      })
-      .catch(() => {})
-      .finally(() => setLoadingInv(false));
+    function loadInventory() {
+      fetch('/api/seats/inventory')
+        .then(r => r.json())
+        .then(data => {
+          const map = {};
+          (Array.isArray(data) ? data : []).forEach(t => { map[t.tier] = t; });
+          setInventory(map);
+        })
+        .catch(() => {})
+        .finally(() => setLoadingInv(false));
+    }
+
+    loadInventory();
+
+    // Realtime subscription — update seat counts instantly when anyone buys or reserves
+    const channel = supabase
+      .channel('seat-inventory-live')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'founding_seat_inventory',
+      }, () => { loadInventory(); })
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'founding_members',
+      }, () => { loadInventory(); })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   useEffect(() => {

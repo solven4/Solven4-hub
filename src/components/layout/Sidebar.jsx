@@ -77,12 +77,8 @@ const S = {
   groupLabel: { fontFamily: "'Orbitron',sans-serif", fontSize: '9px', letterSpacing: '0.25em', color: '#8899B4' },
 };
 
-const ADMIN_NAV = [
-  { label: 'Operator Hub',   Icon: LayoutDashboard, to: '/admin/hub' },
-  { label: 'User Manager',   Icon: Users,           to: '/admin/users' },
-  { label: 'Analytics',      Icon: Activity,        to: '/admin/analytics' },
-  { label: 'Security SOC',   Icon: Shield,          to: '/admin/security' },
-];
+// Admin nav moved to the standalone SOLVEN4 COCKPIT platform (solven4_cockpit)
+const ADMIN_NAV = [];
 
 export default function Sidebar({ isAdmin = false }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -333,6 +329,22 @@ export default function Sidebar({ isAdmin = false }) {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Legal links */}
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
+              style={{ display: 'flex', gap: '8px', padding: '4px 10px 6px', flexWrap: 'wrap' }}>
+              {[['Terms', '/legal/terms'], ['Privacy', '/legal/privacy'], ['Risk', '/legal/risk']].map(([label, to]) => (
+                <NavLink key={to} to={to} style={{ fontSize: '9px', color: '#5a6a80', textDecoration: 'none', letterSpacing: '0.05em' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#8899B4'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#5a6a80'; }}>
+                  {label}
+                </NavLink>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <button onClick={handleLogout}
           style={{

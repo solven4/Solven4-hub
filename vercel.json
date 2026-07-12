@@ -2,7 +2,11 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
+  "rewrites": [
+    { "source": "/api/whatsapp/send",   "destination": "/api/whatsapp/send.js" },
+    { "source": "/api/telegram/send",   "destination": "/api/telegram/send.js" },
+    { "source": "/((?!api/).*)",        "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -13,5 +17,13 @@
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
       ]
     }
+  ],
+  "crons": [
+    { "path": "/api/social/process-queue",    "schedule": "* * * * *"     },
+    { "path": "/api/seats/release-expired",   "schedule": "*/15 * * * *"  },
+    { "path": "/api/oracle/check-alerts",     "schedule": "*/5 * * * *"   },
+    { "path": "/api/oracle/daily-briefing",   "schedule": "0 7 * * *"     },
+    { "path": "/api/edge/sync-all-accounts",  "schedule": "*/30 * * * *"  },
+    { "path": "/api/nexus/weekly-report",     "schedule": "0 20 * * 0"    }
   ]
 }

@@ -1,22 +1,22 @@
-export async function sendWhatsAppMessage(to, body) {
-  const formattedTo   = to.startsWith('whatsapp:') ? to : `whatsapp:${to}`;
-  const formattedFrom = `whatsapp:${import.meta.env.VITE_TWILIO_WHATSAPP_NUMBER}`;
-  const sid = import.meta.env.VITE_TWILIO_ACCOUNT_SID;
-
-  const credentials = btoa(`${sid}:${import.meta.env.VITE_TWILIO_AUTH_TOKEN}`);
-
+// All Twilio calls route through /api/whatsapp/send — credentials stay server-side
+async function sendViaProxy(to, body) {
   try {
-    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+    const res = await fetch('/api/whatsapp/send', {
       method: 'POST',
-      headers: {
-        'Authorization': `Basic ${credentials}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({ To: formattedTo, From: formattedFrom, Body: body }).toString(),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to, body }),
     });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.error('WhatsApp send failed:', err.error || res.status);
+    }
   } catch (err) {
     console.error('WhatsApp send failed:', err.message);
   }
+}
+
+export async function sendWhatsAppMessage(to, body) {
+  return sendViaProxy(to, body);
 }
 
 export const WA_TEMPLATES = {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -834,12 +835,20 @@ function DoorDetail({ door, onAddCalendarEvent }) {
   );
 }
 
+// Map active door to brain persona
+const DOOR_PERSONA = { EDGE: 'signal', FORGE: 'strategist', ORACLE: 'oracle', NEXUS: 'operator' };
+
 /* ════════════════════════ MAIN PAGE ════════════════════════ */
 export default function TheAgent() {
   const navigate = useNavigate();
   const [activeDoor, setActiveDoor] = useState('EDGE');
   const [activeSection, setActiveSection] = useState('cockpit'); // cockpit | calendar | briefing
   const [calendarEvents, setCalendarEvents] = useState(SEED_EVENTS);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => { if (data?.user) setUserId(data.user.id); }).catch(() => {});
+  }, []);
   const [messages, setMessages] = useState([{
     role:'agent',
     text:"Good morning, Operator. Full platform scan complete. EDGE: EURUSD above risk limit. FORGE: 3 inactive traders need re-engagement. ORACLE: 3 days behind schedule. NEXUS: @imad — 48h contact window. I've prepared 11 execution orders across all 4 doors. Select a door to dive in, or ask me anything.",
@@ -862,15 +871,32 @@ export default function TheAgent() {
     });
   }
 
-  function send() {
+  async function send() {
     if(!input.trim()) return;
     const text=input.trim(), time=clock.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const history = messages.map(m => ({ role: m.role === 'agent' ? 'assistant' : 'user', content: m.text }));
     setMessages(p=>[...p,{role:'user',text,time}]);
     setInput(''); setIsTyping(true);
-    setTimeout(()=>{
-      setIsTyping(false);
+    try {
+      const res = await fetch('/api/ai/brain', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          personaId: DOOR_PERSONA[activeDoor] || 'strategist',
+          messages: [...history, { role: 'user', content: text }],
+          userId,
+        }),
+      });
+      const data = await res.json();
+      const reply = res.status === 429
+        ? `⏳ ${data.error}`
+        : (data.reply || data.content || data.result || AGENT_RESPONSES[Math.floor(Math.random()*AGENT_RESPONSES.length)]);
+      setMessages(p=>[...p,{role:'agent',text:reply,time:new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}]);
+    } catch {
       setMessages(p=>[...p,{role:'agent',text:AGENT_RESPONSES[Math.floor(Math.random()*AGENT_RESPONSES.length)],time:new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}]);
-    },2000);
+    } finally {
+      setIsTyping(false);
+    }
   }
 
   const totalOrders = Object.values(DOORS).reduce((n,d)=>n+d.orders.length,0);

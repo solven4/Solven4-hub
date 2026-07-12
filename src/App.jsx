@@ -30,10 +30,10 @@ import TheIntegrations from '@/pages/dashboard/TheIntegrations';
 import TheLeaderboard from '@/pages/dashboard/TheLeaderboard';
 import TheCommission from '@/pages/dashboard/TheCommission';
 import TheAutomation from '@/pages/dashboard/TheAutomation';
-import OperatorHub from '@/pages/admin/OperatorHub';
-import UserManager from '@/pages/admin/UserManager';
-import GlobalAnalytics from '@/pages/admin/GlobalAnalytics';
-import SecurityCenter from '@/pages/admin/SecurityCenter';
+import LegalPages from '@/pages/legal/LegalPages';
+
+// NOTE: Admin functionality moved to the standalone SOLVEN4 COCKPIT platform
+// (C:\Projects\Opiom\Solven4\solven4_cockpit) — HUB is user-facing only.
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuthStore();
@@ -102,13 +102,10 @@ export default function App() {
           <Route path="door/:doorId" element={<DoorFrame />} />
           <Route path="agent" element={<TheAgent />} />
         </Route>
-        <Route path="/admin" element={<ProtectedRoute><AppLayout isAdmin /></ProtectedRoute>}>
-          <Route index element={<Navigate to="/admin/hub" replace />} />
-          <Route path="hub"      element={<OperatorHub />} />
-          <Route path="users"    element={<UserManager />} />
-          <Route path="analytics" element={<GlobalAnalytics />} />
-          <Route path="security" element={<SecurityCenter />} />
-        </Route>
+        {/* /admin moved to the standalone SOLVEN4 COCKPIT platform */}
+        <Route path="/admin/*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/legal/:doc" element={<LegalPages />} />
+        <Route path="/legal" element={<LegalPages />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

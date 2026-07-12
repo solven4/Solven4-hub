@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { createClient } from '@supabase/supabase-js';
+import { saveMemory, getRelevantMemories } from '../_lib/memory.js';
 
 const PERSONA_SYSTEMS = {
   oracle: `You are THE ORACLE — SOLVEN4's market intelligence AI. You analyze forex markets, macroeconomic conditions, geopolitical events, and trading sentiment with authority and precision. You provide structured educational market analysis, never investment advice. Format responses with clear sections. Always end with: "⚠️ Educational analysis only. Trading carries significant risk."`,
@@ -31,8 +32,8 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
   const { personaId, messages, userId } = req.body;
-  const system = PERSONA_SYSTEMS[personaId];
-  if (!system) return res.status(400).json({ error: 'Invalid persona' });
+  const baseSystem = PERSONA_SYSTEMS[personaId];
+  if (!baseSystem) return res.status(400).json({ error: 'Invalid persona' });
 
   const identifier = userId || req.headers['x-forwarded-for'] || 'anon';
   const supabase = getSupabase();
@@ -53,6 +54,10 @@ export default async function handler(req, res) {
   try {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
     const start = Date.now();
+
+    const lastUserMsg = (messages || []).filter(m => m.role === 'user').slice(-1)[0]?.content || '';
+    const memoryContext = await getRelevantMemories(supabase, userId, lastUserMsg);
+    const system = memoryContext ? `${baseSystem}\n${memoryContext}` : baseSystem;
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-5',
@@ -96,6 +101,10 @@ export default async function handler(req, res) {
         }).catch(() => {});
       }
     }).catch(() => {});
+
+    if (lastUserMsg) {
+      saveMemory(supabase, userId, 'HUB', `brain_${personaId}`, lastUserMsg, text).catch(() => {});
+    }
 
     return res.json({ content: text, usage: response.usage });
 
