@@ -29,3 +29,6 @@ export const useAuthStore = create((set, get) => ({
     return data;
   },
 }));
+
+// TEMP preview bridge (removed after visual QA)
+if (typeof window !== 'undefined') window.__authStore = useAuthStore;
