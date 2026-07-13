@@ -90,6 +90,95 @@
     pointer-events: none;
     opacity: 0.4;
   }
+
+  /* ── Jarvis-HUD overlays (used by the app shell) ── */
+  .s4-scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(99,102,241,0.035) 0px,
+      rgba(99,102,241,0.035) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    mix-blend-mode: screen;
+    opacity: 0.5;
+    animation: s4-scan-drift 12s linear infinite;
+  }
+  .s4-vignette {
+    background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(2,5,11,0.55) 100%);
+  }
+  /* holographic sweep line that crosses panels */
+  .s4-sweep { position: relative; overflow: hidden; }
+  .s4-sweep::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(115deg, transparent 40%, rgba(99,102,241,0.10) 50%, transparent 60%);
+    transform: translateX(-100%);
+    animation: s4-panel-sweep 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+  /* animated conic ring border */
+  .s4-ring-border {
+    position: relative;
+  }
+  .s4-ring-border::before {
+    content: '';
+    position: absolute; inset: -1px;
+    border-radius: inherit; padding: 1px;
+    background: conic-gradient(from 0deg, transparent, var(--accent, #6366f1), transparent 40%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0.55;
+    animation: border-spin 6s linear infinite;
+    pointer-events: none;
+  }
+  /* text that flickers on like a console boot */
+  .text-hologram {
+    color: #cdd6f4;
+    text-shadow: 0 0 12px rgba(99,102,241,0.5), 0 0 28px rgba(99,102,241,0.25);
+  }
+}
+
+@keyframes s4-scan-drift { 0% { background-position: 0 0; } 100% { background-position: 0 60px; } }
+@keyframes s4-panel-sweep { 0%,55% { transform: translateX(-100%); } 85%,100% { transform: translateX(100%); } }
+@keyframes s4-boot-flicker {
+  0% { opacity: 0; }
+  10% { opacity: 0.6; }
+  12% { opacity: 0.2; }
+  20% { opacity: 1; }
+  22% { opacity: 0.4; }
+  30%,100% { opacity: 1; }
+}
+.animate-boot { animation: s4-boot-flicker 1.1s ease-out both; }
+
+/* ── Sidebar holographic rail ── */
+.s4-sidebar { position: sticky; }
+.s4-sidebar::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 1px; height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(99,102,241,0.5) 40%, rgba(99,102,241,0.5) 60%, transparent);
+  pointer-events: none;
+}
+/* pulsing reactor ring around the S4 logo mark */
+.s4-logo-mark::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 12px;
+  border: 1px solid rgba(129,140,248,0.55);
+  animation: s4-logo-ring 2.6s ease-in-out infinite; pointer-events: none;
+}
+@keyframes s4-logo-ring {
+  0%,100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.18); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .s4-logo-mark::after { animation: none !important; } }
+
+/* ── Topbar holographic underline ── */
+.s4-topbar { position: sticky; }
+.s4-topbar::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.55) 20%, rgba(129,140,248,0.35) 50%, rgba(99,102,241,0.55) 80%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s4-scanlines, .s4-sweep::after, .s4-ring-border::before, .animate-boot { animation: none !important; }
 }
 
 /* ── Custom Keyframes ── */

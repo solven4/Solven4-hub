@@ -6,6 +6,7 @@ import Topbar from './Topbar';
 import SolvenOrb from '@/components/solven/SolvenOrb';
 import { EmbedProvider, useEmbed } from '@/context/EmbedContext';
 import DoorEmbed from '@/components/DoorEmbed';
+import AmbientField from '@/hud/AmbientField';
 
 function AppContent({ isAdmin }) {
   const location = useLocation();
@@ -25,13 +26,20 @@ function AppContent({ isAdmin }) {
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: '#03080F' }}>
       <Helmet><title>S4 HUB | Command Center</title></Helmet>
-      {/* Ambient background */}
+
+      {/* Persistent holographic WebGL environment — the room the HUB floats in */}
+      <AmbientField accent="#6366f1" />
+
+      {/* Ambient background — CSS depth layer over the WebGL field */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-5"
-          style={{ background: 'radial-gradient(circle, #D4A843, transparent)', filter: 'blur(80px)' }} />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-5"
-          style={{ background: 'radial-gradient(circle, #3B82F6, transparent)', filter: 'blur(80px)' }} />
+        <div className="absolute inset-0 s4-grid-pattern opacity-40" />
+        <div className="absolute top-[-10%] right-[-5%] w-[520px] h-[520px] rounded-full opacity-[0.10]"
+          style={{ background: 'radial-gradient(circle, #6366F1, transparent 70%)', filter: 'blur(90px)' }} />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[440px] h-[440px] rounded-full opacity-[0.07]"
+          style={{ background: 'radial-gradient(circle, #3B82F6, transparent 70%)', filter: 'blur(90px)' }} />
+        {/* HUD vignette + scanlines for the "console glass" feel */}
+        <div className="absolute inset-0 s4-scanlines" />
+        <div className="absolute inset-0 s4-vignette" />
       </div>
 
       <Sidebar isAdmin={isAdmin} />

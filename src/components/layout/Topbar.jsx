@@ -56,13 +56,14 @@ export default function Topbar({ isAdmin }) {
 
   return (
     <>
-      <header className={`h-14 flex items-center px-5 gap-4 flex-shrink-0 transition-all duration-300 sticky top-0 z-20 ${scrolled ? 'shadow-lg shadow-black/20' : ''}`}
-        style={{ background: scrolled ? 'rgba(3,8,15,0.95)' : 'rgba(6,13,24,0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(26,37,64,0.6)' }}>
+      <header className={`s4-topbar h-14 flex items-center px-5 gap-4 flex-shrink-0 transition-all duration-300 sticky top-0 z-20 ${scrolled ? 'shadow-lg shadow-black/20' : ''}`}
+        style={{ background: scrolled ? 'rgba(3,8,15,0.96)' : 'rgba(6,13,24,0.82)', backdropFilter: 'blur(22px) saturate(1.3)', borderBottom: '1px solid rgba(99,102,241,0.18)' }}>
 
         {/* Page identity */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <div className="font-heading text-sm font-black text-white tracking-wider truncate">{pageInfo.title}</div>
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#6366F1', boxShadow: '0 0 8px #6366F1' }} />
+            <div className="font-heading text-sm font-black text-hologram tracking-wider truncate">{pageInfo.title}</div>
             {isAdmin && (
               <span className="text-[9px] bg-command/20 text-command border border-command/30 px-1.5 py-0.5 rounded font-heading font-black tracking-wider">ADMIN</span>
             )}

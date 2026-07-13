@@ -139,24 +139,28 @@ export default function Sidebar({ isAdmin = false }) {
     <motion.aside
       animate={{ width: W }}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
+      className="s4-sidebar"
       style={{
         width: W, minWidth: W, maxWidth: W,
-        background: S.bg,
-        backdropFilter: 'blur(24px)',
-        borderRight: `1px solid ${S.border}`,
+        background: 'linear-gradient(180deg, rgba(13,20,38,0.96), rgba(6,11,22,0.96))',
+        backdropFilter: 'blur(24px) saturate(1.3)',
+        borderRight: `1px solid rgba(99,102,241,0.18)`,
+        boxShadow: 'inset -1px 0 0 rgba(99,102,241,0.10), 24px 0 60px -40px rgba(0,0,0,0.9)',
         display: 'flex', flexDirection: 'column',
         height: '100vh', position: 'sticky', top: 0,
-        overflow: 'hidden', flexShrink: 0,
+        overflow: 'hidden', flexShrink: 0, zIndex: 20,
       }}>
 
       {/* TOP — LOGO */}
       <div style={{ padding: collapsed ? '18px 0' : '18px 16px', borderBottom: `1px solid ${S.border}`, display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
-          <div style={{
+          <div className="s4-logo-mark" style={{
             background: 'linear-gradient(135deg,#6366F1,#818CF8)',
-            borderRadius: '8px', width: '34px', height: '34px',
+            borderRadius: '9px', width: '34px', height: '34px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0, fontFamily: "'Orbitron', sans-serif", fontSize: '11px', fontWeight: 900, color: '#fff',
+            boxShadow: '0 0 18px rgba(99,102,241,0.55), inset 0 0 10px rgba(255,255,255,0.25)',
+            position: 'relative',
           }}>
             S4
           </div>
