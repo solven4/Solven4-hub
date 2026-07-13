@@ -1,99 +1,110 @@
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
-import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing';
-import { useRef, useMemo } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef } from 'react';
 
-// SOLVEN4 holographic command core — rotating rings, wireframe polyhedron,
-// orbiting nodes, pulsing center. Tinted by `accent`. Lazy-load this.
-function CoreRig({ accent }) {
-  const rings = useRef();
-  const poly = useRef();
-  const nodes = useRef();
-  const col = useMemo(() => new THREE.Color(accent), [accent]);
+// SOLVEN4 holographic core — pure Canvas 3D (rotating wireframe geodesic +
+// orbiting nodes, perspective-projected). No WebGL library → renders everywhere,
+// zero white-screen risk. Tinted by `accent`.
+const PHI = 1.618033988749;
+// icosahedron vertices
+const V = [
+  [0, 1, PHI], [0, -1, PHI], [0, 1, -PHI], [0, -1, -PHI],
+  [1, PHI, 0], [-1, PHI, 0], [1, -PHI, 0], [-1, -PHI, 0],
+  [PHI, 0, 1], [-PHI, 0, 1], [PHI, 0, -1], [-PHI, 0, -1],
+];
+// edges (pairs within edge length)
+const E = (() => {
+  const e = [];
+  for (let i = 0; i < V.length; i++) for (let j = i + 1; j < V.length; j++) {
+    const d = (V[i][0] - V[j][0]) ** 2 + (V[i][1] - V[j][1]) ** 2 + (V[i][2] - V[j][2]) ** 2;
+    if (d < 4.05) e.push([i, j]);
+  }
+  return e;
+})();
 
-  const nodeData = useMemo(
-    () => Array.from({ length: 6 }, (_, i) => ({
-      r: 1.15 + (i % 3) * 0.28,
-      speed: (i % 2 ? 1 : -1) * (0.25 + (i % 3) * 0.12),
-      phase: (i / 6) * Math.PI * 2,
-      tilt: (i % 2) * 0.5,
-    })), []
-  );
-
-  useFrame((state, d) => {
-    if (rings.current) { rings.current.rotation.y += d * 0.18; rings.current.rotation.x += d * 0.06; }
-    if (poly.current) { poly.current.rotation.y -= d * 0.25; poly.current.rotation.z += d * 0.08; }
-    if (nodes.current) {
-      const t = state.clock.elapsedTime;
-      nodes.current.children.forEach((m, i) => {
-        const nd = nodeData[i];
-        m.position.set(
-          Math.cos(t * nd.speed + nd.phase) * nd.r,
-          Math.sin(t * nd.speed + nd.phase) * nd.r * (0.9 - nd.tilt * 0.4),
-          Math.sin(t * nd.speed * 0.7 + nd.phase) * nd.r * nd.tilt
-        );
-      });
-    }
-  });
-
-  return (
-    <group>
-      {/* concentric rings */}
-      <group ref={rings}>
-        {[1.0, 0.78, 1.22].map((r, i) => (
-          <mesh key={i} rotation={[Math.PI / 2 + i * 0.6, i * 0.4, 0]}>
-            <torusGeometry args={[r, 0.006, 10, 140]} />
-            <meshBasicMaterial color={col} toneMapped={false} transparent opacity={0.75 - i * 0.15} />
-          </mesh>
-        ))}
-      </group>
-
-      {/* wireframe polyhedron */}
-      <mesh ref={poly}>
-        <icosahedronGeometry args={[0.62, 1]} />
-        <meshBasicMaterial color={col} wireframe toneMapped={false} transparent opacity={0.55} />
-      </mesh>
-
-      {/* pulsing core */}
-      <mesh>
-        <sphereGeometry args={[0.17, 32, 32]} />
-        <meshBasicMaterial color="#ffffff" toneMapped={false} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[0.28, 32, 32]} />
-        <meshBasicMaterial color={col} toneMapped={false} transparent opacity={0.25} />
-      </mesh>
-
-      {/* orbiting nodes */}
-      <group ref={nodes}>
-        {nodeData.map((_, i) => (
-          <mesh key={i}>
-            <sphereGeometry args={[0.028, 12, 12]} />
-            <meshBasicMaterial color={col} toneMapped={false} />
-          </mesh>
-        ))}
-      </group>
-    </group>
-  );
+function hexToRgb(h) {
+  h = (h || '#6366f1').replace('#', ''); if (h.length === 3) h = h.split('').map(x => x + x).join('');
+  const n = parseInt(h, 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
 
 export default function HoloCore({ accent = '#6366f1', className, style }) {
-  return (
-    <Canvas
-      className={className}
-      style={{ width: '100%', height: '100%', ...style }}
-      dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true }}
-      camera={{ position: [0, 0, 3.4], fov: 45 }}
-    >
-      <Float speed={1.3} rotationIntensity={0.35} floatIntensity={0.5}>
-        <CoreRig accent={accent} />
-      </Float>
-      <EffectComposer>
-        <Bloom intensity={1.35} luminanceThreshold={0.08} luminanceSmoothing={0.9} mipmapBlur />
-        <ChromaticAberration offset={[0.0006, 0.0006]} />
-      </EffectComposer>
-    </Canvas>
-  );
+  const ref = useRef();
+  useEffect(() => {
+    const cv = ref.current; if (!cv) return;
+    const ctx = cv.getContext('2d');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf, W, H, DPR, t = 0;
+    const [r, g, b] = hexToRgb(accent);
+    const rgb = `${r},${g},${b}`;
+
+    const size = () => {
+      DPR = Math.min(devicePixelRatio || 1, 2);
+      const rect = cv.getBoundingClientRect(); W = rect.width || 300; H = rect.height || 300;
+      cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    };
+    size();
+
+    const rot = (p, ax, ay) => {
+      let [x, y, z] = p;
+      let x1 = x * Math.cos(ay) + z * Math.sin(ay), z1 = -x * Math.sin(ay) + z * Math.cos(ay);
+      let y1 = y * Math.cos(ax) - z1 * Math.sin(ax), z2 = y * Math.sin(ax) + z1 * Math.cos(ax);
+      return [x1, y1, z2];
+    };
+
+    const drawWire = (ax, ay, scale, alpha, lw) => {
+      const cx = W / 2, cy = H / 2, f = 5;
+      const pts = V.map(p => {
+        const [x, y, z] = rot(p, ax, ay);
+        const pp = f / (f + z); return [cx + x * pp * scale, cy + y * pp * scale, z];
+      });
+      // edges
+      E.forEach(([i, j]) => {
+        const depth = (pts[i][2] + pts[j][2]) / 2;
+        const a = alpha * (0.35 + 0.4 * (1 - (depth + PHI) / (2 * PHI)));
+        ctx.strokeStyle = `rgba(${rgb},${a.toFixed(3)})`;
+        ctx.lineWidth = lw; ctx.beginPath();
+        ctx.moveTo(pts[i][0], pts[i][1]); ctx.lineTo(pts[j][0], pts[j][1]); ctx.stroke();
+      });
+      // vertices
+      pts.forEach(p => {
+        ctx.beginPath(); ctx.arc(p[0], p[1], 1.8, 0, 7);
+        ctx.fillStyle = `rgba(${rgb},${alpha})`; ctx.shadowColor = accent; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0;
+      });
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      const cx = W / 2, cy = H / 2, R = Math.min(W, H) * 0.34;
+      // soft core glow
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 1.8);
+      grad.addColorStop(0, `rgba(${rgb},0.16)`); grad.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+
+      const spin = reduce ? 0.6 : t * 0.0004;
+      // two nested wireframes counter-rotating (depth)
+      drawWire(spin * 0.7, spin, R, 0.7, 1.1);
+      drawWire(-spin * 0.5 + 0.6, -spin * 1.3, R * 0.6, 0.4, 0.9);
+
+      // orbiting nodes
+      const n = 6;
+      for (let i = 0; i < n; i++) {
+        const a = (reduce ? 0 : t * 0.0009) * (i % 2 ? 1 : -1) + (i / n) * Math.PI * 2;
+        const rr = R * (1.25 + (i % 3) * 0.12);
+        const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr * 0.9;
+        ctx.beginPath(); ctx.arc(x, y, 2, 0, 7);
+        ctx.fillStyle = `rgba(${rgb},0.9)`; ctx.shadowColor = accent; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0;
+      }
+      // pulsing center
+      const pr = R * 0.12 * (1 + (reduce ? 0 : Math.sin(t * 0.003) * 0.15));
+      const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, pr * 3);
+      cg.addColorStop(0, 'rgba(255,255,255,0.9)'); cg.addColorStop(0.4, `rgba(${rgb},0.8)`); cg.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, pr * 3, 0, 7); ctx.fill();
+
+      t += 16;
+      if (!reduce) raf = requestAnimationFrame(draw);
+    };
+    draw();
+    window.addEventListener('resize', size);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', size); };
+  }, [accent]);
+
+  return <canvas ref={ref} className={className} style={{ width: '100%', height: '100%', display: 'block', ...style }} />;
 }
