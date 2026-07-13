@@ -99,18 +99,15 @@ export function Btn({ children, ghost, shine = true, className = '', ...rest }) 
 }
 
 // ── Holographic hero (lazy 3D core with glow fallback) ─────
-export function HoloHero({ accent = 'var(--accent)', resolvedAccent = '#6366f1', children, coreStyle = {}, style = {}, className = '' }) {
-  const reduce = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+export function HoloHero({ accent = 'var(--accent)', resolvedAccent = '#6366f1', variant = 'core', children, coreStyle = {}, style = {}, className = '' }) {
   return (
     <div className={`s4-holo ${className}`} style={style}>
       <div className="canvas-wrap" style={coreStyle}>
-        {reduce
-          ? <div className="fallback" />
-          : <HoloBoundary fallback={<div className="fallback" />}>
-              <Suspense fallback={<div className="fallback" />}>
-                <HoloCore accent={resolvedAccent} />
-              </Suspense>
-            </HoloBoundary>}
+        <HoloBoundary fallback={<div className="fallback" />}>
+          <Suspense fallback={<div className="fallback" />}>
+            <HoloCore accent={resolvedAccent} variant={variant} />
+          </Suspense>
+        </HoloBoundary>
       </div>
       <div className="content">{children}</div>
     </div>
@@ -220,6 +217,75 @@ export function Horizon({ height = 44 }) {
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', sz); };
   }, []);
   return <div className="s4-horizon" style={{ height }}><canvas ref={ref} style={{ width: '100%', height: '100%', display: 'block' }} /></div>;
+}
+
+// ── CommandDeck — per-door instrument hero (consistent system, unique signature) ──
+export function CommandDeck({
+  door, accent, variant = 'core', concept, code,
+  integrity = 0.9, integrityLabel = 'System Integrity',
+  vitals = [], telemetry = [], actions,
+}) {
+  const pct = +(integrity * 100).toFixed(1);
+  return (
+    <div className="s4hud" style={{ ['--accent']: accent, color: '#fff' }}>
+      <StatusRail door={door} />
+      <SpatialDeck intensity={5} style={{ marginTop: 16 }}>
+        <div className="s4-deck-grid">
+          {/* SYSTEM VITALS */}
+          <GlassPanel className="spatial lift" label="System Vitals" tag="LIVE">
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {vitals.map(v => (
+                <div key={v.label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '7px 0', borderBottom: '1px solid rgba(255,255,255,0.05)', ['--accent']: v.color || accent }}>
+                  <div style={{ width: 40, height: 40, flexShrink: 0 }}><Gauge value={v.pct / 100} size={40} mini /></div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ color: '#CBD5E1', fontSize: 11 }}>{v.label}</div>
+                    <div className="s4-num" style={{ color: v.color || accent, fontSize: 11, fontWeight: 700, fontFamily: "'Rajdhani',sans-serif", letterSpacing: '0.06em' }}>{v.pct}%</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </GlassPanel>
+
+          {/* SIGNATURE HERO */}
+          <HoloHero resolvedAccent={accent} variant={variant} className="s4-glass spatial lift"
+            style={{ padding: 18, borderRadius: 14, overflow: 'hidden', display: 'flex', flexDirection: 'column' }} coreStyle={{ opacity: 0.5 }}>
+            <span className="s4-bracket tl" /><span className="s4-bracket tr" /><span className="s4-bracket bl" /><span className="s4-bracket br" />
+            <div className="s4-label" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+              <span>{integrityLabel}</span><span className="s4-accent">{code}</span>
+            </div>
+            <div style={{ position: 'relative', width: '100%', maxWidth: 300, aspectRatio: '1', margin: '0 auto', flex: 1, display: 'grid', placeItems: 'center' }}>
+              <div style={{ position: 'absolute', inset: 0 }}><Gauge value={integrity} size={280} /></div>
+              <svg className="s4-radar" viewBox="0 0 280 280" style={{ position: 'absolute', inset: 0 }}>
+                <defs><linearGradient id={`rg${code}`} x1="0" x2="1"><stop offset="0" stopColor="var(--accent)" stopOpacity="0.5" /><stop offset="1" stopColor="var(--accent)" stopOpacity="0" /></linearGradient></defs>
+                <line x1="140" y1="140" x2="140" y2="24" stroke={`url(#rg${code})`} strokeWidth="2" />
+              </svg>
+              <div className="s4-readcenter">
+                <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 800, fontSize: 34, color: '#fff', textShadow: `0 0 24px ${accent}99` }}><CountUp to={pct} /></div>
+                <div className="s4-label" style={{ marginTop: 4 }}>{integrityLabel}</div>
+              </div>
+            </div>
+            {actions && <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>{actions}</div>}
+          </HoloHero>
+
+          {/* TELEMETRY + HORIZON */}
+          <GlassPanel className="spatial lift" label="Telemetry" tag="STREAM" style={{ display: 'flex', flexDirection: 'column' }}>
+            <Telemetry rows={telemetry} />
+            <div className="s4-label" style={{ marginTop: 14, marginBottom: 8 }}><span>Attitude</span><span className="s4-accent">±</span></div>
+            <Horizon height={46} />
+          </GlassPanel>
+        </div>
+      </SpatialDeck>
+
+      {concept && (
+        <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 12, padding: '11px 16px', borderRadius: 12,
+          background: `color-mix(in srgb, ${accent} 7%, transparent)`, border: `1px solid color-mix(in srgb, ${accent} 22%, transparent)` }}>
+          <span className="s4-dot" />
+          <span className="s4-label s4-accent">{code}</span>
+          <span style={{ color: '#CBD5E1', fontSize: 12.5, flex: 1 }}>{concept}</span>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export { HoloCore };
