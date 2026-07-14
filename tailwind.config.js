@@ -5,9 +5,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        // OPIOM Core (kept for backward compat)
+        // OPIOM Core (remapped to Emergent "Intelligence Layer" skin)
         gold:    { DEFAULT: '#D4A843', light: '#E8C56A', dark: '#B8892E' },
-        opiom:   { bg: '#03080F', surface: '#0B1220', border: '#1A2540', muted: '#8899B4' },
+        opiom:   { bg: '#05050C', surface: '#0A0C1E', border: '#29293D', muted: '#94A3B8' },
         // Door Colors
         pulse:   { DEFAULT: '#3B82F6', dim: '#3B82F622' },
         network: { DEFAULT: '#D4A843', dim: '#D4A84322' },
@@ -19,21 +19,25 @@ export default {
         success: '#10B981',
         // SOLVEN4 Design Tokens
         s4: {
-          bg:      '#03080F',
-          surface: '#0B1220',
-          border:  '#1A2540',
-          muted:   '#8899B4',
+          bg:      '#05050C',
+          surface: '#0A0C1E',
+          border:  '#29293D',
+          muted:   '#94A3B8',
+          ink:     '#E0E7FF',
           hub:     '#6366F1',
-          edge:    '#3B82F6',
+          indigo:  '#818CF8',
+          cyan:    '#22D3EE',
+          edge:    '#06B6D4',
           forge:   '#D4A843',
           oracle:  '#10B981',
-          nexus:   '#8B5CF6',
+          nexus:   '#EF4444',
           gold:    '#D4A843',
         },
       },
       fontFamily: {
         heading: ['Orbitron', 'sans-serif'],
-        body:    ["'Exo 2'", 'sans-serif'],
+        body:    ["'Space Grotesk'", 'system-ui', 'sans-serif'],
+        mono:    ["'Share Tech Mono'", 'monospace'],
         arabic:  ["'IBM Plex Sans Arabic'", 'sans-serif'],
       },
       animation: {

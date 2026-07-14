@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
 
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4', accent:'#6366F1' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8', accent:'#6366F1' };
 
 /* ── CRYPTO CURRENCIES ── */
 const CRYPTO_CURRENCIES = [
@@ -92,7 +92,7 @@ function SparkBar({ data, maxVal }) {
               transition={{ delay:0.5+i*0.08, duration:0.6 }}
               style={{ width:'100%', background:'linear-gradient(180deg,#10B981,#059669)', borderRadius:'2px 2px 0 0', minHeight:'2px' }} />
           </div>
-          <span style={{ color:'#8899B4', fontSize:'8px' }}>{d.month}</span>
+          <span style={{ color:'#94A3B8', fontSize:'8px' }}>{d.month}</span>
         </div>
       ))}
     </div>
@@ -106,14 +106,14 @@ function TxRow({ tx }) {
   return (
     <div style={{ display:'flex', alignItems:'center', gap:'12px', padding:'10px 8px', borderBottom:'1px solid rgba(255,255,255,0.03)' }}>
       <div style={{ width:'36px', height:'36px', borderRadius:'10px', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center',
-        background:`${TYPE_COLOR[tx.type]??'#8899B4'}15`, border:`1px solid ${TYPE_COLOR[tx.type]??'#8899B4'}25` }}>
+        background:`${TYPE_COLOR[tx.type]??'#94A3B8'}15`, border:`1px solid ${TYPE_COLOR[tx.type]??'#94A3B8'}25` }}>
         {isCredit ? <ArrowDownLeft size={15} style={{ color:TYPE_COLOR[tx.type]??'#10B981' }} /> : <ArrowUpRight size={15} style={{ color:TYPE_COLOR[tx.type]??'#EF4444' }} />}
       </div>
       <div style={{ flex:1, minWidth:0 }}>
         <div style={{ fontSize:'12px', fontWeight:700, color:'#fff', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{tx.description}</div>
         <div style={{ display:'flex', alignItems:'center', gap:'6px', marginTop:'2px' }}>
-          <span style={{ fontSize:'10px', color:'#8899B4' }}>{new Date(tx.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</span>
-          {tx.door && (<><span style={{ color:'rgba(255,255,255,0.1)' }}>·</span><span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', fontWeight:700, color:DOOR_COLOR[tx.door]??'#8899B4' }}>{tx.door}</span></>)}
+          <span style={{ fontSize:'10px', color:'#94A3B8' }}>{new Date(tx.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</span>
+          {tx.door && (<><span style={{ color:'rgba(255,255,255,0.1)' }}>·</span><span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', fontWeight:700, color:DOOR_COLOR[tx.door]??'#94A3B8' }}>{tx.door}</span></>)}
         </div>
       </div>
       <div style={{ textAlign:'right', flexShrink:0 }}>
@@ -554,12 +554,12 @@ export default function TheVault() {
   function resetWithdraw() { setWithdrawMethod(null); setWithdrawSuccess(false); }
 
   return (
-    <div style={{ minHeight:'100vh', padding:'20px', background:S.bg, color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ minHeight:'100vh', padding:'20px', background:S.bg, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HERO BALANCE ── */}
       <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', borderRadius:'24px', overflow:'hidden', padding:'28px 32px', marginBottom:'20px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.18) 0%,rgba(11,18,32,0.96) 55%,rgba(139,92,246,0.1) 100%)',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.18) 0%,rgba(10,12,30,0.96) 55%,rgba(139,92,246,0.1) 100%)',
           backdropFilter:'blur(24px)', border:'1px solid rgba(99,102,241,0.2)' }}>
         <div style={{ position:'absolute', inset:0, opacity:0.3,
           backgroundImage:'linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)',
@@ -609,7 +609,7 @@ export default function TheVault() {
       </motion.div>
 
       {/* ── TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:'1px solid rgba(255,255,255,0.06)', marginBottom:'20px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:'1px solid rgba(255,255,255,0.06)', marginBottom:'20px', width:'fit-content' }}>
         {TABS.map(t => (
           <button key={t} onClick={() => setTab(t)}
             style={{ padding:'7px 16px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', transition:'all 0.15s', textTransform:'capitalize',
@@ -670,7 +670,7 @@ export default function TheVault() {
                 {[
                   { Icon:Plus, label:'Deposit', color:'#10B981', action:()=>setTab('deposit') },
                   { Icon:Send, label:'Withdraw', color:'#6366F1', action:()=>setTab('withdraw') },
-                  { Icon:Download, label:'Statement', color:'#8899B4', action:()=>{} },
+                  { Icon:Download, label:'Statement', color:'#94A3B8', action:()=>{} },
                   { Icon:Repeat, label:'Subscriptions', color:'#8B5CF6', action:()=>setTab('subscriptions') },
                 ].map(a=>(
                   <button key={a.label} onClick={a.action}

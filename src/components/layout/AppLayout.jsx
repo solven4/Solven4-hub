@@ -23,15 +23,15 @@ function AppContent({ isAdmin }) {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: '#03080F' }}>
+    <div className="flex h-screen overflow-hidden" style={{ background: '#05050C' }}>
       <Helmet><title>S4 HUB | Command Center</title></Helmet>
-      {/* Ambient background */}
+      {/* Ambient dual-accent background (Emergent skin) */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-5"
-          style={{ background: 'radial-gradient(circle, #D4A843, transparent)', filter: 'blur(80px)' }} />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-5"
-          style={{ background: 'radial-gradient(circle, #3B82F6, transparent)', filter: 'blur(80px)' }} />
+        <div className="absolute inset-0 s4-grid-pattern opacity-40" />
+        <div className="absolute top-0 right-0 w-[520px] h-[520px] rounded-full opacity-[0.08]"
+          style={{ background: 'radial-gradient(circle, #6366F1, transparent)', filter: 'blur(90px)' }} />
+        <div className="absolute bottom-0 left-0 w-[420px] h-[420px] rounded-full opacity-[0.07]"
+          style={{ background: 'radial-gradient(circle, #22D3EE, transparent)', filter: 'blur(90px)' }} />
       </div>
 
       <Sidebar isAdmin={isAdmin} />

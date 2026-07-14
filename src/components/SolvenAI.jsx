@@ -251,8 +251,8 @@ export default function SolvenAI() {
           <div style={{
             width: '420px',
             maxHeight: '640px',
-            background: '#0B1220',
-            border: '1px solid #1A2540',
+            background: '#0A0C1E',
+            border: '1px solid #29293D',
             borderRadius: '18px',
             overflow: 'hidden',
             display: 'flex',
@@ -265,7 +265,7 @@ export default function SolvenAI() {
             <div style={{
               padding: '14px 16px',
               background: 'rgba(99,102,241,0.08)',
-              borderBottom: '1px solid #1A2540',
+              borderBottom: '1px solid #29293D',
               display: 'flex', alignItems: 'center', gap: '12px',
               flexShrink: 0,
             }}>
@@ -305,11 +305,11 @@ export default function SolvenAI() {
                 style={{
                   background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: '7px', padding: '5px', cursor: 'pointer',
-                  color: '#8899B4', display: 'flex', alignItems: 'center',
+                  color: '#94A3B8', display: 'flex', alignItems: 'center',
                   transition: 'all 0.15s',
                 }}
                 onMouseEnter={e => { e.currentTarget.style.color = '#EF4444'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = '#8899B4'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
+                onMouseLeave={e => { e.currentTarget.style.color = '#94A3B8'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
                 <Trash2 size={13} />
               </button>
 
@@ -319,7 +319,7 @@ export default function SolvenAI() {
                 style={{
                   background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: '7px', padding: '5px', cursor: 'pointer',
-                  color: '#8899B4', display: 'flex', alignItems: 'center',
+                  color: '#94A3B8', display: 'flex', alignItems: 'center',
                 }}>
                 <X size={13} />
               </button>
@@ -328,12 +328,12 @@ export default function SolvenAI() {
             {/* ── Quick Commands Grid ── */}
             <div style={{
               padding: '12px 14px',
-              borderBottom: '1px solid #1A2540',
+              borderBottom: '1px solid #29293D',
               flexShrink: 0,
             }}>
               <div style={{
                 fontFamily: "'Orbitron', sans-serif", fontSize: '8px',
-                letterSpacing: '0.22em', color: '#8899B4', marginBottom: '9px',
+                letterSpacing: '0.22em', color: '#94A3B8', marginBottom: '9px',
               }}>
                 QUICK COMMANDS
               </div>
@@ -375,7 +375,7 @@ export default function SolvenAI() {
                       {cmd.label}
                     </div>
                     {/* Description */}
-                    <div style={{ fontSize: '9px', color: '#8899B4', lineHeight: 1.3 }}>
+                    <div style={{ fontSize: '9px', color: '#94A3B8', lineHeight: 1.3 }}>
                       {cmd.description}
                     </div>
                   </button>
@@ -395,7 +395,7 @@ export default function SolvenAI() {
               }}>
 
               {messages.length === 0 && (
-                <div style={{ textAlign: 'center', padding: '24px 16px', color: '#8899B4' }}>
+                <div style={{ textAlign: 'center', padding: '24px 16px', color: '#94A3B8' }}>
                   <div style={{
                     width: '44px', height: '44px', borderRadius: '12px', margin: '0 auto 12px',
                     background: 'linear-gradient(135deg,#6366F1,#818CF8)',
@@ -487,14 +487,14 @@ export default function SolvenAI() {
             </div>
 
             {/* ── Example Queries (collapsible) ── */}
-            <div style={{ borderTop: '1px solid #1A2540', flexShrink: 0 }}>
+            <div style={{ borderTop: '1px solid #29293D', flexShrink: 0 }}>
               <button
                 onClick={() => setShowExamples(v => !v)}
                 style={{
                   width: '100%', padding: '7px 14px',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   background: 'transparent', border: 'none', cursor: 'pointer',
-                  color: '#8899B4',
+                  color: '#94A3B8',
                 }}>
                 <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', letterSpacing: '0.2em' }}>
                   EXAMPLE QUERIES
@@ -515,7 +515,7 @@ export default function SolvenAI() {
                       onMouseEnter={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.1)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.25)'; }}
                       onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}>
                       <div style={{ fontSize: '11px', color: '#CBD5E1' }}>{q.en}</div>
-                      <div style={{ fontSize: '10px', color: '#8899B4', marginTop: '1px', direction: 'rtl' }}>{q.ar}</div>
+                      <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '1px', direction: 'rtl' }}>{q.ar}</div>
                     </button>
                   ))}
                 </div>
@@ -525,7 +525,7 @@ export default function SolvenAI() {
             {/* ── Input Bar ── */}
             <div style={{
               padding: '10px 14px',
-              borderTop: '1px solid #1A2540',
+              borderTop: '1px solid #29293D',
               display: 'flex', gap: '8px', alignItems: 'center',
               flexShrink: 0,
               background: 'rgba(0,0,0,0.2)',
@@ -588,7 +588,7 @@ export default function SolvenAI() {
             <div style={{
               position: 'absolute', top: '-5px', right: '-5px',
               width: '18px', height: '18px', borderRadius: '50%',
-              background: '#6366F1', border: '2px solid #03080F',
+              background: '#6366F1', border: '2px solid #05050C',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontFamily: "'Orbitron', sans-serif", fontSize: '8px', fontWeight: 700, color: '#fff',
               zIndex: 1,
@@ -604,7 +604,7 @@ export default function SolvenAI() {
               width: '60px', height: '60px', borderRadius: '50%',
               background: open
                 ? 'linear-gradient(135deg,#6366F1,#818CF8)'
-                : 'rgba(11,18,32,0.95)',
+                : 'rgba(10,12,30,0.95)',
               border: `2px solid ${open ? '#818CF8' : 'rgba(99,102,241,0.55)'}`,
               cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',

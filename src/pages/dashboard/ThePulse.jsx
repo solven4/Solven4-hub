@@ -6,7 +6,7 @@ import {
   Flame, Wind, Minus, ArrowUpRight, ArrowDownRight, Eye, Newspaper,
 } from 'lucide-react';
 
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 
 /* ── TRADING SESSIONS ── */
 const SESSIONS = [
@@ -127,7 +127,7 @@ function SparkLine({ positive }) {
 }
 
 const IMPACT_COLOR = { high:'#EF4444', medium:'#F97316', low:'#10B981' };
-const SENTIMENT_COLOR = { bullish:'#10B981', bearish:'#EF4444', neutral:'#8899B4' };
+const SENTIMENT_COLOR = { bullish:'#10B981', bearish:'#EF4444', neutral:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 export default function ThePulse() {
@@ -144,12 +144,12 @@ export default function ThePulse() {
   const dubaiTime = now.toLocaleTimeString('en-US', { timeZone:'Asia/Dubai', hour:'2-digit', minute:'2-digit', second:'2-digit' });
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(16,185,129,0.12) 0%,rgba(11,18,32,0.95) 55%,rgba(59,130,246,0.08) 100%)',
+          background:'linear-gradient(135deg,rgba(16,185,129,0.12) 0%,rgba(10,12,30,0.95) 55%,rgba(59,130,246,0.08) 100%)',
           border:'1px solid rgba(16,185,129,0.18)', backdropFilter:'blur(20px)' }}>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'20px' }}>
           <div>
@@ -195,7 +195,7 @@ export default function ThePulse() {
       </motion.div>
 
       {/* ── SECTION TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {['market','calendar','sentiment','news'].map(t => (
           <button key={t} onClick={()=>setActiveSection(t)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
@@ -436,7 +436,7 @@ export default function ThePulse() {
             {NEWS.map((n, i) => (
               <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.07 }}
                 style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'14px', padding:'16px 18px', backdropFilter:'blur(20px)', display:'flex', alignItems:'flex-start', gap:'14px', cursor:'pointer', transition:'all 0.15s' }}
-                onMouseEnter={e=>{ e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.background='rgba(11,18,32,0.95)'; }}
+                onMouseEnter={e=>{ e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.background='rgba(10,12,30,0.95)'; }}
                 onMouseLeave={e=>{ e.currentTarget.style.borderColor=S.border; e.currentTarget.style.background=S.surface; }}>
                 <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:IMPACT_COLOR[n.impact], boxShadow:`0 0 6px ${IMPACT_COLOR[n.impact]}`, marginTop:'5px', flexShrink:0 }} />
                 <div style={{ flex:1 }}>

@@ -4,22 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── SOLVEN4 HUD accent — HUB door = indigo. The shared kit reads these. ── */
+/* ── SOLVEN4 "Intelligence Layer" skin (Emergent) — HUB tokens ── */
 :root {
   --accent: #6366f1;
   --accent-2: #818cf8;
+  --e-bg: #05050c;
+  --e-bg2: #0a0c1e;
+  --e-panel: linear-gradient(135deg, rgba(20,22,50,0.55), rgba(10,12,30,0.75));
+  --e-line: #29293d;
+  --e-ink: #e0e7ff;
+  --e-dim: #94a3b8;
+  --e-indigo: #6366f1;
+  --e-indigo-lt: #818cf8;
+  --e-cyan: #22d3ee;
+  --e-mono: 'Share Tech Mono', 'JetBrains Mono', monospace;
+  --e-sans: 'Space Grotesk', system-ui, sans-serif;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-opiom-bg text-white font-body antialiased; }
+  body { @apply bg-opiom-bg font-body antialiased; color: #E0E7FF; }
   h1, h2, h3, h4, h5 { @apply font-heading; }
 
   ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: #03080F; }
-  ::-webkit-scrollbar-thumb { background: #1A2540; border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: #D4A843; }
-  * { scrollbar-width: thin; scrollbar-color: #1A2540 #03080F; }
+  ::-webkit-scrollbar-track { background: #05050C; }
+  ::-webkit-scrollbar-thumb { background: #29293D; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #6366F1; }
+  * { scrollbar-width: thin; scrollbar-color: #29293D #05050C; }
 }
 
 @layer utilities {

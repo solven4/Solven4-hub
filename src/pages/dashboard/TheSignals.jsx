@@ -88,7 +88,7 @@ export default function TheSignals() {
       {/* Stats row */}
       <div className="grid grid-cols-4 gap-3">
         {[
-          { label: 'Total',   val: notifs.length,                              color: '#8899B4' },
+          { label: 'Total',   val: notifs.length,                              color: '#94A3B8' },
           { label: 'Unread',  val: unread,                                     color: '#D4A843' },
           { label: 'Rewards', val: notifs.filter(n => n.type === 'reward').length, color: '#D4A843' },
           { label: 'Alerts',  val: notifs.filter(n => n.type === 'alert').length,  color: '#EF4444' },
@@ -130,7 +130,7 @@ export default function TheSignals() {
                 className={`relative flex items-start gap-4 p-4 rounded-2xl border transition-all duration-200 hover:scale-[1.005] group animate-slide-up`}
                 style={{
                   animationDelay: `${i * 0.04}s`,
-                  borderColor: n.is_read ? 'rgba(26,37,64,0.5)' : cfg.border,
+                  borderColor: n.is_read ? 'rgba(41,41,61,0.5)' : cfg.border,
                   background: n.is_read ? 'rgba(6,13,24,0.6)' : cfg.bg,
                   opacity: n.is_read ? 0.65 : 1,
                 }}>

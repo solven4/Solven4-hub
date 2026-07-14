@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { Zap, Plus, Play, Pause, Trash2, Clock, CheckCircle, AlertCircle, ChevronDown, ChevronRight, MessageCircle, Send, Bell, DollarSign } from 'lucide-react';
 
 const S = {
-  card: { background: 'rgba(11,18,32,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
+  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
 };
 
 const TRIGGERS = [
@@ -35,14 +35,14 @@ function RuleCard({ rule, idx }) {
   const [active, setActive] = useState(rule.active);
   const trigger = TRIGGERS.find(t => t.key === rule.trigger);
   const action = ACTIONS.find(a => a.key === rule.action);
-  const doorColor = DOOR_COLORS[rule.door] || '#8899B4';
+  const doorColor = DOOR_COLORS[rule.door] || '#94A3B8';
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.06 }}
       style={{ ...S.card, padding: '16px 20px', border: active ? `1px solid ${doorColor}25` : '1px solid rgba(255,255,255,0.06)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {/* Status dot */}
-        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: active ? '#10B981' : '#8899B4', boxShadow: active ? '0 0 8px #10B981' : 'none', flexShrink: 0 }} />
+        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: active ? '#10B981' : '#94A3B8', boxShadow: active ? '0 0 8px #10B981' : 'none', flexShrink: 0 }} />
 
         {/* Rule info */}
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -50,7 +50,7 @@ function RuleCard({ rule, idx }) {
             <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff' }}>{rule.name}</span>
             <span style={{ fontSize: '9px', padding: '2px 7px', borderRadius: '4px', background: `${doorColor}18`, color: doorColor, fontFamily: "'Orbitron',sans-serif", fontWeight: 700, letterSpacing: '0.06em' }}>{rule.door}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#8899B4' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#94A3B8' }}>
             {trigger && <span style={{ color: trigger.color }}>⚡ {trigger.label}</span>}
             <span>→</span>
             {action && <span style={{ color: action.color }}>📤 {action.label}</span>}
@@ -58,7 +58,7 @@ function RuleCard({ rule, idx }) {
         </div>
 
         {/* Stats */}
-        <div style={{ textAlign: 'right', fontSize: '11px', color: '#8899B4', marginRight: '8px' }}>
+        <div style={{ textAlign: 'right', fontSize: '11px', color: '#94A3B8', marginRight: '8px' }}>
           <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff' }}>{rule.runs}</div>
           <div>runs</div>
         </div>
@@ -98,7 +98,7 @@ export default function TheAutomation() {
           <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
             AUTOMATION CENTER
           </h1>
-          <p style={{ fontSize: '13px', color: '#8899B4' }}>Cross-door automation rules — triggered by any door, acting on any channel</p>
+          <p style={{ fontSize: '13px', color: '#94A3B8' }}>Cross-door automation rules — triggered by any door, acting on any channel</p>
         </div>
         <button onClick={() => setShowBuilder(v => !v)}
           style={{ padding: '10px 18px', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontSize: '12px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.06em' }}>
@@ -115,7 +115,7 @@ export default function TheAutomation() {
         ].map(({ label, value, color }) => (
           <div key={label} style={{ background: `${color}08`, border: `1px solid ${color}25`, borderRadius: '14px', padding: '18px', textAlign: 'center' }}>
             <div style={{ fontSize: '26px', fontWeight: 800, color }}>{value}</div>
-            <div style={{ fontSize: '11px', color: '#8899B4', marginTop: '4px' }}>{label}</div>
+            <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '4px' }}>{label}</div>
           </div>
         ))}
       </div>
@@ -132,29 +132,29 @@ export default function TheAutomation() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>RULE NAME</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>RULE NAME</label>
                   <input value={builder.name} onChange={e => setBuilder(p => ({ ...p, name: e.target.value }))}
                     placeholder="e.g. Welcome New Trader"
                     style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }} />
                 </div>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>WHEN THIS HAPPENS (TRIGGER)</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>WHEN THIS HAPPENS (TRIGGER)</label>
                   <select value={builder.trigger} onChange={e => setBuilder(p => ({ ...p, trigger: e.target.value }))}
-                    style={{ width: '100%', background: '#0B1220', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
+                    style={{ width: '100%', background: '#0A0C1E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
                     <option value="">Select trigger...</option>
                     {TRIGGERS.map(t => <option key={t.key} value={t.key}>{t.label} ({t.door})</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>DO THIS (ACTION)</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>DO THIS (ACTION)</label>
                   <select value={builder.action} onChange={e => setBuilder(p => ({ ...p, action: e.target.value }))}
-                    style={{ width: '100%', background: '#0B1220', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
+                    style={{ width: '100%', background: '#0A0C1E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
                     <option value="">Select action...</option>
                     {ACTIONS.map(a => <option key={a.key} value={a.key}>{a.label}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>MESSAGE (optional)</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>MESSAGE (optional)</label>
                   <input value={builder.message} onChange={e => setBuilder(p => ({ ...p, message: e.target.value }))}
                     placeholder="Hello {{name}}, welcome!"
                     style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }} />
@@ -166,7 +166,7 @@ export default function TheAutomation() {
                   <Play size={11} style={{ display: 'inline', marginRight: '5px' }} />Create Rule
                 </button>
                 <button onClick={() => setShowBuilder(false)}
-                  style={{ padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#8899B4', fontSize: '12px', cursor: 'pointer' }}>
+                  style={{ padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#94A3B8', fontSize: '12px', cursor: 'pointer' }}>
                   Cancel
                 </button>
               </div>
@@ -179,8 +179,8 @@ export default function TheAutomation() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {rules.length === 0 ? (
           <div style={{ ...S.card, textAlign: 'center', padding: '40px' }}>
-            <Zap size={40} color="#8899B4" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#8899B4', fontSize: '13px' }}>No automation rules yet. Create your first rule.</p>
+            <Zap size={40} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
+            <p style={{ color: '#94A3B8', fontSize: '13px' }}>No automation rules yet. Create your first rule.</p>
           </div>
         ) : (
           rules.map((rule, i) => <RuleCard key={rule.id} rule={rule} idx={i} />)

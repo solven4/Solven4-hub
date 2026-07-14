@@ -1,11 +1,11 @@
 /* SOLVEN4 Neural Command HUD — shared kit styles.
    Set --accent / --accent-2 on the door root (see each door's index.css). */
 .s4hud {
-  --s4-bg: #03080f; --s4-bg-2: #060d18;
-  --s4-panel: rgba(13, 22, 38, 0.66);
-  --s4-line: rgba(255, 255, 255, 0.08); --s4-line-2: rgba(255, 255, 255, 0.14);
-  --s4-ink: #e6ecf7; --s4-dim: #8593ac; --s4-dimmer: #4d5a74;
-  --s4-mono: "Rajdhani", ui-monospace, "SF Mono", monospace;
+  --s4-bg: #05050c; --s4-bg-2: #0a0c1e;
+  --s4-panel: linear-gradient(135deg, rgba(20,22,50,0.5), rgba(10,12,30,0.72));
+  --s4-line: #29293d; --s4-line-2: rgba(129, 140, 248, 0.22);
+  --s4-ink: #e0e7ff; --s4-dim: #94a3b8; --s4-dimmer: #64748b;
+  --s4-mono: "Share Tech Mono", ui-monospace, "SF Mono", monospace;
   --s4-disp: "Orbitron", system-ui, sans-serif;
   --s4-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }

@@ -5,7 +5,7 @@ import {
   ArrowUpRight, AlertTriangle, Lightbulb, ChevronRight, Flame, Eye, Shield,
 } from 'lucide-react';
 
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 /* ── DNA PROFILE ── */
@@ -138,12 +138,12 @@ export default function TheMatrix() {
   const maxPnl = Math.max(...TIMELINE.map(t => Math.abs(t.pnl)));
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.12) 0%,rgba(11,18,32,0.95) 55%,rgba(139,92,246,0.08) 100%)',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.12) 0%,rgba(10,12,30,0.95) 55%,rgba(139,92,246,0.08) 100%)',
           border:'1px solid rgba(99,102,241,0.2)', backdropFilter:'blur(20px)' }}>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
@@ -173,7 +173,7 @@ export default function TheMatrix() {
       </motion.div>
 
       {/* ── TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {[
           { id:'dna',     label:'DNA Profile' },
           { id:'heatmap', label:'Session Heatmap' },
@@ -310,7 +310,7 @@ export default function TheMatrix() {
                             border: isHov ? '1px solid rgba(255,255,255,0.4)' : '1px solid transparent',
                             transition:'all 0.1s', position:'relative' }}>
                           {isHov && (
-                            <div style={{ position:'absolute', bottom:'26px', left:'50%', transform:'translateX(-50%)', background:'rgba(3,8,15,0.95)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:'6px', padding:'4px 8px', whiteSpace:'nowrap', zIndex:10, fontSize:'10px', color:'#fff', fontWeight:700 }}>
+                            <div style={{ position:'absolute', bottom:'26px', left:'50%', transform:'translateX(-50%)', background:'rgba(5,5,12,0.95)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:'6px', padding:'4px 8px', whiteSpace:'nowrap', zIndex:10, fontSize:'10px', color:'#fff', fontWeight:700 }}>
                               {DAYS[di]} {hi}:00 · {cell.score}% win
                             </div>
                           )}

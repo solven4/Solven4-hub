@@ -163,7 +163,7 @@ export default function TheBrain() {
           <button key={p.id} onClick={() => setPersona(p)}
             className="text-left p-3.5 rounded-2xl border transition-all duration-200 group"
             style={{
-              borderColor: persona.id === p.id ? p.border : 'rgba(26,37,64,0.8)',
+              borderColor: persona.id === p.id ? p.border : 'rgba(41,41,61,0.8)',
               background: persona.id === p.id ? p.bg : 'rgba(6,13,24,0.6)',
             }}>
             <div className="text-xl mb-2">{p.emoji}</div>
@@ -183,7 +183,7 @@ export default function TheBrain() {
       <div className="flex-1 flex flex-col rounded-2xl border overflow-hidden" style={{ borderColor: persona.border, background: '#060D18' }}>
         {/* Chat Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b flex-shrink-0"
-          style={{ borderColor: 'rgba(26,37,64,0.6)', background: persona.bg }}>
+          style={{ borderColor: 'rgba(41,41,61,0.6)', background: persona.bg }}>
           <div className="flex items-center gap-3">
             <div className="text-2xl">{persona.emoji}</div>
             <div>
@@ -255,9 +255,9 @@ export default function TheBrain() {
         )}
 
         {/* Input */}
-        <div className="px-5 py-4 border-t flex-shrink-0" style={{ borderColor: 'rgba(26,37,64,0.6)' }}>
+        <div className="px-5 py-4 border-t flex-shrink-0" style={{ borderColor: 'rgba(41,41,61,0.6)' }}>
           <div className="flex items-center gap-3 border rounded-xl px-4 py-3 transition-all focus-within:border-current"
-            style={{ borderColor: 'rgba(26,37,64,0.8)', background: 'rgba(3,8,15,0.6)' }}>
+            style={{ borderColor: 'rgba(41,41,61,0.8)', background: 'rgba(5,5,12,0.6)' }}>
             <Brain size={14} style={{ color: persona.color }} className="flex-shrink-0" />
             <input
               ref={inputRef}

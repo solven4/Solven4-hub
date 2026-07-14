@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 /* ── COMMUNITY MEMBERS ── */
@@ -170,7 +170,7 @@ function NetworkGraph({ members, activeId, onSelect }) {
   );
 }
 
-const RANK_LABEL_COLOR = { 'The Legend':'#D4A843', 'The Dealer':'#8B5CF6', 'The Addict':'#EF4444', 'The Obsessed':'#3B82F6', 'The Hooked':'#10B981', 'The Curious':'#8899B4' };
+const RANK_LABEL_COLOR = { 'The Legend':'#D4A843', 'The Dealer':'#8B5CF6', 'The Addict':'#EF4444', 'The Obsessed':'#3B82F6', 'The Hooked':'#10B981', 'The Curious':'#94A3B8' };
 
 /* ── CONNECT MODAL ── */
 function ConnectModal({ member, onClose }) {
@@ -186,7 +186,7 @@ function ConnectModal({ member, onClose }) {
   return (
     <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
       onClick={onClose}
-      style={{ position:'fixed', inset:0, background:'rgba(3,8,15,0.85)', backdropFilter:'blur(10px)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      style={{ position:'fixed', inset:0, background:'rgba(5,5,12,0.85)', backdropFilter:'blur(10px)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
       <motion.div initial={{ scale:0.93, y:20 }} animate={{ scale:1, y:0 }} exit={{ scale:0.93, y:20 }}
         onClick={e=>e.stopPropagation()}
         style={{ background:'rgba(6,13,24,0.98)', border:`1px solid ${member.rankColor}30`, borderRadius:'24px', padding:'28px', maxWidth:'500px', width:'100%', backdropFilter:'blur(24px)' }}>
@@ -226,7 +226,7 @@ function ConnectModal({ member, onClose }) {
             </p>
             <textarea value={msg} onChange={e=>setMsg(e.target.value)} maxLength={300}
               placeholder={`Hi ${member.name.split(' ')[0]}, I came across your profile and would love to connect. I'm also active in the ${member.doorsActive[0]} door and think we could learn from each other...`}
-              style={{ width:'100%', minHeight:'100px', padding:'12px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, color:'#fff', fontSize:'12px', lineHeight:1.6, resize:'vertical', outline:'none', boxSizing:'border-box', fontFamily:"'Inter',sans-serif" }} />
+              style={{ width:'100%', minHeight:'100px', padding:'12px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, color:'#fff', fontSize:'12px', lineHeight:1.6, resize:'vertical', outline:'none', boxSizing:'border-box', fontFamily:"'Space Grotesk',sans-serif" }} />
             <div style={{ textAlign:'right', color:S.muted, fontSize:'10px', marginBottom:'14px' }}>{msg.length}/300</div>
             {member.mentor && (
               <div style={{ display:'flex', gap:'8px', alignItems:'center', marginBottom:'14px', padding:'10px 12px', borderRadius:'8px', background:'rgba(16,185,129,0.04)', border:'1px solid rgba(16,185,129,0.15)', cursor:'pointer' }}
@@ -322,12 +322,12 @@ export default function TheNetwork() {
   const selected = selectedMember ? MEMBERS.find(m => m.id === selectedMember) : null;
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.1) 0%,rgba(11,18,32,0.95) 55%,rgba(239,68,68,0.06) 100%)',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.1) 0%,rgba(10,12,30,0.95) 55%,rgba(239,68,68,0.06) 100%)',
           border:'1px solid rgba(99,102,241,0.2)', backdropFilter:'blur(20px)' }}>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
@@ -356,7 +356,7 @@ export default function TheNetwork() {
       </motion.div>
 
       {/* ── TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {[
           { id:'community', label:'Community' },
           { id:'graph',     label:'Network Graph' },

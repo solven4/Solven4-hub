@@ -8,8 +8,8 @@ import {
 } from 'lucide-react';
 
 const S = {
-  card: { background: 'rgba(11,18,32,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
-  label: { fontSize: '11px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' },
+  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
+  label: { fontSize: '11px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' },
   input: { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', outline: 'none' },
   btn: { padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.15s' },
 };
@@ -67,7 +67,7 @@ export default function TheProfile() {
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
           PROFILE & KYC
         </h1>
-        <p style={{ fontSize: '13px', color: '#8899B4' }}>Unified identity across all S4 doors</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Unified identity across all S4 doors</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
@@ -90,7 +90,7 @@ export default function TheProfile() {
                 <div style={{ fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '3px' }}>
                   {profile?.full_name || 'Operator'}
                 </div>
-                <div style={{ fontSize: '12px', color: '#8899B4' }}>{user?.email}</div>
+                <div style={{ fontSize: '12px', color: '#94A3B8' }}>{user?.email}</div>
                 <div style={{ display: 'flex', gap: '6px', marginTop: '6px' }}>
                   <span style={{ fontSize: '10px', padding: '2px 10px', borderRadius: '20px', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontWeight: 600, fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em' }}>
                     {profile?.plan?.toUpperCase() || 'FREE'}
@@ -122,7 +122,7 @@ export default function TheProfile() {
                       style={S.input}
                     />
                   ) : (
-                    <div style={{ ...S.input, color: form[key] ? '#fff' : '#8899B4', cursor: 'default' }}>
+                    <div style={{ ...S.input, color: form[key] ? '#fff' : '#94A3B8', cursor: 'default' }}>
                       {form[key] || placeholder}
                     </div>
                   )}
@@ -166,7 +166,7 @@ export default function TheProfile() {
                       : <AlertCircle size={16} color="#F59E0B" />}
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: '12px', fontWeight: 600, color: done ? '#10B981' : '#fff' }}>{label}</div>
-                      <div style={{ fontSize: '11px', color: '#8899B4' }}>{desc}</div>
+                      <div style={{ fontSize: '11px', color: '#94A3B8' }}>{desc}</div>
                     </div>
                     {!done && (
                       <button style={{ ...S.btn, padding: '5px 12px', fontSize: '11px', background: 'rgba(99,102,241,0.12)', color: '#818CF8', border: '1px solid rgba(99,102,241,0.25)' }}>
@@ -189,7 +189,7 @@ export default function TheProfile() {
               {DOOR_STATS.map(({ door, color, label, stat, value }) => (
                 <div key={door} style={{ padding: '12px', borderRadius: '10px', background: `${color}08`, border: `1px solid ${color}25` }}>
                   <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', color: color, fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>{door}</div>
-                  <div style={{ fontSize: '11px', color: '#8899B4', marginBottom: '2px' }}>{stat}</div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '2px' }}>{stat}</div>
                   <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{value}</div>
                 </div>
               ))}

@@ -28,7 +28,7 @@ export default function MaintenanceGate({ children }) {
 
   return (
     <div style={{
-      minHeight: '100vh', background: '#03080F', color: '#E2E8F0',
+      minHeight: '100vh', background: '#05050C', color: '#E2E8F0',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       textAlign: 'center', padding: 24, gap: 14,
     }}>
@@ -39,7 +39,7 @@ export default function MaintenanceGate({ children }) {
       <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, color: '#fff' }}>
         {state === 'disabled' ? 'Temporarily Unavailable' : 'Under Maintenance'}
       </h1>
-      <p style={{ color: '#8899B4', fontSize: 14, maxWidth: 420, lineHeight: 1.6 }}>
+      <p style={{ color: '#94A3B8', fontSize: 14, maxWidth: 420, lineHeight: 1.6 }}>
         {state === 'disabled'
           ? 'This door is currently offline. Please check back shortly.'
           : 'We are performing scheduled maintenance to improve your experience. We will be back very soon.'}

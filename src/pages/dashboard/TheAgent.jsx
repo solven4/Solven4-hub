@@ -336,7 +336,7 @@ function SolvenCore({ size=110, activeColor='#6366F1' }) {
       for(let i=0;i<3;i++){ ctx.save(); ctx.translate(cx,cy); ctx.rotate(t*(0.9+i*0.35)+(i*2.1)); ctx.beginPath(); ctx.arc(0,0,R*(0.84+i*0.05),-0.5,0.5); ctx.strokeStyle=`rgba(${rgb},${0.55-i*0.14})`; ctx.lineWidth=1.5; ctx.stroke(); ctx.restore(); }
       pts.forEach(p=>{ p.angle+=p.spd; const x=cx+Math.cos(p.angle)*p.r, y=cy+Math.sin(p.angle)*p.r, pulse=0.35+0.65*Math.sin(t*2.5+p.ph); ctx.beginPath(); ctx.arc(x,y,p.sz,0,Math.PI*2); ctx.fillStyle=`rgba(${rgb},${pulse*0.55})`; ctx.fill(); });
       const core=ctx.createRadialGradient(cx-R*0.18,cy-R*0.18,1,cx,cy,R*0.72);
-      core.addColorStop(0,'#fff'); core.addColorStop(0.18,col); core.addColorStop(0.8,'#0B1220'); core.addColorStop(1,'#03080F');
+      core.addColorStop(0,'#fff'); core.addColorStop(0.18,col); core.addColorStop(0.8,'#0A0C1E'); core.addColorStop(1,'#05050C');
       ctx.beginPath(); ctx.arc(cx,cy,R*0.72,0,Math.PI*2); ctx.fillStyle=core; ctx.fill();
       ctx.save(); ctx.globalAlpha=0.06;
       for(let i=0;i<10;i++){ const a=(i/10)*Math.PI*2+t*0.1; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*R*0.72,cy+Math.sin(a)*R*0.72); ctx.strokeStyle='#fff'; ctx.lineWidth=0.5; ctx.stroke(); }
@@ -359,7 +359,7 @@ function ScoreMeter({ label, value, color }) {
   return (
     <div style={{flex:1}}>
       <div style={{display:'flex',justifyContent:'space-between',marginBottom:'3px'}}>
-        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',letterSpacing:'0.1em'}}>{label}</span>
+        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{label}</span>
         <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color,fontWeight:700}}>{value}%</span>
       </div>
       <div style={{height:'4px',borderRadius:'2px',background:'rgba(255,255,255,0.06)',overflow:'hidden'}}>
@@ -413,14 +413,14 @@ function SolvenCalendar({ events, onAddEvent }) {
         {/* Month nav */}
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'14px'}}>
           <button onClick={()=>setViewDate(new Date(y,m-1,1))}
-            style={{background:'rgba(255,255,255,0.05)',border:'none',borderRadius:'7px',width:'28px',height:'28px',cursor:'pointer',color:'#8899B4',display:'flex',alignItems:'center',justifyContent:'center'}}>
+            style={{background:'rgba(255,255,255,0.05)',border:'none',borderRadius:'7px',width:'28px',height:'28px',cursor:'pointer',color:'#94A3B8',display:'flex',alignItems:'center',justifyContent:'center'}}>
             <ChevronLeft size={13}/>
           </button>
           <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>
             {MONTHS[m]} {y}
           </div>
           <button onClick={()=>setViewDate(new Date(y,m+1,1))}
-            style={{background:'rgba(255,255,255,0.05)',border:'none',borderRadius:'7px',width:'28px',height:'28px',cursor:'pointer',color:'#8899B4',display:'flex',alignItems:'center',justifyContent:'center'}}>
+            style={{background:'rgba(255,255,255,0.05)',border:'none',borderRadius:'7px',width:'28px',height:'28px',cursor:'pointer',color:'#94A3B8',display:'flex',alignItems:'center',justifyContent:'center'}}>
             <ChevronRight size={13}/>
           </button>
         </div>
@@ -428,7 +428,7 @@ function SolvenCalendar({ events, onAddEvent }) {
         {/* Day headers */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:'2px',marginBottom:'4px'}}>
           {DAYS.map(d=>(
-            <div key={d} style={{textAlign:'center',fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',padding:'3px 0',letterSpacing:'0.05em'}}>{d}</div>
+            <div key={d} style={{textAlign:'center',fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',padding:'3px 0',letterSpacing:'0.05em'}}>{d}</div>
           ))}
         </div>
 
@@ -470,7 +470,7 @@ function SolvenCalendar({ events, onAddEvent }) {
           {Object.entries(DOOR_COLORS_MAP).filter(([k])=>k!=='ALL').map(([door,color])=>(
             <div key={door} style={{display:'flex',alignItems:'center',gap:'4px'}}>
               <div style={{width:'6px',height:'6px',borderRadius:'50%',background:color}}/>
-              <span style={{fontSize:'9px',color:'#8899B4'}}>{door}</span>
+              <span style={{fontSize:'9px',color:'#94A3B8'}}>{door}</span>
             </div>
           ))}
         </div>
@@ -483,7 +483,7 @@ function SolvenCalendar({ events, onAddEvent }) {
             <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#6366F1',fontWeight:700,letterSpacing:'0.1em'}}>
               {selectedDate.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}
             </div>
-            <div style={{fontSize:'10px',color:'#8899B4',marginTop:'1px'}}>{selEvents.length} events scheduled</div>
+            <div style={{fontSize:'10px',color:'#94A3B8',marginTop:'1px'}}>{selEvents.length} events scheduled</div>
           </div>
           <button onClick={()=>setShowAddForm(v=>!v)}
             style={{
@@ -510,11 +510,11 @@ function SolvenCalendar({ events, onAddEvent }) {
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr auto',gap:'6px'}}>
                 <select value={newEvent.door} onChange={e=>setNewEvent(p=>({...p,door:e.target.value}))}
                   style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'6px',padding:'6px 8px',color:'#fff',fontSize:'11px',outline:'none'}}>
-                  {['EDGE','FORGE','ORACLE','NEXUS','ALL'].map(d=><option key={d} value={d} style={{background:'#0B1220'}}>{d}</option>)}
+                  {['EDGE','FORGE','ORACLE','NEXUS','ALL'].map(d=><option key={d} value={d} style={{background:'#0A0C1E'}}>{d}</option>)}
                 </select>
                 <select value={newEvent.type} onChange={e=>setNewEvent(p=>({...p,type:e.target.value}))}
                   style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'6px',padding:'6px 8px',color:'#fff',fontSize:'11px',outline:'none'}}>
-                  {['SCHEDULE','ORDER','ALERT'].map(t=><option key={t} value={t} style={{background:'#0B1220'}}>{t}</option>)}
+                  {['SCHEDULE','ORDER','ALERT'].map(t=><option key={t} value={t} style={{background:'#0A0C1E'}}>{t}</option>)}
                 </select>
                 <button onClick={addEvent}
                   style={{background:'#6366F1',border:'none',borderRadius:'6px',padding:'6px 12px',cursor:'pointer',color:'#fff',fontSize:'11px',fontWeight:700}}>
@@ -528,8 +528,8 @@ function SolvenCalendar({ events, onAddEvent }) {
         {/* Events */}
         <div style={{display:'flex',flexDirection:'column',gap:'6px',maxHeight:'260px',overflowY:'auto'}}>
           {selEvents.length===0 ? (
-            <div style={{textAlign:'center',padding:'24px',color:'#8899B4',fontSize:'12px'}}>
-              <Calendar size={22} color="#8899B4" style={{margin:'0 auto 8px',display:'block',opacity:0.5}}/>
+            <div style={{textAlign:'center',padding:'24px',color:'#94A3B8',fontSize:'12px'}}>
+              <Calendar size={22} color="#94A3B8" style={{margin:'0 auto 8px',display:'block',opacity:0.5}}/>
               No events scheduled. Add one above.
             </div>
           ) : selEvents.map(ev=>{
@@ -547,7 +547,7 @@ function SolvenCalendar({ events, onAddEvent }) {
                   <div style={{color:'#CBD5E1',fontSize:'12px',lineHeight:1.4}}>{ev.title}</div>
                   <div style={{display:'flex',gap:'6px',marginTop:'3px'}}>
                     <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:ev.color,background:`${ev.color}15`,borderRadius:'3px',padding:'1px 5px'}}>{ev.door}</span>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'1px 5px'}}>{ev.type}</span>
+                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'1px 5px'}}>{ev.type}</span>
                   </div>
                 </div>
               </motion.div>
@@ -577,7 +577,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
   return (
     <motion.div key={door.id} initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-10}}
       transition={{type:'spring',stiffness:260,damping:28}}
-      style={{background:'rgba(11,18,32,0.98)',border:`1px solid ${door.color}28`,borderRadius:'20px',overflow:'hidden',boxShadow:`0 0 60px ${door.glow}`}}>
+      style={{background:'rgba(10,12,30,0.98)',border:`1px solid ${door.color}28`,borderRadius:'20px',overflow:'hidden',boxShadow:`0 0 60px ${door.glow}`}}>
 
       {/* Header */}
       <div style={{padding:'20px 24px',background:`linear-gradient(135deg,${door.color}12 0%,transparent 60%)`,borderBottom:`1px solid ${door.color}18`,display:'flex',alignItems:'center',gap:'16px'}}>
@@ -592,7 +592,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {door.stats.map((s,i)=>(
             <div key={i} style={{textAlign:'center'}}>
               <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'15px',fontWeight:900,color:s.up?'#10B981':'#F59E0B'}}>{s.value}</div>
-              <div style={{fontSize:'9px',color:'#8899B4',marginTop:'1px'}}>{s.label}</div>
+              <div style={{fontSize:'9px',color:'#94A3B8',marginTop:'1px'}}>{s.label}</div>
               <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:s.up?'#10B981':'#EF4444',marginTop:'1px'}}>{s.delta}</div>
             </div>
           ))}
@@ -603,7 +603,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
             Open {door.name} <ArrowRight size={12}/>
           </button>
           <div style={{textAlign:'right'}}>
-            <span style={{color:'#8899B4',fontSize:'9px'}}>{door.forecast.label}: </span>
+            <span style={{color:'#94A3B8',fontSize:'9px'}}>{door.forecast.label}: </span>
             <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#10B981',fontWeight:700}}>{door.forecast.target} </span>
             <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',background:'rgba(16,185,129,0.12)',borderRadius:'4px',padding:'1px 5px'}}>{door.forecast.pct}</span>
           </div>
@@ -618,10 +618,10 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {id:'schedule',label:'Today\'s Schedule',count:door.schedule.length},
         ].map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)}
-            style={{padding:'8px 18px',borderRadius:'8px 8px 0 0',border:'none',cursor:'pointer',background:tab===t.id?`${door.color}18`:'transparent',color:tab===t.id?door.color:'#8899B4',fontSize:'11px',fontWeight:tab===t.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',borderBottom:tab===t.id?`2px solid ${door.color}`:'2px solid transparent',transition:'all 0.15s',display:'flex',alignItems:'center',gap:'6px'}}>
+            style={{padding:'8px 18px',borderRadius:'8px 8px 0 0',border:'none',cursor:'pointer',background:tab===t.id?`${door.color}18`:'transparent',color:tab===t.id?door.color:'#94A3B8',fontSize:'11px',fontWeight:tab===t.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',borderBottom:tab===t.id?`2px solid ${door.color}`:'2px solid transparent',transition:'all 0.15s',display:'flex',alignItems:'center',gap:'6px'}}>
             {t.label}
             {t.count!=null && (
-              <span style={{background:t.alert?'#EF4444':(tab===t.id?door.color:'rgba(255,255,255,0.1)'),color:(t.alert||tab===t.id)?'#fff':'#8899B4',borderRadius:'999px',fontSize:'8px',fontWeight:700,padding:'1px 6px',minWidth:'16px',textAlign:'center',animation:t.alert?'agent-blink 1.5s infinite':'none'}}>
+              <span style={{background:t.alert?'#EF4444':(tab===t.id?door.color:'rgba(255,255,255,0.1)'),color:(t.alert||tab===t.id)?'#fff':'#94A3B8',borderRadius:'999px',fontSize:'8px',fontWeight:700,padding:'1px 6px',minWidth:'16px',textAlign:'center',animation:t.alert?'agent-blink 1.5s infinite':'none'}}>
                 {t.count}
               </span>
             )}
@@ -635,7 +635,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {/* ── INSIGHTS TAB ── */}
           {tab==='insights' && (
             <motion.div key="insights" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}>
-              <p style={{color:'#8899B4',fontSize:'12px',margin:'0 0 12px'}}>
+              <p style={{color:'#94A3B8',fontSize:'12px',margin:'0 0 12px'}}>
                 Click any insight to read the full SOLVEN analysis — what it means, why it matters, and what you gain by acting.
               </p>
               <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
@@ -669,7 +669,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                             style={{background:`${ins.color}18`,border:`1px solid ${ins.color}35`,borderRadius:'7px',padding:'5px 12px',cursor:'pointer',color:ins.color,fontSize:'10px',fontWeight:700,whiteSpace:'nowrap'}}>
                             {ins.action}
                           </button>
-                          <div style={{color:isOpen?ins.color:'#8899B4',fontSize:'10px',display:'flex',alignItems:'center',gap:'3px',transition:'color 0.2s'}}>
+                          <div style={{color:isOpen?ins.color:'#94A3B8',fontSize:'10px',display:'flex',alignItems:'center',gap:'3px',transition:'color 0.2s'}}>
                             <Info size={11}/> {isOpen?'Close':'Full Analysis'}
                           </div>
                         </div>
@@ -715,7 +715,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {/* ── ORDERS TAB ── */}
           {tab==='orders' && (
             <motion.div key="orders" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}>
-              <p style={{color:'#8899B4',fontSize:'12px',margin:'0 0 12px'}}>
+              <p style={{color:'#94A3B8',fontSize:'12px',margin:'0 0 12px'}}>
                 AI-generated execution orders for {door.name}. Each shows impact and risk scores. Approve to execute — completed orders are logged below.
               </p>
 
@@ -733,7 +733,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                           <div style={{color:'#fff',fontSize:'13px',fontWeight:600}}>{order.title}</div>
                         </div>
                       </div>
-                      <p style={{color:'#8899B4',fontSize:'11px',margin:'0 0 10px',lineHeight:1.55}}>{order.reason}</p>
+                      <p style={{color:'#94A3B8',fontSize:'11px',margin:'0 0 10px',lineHeight:1.55}}>{order.reason}</p>
                       <div style={{display:'flex',gap:'10px',marginBottom:'12px'}}>
                         <ScoreMeter label="IMPACT" value={order.impact} color={order.color}/>
                         <ScoreMeter label="RISK IF SKIPPED" value={order.risk} color={PRIORITY_COLORS[order.priority]||'#F59E0B'}/>
@@ -744,7 +744,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                           <Play size={10}/> Execute
                         </button>
                         <button onClick={()=>setDone(p=>({...p,[order.id]:true}))}
-                          style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'7px',padding:'7px 12px',cursor:'pointer',color:'#8899B4',fontSize:'11px'}}>
+                          style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'7px',padding:'7px 12px',cursor:'pointer',color:'#94A3B8',fontSize:'11px'}}>
                           Dismiss
                         </button>
                       </div>
@@ -752,7 +752,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                   ))}
                 </AnimatePresence>
                 {pending.length===0 && executedLog.length===0 && (
-                  <div style={{textAlign:'center',padding:'28px',color:'#8899B4',fontSize:'13px'}}>
+                  <div style={{textAlign:'center',padding:'28px',color:'#94A3B8',fontSize:'13px'}}>
                     <CheckCircle size={28} color="#10B981" style={{margin:'0 auto 10px',display:'block'}}/>
                     All orders clear. SOLVEN is scanning for new opportunities.
                   </div>
@@ -787,7 +787,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {/* ── SCHEDULE TAB ── */}
           {tab==='schedule' && (
             <motion.div key="schedule" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}>
-              <p style={{color:'#8899B4',fontSize:'12px',margin:'0 0 14px'}}>
+              <p style={{color:'#94A3B8',fontSize:'12px',margin:'0 0 14px'}}>
                 SOLVEN-planned agenda for {door.name}. Add items to your SOLVEN Calendar — synced across all doors.
               </p>
               <div style={{display:'flex',flexDirection:'column',gap:'8px',marginBottom:'16px'}}>
@@ -815,7 +815,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                 <div style={{display:'flex',alignItems:'center',gap:'6px',marginBottom:'10px'}}>
                   <Calendar size={12} color="#6366F1"/>
                   <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',letterSpacing:'0.15em',fontWeight:700}}>SOLVEN CALENDAR PREVIEW</span>
-                  <span style={{color:'#8899B4',fontSize:'10px',marginLeft:'auto'}}>Click "SOLVEN Calendar" tab to open full calendar →</span>
+                  <span style={{color:'#94A3B8',fontSize:'10px',marginLeft:'auto'}}>Click "SOLVEN Calendar" tab to open full calendar →</span>
                 </div>
                 <div style={{display:'flex',gap:'6px',flexWrap:'wrap'}}>
                   {door.schedule.map((item,i)=>(
@@ -912,18 +912,18 @@ export default function TheAgent() {
   ];
 
   return (
-    <div style={{color:'#fff',fontFamily:"'Inter',sans-serif",paddingBottom:'60px'}}>
+    <div style={{color:'#fff',fontFamily:"'Space Grotesk',sans-serif",paddingBottom:'60px'}}>
 
       {/* ══ TOP HUD ══ */}
       <motion.div initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}}
-        style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',alignItems:'center',gap:'16px',marginBottom:'16px',background:'rgba(11,18,32,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'14px 24px',backdropFilter:'blur(40px)'}}>
+        style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',alignItems:'center',gap:'16px',marginBottom:'16px',background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'14px 24px',backdropFilter:'blur(40px)'}}>
         <div style={{display:'flex',gap:'18px',alignItems:'center'}}>
           {Object.values(DOORS).map(d=>(
             <div key={d.id} style={{display:'flex',alignItems:'center',gap:'5px'}}>
               <div style={{width:'7px',height:'7px',borderRadius:'50%',background:d.color,boxShadow:`0 0 10px ${d.color}`,animation:'agent-pulse 2s infinite'}}/>
               <div>
                 <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:d.color,fontWeight:700}}>{d.name}</div>
-                <div style={{fontSize:'8px',color:'#8899B4'}}>ACTIVE</div>
+                <div style={{fontSize:'8px',color:'#94A3B8'}}>ACTIVE</div>
               </div>
             </div>
           ))}
@@ -936,22 +936,22 @@ export default function TheAgent() {
         <div style={{display:'flex',gap:'12px',alignItems:'center',justifyContent:'flex-end'}}>
           <div style={{textAlign:'right'}}>
             <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'18px',fontWeight:900,color:'#6366F1'}}>{clock.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</div>
-            <div style={{fontSize:'10px',color:'#8899B4'}}>{clock.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}</div>
+            <div style={{fontSize:'10px',color:'#94A3B8'}}>{clock.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}</div>
           </div>
           {[{l:'PLATFORM SCORE',v:'71',c:'#6366F1'},{l:'ORDERS PENDING',v:String(totalOrders),c:'#EF4444'},{l:"TODAY'S EVENTS",v:String(todayEvents.length),c:'#D4A843'}].map(s=>(
             <div key={s.l} style={{background:`${s.c}12`,border:`1px solid ${s.c}25`,borderRadius:'10px',padding:'7px 12px',textAlign:'center'}}>
               <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'18px',fontWeight:900,color:s.c}}>{s.v}</div>
-              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',letterSpacing:'0.1em'}}>{s.l}</div>
+              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{s.l}</div>
             </div>
           ))}
         </div>
       </motion.div>
 
       {/* ══ SECTION TABS ══ */}
-      <div style={{display:'flex',gap:'6px',marginBottom:'16px',background:'rgba(11,18,32,0.95)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:'12px',padding:'6px'}}>
+      <div style={{display:'flex',gap:'6px',marginBottom:'16px',background:'rgba(10,12,30,0.95)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:'12px',padding:'6px'}}>
         {SECTION_TABS.map(t=>(
           <button key={t.id} onClick={()=>setActiveSection(t.id)}
-            style={{flex:1,padding:'10px 16px',borderRadius:'8px',border:'none',cursor:'pointer',background:activeSection===t.id?'rgba(99,102,241,0.2)':'transparent',color:activeSection===t.id?'#A5B4FC':'#8899B4',fontSize:'12px',fontWeight:activeSection===t.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',outline:activeSection===t.id?'1px solid rgba(99,102,241,0.35)':'none',transition:'all 0.15s',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px'}}>
+            style={{flex:1,padding:'10px 16px',borderRadius:'8px',border:'none',cursor:'pointer',background:activeSection===t.id?'rgba(99,102,241,0.2)':'transparent',color:activeSection===t.id?'#A5B4FC':'#94A3B8',fontSize:'12px',fontWeight:activeSection===t.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',outline:activeSection===t.id?'1px solid rgba(99,102,241,0.35)':'none',transition:'all 0.15s',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px'}}>
             <t.Icon size={13}/>{t.label}
           </button>
         ))}
@@ -970,7 +970,7 @@ export default function TheAgent() {
                 <div>
                   <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>YOUR COMPANY COCKPIT · SELECT A DOOR TO COMMAND</div>
                   <h1 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff 0%,#A5B4FC 55%,#6366F1 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>SOLVEN COMMAND CENTER</h1>
-                  <p style={{color:'#8899B4',fontSize:'12px',margin:0}}>Select a door to view AI insights, execute orders, and review your SOLVEN-planned schedule for that platform.</p>
+                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>Select a door to view AI insights, execute orders, and review your SOLVEN-planned schedule for that platform.</p>
                 </div>
 
                 {/* 4 Door Buttons */}
@@ -980,7 +980,7 @@ export default function TheAgent() {
                     return (
                       <motion.button key={key} onClick={()=>setActiveDoor(key)}
                         whileHover={{scale:1.03,y:-2}} whileTap={{scale:0.98}}
-                        style={{position:'relative',overflow:'hidden',background:active?`${d.color}18`:'rgba(11,18,32,0.95)',border:`2px solid ${active?d.color:d.color+'30'}`,borderRadius:'16px',padding:'18px 14px',cursor:'pointer',textAlign:'left',boxShadow:active?`0 0 40px ${d.glow},0 4px 24px rgba(0,0,0,0.3)`:'0 2px 12px rgba(0,0,0,0.2)',transition:'all 0.25s'}}>
+                        style={{position:'relative',overflow:'hidden',background:active?`${d.color}18`:'rgba(10,12,30,0.95)',border:`2px solid ${active?d.color:d.color+'30'}`,borderRadius:'16px',padding:'18px 14px',cursor:'pointer',textAlign:'left',boxShadow:active?`0 0 40px ${d.glow},0 4px 24px rgba(0,0,0,0.3)`:'0 2px 12px rgba(0,0,0,0.2)',transition:'all 0.25s'}}>
                         {active && <motion.div layoutId="door-bar" style={{position:'absolute',top:0,left:0,right:0,height:'3px',background:`linear-gradient(90deg,${d.color},${d.color}88)`}}/>}
                         {d.orders.length>0 && (
                           <div style={{position:'absolute',top:'10px',right:'10px',background:d.orders.some(o=>o.priority==='CRITICAL')?'#EF4444':'rgba(255,255,255,0.12)',borderRadius:'999px',minWidth:'18px',height:'18px',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Orbitron',sans-serif",fontSize:'9px',fontWeight:700,color:'#fff',padding:'0 4px',animation:d.orders.some(o=>o.priority==='CRITICAL')?'agent-blink 1.5s infinite':'none'}}>
@@ -996,7 +996,7 @@ export default function TheAgent() {
                           {d.stats.slice(0,2).map((s,i)=>(
                             <div key={i} style={{background:'rgba(255,255,255,0.04)',borderRadius:'6px',padding:'5px 7px'}}>
                               <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:700,color:s.up?'#10B981':'#F59E0B'}}>{s.value}</div>
-                              <div style={{fontSize:'9px',color:'#8899B4',marginTop:'1px'}}>{s.label}</div>
+                              <div style={{fontSize:'9px',color:'#94A3B8',marginTop:'1px'}}>{s.label}</div>
                             </div>
                           ))}
                         </div>
@@ -1023,7 +1023,7 @@ export default function TheAgent() {
                 <div>
                   <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>SOLVEN AI · SYNCED SCHEDULE</div>
                   <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>COMMAND CALENDAR</h2>
-                  <p style={{color:'#8899B4',fontSize:'12px',margin:0}}>All 4 doors, AI orders, and SOLVEN-planned events in one synced view. Add any schedule item from any door with one click.</p>
+                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>All 4 doors, AI orders, and SOLVEN-planned events in one synced view. Add any schedule item from any door with one click.</p>
                 </div>
 
                 {/* Today's summary bar */}
@@ -1038,10 +1038,10 @@ export default function TheAgent() {
                       <span style={{color:'#CBD5E1',fontSize:'10px'}}>{ev.title.slice(0,28)}{ev.title.length>28?'...':''}</span>
                     </div>
                   ))}
-                  {todayEvents.length===0 && <span style={{color:'#8899B4',fontSize:'11px'}}>No events today — add from any door's schedule tab</span>}
+                  {todayEvents.length===0 && <span style={{color:'#94A3B8',fontSize:'11px'}}>No events today — add from any door's schedule tab</span>}
                 </div>
 
-                <div style={{background:'rgba(11,18,32,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'18px',padding:'22px'}}>
+                <div style={{background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'18px',padding:'22px'}}>
                   <SolvenCalendar events={calendarEvents} onAddEvent={addCalendarEvent}/>
                 </div>
               </motion.div>
@@ -1053,7 +1053,7 @@ export default function TheAgent() {
                 <div>
                   <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>SOLVEN AI · EXECUTIVE INTELLIGENCE</div>
                   <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>CHIEF BRIEFING</h2>
-                  <p style={{color:'#8899B4',fontSize:'12px',margin:0}}>SOLVEN's ranked action plan for today — ordered by revenue impact, risk, and time sensitivity across all 4 doors.</p>
+                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>SOLVEN's ranked action plan for today — ordered by revenue impact, risk, and time sensitivity across all 4 doors.</p>
                 </div>
 
                 {/* ── Chief Recommendations — ranked list ── */}
@@ -1062,7 +1062,7 @@ export default function TheAgent() {
                     <motion.div key={i} initial={{opacity:0,x:-16}} animate={{opacity:1,x:0}} transition={{delay:i*0.08}}
                       style={{
                         display:'flex',gap:'16px',alignItems:'stretch',padding:'16px 18px',
-                        background:i===0?`${rec.color}0E`:'rgba(11,18,32,0.95)',
+                        background:i===0?`${rec.color}0E`:'rgba(10,12,30,0.95)',
                         border:`1px solid ${i===0?rec.color+'30':'rgba(255,255,255,0.06)'}`,
                         borderLeft:`4px solid ${rec.color}`,
                         borderRadius:'14px',
@@ -1070,8 +1070,8 @@ export default function TheAgent() {
                       }}>
                       {/* Rank */}
                       <div style={{flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'4px',minWidth:'36px'}}>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,color:i===0?rec.color:'#8899B4',lineHeight:1}}>{rec.rank}</div>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',letterSpacing:'0.1em'}}>RANK</div>
+                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,color:i===0?rec.color:'#94A3B8',lineHeight:1}}>{rec.rank}</div>
+                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>RANK</div>
                       </div>
 
                       <div style={{width:'1px',background:'rgba(255,255,255,0.06)',flexShrink:0}}/>
@@ -1081,7 +1081,7 @@ export default function TheAgent() {
                         <div style={{display:'flex',gap:'6px',alignItems:'center',marginBottom:'5px',flexWrap:'wrap'}}>
                           <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',fontWeight:700,color:PRIORITY_COLORS[rec.priority],background:`${PRIORITY_COLORS[rec.priority]}15`,borderRadius:'3px',padding:'2px 6px',animation:rec.priority==='CRITICAL'?'agent-blink 1.5s infinite':'none'}}>{rec.priority}</span>
                           <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:rec.color,background:`${rec.color}15`,borderRadius:'3px',padding:'2px 6px'}}>{rec.door}</span>
-                          <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'2px 6px',display:'flex',alignItems:'center',gap:'3px'}}>
+                          <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'2px 6px',display:'flex',alignItems:'center',gap:'3px'}}>
                             <Clock size={8}/> {rec.timeframe}
                           </span>
                         </div>
@@ -1097,9 +1097,9 @@ export default function TheAgent() {
                       <div style={{flexShrink:0,display:'flex',flexDirection:'column',gap:'8px',alignItems:'flex-end',justifyContent:'center',minWidth:'110px'}}>
                         <div style={{background:`${rec.color}15`,border:`1px solid ${rec.color}30`,borderRadius:'8px',padding:'8px 12px',textAlign:'center'}}>
                           <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'13px',fontWeight:900,color:rec.color}}>{rec.revenue}</div>
-                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#8899B4',marginTop:'1px'}}>EXPECTED</div>
+                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',marginTop:'1px'}}>EXPECTED</div>
                         </div>
-                        <div style={{fontSize:'10px',color:'#8899B4',display:'flex',alignItems:'center',gap:'3px'}}>
+                        <div style={{fontSize:'10px',color:'#94A3B8',display:'flex',alignItems:'center',gap:'3px'}}>
                           <Zap size={9} color="#F59E0B"/> Effort: {rec.effort}
                         </div>
                         <button onClick={()=>{setActiveDoor(rec.door); setActiveSection('cockpit');}}
@@ -1112,7 +1112,7 @@ export default function TheAgent() {
                 </div>
 
                 {/* 4-door briefing grid */}
-                <div style={{background:'rgba(11,18,32,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'20px'}}>
+                <div style={{background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'20px'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'14px'}}>
                     <Brain size={14} color="#6366F1"/>
                     <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>SOLVEN DAILY BRIEFING — ALL 4 DOORS</span>
@@ -1129,7 +1129,7 @@ export default function TheAgent() {
                         <div style={{display:'flex',gap:'8px'}}>
                           <div style={{flex:1}}>
                             <div style={{display:'flex',justifyContent:'space-between',fontSize:'8px',marginBottom:'2px'}}>
-                              <span style={{color:'#8899B4'}}>Impact</span>
+                              <span style={{color:'#94A3B8'}}>Impact</span>
                               <span style={{color:d.color,fontWeight:700}}>{d.insights[0].impact}%</span>
                             </div>
                             <div style={{height:'3px',borderRadius:'2px',background:'rgba(255,255,255,0.06)',overflow:'hidden'}}>
@@ -1153,7 +1153,7 @@ export default function TheAgent() {
             {chatOpen && (
               <motion.div initial={{opacity:0,width:0}} animate={{opacity:1,width:320}} exit={{opacity:0,width:0}}
                 style={{
-                  background:'rgba(11,18,32,0.98)', border:'1px solid rgba(99,102,241,0.2)',
+                  background:'rgba(10,12,30,0.98)', border:'1px solid rgba(99,102,241,0.2)',
                   borderRadius:'18px', overflow:'hidden', width:'320px',
                   boxShadow:'0 4px 60px rgba(99,102,241,0.1)',
                 }}>
@@ -1170,7 +1170,7 @@ export default function TheAgent() {
                     </div>
                   </div>
                   <button onClick={()=>setChatOpen(false)}
-                    style={{background:'rgba(255,255,255,0.06)',border:'none',borderRadius:'7px',width:'26px',height:'26px',cursor:'pointer',color:'#8899B4',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                    style={{background:'rgba(255,255,255,0.06)',border:'none',borderRadius:'7px',width:'26px',height:'26px',cursor:'pointer',color:'#94A3B8',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                     <X size={12}/>
                   </button>
                 </div>
@@ -1198,7 +1198,7 @@ export default function TheAgent() {
                         <div style={{padding:'9px 12px',fontSize:'12px',lineHeight:1.6,color:'#CBD5E1',borderRadius:msg.role==='user'?'10px 10px 3px 10px':'10px 10px 10px 3px',background:msg.role==='user'?'rgba(99,102,241,0.2)':'rgba(255,255,255,0.04)',border:`1px solid ${msg.role==='user'?'rgba(99,102,241,0.32)':'rgba(255,255,255,0.07)'}`}}>
                           {msg.text}
                         </div>
-                        {msg.time && <div style={{color:'#8899B4',fontSize:'9px',marginTop:'3px',textAlign:msg.role==='user'?'right':'left'}}>{msg.time}</div>}
+                        {msg.time && <div style={{color:'#94A3B8',fontSize:'9px',marginTop:'3px',textAlign:msg.role==='user'?'right':'left'}}>{msg.time}</div>}
                       </div>
                     </div>
                   ))}

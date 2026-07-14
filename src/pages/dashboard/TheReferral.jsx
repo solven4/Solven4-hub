@@ -9,7 +9,7 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
 
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4', accent:'#6366F1' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8', accent:'#6366F1' };
 
 /* ── DOOR AFFILIATE PROGRAMS ── */
 const PROGRAMS = [
@@ -136,12 +136,12 @@ export default function TheReferral() {
   const prog = PROGRAMS.find(p => p.id === activeProg) ?? PROGRAMS[0];
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'24px 28px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.15) 0%,rgba(11,18,32,0.95) 60%,rgba(16,185,129,0.1) 100%)',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.15) 0%,rgba(10,12,30,0.95) 60%,rgba(16,185,129,0.1) 100%)',
           border:'1px solid rgba(99,102,241,0.2)', backdropFilter:'blur(20px)' }}>
         <div style={{ position:'absolute', inset:0, opacity:0.2,
           backgroundImage:'linear-gradient(rgba(99,102,241,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.07) 1px,transparent 1px)',
@@ -183,7 +183,7 @@ export default function TheReferral() {
       </motion.div>
 
       {/* ── TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {PAGE_TABS.map(t => (
           <button key={t} onClick={() => setTab(t)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
@@ -228,7 +228,7 @@ export default function TheReferral() {
                       <div style={{ color:S.muted, fontSize:'10px', marginTop:'2px' }}>{t.desc}</div>
                     </div>
                   </div>
-                  <div style={{ fontSize:'10px', color:'#8899B4', background:'rgba(255,255,255,0.02)', borderRadius:'6px', padding:'6px 8px', borderLeft:`2px solid ${t.color}40` }}>
+                  <div style={{ fontSize:'10px', color:'#94A3B8', background:'rgba(255,255,255,0.02)', borderRadius:'6px', padding:'6px 8px', borderLeft:`2px solid ${t.color}40` }}>
                     {t.example}
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export default function TheReferral() {
             {PROGRAMS.map(p => (
               <button key={p.id} onClick={() => setActiveProg(p.id)}
                 style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 14px', borderRadius:'12px', cursor:'pointer', border:`1px solid ${activeProg===p.id?p.color+'40':'rgba(255,255,255,0.06)'}`, transition:'all 0.15s', width:'100%',
-                  background: activeProg===p.id?`${p.color}12`:'rgba(11,18,32,0.7)' }}>
+                  background: activeProg===p.id?`${p.color}12`:'rgba(10,12,30,0.7)' }}>
                 <div style={{ width:'30px', height:'30px', borderRadius:'8px', background:`${p.color}15`, border:`1px solid ${p.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                   <p.Icon size={14} style={{ color:p.color }} />
                 </div>
@@ -307,7 +307,7 @@ export default function TheReferral() {
           <motion.div key={prog.id} initial={{ opacity:0, x:10 }} animate={{ opacity:1, x:0 }}
             style={{ background:S.surface, border:`1px solid ${prog.color}20`, borderRadius:'18px', padding:'24px', backdropFilter:'blur(20px)' }}>
             <div style={{ position:'relative', overflow:'hidden', borderRadius:'14px', padding:'20px', marginBottom:'20px',
-              background:`linear-gradient(135deg,${prog.color}15,rgba(11,18,32,0.9))`, border:`1px solid ${prog.color}25` }}>
+              background:`linear-gradient(135deg,${prog.color}15,rgba(10,12,30,0.9))`, border:`1px solid ${prog.color}25` }}>
               <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'12px' }}>
                 <div style={{ width:'44px', height:'44px', borderRadius:'12px', background:`${prog.color}20`, border:`1px solid ${prog.color}40`, display:'flex', alignItems:'center', justifyContent:'center' }}>
                   <prog.Icon size={20} style={{ color:prog.color }} />

@@ -12,7 +12,7 @@ const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
 
 const TIER_CONFIG = {
-  1: { label: 'Tier 1 — Regional',    color: '#8899B4', min: 0,      max: 49 },
+  1: { label: 'Tier 1 — Regional',    color: '#94A3B8', min: 0,      max: 49 },
   2: { label: 'Tier 2 — Established', color: '#10B981', min: 50,     max: 199 },
   3: { label: 'Tier 3 — Premium',     color: '#3B82F6', min: 200,    max: 999 },
   4: { label: 'Tier 4 — Elite',       color: '#D4A843', min: 1000,   max: Infinity },
@@ -25,7 +25,7 @@ function StatCard({ icon: Icon, label, value, sub, color = '#6366F1', delay = 0 
       transition={{ delay }}
       className="relative rounded-2xl p-5 overflow-hidden"
       style={{
-        background: 'rgba(11,18,32,0.85)',
+        background: 'rgba(10,12,30,0.85)',
         backdropFilter: 'blur(24px)',
         border: '1px solid rgba(255,255,255,0.06)',
       }}
@@ -133,7 +133,7 @@ export default function BrokerB2B() {
   ];
 
   return (
-    <div className="min-h-screen p-6 space-y-6" style={{ background: '#03080F' }}>
+    <div className="min-h-screen p-6 space-y-6" style={{ background: '#05050C' }}>
       {/* Header */}
       <motion.div initial="hidden" animate="show" variants={container} className="space-y-1">
         <motion.div variants={fadeUp} className="flex items-center gap-2 text-[10px] text-s4-muted tracking-[0.3em] uppercase font-heading">
@@ -174,7 +174,7 @@ export default function BrokerB2B() {
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 rounded-xl w-fit"
-        style={{ background: 'rgba(11,18,32,0.8)', border: '1px solid rgba(255,255,255,0.06)' }}>
+        style={{ background: 'rgba(10,12,30,0.8)', border: '1px solid rgba(255,255,255,0.06)' }}>
         {TABS.map(tab => (
           <button
             key={tab.id}
@@ -182,7 +182,7 @@ export default function BrokerB2B() {
             className="px-4 py-2 rounded-lg text-xs font-bold transition-all"
             style={activeTab === tab.id
               ? { background: '#6366F1', color: '#fff' }
-              : { color: '#8899B4' }}
+              : { color: '#94A3B8' }}
           >
             {tab.label}
           </button>
@@ -196,7 +196,7 @@ export default function BrokerB2B() {
             variants={fadeUp}
             className="lg:col-span-2 rounded-2xl overflow-hidden"
             style={{
-              background: 'rgba(11,18,32,0.85)',
+              background: 'rgba(10,12,30,0.85)',
               backdropFilter: 'blur(24px)',
               border: '1px solid rgba(255,255,255,0.06)',
             }}
@@ -222,7 +222,7 @@ export default function BrokerB2B() {
               variants={fadeUp}
               className="rounded-2xl p-5"
               style={{
-                background: 'rgba(11,18,32,0.85)',
+                background: 'rgba(10,12,30,0.85)',
                 backdropFilter: 'blur(24px)',
                 border: '1px solid rgba(255,255,255,0.06)',
               }}
@@ -258,7 +258,7 @@ export default function BrokerB2B() {
               variants={fadeUp}
               className="rounded-2xl p-5"
               style={{
-                background: 'rgba(11,18,32,0.85)',
+                background: 'rgba(10,12,30,0.85)',
                 backdropFilter: 'blur(24px)',
                 border: '1px solid rgba(255,255,255,0.06)',
               }}
@@ -299,7 +299,7 @@ export default function BrokerB2B() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl overflow-hidden"
           style={{
-            background: 'rgba(11,18,32,0.85)',
+            background: 'rgba(10,12,30,0.85)',
             backdropFilter: 'blur(24px)',
             border: '1px solid rgba(255,255,255,0.06)',
           }}
@@ -319,7 +319,7 @@ export default function BrokerB2B() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl p-6"
           style={{
-            background: 'rgba(11,18,32,0.85)',
+            background: 'rgba(10,12,30,0.85)',
             backdropFilter: 'blur(24px)',
             border: '1px solid rgba(255,255,255,0.06)',
           }}

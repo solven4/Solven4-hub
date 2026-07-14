@@ -6,8 +6,8 @@ import { CreditCard, Crown, Check, ArrowRight, Receipt, Zap, Lock, Users } from 
 import { SEO } from '@/components/SEO';
 
 const S = {
-  card: { background: 'rgba(11,18,32,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
-  label: { fontSize: '11px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
+  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
+  label: { fontSize: '11px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
 };
 
 const TIERS = [
@@ -157,7 +157,7 @@ export default function TheSubscription() {
           <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
             FOUNDING MEMBER ACCESS
           </h1>
-          <p style={{ fontSize: '13px', color: '#8899B4' }}>One-time lifetime access — no subscriptions, no renewals. 250 seats total.</p>
+          <p style={{ fontSize: '13px', color: '#94A3B8' }}>One-time lifetime access — no subscriptions, no renewals. 250 seats total.</p>
         </div>
 
         {/* Founder status banner */}
@@ -168,7 +168,7 @@ export default function TheSubscription() {
               <Crown size={24} color="#D4A843" />
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '11px', color: '#8899B4', marginBottom: '4px' }}>Founding Member</div>
+              <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '4px' }}>Founding Member</div>
               <div style={{ fontSize: '18px', fontWeight: 800, color: '#D4A843', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em' }}>
                 {memberTier?.toUpperCase()} ACCESS
               </div>
@@ -185,8 +185,8 @@ export default function TheSubscription() {
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
             style={{ ...S.card, marginBottom: '20px', padding: '16px 24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <Users size={14} color="#8899B4" />
-              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#8899B4', fontWeight: 700 }}>LIVE SEAT AVAILABILITY</span>
+              <Users size={14} color="#94A3B8" />
+              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#94A3B8', fontWeight: 700 }}>LIVE SEAT AVAILABILITY</span>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 6px #10B981', marginLeft: '4px' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '12px' }}>
@@ -230,7 +230,7 @@ export default function TheSubscription() {
                 style={{
                   ...S.card, padding: '20px', position: 'relative',
                   border: isCurrent ? `1.5px solid ${tier.color}60` : tier.popular ? `1px solid ${tier.color}35` : '1px solid rgba(255,255,255,0.07)',
-                  background: isCurrent ? `${tier.color}08` : soldOut ? 'rgba(5,8,14,0.6)' : 'rgba(11,18,32,0.85)',
+                  background: isCurrent ? `${tier.color}08` : soldOut ? 'rgba(5,8,14,0.6)' : 'rgba(10,12,30,0.85)',
                   opacity: soldOut && !isCurrent ? 0.7 : 1,
                 }}>
                 {tier.popular && !isCurrent && !soldOut && (
@@ -254,7 +254,7 @@ export default function TheSubscription() {
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px', marginBottom: '4px' }}>
                   <span style={{ fontSize: '26px', fontWeight: 800, color: '#fff' }}>${tier.price}</span>
                 </div>
-                <div style={{ fontSize: '10px', color: '#8899B4', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Zap size={10} color="#D4A843" /> One-time · Lifetime access
                 </div>
 
@@ -281,7 +281,7 @@ export default function TheSubscription() {
                     width: '100%', padding: '10px', borderRadius: '10px', border: 'none',
                     cursor: isCurrent || soldOut ? 'default' : 'pointer',
                     background: isCurrent ? 'rgba(255,255,255,0.05)' : soldOut ? 'rgba(255,255,255,0.03)' : `${tier.color}20`,
-                    color: isCurrent ? '#8899B4' : soldOut ? '#555' : tier.color,
+                    color: isCurrent ? '#94A3B8' : soldOut ? '#555' : tier.color,
                     fontSize: '11px', fontWeight: 700, fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                     transition: 'all 0.15s',
@@ -311,8 +311,8 @@ export default function TheSubscription() {
             { icon: Crown, text: 'Lifetime access — no renewals' },
           ].map(({ icon: Icon, text }) => (
             <div key={text} style={{ flex: 1, ...S.card, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Icon size={14} color="#8899B4" style={{ flexShrink: 0 }} />
-              <span style={{ fontSize: '12px', color: '#8899B4' }}>{text}</span>
+              <Icon size={14} color="#94A3B8" style={{ flexShrink: 0 }} />
+              <span style={{ fontSize: '12px', color: '#94A3B8' }}>{text}</span>
             </div>
           ))}
         </motion.div>
@@ -320,13 +320,13 @@ export default function TheSubscription() {
         {/* Payment / member history */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} style={S.card}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-            <Receipt size={16} color="#8899B4" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#8899B4', fontWeight: 700 }}>FOUNDING MEMBER RECORD</span>
+            <Receipt size={16} color="#94A3B8" />
+            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#94A3B8', fontWeight: 700 }}>FOUNDING MEMBER RECORD</span>
           </div>
           {loadingPay ? (
-            <div style={{ textAlign: 'center', color: '#8899B4', fontSize: '13px', padding: '20px' }}>Loading...</div>
+            <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '13px', padding: '20px' }}>Loading...</div>
           ) : payments.length === 0 ? (
-            <div style={{ textAlign: 'center', color: '#8899B4', fontSize: '13px', padding: '20px' }}>
+            <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '13px', padding: '20px' }}>
               No founding member records yet. Claim your seat above.
             </div>
           ) : (
@@ -334,11 +334,11 @@ export default function TheSubscription() {
               {payments.map((p, i) => (
                 <div key={p.id || i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CreditCard size={14} color="#8899B4" />
+                    <CreditCard size={14} color="#94A3B8" />
                     <span style={{ fontSize: '12px', color: '#fff' }}>Founding Member — {p.tier?.toUpperCase()}</span>
                   </div>
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '12px', color: '#8899B4' }}>{p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}</span>
+                    <span style={{ fontSize: '12px', color: '#94A3B8' }}>{p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}</span>
                     <span style={{ fontSize: '13px', fontWeight: 700, color: '#10B981' }}>${parseFloat(p.amount_paid || 0).toFixed(2)}</span>
                     <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(16,185,129,0.12)', color: '#10B981', fontWeight: 700 }}>CONFIRMED</span>
                   </div>

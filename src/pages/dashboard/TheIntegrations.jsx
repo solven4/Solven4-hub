@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle, Plus, ExternalLink, RefreshCw, Trash2, Key } from 'lucide-react';
 
 const S = {
-  card: { background: 'rgba(11,18,32,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
+  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
 };
 
 const INTEGRATIONS = [
@@ -66,7 +66,7 @@ function IntegrationCard({ integration, idx }) {
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.06 }}
-      style={{ ...S.card, border: connected ? `1px solid ${integration.color}35` : '1px solid rgba(255,255,255,0.07)', background: connected ? `${integration.color}05` : 'rgba(11,18,32,0.85)' }}>
+      style={{ ...S.card, border: connected ? `1px solid ${integration.color}35` : '1px solid rgba(255,255,255,0.07)', background: connected ? `${integration.color}05` : 'rgba(10,12,30,0.85)' }}>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {/* Icon */}
@@ -80,16 +80,16 @@ function IntegrationCard({ integration, idx }) {
             <span style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>{integration.name}</span>
             {connected
               ? <CheckCircle size={13} color="#10B981" />
-              : <AlertCircle size={13} color="#8899B4" />}
+              : <AlertCircle size={13} color="#94A3B8" />}
           </div>
-          <p style={{ fontSize: '11px', color: '#8899B4', margin: 0, lineHeight: 1.5 }}>{integration.desc}</p>
+          <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.5 }}>{integration.desc}</p>
         </div>
 
         {/* Action buttons */}
         <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
           {connected ? (
             <>
-              <button style={{ padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#8899B4', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <button style={{ padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#94A3B8', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <RefreshCw size={11} /> Sync
               </button>
               <button style={{ padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(239,68,68,0.25)', background: 'rgba(239,68,68,0.08)', color: '#EF4444', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -112,11 +112,11 @@ function IntegrationCard({ integration, idx }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
             {integration.fields.map(field => (
               <div key={field.key}>
-                <label style={{ fontSize: '10px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', display: 'block', marginBottom: '5px' }}>
+                <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', display: 'block', marginBottom: '5px' }}>
                   {field.label}
                 </label>
                 <div style={{ position: 'relative' }}>
-                  {field.secret && <Key size={12} color="#8899B4" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />}
+                  {field.secret && <Key size={12} color="#94A3B8" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />}
                   <input
                     type={field.secret ? 'password' : 'text'}
                     value={form[field.key] || ''}
@@ -134,7 +134,7 @@ function IntegrationCard({ integration, idx }) {
               {saving ? 'Connecting...' : 'Save & Connect'}
             </button>
             <button onClick={() => setExpanded(false)}
-              style={{ padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#8899B4', fontSize: '12px', cursor: 'pointer' }}>
+              style={{ padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#94A3B8', fontSize: '12px', cursor: 'pointer' }}>
               Cancel
             </button>
           </div>
@@ -151,7 +151,7 @@ export default function TheIntegrations() {
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
           INTEGRATIONS
         </h1>
-        <p style={{ fontSize: '13px', color: '#8899B4' }}>Connect messaging, social, and broker accounts — shared across all S4 doors</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Connect messaging, social, and broker accounts — shared across all S4 doors</p>
       </div>
 
       {/* Stats row */}
@@ -163,7 +163,7 @@ export default function TheIntegrations() {
         ].map(({ label, value, color }) => (
           <div key={label} style={{ ...S.card, padding: '16px', textAlign: 'center' }}>
             <div style={{ fontSize: '28px', fontWeight: 800, color }}>{value}</div>
-            <div style={{ fontSize: '11px', color: '#8899B4', marginTop: '4px' }}>{label}</div>
+            <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '4px' }}>{label}</div>
           </div>
         ))}
       </div>

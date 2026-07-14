@@ -75,19 +75,19 @@ export default function Register() {
   const selectedDoor = DOORS.find(d => d.id === primaryDoor);
 
   return (
-    <div style={{ background: '#03080F', minHeight: '100vh', display: 'flex' }}>
+    <div style={{ background: '#05050C', minHeight: '100vh', display: 'flex' }}>
       {/* LEFT PANEL */}
       <div className="hidden lg:flex flex-1 relative flex-col items-center justify-center overflow-hidden"
-        style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+        style={{ borderRight: '1px solid #29293D' }}>
         <ParticleOrb />
         <div className="relative z-10 text-center px-8">
-          <div style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg,#6366F1,#818CF8)', borderRadius: '16px' }}
+          <div style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '16px' }}
             className="w-20 h-20 flex items-center justify-center text-white font-black text-2xl mx-auto mb-6">
             S4
           </div>
           <h1 style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 60px rgba(99,102,241,0.6)' }}
             className="text-5xl font-black text-white mb-3">SOLVEN4</h1>
-          <p style={{ color: '#8899B4', fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.3em', fontSize: '11px' }} className="mb-10">
+          <p style={{ color: '#94A3B8', fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.3em', fontSize: '11px' }} className="mb-10">
             CHOOSE YOUR DOOR
           </p>
           <div className="space-y-3 max-w-xs mx-auto">
@@ -95,10 +95,10 @@ export default function Register() {
               <div key={door.id} className="flex items-center gap-3 px-4 py-2.5 rounded-lg"
                 style={{ background: primaryDoor === door.id ? `${door.color}15` : 'transparent', border: `1px solid ${primaryDoor === door.id ? door.color + '40' : 'transparent'}` }}>
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: door.color, boxShadow: `0 0 8px ${door.color}` }} />
-                <span style={{ fontFamily: "'Orbitron', sans-serif", color: primaryDoor === door.id ? door.color : '#8899B4', fontSize: '11px', letterSpacing: '0.1em' }} className="font-bold">
+                <span style={{ fontFamily: "'Orbitron', sans-serif", color: primaryDoor === door.id ? door.color : '#94A3B8', fontSize: '11px', letterSpacing: '0.1em' }} className="font-bold">
                   {door.label}
                 </span>
-                <span style={{ color: '#8899B4', fontSize: '11px' }} className="ml-auto">{door.desc}</span>
+                <span style={{ color: '#94A3B8', fontSize: '11px' }} className="ml-auto">{door.desc}</span>
               </div>
             ))}
           </div>
@@ -110,7 +110,7 @@ export default function Register() {
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div style={{ background: 'linear-gradient(135deg,#6366F1,#818CF8)', fontFamily: "'Orbitron', sans-serif", borderRadius: '8px' }}
+            <div style={{ background: 'linear-gradient(135deg,#6366F1,#22D3EE)', fontFamily: "'Orbitron', sans-serif", borderRadius: '8px' }}
               className="w-9 h-9 flex items-center justify-center text-white font-bold text-sm">S4</div>
             <span style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.15em', fontSize: '13px' }} className="text-white font-bold">SOLVEN4</span>
           </div>
@@ -127,36 +127,36 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name */}
             <div>
-              <label style={{ color: '#8899B4', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">FULL NAME</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">FULL NAME</label>
               <div className="relative">
-                <User size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#8899B4' }} />
+                <User size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Your full name"
-                  style={{ background: 'rgba(11,18,32,0.9)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
+                  style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
                   className="w-full py-3 pr-4 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
               </div>
             </div>
 
             {/* Email */}
             <div>
-              <label style={{ color: '#8899B4', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">EMAIL</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">EMAIL</label>
               <div className="relative">
-                <Mail size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#8899B4' }} />
+                <Mail size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="operator@solven4.com"
-                  style={{ background: 'rgba(11,18,32,0.9)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
+                  style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
                   className="w-full py-3 pr-4 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <label style={{ color: '#8899B4', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">PASSWORD</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">PASSWORD</label>
               <div className="relative">
-                <Lock size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#8899B4' }} />
+                <Lock size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input type={showPass ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="Min 6 characters"
-                  style={{ background: 'rgba(11,18,32,0.9)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', color: '#fff', paddingLeft: '38px', paddingRight: '38px' }}
+                  style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px', paddingRight: '38px' }}
                   className="w-full py-3 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
                 <button type="button" onClick={() => setShowPass(v => !v)}
-                  style={{ position: 'absolute', right: '13px', top: '50%', transform: 'translateY(-50%)', color: '#8899B4', background: 'none', border: 'none', cursor: 'pointer' }}>
+                  style={{ position: 'absolute', right: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8', background: 'none', border: 'none', cursor: 'pointer' }}>
                   {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
@@ -164,28 +164,28 @@ export default function Register() {
 
             {/* Confirm Password */}
             <div>
-              <label style={{ color: '#8899B4', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">CONFIRM PASSWORD</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">CONFIRM PASSWORD</label>
               <div className="relative">
-                <Lock size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#8899B4' }} />
+                <Lock size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input type={showPass ? 'text' : 'password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password"
-                  style={{ background: 'rgba(11,18,32,0.9)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
+                  style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
                   className="w-full py-3 pr-4 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
               </div>
             </div>
 
             {/* Door selector */}
             <div>
-              <label style={{ color: '#8899B4', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">PRIMARY DOOR</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">PRIMARY DOOR</label>
               <div className="grid grid-cols-5 gap-2">
                 {DOORS.map(door => (
                   <button key={door.id} type="button" onClick={() => setPrimaryDoor(door.id)}
                     style={{
-                      background: primaryDoor === door.id ? `${door.color}20` : 'rgba(11,18,32,0.9)',
-                      border: `1px solid ${primaryDoor === door.id ? door.color + '60' : 'rgba(255,255,255,0.08)'}`,
+                      background: primaryDoor === door.id ? `${door.color}20` : '#0A0C1E',
+                      border: `1px solid ${primaryDoor === door.id ? door.color + '60' : '#29293D'}`,
                       borderRadius: '8px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', cursor: 'pointer',
                     }}>
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: door.color, boxShadow: primaryDoor === door.id ? `0 0 8px ${door.color}` : 'none' }} />
-                    <span style={{ fontFamily: "'Orbitron', sans-serif", color: primaryDoor === door.id ? door.color : '#8899B4', fontSize: '7px', letterSpacing: '0.05em' }} className="font-bold text-center leading-tight">
+                    <span style={{ fontFamily: "'Orbitron', sans-serif", color: primaryDoor === door.id ? door.color : '#94A3B8', fontSize: '7px', letterSpacing: '0.05em' }} className="font-bold text-center leading-tight">
                       {door.id}
                     </span>
                   </button>
@@ -197,13 +197,13 @@ export default function Register() {
             </div>
 
             <button type="submit" disabled={loading}
-              style={{ background: loading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg,#6366F1,#818CF8)', borderRadius: '10px', width: '100%' }}
+              style={{ background: loading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '10px', width: '100%' }}
               className="py-3.5 text-white font-bold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:cursor-not-allowed mt-2">
               {loading ? 'Creating Account...' : (<>Join SOLVEN4 <ArrowRight size={16} /></>)}
             </button>
           </form>
 
-          <p style={{ color: '#8899B4', fontSize: '13px' }} className="text-center mt-5">
+          <p style={{ color: '#94A3B8', fontSize: '13px' }} className="text-center mt-5">
             Already an operator?{' '}
             <Link to="/auth/login" style={{ color: '#6366F1' }} className="font-semibold hover:opacity-80 transition-opacity">
               Sign in

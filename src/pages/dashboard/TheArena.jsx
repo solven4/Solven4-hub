@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 /* ── RANK SYSTEM ── */
 const RANKS = [
-  { name:'The Curious',  color:'#8899B4', emoji:'👁️',  bg:'rgba(136,153,180,0.08)', minXP:0,     maxXP:500,   perks:['Basic signal access','Community forum'] },
+  { name:'The Curious',  color:'#94A3B8', emoji:'👁️',  bg:'rgba(136,153,180,0.08)', minXP:0,     maxXP:500,   perks:['Basic signal access','Community forum'] },
   { name:'The Hooked',   color:'#06B6D4', emoji:'🎣',  bg:'rgba(59,130,246,0.08)',  minXP:500,   maxXP:2000,  perks:['Priority signals','Weekly brief'] },
   { name:'The Obsessed', color:'#10B981', emoji:'🔥',  bg:'rgba(16,185,129,0.08)',  minXP:2000,  maxXP:5000,  perks:['SOLVEN AI full access','Monthly reward'] },
   { name:'The Addict',   color:'#F97316', emoji:'💊',  bg:'rgba(249,115,22,0.08)',  minXP:5000,  maxXP:12000, perks:['1-on-1 coaching session','Custom signals'] },
@@ -183,7 +183,7 @@ const DOOR_TABS = [
   { id:'nexus',  label:'NEXUS',  color:'#EF4444', Icon:Building2 },
 ];
 const PAGE_TABS = ['leaderboard','challenges','achievements','prizes'];
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 
 function getRankForXP(xp) { return RANKS.slice().reverse().find(r=>xp>=r.minXP) ?? RANKS[0]; }
 function getNextRank(xp)  { return RANKS.find(r=>r.minXP>xp); }
@@ -194,7 +194,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
   return (
     <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
       onClick={onClose}
-      style={{ position:'fixed', inset:0, background:'rgba(3,8,15,0.85)', backdropFilter:'blur(10px)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      style={{ position:'fixed', inset:0, background:'rgba(5,5,12,0.85)', backdropFilter:'blur(10px)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
       <motion.div initial={{ scale:0.93, y:20 }} animate={{ scale:1, y:0 }} exit={{ scale:0.93, y:20 }}
         onClick={e=>e.stopPropagation()}
         style={{ background:'rgba(6,13,24,0.98)', border:`1px solid ${challenge.color}30`, borderRadius:'24px', padding:'28px', maxWidth:'640px', width:'100%', maxHeight:'90vh', overflowY:'auto', backdropFilter:'blur(24px)' }}>
@@ -328,7 +328,7 @@ function JoinCompetitionModal({ prize, onClose }) {
   return (
     <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
       onClick={onClose}
-      style={{ position:'fixed', inset:0, background:'rgba(3,8,15,0.85)', backdropFilter:'blur(10px)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      style={{ position:'fixed', inset:0, background:'rgba(5,5,12,0.85)', backdropFilter:'blur(10px)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
       <motion.div initial={{ scale:0.93, y:20 }} animate={{ scale:1, y:0 }} exit={{ scale:0.93, y:20 }}
         onClick={e=>e.stopPropagation()}
         style={{ background:'rgba(6,13,24,0.98)', border:`1px solid ${prize.color}30`, borderRadius:'24px', padding:'28px', maxWidth:'520px', width:'100%', backdropFilter:'blur(24px)' }}>
@@ -498,7 +498,7 @@ export default function TheArena() {
   ];
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'16px' }}>
@@ -519,7 +519,7 @@ export default function TheArena() {
       {/* ── MY RANK CARD ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', overflow:'hidden', borderRadius:'18px', padding:'20px 24px', marginBottom:'16px',
-          background:`linear-gradient(135deg,${myRank.color}12 0%,rgba(11,18,32,0.95) 60%)`,
+          background:`linear-gradient(135deg,${myRank.color}12 0%,rgba(10,12,30,0.95) 60%)`,
           border:`1px solid ${myRank.color}30` }}>
         <div style={{ position:'absolute', top:0, right:0, width:'200px', height:'100%', background:`radial-gradient(ellipse at top right,${myRank.color}15,transparent 70%)`, pointerEvents:'none' }} />
         <div style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', gap:'20px', flexWrap:'wrap' }}>
@@ -568,7 +568,7 @@ export default function TheArena() {
       </motion.div>
 
       {/* ── PAGE TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {PAGE_TABS.map(t=>(
           <button key={t} onClick={()=>setPageTab(t)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
@@ -600,7 +600,7 @@ export default function TheArena() {
           ) : (
             <>
               <div style={{ position:'relative', borderRadius:'20px', overflow:'hidden', padding:'32px 24px', marginBottom:'16px',
-                background:'linear-gradient(180deg,rgba(6,13,24,0.95) 0%,rgba(3,8,15,0.98) 100%)', border:`1px solid ${S.border}` }}>
+                background:'linear-gradient(180deg,rgba(6,13,24,0.95) 0%,rgba(5,5,12,0.98) 100%)', border:`1px solid ${S.border}` }}>
                 <div style={{ position:'absolute', inset:0, opacity:0.15,
                   backgroundImage:'linear-gradient(rgba(212,168,67,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,67,0.07) 1px,transparent 1px)',
                   backgroundSize:'32px 32px', pointerEvents:'none' }} />

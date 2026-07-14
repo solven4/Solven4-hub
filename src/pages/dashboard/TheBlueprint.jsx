@@ -6,7 +6,7 @@ import {
   Share2, Download, Star, Zap, Trophy,
 } from 'lucide-react';
 
-const S = { bg:'#03080F', surface:'rgba(11,18,32,0.9)', border:'rgba(255,255,255,0.06)', muted:'#8899B4' };
+const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 /* ── ACTIVE GOALS ── */
@@ -158,12 +158,12 @@ export default function TheBlueprint() {
   const totalXP = WEEKLY_PLAN.flatMap(d => d.tasks).reduce((s,t) => s+t.xp, 0);
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Inter',sans-serif" }}>
+    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
         style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(212,168,67,0.1) 0%,rgba(11,18,32,0.95) 55%,rgba(139,92,246,0.08) 100%)',
+          background:'linear-gradient(135deg,rgba(212,168,67,0.1) 0%,rgba(10,12,30,0.95) 55%,rgba(139,92,246,0.08) 100%)',
           border:'1px solid rgba(212,168,67,0.2)', backdropFilter:'blur(20px)' }}>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
@@ -201,7 +201,7 @@ export default function TheBlueprint() {
       </motion.div>
 
       {/* ── TABS ── */}
-      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(11,18,32,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
+      <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {[
           { id:'goals',   label:'My Goals' },
           { id:'weekly',  label:'This Week' },

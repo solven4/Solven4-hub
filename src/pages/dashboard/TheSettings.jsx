@@ -5,8 +5,8 @@ import { supabase } from '@/lib/supabase';
 import { Settings, Bell, Globe, Moon, Sun, Shield, Key, Trash2, Save, ChevronRight } from 'lucide-react';
 
 const S = {
-  card: { background: 'rgba(11,18,32,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
-  label: { fontSize: '11px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
+  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
+  label: { fontSize: '11px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
   row: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' },
   toggle: (on) => ({
     width: '40px', height: '22px', borderRadius: '11px',
@@ -16,7 +16,7 @@ const S = {
   }),
   dot: (on) => ({
     width: '16px', height: '16px', borderRadius: '50%',
-    background: on ? '#818CF8' : '#8899B4',
+    background: on ? '#818CF8' : '#94A3B8',
     position: 'absolute', top: '2px', left: on ? '20px' : '2px',
     transition: 'all 0.2s', boxShadow: on ? '0 0 8px rgba(99,102,241,0.6)' : 'none',
   }),
@@ -94,7 +94,7 @@ export default function TheSettings() {
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
           SETTINGS
         </h1>
-        <p style={{ fontSize: '13px', color: '#8899B4' }}>Global preferences across all S4 doors</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Global preferences across all S4 doors</p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -111,7 +111,7 @@ export default function TheSettings() {
                 style={{
                   flex: 1, padding: '12px', borderRadius: '10px', border: `1px solid ${settings.lang === key ? 'rgba(99,102,241,0.4)' : 'rgba(255,255,255,0.08)'}`,
                   background: settings.lang === key ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.03)',
-                  color: settings.lang === key ? '#818CF8' : '#8899B4', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                  color: settings.lang === key ? '#818CF8' : '#94A3B8', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
                   transition: 'all 0.15s',
                 }}>
                 {label}
@@ -133,7 +133,7 @@ export default function TheSettings() {
                 <div key={key} style={{ ...S.row, borderBottom: ii < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
                   <div>
                     <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{label}</div>
-                    <div style={{ fontSize: '11px', color: '#8899B4', marginTop: '2px' }}>{desc}</div>
+                    <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{desc}</div>
                   </div>
                   <Toggle value={settings[key]} onChange={() => toggle(key)} />
                 </div>
@@ -169,7 +169,7 @@ export default function TheSettings() {
             <Trash2 size={15} color="#EF4444" />
             <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#EF4444', fontWeight: 700 }}>DANGER ZONE</span>
           </div>
-          <p style={{ fontSize: '12px', color: '#8899B4', marginBottom: '14px' }}>Deleting your account will remove all data across all S4 doors permanently.</p>
+          <p style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '14px' }}>Deleting your account will remove all data across all S4 doors permanently.</p>
           <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.08)', color: '#EF4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
             Request Account Deletion
           </button>

@@ -32,25 +32,25 @@ export default function LegalPages() {
   const page = DOCS[doc] || DOCS.terms;
 
   return (
-    <div style={{ background: '#03080F', minHeight: '100vh', color: '#CBD5E1' }}>
+    <div style={{ background: '#05050C', minHeight: '100vh', color: '#CBD5E1' }}>
       <Helmet><title>{page.title} | SOLVEN4</title></Helmet>
 
       {/* Header */}
-      <div style={{ borderBottom: '1px solid #1A2540', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ borderBottom: '1px solid #29293D', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
         <Link to="/dashboard" style={{ color: '#6366F1', fontSize: 12, textDecoration: 'none' }}>← Back to HUB</Link>
-        <span style={{ color: '#1A2540' }}>|</span>
+        <span style={{ color: '#29293D' }}>|</span>
         <span style={{ fontFamily: "'Orbitron', monospace", fontSize: 12, color: '#6366F1', letterSpacing: '0.15em' }}>S4 LEGAL</span>
       </div>
 
       {/* Nav tabs */}
-      <div style={{ display: 'flex', gap: '4px', padding: '16px 24px 0', borderBottom: '1px solid #1A2540' }}>
+      <div style={{ display: 'flex', gap: '4px', padding: '16px 24px 0', borderBottom: '1px solid #29293D' }}>
         {Object.entries(DOCS).map(([key, d]) => (
           <Link key={key} to={`/legal/${key}`} style={{
             padding: '8px 16px', fontSize: 12, borderRadius: '6px 6px 0 0',
-            background: doc === key ? '#0B1220' : 'transparent',
-            color: doc === key ? '#E2E8F0' : '#8899B4',
-            border: doc === key ? '1px solid #1A2540' : '1px solid transparent',
-            borderBottom: doc === key ? '1px solid #0B1220' : '1px solid transparent',
+            background: doc === key ? '#0A0C1E' : 'transparent',
+            color: doc === key ? '#E2E8F0' : '#94A3B8',
+            border: doc === key ? '1px solid #29293D' : '1px solid transparent',
+            borderBottom: doc === key ? '1px solid #0A0C1E' : '1px solid transparent',
             textDecoration: 'none', fontWeight: doc === key ? 600 : 400,
           }}>
             {d.title}
@@ -61,16 +61,16 @@ export default function LegalPages() {
       {/* Content */}
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '32px 24px 80px' }}>
         <h1 style={{ fontSize: 24, fontWeight: 800, color: '#E2E8F0', marginBottom: 8 }}>{page.title}</h1>
-        <p style={{ fontSize: 12, color: '#8899B4', marginBottom: 32 }}>Last updated: {LAST_UPDATED} · {COMPANY}</p>
+        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 32 }}>Last updated: {LAST_UPDATED} · {COMPANY}</p>
         <div className="legal-body">{page.content}</div>
       </div>
 
       <style>{`
         .legal-body h2 { font-size:16px; font-weight:700; color:#E2E8F0; margin:28px 0 10px; }
         .legal-body h3 { font-size:14px; font-weight:600; color:#CBD5E1; margin:18px 0 6px; }
-        .legal-body p  { font-size:13px; color:#8899B4; line-height:1.8; margin-bottom:12px; }
+        .legal-body p  { font-size:13px; color:#94A3B8; line-height:1.8; margin-bottom:12px; }
         .legal-body ul { margin:8px 0 12px 20px; }
-        .legal-body li { font-size:13px; color:#8899B4; line-height:1.8; }
+        .legal-body li { font-size:13px; color:#94A3B8; line-height:1.8; }
         .legal-body .highlight { background:rgba(99,102,241,.08); border-left:3px solid #6366F1; padding:12px 16px; border-radius:0 6px 6px 0; margin:16px 0; }
         .legal-body .warning   { background:rgba(239,68,68,.08); border-left:3px solid #EF4444; padding:12px 16px; border-radius:0 6px 6px 0; margin:16px 0; }
         .legal-body a { color:#6366F1; }

@@ -31,13 +31,13 @@ export default function DoorFrame() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#03080F' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#05050C' }}>
       <Helmet><title>{door.label} | S4 HUB</title></Helmet>
       {/* Door top bar */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '12px',
         padding: '10px 16px',
-        background: 'rgba(11,18,32,0.95)',
+        background: 'rgba(10,12,30,0.95)',
         borderBottom: `1px solid ${door.color}30`,
         flexShrink: 0,
       }}>
@@ -47,7 +47,7 @@ export default function DoorFrame() {
             background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '8px', padding: '6px 10px', cursor: 'pointer',
             display: 'flex', alignItems: 'center', gap: '6px',
-            color: '#8899B4', fontSize: '12px',
+            color: '#94A3B8', fontSize: '12px',
           }}
         >
           <ArrowLeft size={14} /> Back to HUB
@@ -64,13 +64,13 @@ export default function DoorFrame() {
           <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '11px', fontWeight: 700, color: door.color, letterSpacing: '0.12em' }}>
             {door.label}
           </span>
-          <span style={{ color: '#8899B4', fontSize: '11px' }}>— {door.desc}</span>
+          <span style={{ color: '#94A3B8', fontSize: '11px' }}>— {door.desc}</span>
         </div>
 
         <div style={{ flex: 1 }} />
 
         {loading && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#8899B4', fontSize: '11px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94A3B8', fontSize: '11px' }}>
             <RefreshCw size={12} style={{ animation: 'spin 1s linear infinite' }} />
             Connecting...
           </div>
@@ -79,7 +79,7 @@ export default function DoorFrame() {
         <button onClick={reload}
           style={{
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '6px', padding: '6px', cursor: 'pointer', color: '#8899B4', display: 'flex',
+            borderRadius: '6px', padding: '6px', cursor: 'pointer', color: '#94A3B8', display: 'flex',
           }}>
           <RefreshCw size={13} />
         </button>
@@ -102,7 +102,7 @@ export default function DoorFrame() {
           }}
           style={{
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '6px', padding: '6px', cursor: 'pointer', color: '#8899B4', display: 'flex',
+            borderRadius: '6px', padding: '6px', cursor: 'pointer', color: '#94A3B8', display: 'flex',
           }}
           title="Open in new tab"
         >
@@ -118,7 +118,7 @@ export default function DoorFrame() {
             style={{
               position: 'absolute', inset: 0, zIndex: 10,
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              background: '#03080F',
+              background: '#05050C',
             }}>
             <div style={{ position: 'relative', width: '80px', height: '80px', marginBottom: '24px' }}>
               <div style={{
@@ -138,7 +138,7 @@ export default function DoorFrame() {
             <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '13px', color: door.color, letterSpacing: '0.2em', marginBottom: '8px' }}>
               LOADING {door.label}
             </div>
-            <div style={{ color: '#8899B4', fontSize: '12px' }}>Connecting to {door.desc}...</div>
+            <div style={{ color: '#94A3B8', fontSize: '12px' }}>Connecting to {door.desc}...</div>
           </motion.div>
         )}
         <iframe

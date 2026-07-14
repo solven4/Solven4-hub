@@ -69,12 +69,12 @@ const DOOR_LINKS = [
 ];
 
 const S = {
-  bg: 'rgba(11,18,32,0.95)',
-  border: 'rgba(255,255,255,0.06)',
-  text: '#8899B4',
-  textHover: '#fff',
+  bg: 'rgba(10,12,30,0.95)',
+  border: '#29293D',
+  text: '#94A3B8',
+  textHover: '#E0E7FF',
   accent: '#6366F1',
-  groupLabel: { fontFamily: "'Orbitron',sans-serif", fontSize: '9px', letterSpacing: '0.25em', color: '#8899B4' },
+  groupLabel: { fontFamily: "'Share Tech Mono', monospace", fontSize: '9.5px', letterSpacing: '0.22em', color: '#94A3B8' },
 };
 
 // Admin nav moved to the standalone SOLVEN4 COCKPIT platform (solven4_cockpit)
@@ -286,12 +286,12 @@ export default function Sidebar({ isAdmin = false }) {
                   style={{
                     width: '26px', height: '26px', borderRadius: '6px', flexShrink: 0,
                     background: 'transparent', border: '1px solid rgba(255,255,255,0.07)',
-                    cursor: 'pointer', color: '#8899B4',
+                    cursor: 'pointer', color: '#94A3B8',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     transition: 'all 0.15s',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = `${color}50`; e.currentTarget.style.color = color; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = '#8899B4'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = '#94A3B8'; }}
                   title="Open in new tab">
                   <ExternalLink size={10} />
                 </button>
@@ -337,7 +337,7 @@ export default function Sidebar({ isAdmin = false }) {
               style={{ display: 'flex', gap: '8px', padding: '4px 10px 6px', flexWrap: 'wrap' }}>
               {[['Terms', '/legal/terms'], ['Privacy', '/legal/privacy'], ['Risk', '/legal/risk']].map(([label, to]) => (
                 <NavLink key={to} to={to} style={{ fontSize: '9px', color: '#5a6a80', textDecoration: 'none', letterSpacing: '0.05em' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#8899B4'; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = '#94A3B8'; }}
                   onMouseLeave={e => { e.currentTarget.style.color = '#5a6a80'; }}>
                   {label}
                 </NavLink>

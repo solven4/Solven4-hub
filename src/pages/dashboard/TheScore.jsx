@@ -5,7 +5,7 @@ import { db } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 
 const CHART_STYLE = {
-  contentStyle: { background: '#0B1220', border: '1px solid #1A2540', borderRadius: 12, color: '#fff', fontSize: 11 },
+  contentStyle: { background: '#0A0C1E', border: '1px solid #29293D', borderRadius: 12, color: '#fff', fontSize: 11 },
   cursor: { fill: 'rgba(212,168,67,0.04)' },
 };
 
@@ -73,7 +73,7 @@ export default function TheScore() {
           const Icon = s.icon;
           return (
             <div key={s.label} className="relative rounded-2xl overflow-hidden border border-opiom-border p-5"
-              style={{ background: 'linear-gradient(135deg, #060D18, #0B1220)' }}>
+              style={{ background: 'linear-gradient(135deg, #060D18, #0A0C1E)' }}>
               <div className="absolute top-0 right-0 w-16 h-16"
                 style={{ background: `radial-gradient(circle at top right, ${s.color}15, transparent)` }} />
               <div className="flex items-center justify-between mb-3">
@@ -110,8 +110,8 @@ export default function TheScore() {
                   <stop offset="95%" stopColor="#D4A843" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="month" tick={{ fill: '#8899B4', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: '#8899B4', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="month" tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip {...CHART_STYLE} formatter={(v) => [`$${v}`, 'Amount']} />
               <Area type="monotone" dataKey="amount" stroke="#D4A843" strokeWidth={2} fill="url(#goldGrad)" dot={{ fill: '#D4A843', r: 3 }} />
             </AreaChart>

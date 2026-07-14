@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { Trophy, Medal, Crown, TrendingUp, Users, Star } from 'lucide-react';
 
 const S = {
-  card: { background: 'rgba(11,18,32,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
+  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
 };
 
 const DOORS = [
@@ -45,7 +45,7 @@ export default function TheLeaderboard() {
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
           LEADERBOARD
         </h1>
-        <p style={{ fontSize: '13px', color: '#8899B4' }}>Cross-door rankings — unified across SOLVEN4</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Cross-door rankings — unified across SOLVEN4</p>
       </div>
 
       {/* Door tabs */}
@@ -58,8 +58,8 @@ export default function TheLeaderboard() {
               outline: activeTab === d.key ? `1px solid ${d.color}40` : 'none',
               transition: 'all 0.15s',
             }}>
-            <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', color: activeTab === d.key ? d.color : '#8899B4' }}>{d.label}</div>
-            <div style={{ fontSize: '10px', color: '#8899B4', marginTop: '2px' }}>{d.sublabel}</div>
+            <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', color: activeTab === d.key ? d.color : '#94A3B8' }}>{d.label}</div>
+            <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '2px' }}>{d.sublabel}</div>
           </button>
         ))}
       </div>
@@ -72,7 +72,7 @@ export default function TheLeaderboard() {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>Your Ranking</div>
-            <div style={{ fontSize: '11px', color: '#8899B4' }}>{activeDoor.label} · {activeDoor.sublabel}</div>
+            <div style={{ fontSize: '11px', color: '#94A3B8' }}>{activeDoor.label} · {activeDoor.sublabel}</div>
           </div>
           <Star size={18} color={activeDoor.color} />
         </div>
@@ -81,18 +81,18 @@ export default function TheLeaderboard() {
       {/* Leaderboard table */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={S.card}>
         {loading ? (
-          <div style={{ textAlign: 'center', color: '#8899B4', padding: '40px', fontSize: '13px' }}>Loading rankings...</div>
+          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '40px', fontSize: '13px' }}>Loading rankings...</div>
         ) : entries.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '40px' }}>
-            <Trophy size={40} color="#8899B4" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#8899B4', fontSize: '13px' }}>No rankings yet. Be the first!</p>
+            <Trophy size={40} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
+            <p style={{ color: '#94A3B8', fontSize: '13px' }}>No rankings yet. Be the first!</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '48px 1fr 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '4px' }}>
               {['#', 'Operator', 'Rank', activeDoor.metric.toUpperCase()].map(h => (
-                <div key={h} style={{ fontSize: '10px', color: '#8899B4', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
+                <div key={h} style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
               ))}
             </div>
             {entries.map((entry, i) => {
@@ -114,7 +114,7 @@ export default function TheLeaderboard() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {medal
                       ? <medal.Icon size={18} color={medal.color} />
-                      : <span style={{ fontSize: '13px', fontWeight: 700, color: '#8899B4' }}>{i + 1}</span>}
+                      : <span style={{ fontSize: '13px', fontWeight: 700, color: '#94A3B8' }}>{i + 1}</span>}
                   </div>
 
                   {/* Name */}
@@ -136,7 +136,7 @@ export default function TheLeaderboard() {
 
                   {/* Rank badge */}
                   <div>
-                    <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#8899B4', fontWeight: 600, textTransform: 'capitalize' }}>
+                    <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#94A3B8', fontWeight: 600, textTransform: 'capitalize' }}>
                       {entry.rank || 'rookie'}
                     </span>
                   </div>

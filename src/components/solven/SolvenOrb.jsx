@@ -114,7 +114,7 @@ function OrbCanvas({ color = '#6366F1', size = 44, active = false }) {
       const core = ctx.createRadialGradient(cx - R * 0.2, cy - R * 0.2, 1, cx, cy, R * 0.7);
       core.addColorStop(0, '#fff');
       core.addColorStop(0.3, color);
-      core.addColorStop(1, '#0B1220');
+      core.addColorStop(1, '#0A0C1E');
       ctx.beginPath(); ctx.arc(cx, cy, R * 0.7, 0, Math.PI * 2);
       ctx.fillStyle = core; ctx.fill();
 
@@ -209,7 +209,7 @@ export default function SolvenOrb() {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             style={{
               width: '320px',
-              background: 'rgba(11,18,32,0.98)',
+              background: 'rgba(10,12,30,0.98)',
               border: `1px solid ${ctx.color}30`,
               borderRadius: '16px',
               overflow: 'hidden',
@@ -240,7 +240,7 @@ export default function SolvenOrb() {
                   Full AI <ArrowRight size={9} />
                 </button>
                 <button onClick={() => setOpen(false)}
-                  style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '6px', padding: '4px', cursor: 'pointer', color: '#8899B4', display: 'flex', alignItems: 'center' }}>
+                  style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '6px', padding: '4px', cursor: 'pointer', color: '#94A3B8', display: 'flex', alignItems: 'center' }}>
                   <X size={13} />
                 </button>
               </div>
@@ -248,7 +248,7 @@ export default function SolvenOrb() {
 
             {/* Live Insights */}
             <div style={{ padding: '12px 14px', borderBottom: `1px solid rgba(255,255,255,0.05)` }}>
-              <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', letterSpacing: '0.2em', color: '#8899B4', marginBottom: '8px' }}>
+              <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', letterSpacing: '0.2em', color: '#94A3B8', marginBottom: '8px' }}>
                 LIVE INSIGHTS · {ctx.name}
               </div>
               {ctx.insights.map((ins, i) => (
@@ -351,7 +351,7 @@ export default function SolvenOrb() {
         <div style={{
           position: 'absolute', top: '-4px', right: '-4px',
           width: '16px', height: '16px', borderRadius: '50%',
-          background: '#EF4444', border: '2px solid #03080F',
+          background: '#EF4444', border: '2px solid #05050C',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: "'Orbitron', sans-serif", fontSize: '8px', fontWeight: 700, color: '#fff',
           zIndex: 1,
@@ -363,7 +363,7 @@ export default function SolvenOrb() {
           whileTap={{ scale: 0.95 }}
           style={{
             width: '52px', height: '52px', borderRadius: '50%',
-            background: 'rgba(11,18,32,0.98)',
+            background: 'rgba(10,12,30,0.98)',
             border: `2px solid ${ctx.color}60`,
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 24px ${ctx.color}30`,

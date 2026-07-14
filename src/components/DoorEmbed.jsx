@@ -28,7 +28,7 @@ export default function DoorEmbed({ door, onClose }) {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           style={{
-            background: 'rgba(11,18,32,0.95)',
+            background: 'rgba(10,12,30,0.95)',
             border: `1px solid ${config.color}40`,
             borderRadius: '12px',
             padding: '8px 16px',
@@ -60,7 +60,7 @@ export default function DoorEmbed({ door, onClose }) {
             onClick={onClose}
             style={{
               background: 'transparent', border: 'none',
-              color: '#8899B4', cursor: 'pointer', padding: '2px',
+              color: '#94A3B8', cursor: 'pointer', padding: '2px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
             <X size={12} />
@@ -101,7 +101,7 @@ export default function DoorEmbed({ door, onClose }) {
 
         {/* Header bar */}
         <div style={{
-          background: 'rgba(3,8,15,0.98)',
+          background: 'rgba(5,5,12,0.98)',
           backdropFilter: 'blur(20px)',
           borderBottom: `1px solid ${config.color}20`,
           padding: '0 16px',
@@ -128,7 +128,7 @@ export default function DoorEmbed({ door, onClose }) {
               }}>
                 {config.label}
               </div>
-              <div style={{ fontSize: '9px', color: '#8899B4' }}>{config.subtitle}</div>
+              <div style={{ fontSize: '9px', color: '#94A3B8' }}>{config.subtitle}</div>
             </div>
             {/* Live indicator */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginLeft: '8px' }}>
@@ -152,7 +152,7 @@ export default function DoorEmbed({ door, onClose }) {
               style={{
                 width: '28px', height: '28px', borderRadius: '7px',
                 background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
-                cursor: 'pointer', color: '#8899B4',
+                cursor: 'pointer', color: '#94A3B8',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
               title="Minimize">
@@ -164,7 +164,7 @@ export default function DoorEmbed({ door, onClose }) {
               style={{
                 width: '28px', height: '28px', borderRadius: '7px',
                 background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
-                cursor: 'pointer', color: '#8899B4',
+                cursor: 'pointer', color: '#94A3B8',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
               title={maximized ? 'Restore' : 'Maximize'}>
@@ -200,7 +200,7 @@ export default function DoorEmbed({ door, onClose }) {
         {/* iFrame */}
         <iframe
           src={url}
-          style={{ flex: 1, border: 'none', background: '#03080F' }}
+          style={{ flex: 1, border: 'none', background: '#05050C' }}
           title={config.label}
           allow="clipboard-read; clipboard-write"
         />
