@@ -615,7 +615,7 @@ export default function TheArena() {
                   <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'center', gap:'16px' }}>
                     {top3.map((p,i)=>{
                       if (!p) return <div key={i} style={{ width:'120px' }} />;
-                      const rs = RANKS.find(r=>r.name===p.rank) ?? RANKS[0];
+                      const rs = getRankForXP(p.xp ?? 0);
                       const m  = MEDAL[i];
                       const pts = getDoorXP(p, doorTab);
                       return (
@@ -658,7 +658,7 @@ export default function TheArena() {
                 </div>
                 {rest.map(p=>{
                   const isYou = p.id === user?.id;
-                  const rs = RANKS.find(r=>r.name===p.rank) ?? RANKS[0];
+                  const rs = getRankForXP(p.xp ?? 0);
                   const pts = getDoorXP(p, doorTab);
                   const pct = Math.round((pts / getDoorXP(sortedBoard[0],doorTab)) * 100);
                   const pos = sortedBoard.indexOf(p) + 1;
