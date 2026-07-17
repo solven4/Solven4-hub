@@ -1,9 +1,17 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Maximize2, RefreshCw } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/lib/supabase';
+
+// HUB is the only client that ever calls Supabase's token-refresh endpoint —
+// each door disabled its own autoRefreshToken (see their supabaseClient.js)
+// specifically so they don't all race to refresh the same shared
+// refresh_token. Instead, HUB re-pushes its current (HUB-refreshed) session
+// into the iframe on this interval, well inside the ~1hr access-token
+// lifetime, so the door's session never actually goes stale.
+const REBRIDGE_INTERVAL_MS = 45 * 60 * 1000;
 
 const DOORS = {
   edge:   { label: 'S4 EDGE',   color: '#06B6D4', url: 'https://solven4-edge-six.vercel.app',   desc: 'Trading Intelligence' },
@@ -19,6 +27,24 @@ export default function DoorFrame() {
   const iframeRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [key, setKey] = useState(0);
+
+  const bridgeSession = useCallback(async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage({
+          type: 'SOLVEN4_AUTH',
+          access_token: session.access_token,
+          refresh_token: session.refresh_token,
+        }, '*');
+      }
+    } catch (_) {}
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(bridgeSession, REBRIDGE_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [bridgeSession, key]);
 
   if (!door) {
     navigate('/dashboard/command');
@@ -151,19 +177,9 @@ export default function DoorFrame() {
           key={key}
           ref={iframeRef}
           src={door.url}
-          onLoad={async () => {
+          onLoad={() => {
             setLoading(false);
-            // Bridge auth session to the door iframe (cross-origin, so postMessage is required)
-            try {
-              const { data: { session } } = await supabase.auth.getSession();
-              if (session && iframeRef.current?.contentWindow) {
-                iframeRef.current.contentWindow.postMessage({
-                  type: 'SOLVEN4_AUTH',
-                  access_token: session.access_token,
-                  refresh_token: session.refresh_token,
-                }, '*');
-              }
-            } catch (_) {}
+            bridgeSession();
           }}
           style={{
             width: '100%', height: '100%', border: 'none',
