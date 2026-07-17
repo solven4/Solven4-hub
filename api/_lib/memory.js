@@ -4,7 +4,6 @@
 
 const EMBED_MODEL = 'text-embedding-3-small';
 const MEMORY_LIMIT = 5;
-const MEMORY_TTL_DAYS = 90;
 
 export async function generateEmbedding(text) {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -23,20 +22,19 @@ export async function generateEmbedding(text) {
 export async function saveMemory(supabase, userId, door, feature, userMsg, aiResponse) {
   if (!userId) return;
   try {
-    const content = `User: ${userMsg}\nAssistant: ${aiResponse}`.slice(0, 4000);
+    const content = `[${feature}] User: ${userMsg}\nAssistant: ${aiResponse}`.slice(0, 4000);
     const embedding = await generateEmbedding(content);
 
     const record = {
-      user_id: userId,
-      door,
-      feature,
-      content_text: content,
-      expires_at: new Date(Date.now() + MEMORY_TTL_DAYS * 86400000).toISOString(),
+      owner_id: userId,
+      role: 'conversation',
+      content,
+      app: door,
       created_at: new Date().toISOString(),
     };
 
     if (embedding) {
-      record.content_vector = JSON.stringify(embedding);
+      record.embedding = JSON.stringify(embedding);
     }
 
     await supabase.from('memories').insert(record);
@@ -64,9 +62,8 @@ export async function getRelevantMemories(supabase, userId, queryText, limit = M
       // Fallback: recent memories by date (no vector search without OpenAI key)
       const { data: rows } = await supabase
         .from('memories')
-        .select('content_text, created_at')
-        .eq('user_id', userId)
-        .gt('expires_at', new Date().toISOString())
+        .select('content, created_at')
+        .eq('owner_id', userId)
         .order('created_at', { ascending: false })
         .limit(limit);
       data = rows;
@@ -75,7 +72,7 @@ export async function getRelevantMemories(supabase, userId, queryText, limit = M
     if (!data?.length) return '';
 
     const memorySummary = data
-      .map((m, i) => `[Memory ${i + 1}] ${m.content_text}`)
+      .map((m, i) => `[Memory ${i + 1}] ${m.content}`)
       .join('\n\n');
 
     return `\n\nRELEVANT CONVERSATION HISTORY:\n${memorySummary}\n`;
