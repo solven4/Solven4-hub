@@ -458,11 +458,15 @@ export default function TheArena() {
   const [challenges, setChallenges] = useState(CHALLENGES);
 
   useEffect(() => {
-    supabase.from('profiles').select('id,full_name,rank,xp,country').order('xp',{ascending:false}).limit(50)
-      .then(({ data }) => { setBoard(data?.length > 1 ? data : MOCK_BOARD); setLoading(false); });
+    supabase.from('profiles').select('id,full_name,rank,xp_points,country').order('xp_points',{ascending:false}).limit(50)
+      .then(({ data }) => {
+        const mapped = data?.map(p => ({ ...p, xp: p.xp_points }));
+        setBoard(mapped?.length > 1 ? mapped : MOCK_BOARD);
+        setLoading(false);
+      });
   }, [user]);
 
-  const myXP   = profile?.xp ?? 3400;
+  const myXP   = profile?.xp_points ?? 3400;
   const myRank = getRankForXP(myXP);
   const nextRank = getNextRank(myXP);
   const xpToNext = nextRank ? nextRank.minXP - myXP : 0;
