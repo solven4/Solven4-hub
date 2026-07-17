@@ -4,13 +4,14 @@ import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Eye, EyeOff, ArrowRight, Mail, Lock, User } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { useLang } from '@/lib/LanguageContext';
 
 const DOORS = [
-  { id: 'HUB',    label: 'S4 HUB',    color: '#6366F1', desc: 'Intelligence & Command' },
-  { id: 'EDGE',   label: 'S4 EDGE',   color: '#06B6D4', desc: 'Trader Platform' },
-  { id: 'FORGE',  label: 'S4 FORGE',  color: '#D4A843', desc: 'IB Operator' },
-  { id: 'ORACLE', label: 'S4 ORACLE', color: '#10B981', desc: 'Learning Academy' },
-  { id: 'NEXUS',  label: 'S4 NEXUS',  color: '#EF4444', desc: 'Business Command' },
+  { id: 'HUB',    label: 'S4 HUB',    color: '#6366F1', desc: 'Intelligence & Command', descAr: 'الذكاء والقيادة' },
+  { id: 'EDGE',   label: 'S4 EDGE',   color: '#06B6D4', desc: 'Trader Platform', descAr: 'منصة المتداول' },
+  { id: 'FORGE',  label: 'S4 FORGE',  color: '#D4A843', desc: 'IB Operator', descAr: 'مشغل الوسيط' },
+  { id: 'ORACLE', label: 'S4 ORACLE', color: '#10B981', desc: 'Learning Academy', descAr: 'أكاديمية التعلم' },
+  { id: 'NEXUS',  label: 'S4 NEXUS',  color: '#EF4444', desc: 'Business Command', descAr: 'قيادة الأعمال' },
 ];
 
 function ParticleOrb() {
@@ -47,6 +48,7 @@ function ParticleOrb() {
 
 export default function Register() {
   const navigate = useNavigate();
+  const { t, isAr, setLang } = useLang();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,9 +59,9 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!fullName || !email || !password) { toast.error('Fill all required fields'); return; }
-    if (password !== confirmPassword) { toast.error('Passwords do not match'); return; }
-    if (password.length < 6) { toast.error('Password must be at least 6 characters'); return; }
+    if (!fullName || !email || !password) { toast.error(t('Fill all required fields', 'املأ جميع الحقول المطلوبة')); return; }
+    if (password !== confirmPassword) { toast.error(t('Passwords do not match', 'كلمتا المرور غير متطابقتين')); return; }
+    if (password.length < 6) { toast.error(t('Password must be at least 6 characters', 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل')); return; }
     setLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
@@ -68,7 +70,7 @@ export default function Register() {
     });
     setLoading(false);
     if (error) { toast.error(error.message); return; }
-    toast.success('Account created! Welcome to SOLVEN4.');
+    toast.success(t('Account created! Welcome to SOLVEN4.', 'تم إنشاء الحساب! أهلاً بك في SOLVEN4.'));
     navigate('/dashboard');
   }
 
@@ -88,7 +90,7 @@ export default function Register() {
           <h1 style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 60px rgba(99,102,241,0.6)' }}
             className="text-5xl font-black text-white mb-3">SOLVEN4</h1>
           <p style={{ color: '#94A3B8', fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.3em', fontSize: '11px' }} className="mb-10">
-            CHOOSE YOUR DOOR
+            {t('CHOOSE YOUR DOOR', 'اختر بابك')}
           </p>
           <div className="space-y-3 max-w-xs mx-auto">
             {DOORS.map(door => (
@@ -98,7 +100,7 @@ export default function Register() {
                 <span style={{ fontFamily: "'Orbitron', sans-serif", color: primaryDoor === door.id ? door.color : '#94A3B8', fontSize: '11px', letterSpacing: '0.1em' }} className="font-bold">
                   {door.label}
                 </span>
-                <span style={{ color: '#94A3B8', fontSize: '11px' }} className="ml-auto">{door.desc}</span>
+                <span style={{ color: '#94A3B8', fontSize: '11px' }} className="ml-auto">{t(door.desc, door.descAr)}</span>
               </div>
             ))}
           </div>
@@ -115,22 +117,28 @@ export default function Register() {
             <span style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.15em', fontSize: '13px' }} className="text-white font-bold">SOLVEN4</span>
           </div>
 
-          <div className="mb-7">
-            <div style={{ color: '#6366F1', fontFamily: "'Orbitron', sans-serif", fontSize: '10px', letterSpacing: '0.3em' }} className="mb-2">
-              CREATE ACCOUNT
+          <div className="mb-7 flex items-start justify-between gap-4">
+            <div>
+              <div style={{ color: '#6366F1', fontFamily: "'Orbitron', sans-serif", fontSize: '10px', letterSpacing: '0.3em' }} className="mb-2">
+                {t('CREATE ACCOUNT', 'إنشاء حساب')}
+              </div>
+              <h2 style={{ fontFamily: "'Orbitron', sans-serif" }} className="text-2xl font-black text-white">
+                {t('Join SOLVEN4', 'انضم إلى SOLVEN4')}
+              </h2>
             </div>
-            <h2 style={{ fontFamily: "'Orbitron', sans-serif" }} className="text-2xl font-black text-white">
-              Join SOLVEN4
-            </h2>
+            <button type="button" onClick={() => setLang(isAr ? 'en' : 'ar')} aria-label={t('Switch language', 'تغيير اللغة')}
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #29293D', borderRadius: '8px', color: '#94A3B8', padding: '7px 10px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0 }}>
+              {isAr ? 'EN' : 'ع'}
+            </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name */}
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">FULL NAME</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">{t('FULL NAME', 'الاسم الكامل')}</label>
               <div className="relative">
                 <User size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
-                <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Your full name"
+                <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder={t('Your full name', 'اسمك الكامل')}
                   style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
                   className="w-full py-3 pr-4 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
               </div>
@@ -138,7 +146,7 @@ export default function Register() {
 
             {/* Email */}
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">EMAIL</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">{t('EMAIL', 'البريد الإلكتروني')}</label>
               <div className="relative">
                 <Mail size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="operator@solven4.com"
@@ -149,10 +157,10 @@ export default function Register() {
 
             {/* Password */}
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">PASSWORD</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">{t('PASSWORD', 'كلمة المرور')}</label>
               <div className="relative">
                 <Lock size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
-                <input type={showPass ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="Min 6 characters"
+                <input type={showPass ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder={t('Min 6 characters', '6 أحرف على الأقل')}
                   style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px', paddingRight: '38px' }}
                   className="w-full py-3 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
                 <button type="button" onClick={() => setShowPass(v => !v)}
@@ -164,10 +172,10 @@ export default function Register() {
 
             {/* Confirm Password */}
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">CONFIRM PASSWORD</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-1.5 font-medium">{t('CONFIRM PASSWORD', 'تأكيد كلمة المرور')}</label>
               <div className="relative">
                 <Lock size={15} style={{ position: 'absolute', left: '13px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
-                <input type={showPass ? 'text' : 'password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password"
+                <input type={showPass ? 'text' : 'password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder={t('Repeat password', 'أعد كتابة كلمة المرور')}
                   style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '38px' }}
                   className="w-full py-3 pr-4 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600" />
               </div>
@@ -175,7 +183,7 @@ export default function Register() {
 
             {/* Door selector */}
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">PRIMARY DOOR</label>
+              <label style={{ color: '#94A3B8', fontSize: '11px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">{t('PRIMARY DOOR', 'الباب الأساسي')}</label>
               <div className="grid grid-cols-5 gap-2">
                 {DOORS.map(door => (
                   <button key={door.id} type="button" onClick={() => setPrimaryDoor(door.id)}
@@ -192,21 +200,21 @@ export default function Register() {
                 ))}
               </div>
               {selectedDoor && (
-                <p style={{ color: selectedDoor.color, fontSize: '11px' }} className="mt-1.5">{selectedDoor.desc}</p>
+                <p style={{ color: selectedDoor.color, fontSize: '11px' }} className="mt-1.5">{t(selectedDoor.desc, selectedDoor.descAr)}</p>
               )}
             </div>
 
             <button type="submit" disabled={loading}
               style={{ background: loading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '10px', width: '100%' }}
               className="py-3.5 text-white font-bold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:cursor-not-allowed mt-2">
-              {loading ? 'Creating Account...' : (<>Join SOLVEN4 <ArrowRight size={16} /></>)}
+              {loading ? t('Creating Account...', 'جارٍ إنشاء الحساب...') : (<>{t('Join SOLVEN4', 'انضم إلى SOLVEN4')} <ArrowRight size={16} style={isAr ? { transform: 'scaleX(-1)' } : undefined} /></>)}
             </button>
           </form>
 
           <p style={{ color: '#94A3B8', fontSize: '13px' }} className="text-center mt-5">
-            Already an operator?{' '}
+            {t('Already an operator?', 'لديك حساب بالفعل؟')}{' '}
             <Link to="/auth/login" style={{ color: '#6366F1' }} className="font-semibold hover:opacity-80 transition-opacity">
-              Sign in
+              {t('Sign in', 'تسجيل الدخول')}
             </Link>
           </p>
         </motion.div>

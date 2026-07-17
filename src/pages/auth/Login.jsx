@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { SEO } from '@/components/SEO';
+import { useLang } from '@/lib/LanguageContext';
 
 const DOOR_DOTS = [
   { color: '#6366F1' },
@@ -52,6 +53,7 @@ function ParticleOrb() {
 
 export default function Login() {
   const navigate = useNavigate();
+  const { t, lang, setLang, isAr } = useLang();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -59,12 +61,12 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!email || !password) { toast.error('Enter your email and password'); return; }
+    if (!email || !password) { toast.error(t('Enter your email and password', 'أدخل بريدك الإلكتروني وكلمة المرور')); return; }
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) { toast.error(error.message); return; }
-    toast.success('Welcome back, Operator');
+    toast.success(t('Welcome back, Operator', 'أهلاً بعودتك أيها المشغل'));
     navigate('/dashboard');
   }
 
@@ -94,14 +96,14 @@ export default function Login() {
             SOLVEN4
           </h1>
           <p style={{ color: '#94A3B8', fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.3em', fontSize: '11px' }}>
-            INTELLIGENCE PLATFORM
+            {t('INTELLIGENCE PLATFORM', 'منصة الذكاء')}
           </p>
           <div className="flex items-center justify-center gap-3 mt-10">
             {DOOR_DOTS.map((d, i) => (
               <div key={i} className="w-3 h-3 rounded-full" style={{ background: d.color, boxShadow: `0 0 12px ${d.color}` }} />
             ))}
           </div>
-          <p style={{ color: '#94A3B8', fontSize: '13px' }} className="mt-6">Five doors. One identity.</p>
+          <p style={{ color: '#94A3B8', fontSize: '13px' }} className="mt-6">{t('Five doors. One identity.', 'خمسة أبواب. هوية واحدة.')}</p>
         </div>
       </div>
 
@@ -115,21 +117,27 @@ export default function Login() {
             <span style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.15em', fontSize: '13px' }} className="text-white font-bold">SOLVEN4</span>
           </div>
 
-          <div className="mb-8">
-            <div style={{ color: '#6366F1', fontFamily: "'Orbitron', sans-serif", fontSize: '10px', letterSpacing: '0.3em' }} className="mb-2">
-              OPERATOR ACCESS
+          <div className="mb-8 flex items-start justify-between gap-4">
+            <div>
+              <div style={{ color: '#6366F1', fontFamily: "'Orbitron', sans-serif", fontSize: '10px', letterSpacing: '0.3em' }} className="mb-2">
+                {t('OPERATOR ACCESS', 'دخول المشغل')}
+              </div>
+              <h2 style={{ fontFamily: "'Orbitron', sans-serif" }} className="text-3xl font-black text-white">
+                {t('Welcome back,', 'أهلاً بعودتك،')}
+              </h2>
+              <h2 style={{ fontFamily: "'Orbitron', sans-serif", color: '#6366F1' }} className="text-3xl font-black">
+                {t('Operator', 'أيها المشغل')}
+              </h2>
             </div>
-            <h2 style={{ fontFamily: "'Orbitron', sans-serif" }} className="text-3xl font-black text-white">
-              Welcome back,
-            </h2>
-            <h2 style={{ fontFamily: "'Orbitron', sans-serif", color: '#6366F1' }} className="text-3xl font-black">
-              Operator
-            </h2>
+            <button type="button" onClick={() => setLang(isAr ? 'en' : 'ar')} aria-label={t('Switch language', 'تغيير اللغة')}
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #29293D', borderRadius: '8px', color: '#94A3B8', padding: '7px 10px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0 }}>
+              {isAr ? 'EN' : 'ع'}
+            </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '12px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">EMAIL</label>
+              <label style={{ color: '#94A3B8', fontSize: '12px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">{t('EMAIL', 'البريد الإلكتروني')}</label>
               <div className="relative">
                 <Mail size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input
@@ -142,7 +150,7 @@ export default function Login() {
             </div>
 
             <div>
-              <label style={{ color: '#94A3B8', fontSize: '12px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">PASSWORD</label>
+              <label style={{ color: '#94A3B8', fontSize: '12px', letterSpacing: '0.08em' }} className="block mb-2 font-medium">{t('PASSWORD', 'كلمة المرور')}</label>
               <div className="relative">
                 <Lock size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
                 <input
@@ -161,13 +169,13 @@ export default function Login() {
             <button type="submit" disabled={loading}
               style={{ background: loading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '10px', width: '100%' }}
               className="py-3.5 text-white font-bold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:cursor-not-allowed mt-2">
-              {loading ? 'Connecting...' : (<>Enter Platform <ArrowRight size={16} /></>)}
+              {loading ? t('Connecting...', 'جارٍ الاتصال...') : (<>{t('Enter Platform', 'ادخل المنصة')} <ArrowRight size={16} style={isAr ? { transform: 'scaleX(-1)' } : undefined} /></>)}
             </button>
           </form>
 
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px" style={{ background: '#29293D' }} />
-            <span style={{ color: '#94A3B8', fontSize: '12px' }}>or</span>
+            <span style={{ color: '#94A3B8', fontSize: '12px' }}>{t('or', 'أو')}</span>
             <div className="flex-1 h-px" style={{ background: '#29293D' }} />
           </div>
 
@@ -180,13 +188,13 @@ export default function Login() {
               <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
               <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
             </svg>
-            Continue with Google
+            {t('Continue with Google', 'المتابعة عبر جوجل')}
           </button>
 
           <p style={{ color: '#94A3B8', fontSize: '13px' }} className="text-center mt-6">
-            No account?{' '}
+            {t('No account?', 'ليس لديك حساب؟')}{' '}
             <Link to="/auth/register" style={{ color: '#6366F1' }} className="font-semibold hover:opacity-80 transition-opacity">
-              Create account
+              {t('Create account', 'أنشئ حساباً')}
             </Link>
           </p>
         </motion.div>

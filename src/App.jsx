@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import { supabase } from '@/lib/supabase';
+import { LanguageProvider, useLang } from '@/lib/LanguageContext';
 import { useAuthStore } from '@/store/authStore';
 import AppLayout from '@/components/layout/AppLayout';
 import Landing from '@/pages/Landing';
@@ -53,8 +54,14 @@ function PublicRoute({ children }) {
   return !user ? children : <Navigate to="/dashboard" replace />;
 }
 
-export default function App() {
+function InnerApp() {
   const { setSession, setLoading, fetchProfile } = useAuthStore();
+  const { isAr } = useLang();
+
+  useEffect(() => {
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+    document.documentElement.lang = isAr ? 'ar' : 'en';
+  }, [isAr]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -113,5 +120,13 @@ export default function App() {
     </BrowserRouter>
     </MaintenanceGate>
     </HelmetProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <InnerApp />
+    </LanguageProvider>
   );
 }

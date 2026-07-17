@@ -11,55 +11,56 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
 import { useEmbed } from '@/context/EmbedContext';
+import { useLang } from '@/lib/LanguageContext';
 
 const NAV_GROUPS = [
   {
     key: 'core',
-    label: 'CORE',
+    label: 'CORE', labelAr: 'الأساسيات',
     items: [
-      { label: 'Command',        Icon: LayoutDashboard, to: '/dashboard/command' },
-      { label: 'Profile & KYC', Icon: UserCircle,       to: '/dashboard/profile' },
-      { label: 'Subscription',  Icon: CreditCard,       to: '/dashboard/subscription' },
-      { label: 'Settings',      Icon: Settings,         to: '/dashboard/settings' },
+      { label: 'Command',       labelAr: 'القيادة',        Icon: LayoutDashboard, to: '/dashboard/command' },
+      { label: 'Profile & KYC', labelAr: 'الملف الشخصي',   Icon: UserCircle,      to: '/dashboard/profile' },
+      { label: 'Subscription',  labelAr: 'الاشتراك',       Icon: CreditCard,      to: '/dashboard/subscription' },
+      { label: 'Settings',      labelAr: 'الإعدادات',      Icon: Settings,        to: '/dashboard/settings' },
     ],
   },
   {
     key: 'intelligence',
-    label: 'INTELLIGENCE',
+    label: 'INTELLIGENCE', labelAr: 'الذكاء',
     items: [
-      { label: 'The Vault',   Icon: Wallet,   to: '/dashboard/vault' },
-      { label: 'The Pulse',   Icon: Radio,    to: '/dashboard/pulse' },
-      { label: 'The Matrix',  Icon: Activity, to: '/dashboard/matrix' },
-      { label: 'The Score',   Icon: Star,     to: '/dashboard/score' },
-      { label: 'The Brain',   Icon: Brain,    to: '/dashboard/brain' },
-      { label: 'The Signals', Icon: Cpu,      to: '/dashboard/signals' },
-      { label: 'Blueprint',   Icon: Map,      to: '/dashboard/blueprint' },
-      { label: 'The Web',     Icon: Globe,    to: '/dashboard/web' },
+      { label: 'The Vault',   labelAr: 'الخزنة',       Icon: Wallet,   to: '/dashboard/vault' },
+      { label: 'The Pulse',   labelAr: 'النبض',        Icon: Radio,    to: '/dashboard/pulse' },
+      { label: 'The Matrix',  labelAr: 'المصفوفة',     Icon: Activity, to: '/dashboard/matrix' },
+      { label: 'The Score',   labelAr: 'النقاط',       Icon: Star,     to: '/dashboard/score' },
+      { label: 'The Brain',   labelAr: 'العقل',        Icon: Brain,    to: '/dashboard/brain' },
+      { label: 'The Signals', labelAr: 'الإشارات',     Icon: Cpu,      to: '/dashboard/signals' },
+      { label: 'Blueprint',   labelAr: 'المخطط',       Icon: Map,      to: '/dashboard/blueprint' },
+      { label: 'The Web',     labelAr: 'الشبكة',       Icon: Globe,    to: '/dashboard/web' },
     ],
   },
   {
     key: 'network',
-    label: 'NETWORK',
+    label: 'NETWORK', labelAr: 'الشبكة',
     items: [
-      { label: 'Network Hub',       Icon: Users,    to: '/dashboard/network' },
-      { label: 'Referral Center',   Icon: Network,  to: '/dashboard/referral' },
-      { label: 'Commission Engine', Icon: DollarSign, to: '/dashboard/commission' },
-      { label: 'Leaderboard',       Icon: Trophy,   to: '/dashboard/leaderboard' },
-      { label: 'Arena',             Icon: Shield,   to: '/dashboard/arena' },
+      { label: 'Network Hub',       labelAr: 'مركز الشبكة',    Icon: Users,      to: '/dashboard/network' },
+      { label: 'Referral Center',   labelAr: 'مركز الإحالة',   Icon: Network,    to: '/dashboard/referral' },
+      { label: 'Commission Engine', labelAr: 'محرك العمولات',  Icon: DollarSign, to: '/dashboard/commission' },
+      { label: 'Leaderboard',       labelAr: 'لوحة الصدارة',   Icon: Trophy,     to: '/dashboard/leaderboard' },
+      { label: 'Arena',             labelAr: 'الساحة',         Icon: Shield,     to: '/dashboard/arena' },
     ],
   },
   {
     key: 'connect',
-    label: 'CONNECT',
+    label: 'CONNECT', labelAr: 'الربط',
     items: [
-      { label: 'Integrations', Icon: Globe, to: '/dashboard/integrations' },
-      { label: 'Automation',   Icon: Zap,   to: '/dashboard/automation' },
-      { label: 'Broker B2B',   Icon: Eye,   to: '/dashboard/broker' },
+      { label: 'Integrations', labelAr: 'التكاملات', Icon: Globe, to: '/dashboard/integrations' },
+      { label: 'Automation',   labelAr: 'الأتمتة',   Icon: Zap,   to: '/dashboard/automation' },
+      { label: 'Broker B2B',   labelAr: 'وسيط B2B',  Icon: Eye,   to: '/dashboard/broker' },
     ],
   },
 ];
 
-const SOLVEN_AI = { label: 'SOLVEN AI', Icon: Brain, to: '/dashboard/agent', accent: '#6366F1' };
+const SOLVEN_AI = { label: 'SOLVEN AI', labelAr: 'سولفن AI', Icon: Brain, to: '/dashboard/agent', accent: '#6366F1' };
 
 const DOOR_LINKS = [
   { key: 'EDGE',   label: 'S4 EDGE',   color: '#06B6D4', url: 'https://solven4-edge-six.vercel.app' },
@@ -87,6 +88,7 @@ export default function Sidebar({ isAdmin = false }) {
   const { openDoor } = useEmbed();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t, lang, setLang, isAr } = useLang();
 
   const displayName = profile?.full_name || user?.email?.split('@')[0] || 'Operator';
   const initials = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
@@ -143,7 +145,7 @@ export default function Sidebar({ isAdmin = false }) {
         width: W, minWidth: W, maxWidth: W,
         background: S.bg,
         backdropFilter: 'blur(24px)',
-        borderRight: `1px solid ${S.border}`,
+        [isAr ? 'borderLeft' : 'borderRight']: `1px solid ${S.border}`,
         display: 'flex', flexDirection: 'column',
         height: '100vh', position: 'sticky', top: 0,
         overflow: 'hidden', flexShrink: 0,
@@ -181,7 +183,7 @@ export default function Sidebar({ isAdmin = false }) {
 
       {/* SOLVEN AI — Featured */}
       <div style={{ padding: '10px 8px 4px' }}>
-        <NavItem {...SOLVEN_AI} />
+        <NavItem {...SOLVEN_AI} label={t(SOLVEN_AI.label, SOLVEN_AI.labelAr)} />
       </div>
 
       {/* NAV GROUPS */}
@@ -190,12 +192,12 @@ export default function Sidebar({ isAdmin = false }) {
         {isAdmin && (
           <div style={{ marginBottom: '8px' }}>
             {!collapsed && (
-              <div style={{ ...S.groupLabel, padding: '0 10px', marginBottom: '6px', display: 'block' }}>ADMIN</div>
+              <div style={{ ...S.groupLabel, padding: '0 10px', marginBottom: '6px', display: 'block' }}>{t('ADMIN', 'الإدارة')}</div>
             )}
-            {ADMIN_NAV.map(item => <NavItem key={item.to} {...item} />)}
+            {ADMIN_NAV.map(item => <NavItem key={item.to} {...item} label={t(item.label, item.labelAr)} />)}
           </div>
         )}
-        {!isAdmin && NAV_GROUPS.map(({ key, label, items }) => (
+        {!isAdmin && NAV_GROUPS.map(({ key, label, labelAr, items }) => (
           <div key={key} style={{ marginBottom: '4px' }}>
             {/* Group header */}
             <button
@@ -214,7 +216,7 @@ export default function Sidebar({ isAdmin = false }) {
                 {!collapsed && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1 }}>
-                    <span style={S.groupLabel}>{label}</span>
+                    <span style={S.groupLabel}>{t(label, labelAr)}</span>
                     <div style={{ flex: 1, height: '1px', background: S.border, marginLeft: '4px' }} />
                     <ChevronDown size={10} style={{ color: S.text, transform: openGroups[key] ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.2s' }} />
                   </motion.div>
@@ -236,7 +238,7 @@ export default function Sidebar({ isAdmin = false }) {
                   transition={{ duration: 0.18, ease: 'easeInOut' }}
                   style={{ overflow: 'hidden' }}>
                   {items.map(item => (
-                    <NavItem key={item.to} {...item} />
+                    <NavItem key={item.to} {...item} label={t(item.label, item.labelAr)} />
                   ))}
                 </motion.div>
               )}
@@ -248,7 +250,7 @@ export default function Sidebar({ isAdmin = false }) {
         {!isAdmin && <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: `1px solid ${S.border}` }}>
           {!collapsed && (
             <div style={{ ...S.groupLabel, padding: '0 10px', marginBottom: '8px', display: 'block' }}>
-              S4 DOORS
+              {t('S4 DOORS', 'أبواب S4')}
             </div>
           )}
           {DOOR_LINKS.map(({ key, label, color, url }) => (
@@ -330,16 +332,39 @@ export default function Sidebar({ isAdmin = false }) {
           </AnimatePresence>
         </div>
 
+        {/* Language toggle */}
+        <button onClick={() => setLang(isAr ? 'en' : 'ar')}
+          aria-label={t('Switch language', 'تغيير اللغة')}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '10px',
+            padding: collapsed ? '7px 0' : '7px 10px', justifyContent: collapsed ? 'center' : 'flex-start',
+            width: '100%', borderRadius: '8px', marginBottom: '3px',
+            background: 'transparent', border: '1px solid transparent',
+            cursor: 'pointer', color: S.text, transition: 'all 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = '#fff'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = S.text; }}>
+          <Globe size={15} style={{ flexShrink: 0 }} />
+          <AnimatePresence>
+            {!collapsed && (
+              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
+                style={{ fontSize: '12.5px', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                {isAr ? 'English' : 'العربية'}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+
         {/* Legal links */}
         <AnimatePresence>
           {!collapsed && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
               style={{ display: 'flex', gap: '8px', padding: '4px 10px 6px', flexWrap: 'wrap' }}>
-              {[['Terms', '/legal/terms'], ['Privacy', '/legal/privacy'], ['Risk', '/legal/risk']].map(([label, to]) => (
+              {[['Terms', 'الشروط', '/legal/terms'], ['Privacy', 'الخصوصية', '/legal/privacy'], ['Risk', 'المخاطر', '/legal/risk']].map(([label, labelAr, to]) => (
                 <NavLink key={to} to={to} style={{ fontSize: '9px', color: '#5a6a80', textDecoration: 'none', letterSpacing: '0.05em' }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#94A3B8'; }}
                   onMouseLeave={e => { e.currentTarget.style.color = '#5a6a80'; }}>
-                  {label}
+                  {t(label, labelAr)}
                 </NavLink>
               ))}
             </motion.div>
@@ -361,7 +386,7 @@ export default function Sidebar({ isAdmin = false }) {
             {!collapsed && (
               <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
                 style={{ fontSize: '12.5px', fontWeight: 500, whiteSpace: 'nowrap' }}>
-                Sign Out
+                {t('Sign Out', 'تسجيل الخروج')}
               </motion.span>
             )}
           </AnimatePresence>
