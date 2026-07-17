@@ -85,20 +85,26 @@ export default function DoorFrame() {
         </button>
 
         <button
-          onClick={async () => {
-            try {
-              const { data: { session } } = await supabase.auth.getSession();
-              if (session) {
+          onClick={() => {
+            // window.open() must fire synchronously inside the click handler —
+            // browsers drop the "trusted user gesture" the moment you await
+            // anything first, and silently block the popup. Open the tab
+            // immediately, then point it at the right URL once the session
+            // (async) is ready.
+            const win = window.open('', '_blank');
+            (async () => {
+              try {
+                const { data: { session } } = await supabase.auth.getSession();
                 const url = new URL(door.url);
-                url.searchParams.set('s4_at', session.access_token);
-                url.searchParams.set('s4_rt', session.refresh_token);
-                window.open(url.toString(), '_blank');
-              } else {
-                window.open(door.url, '_blank');
+                if (session) {
+                  url.searchParams.set('s4_at', session.access_token);
+                  url.searchParams.set('s4_rt', session.refresh_token);
+                }
+                if (win) win.location.href = url.toString();
+              } catch {
+                if (win) win.location.href = door.url;
               }
-            } catch {
-              window.open(door.url, '_blank');
-            }
+            })();
           }}
           style={{
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
