@@ -90,7 +90,7 @@ export default function TheSubscription() {
         .then(r => r.json())
         .then(data => {
           const map = {};
-          (Array.isArray(data) ? data : []).forEach(t => { map[t.tier] = t; });
+          (Array.isArray(data) ? data : []).forEach(t => { map[String(t.tier).toLowerCase()] = t; });
           setInventory(map);
         })
         .catch(() => {})
