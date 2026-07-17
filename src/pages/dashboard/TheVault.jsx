@@ -100,7 +100,7 @@ function SparkBar({ data, maxVal }) {
 }
 
 function TxRow({ tx }) {
-  const isCredit = ['commission','deposit','refund'].includes(tx.type);
+  const isCredit = ['commission','deposit','refund','referral','copy_trade','xp_bonus','arena_prize'].includes(tx.type);
   const sc = STATUS_CFG[tx.status] ?? STATUS_CFG.pending;
   const SIcon = sc.Icon;
   return (
@@ -536,7 +536,7 @@ export default function TheVault() {
 
   const balance  = wallet?.balance ?? 0;
   const pending  = wallet?.pending_balance ?? wallet?.pending ?? 0;
-  const lifetime = wallet?.lifetime_earned ?? 0;
+  const lifetime = wallet?.total_earned ?? wallet?.lifetime_earned ?? 0;
   const currency = wallet?.currency ?? 'USD';
   const target   = wallet?.monthly_target ?? 15000;
   const commPend = wallet?.commission_pending ?? 0;
