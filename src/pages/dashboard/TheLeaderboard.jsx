@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
 import { Trophy, Medal, Crown, TrendingUp, Users, Star } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = {
   card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
@@ -22,6 +23,7 @@ const MEDALS = [
 ];
 
 export default function TheLeaderboard() {
+  const { t } = useLang();
   const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState('hub');
   const [entries, setEntries] = useState([]);
@@ -43,9 +45,9 @@ export default function TheLeaderboard() {
     <div style={{ maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          LEADERBOARD
+          {t('LEADERBOARD', 'لوحة الصدارة')}
         </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Cross-door rankings — unified across SOLVEN4</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Cross-door rankings — unified across SOLVEN4', 'ترتيب موحد عبر جميع أبواب SOLVEN4')}</p>
       </div>
 
       {/* Door tabs */}
@@ -71,7 +73,7 @@ export default function TheLeaderboard() {
             #{myRank}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>Your Ranking</div>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{t('Your Ranking', 'ترتيبك')}</div>
             <div style={{ fontSize: '11px', color: '#94A3B8' }}>{activeDoor.label} · {activeDoor.sublabel}</div>
           </div>
           <Star size={18} color={activeDoor.color} />
@@ -81,17 +83,17 @@ export default function TheLeaderboard() {
       {/* Leaderboard table */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={S.card}>
         {loading ? (
-          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '40px', fontSize: '13px' }}>Loading rankings...</div>
+          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '40px', fontSize: '13px' }}>{t('Loading rankings...', 'جارٍ تحميل الترتيب...')}</div>
         ) : entries.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '40px' }}>
             <Trophy size={40} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#94A3B8', fontSize: '13px' }}>No rankings yet. Be the first!</p>
+            <p style={{ color: '#94A3B8', fontSize: '13px' }}>{t('No rankings yet. Be the first!', 'لا يوجد ترتيب بعد. كن الأول!')}</p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '48px 1fr 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '4px' }}>
-              {['#', 'Operator', 'Rank', activeDoor.metric.toUpperCase()].map(h => (
+              {['#', t('Operator','المشغل'), t('Rank','الرتبة'), activeDoor.metric.toUpperCase()].map(h => (
                 <div key={h} style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
               ))}
             </div>
@@ -129,7 +131,7 @@ export default function TheLeaderboard() {
                     </div>
                     <div style={{ minWidth: 0 }}>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: isMe ? activeDoor.color : '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {entry.full_name || 'Anonymous'} {isMe && '(you)'}
+                        {entry.full_name || t('Anonymous','مجهول')} {isMe && `(${t('you','أنت')})`}
                       </div>
                     </div>
                   </div>

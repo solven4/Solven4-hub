@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
 import { DollarSign, TrendingUp, Users, Download, Calendar, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = {
   card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
@@ -10,12 +11,13 @@ const S = {
 };
 
 const STATUS_STYLES = {
-  paid:    { color: '#10B981', bg: 'rgba(16,185,129,0.1)',  Icon: CheckCircle, label: 'Paid' },
-  pending: { color: '#F59E0B', bg: 'rgba(245,158,11,0.1)', Icon: Clock,        label: 'Pending' },
-  failed:  { color: '#EF4444', bg: 'rgba(239,68,68,0.1)',  Icon: AlertCircle,  label: 'Failed' },
+  paid:    { color: '#10B981', bg: 'rgba(16,185,129,0.1)',  Icon: CheckCircle, label: 'Paid', labelAr: 'مدفوع' },
+  pending: { color: '#F59E0B', bg: 'rgba(245,158,11,0.1)', Icon: Clock,        label: 'Pending', labelAr: 'قيد الانتظار' },
+  failed:  { color: '#EF4444', bg: 'rgba(239,68,68,0.1)',  Icon: AlertCircle,  label: 'Failed', labelAr: 'فشل' },
 };
 
 export default function TheCommission() {
+  const { t } = useLang();
   const { user } = useAuthStore();
   const [commissions, setCommissions] = useState([]);
   const [members, setMembers] = useState([]);
@@ -44,22 +46,22 @@ export default function TheCommission() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
         <div>
           <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-            COMMISSION ENGINE
+            {t('COMMISSION ENGINE', 'محرك العمولات')}
           </h1>
-          <p style={{ fontSize: '13px', color: '#94A3B8' }}>Track earnings across your entire network</p>
+          <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Track earnings across your entire network', 'تتبع الأرباح عبر شبكتك بالكامل')}</p>
         </div>
         <button style={{ padding: '10px 18px', borderRadius: '10px', border: '1px solid rgba(212,168,67,0.3)', background: 'rgba(212,168,67,0.1)', color: '#D4A843', fontSize: '12px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Download size={13} /> Export CSV
+          <Download size={13} /> {t('Export CSV', 'تصدير CSV')}
         </button>
       </div>
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '24px' }}>
         {[
-          { label: 'Total Earned', value: `$${totalEarned.toFixed(2)}`, color: '#10B981', Icon: DollarSign },
-          { label: 'Pending', value: `$${totalPending.toFixed(2)}`, color: '#F59E0B', Icon: Clock },
-          { label: 'Active Traders', value: members.length.toString(), color: '#3B82F6', Icon: Users },
-          { label: 'Total Lots', value: totalLots.toFixed(2), color: '#D4A843', Icon: TrendingUp },
+          { label: t('Total Earned', 'إجمالي الأرباح'), value: `$${totalEarned.toFixed(2)}`, color: '#10B981', Icon: DollarSign },
+          { label: t('Pending', 'قيد الانتظار'), value: `$${totalPending.toFixed(2)}`, color: '#F59E0B', Icon: Clock },
+          { label: t('Active Traders', 'المتداولون النشطون'), value: members.length.toString(), color: '#3B82F6', Icon: Users },
+          { label: t('Total Lots', 'إجمالي اللوتات'), value: totalLots.toFixed(2), color: '#D4A843', Icon: TrendingUp },
         ].map(({ label, value, color, Icon }, i) => (
           <motion.div key={label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} style={S.statCard(color)}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
@@ -76,35 +78,35 @@ export default function TheCommission() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <DollarSign size={15} color="#D4A843" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#D4A843', fontWeight: 700 }}>COMMISSION LOG</span>
+            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#D4A843', fontWeight: 700 }}>{t('COMMISSION LOG', 'سجل العمولات')}</span>
           </div>
           {/* Filter tabs */}
           <div style={{ display: 'flex', gap: '6px' }}>
-            {['all', 'paid', 'pending', 'failed'].map(f => (
+            {[['all', t('all','الكل')], ['paid', t('paid','مدفوع')], ['pending', t('pending','قيد الانتظار')], ['failed', t('failed','فشل')]].map(([f, fLabel]) => (
               <button key={f} onClick={() => setFilter(f)}
                 style={{
                   padding: '5px 12px', borderRadius: '6px', border: 'none', cursor: 'pointer',
                   background: filter === f ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)',
                   color: filter === f ? '#818CF8' : '#94A3B8', fontSize: '11px', fontWeight: 600, textTransform: 'capitalize',
                 }}>
-                {f}
+                {fLabel}
               </button>
             ))}
           </div>
         </div>
 
         {loading ? (
-          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '32px' }}>Loading commissions...</div>
+          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '32px' }}>{t('Loading commissions...', 'جارٍ تحميل العمولات...')}</div>
         ) : visible.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '40px' }}>
             <DollarSign size={36} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#94A3B8', fontSize: '13px' }}>No commissions found</p>
+            <p style={{ color: '#94A3B8', fontSize: '13px' }}>{t('No commissions found', 'لم يتم العثور على عمولات')}</p>
           </div>
         ) : (
           <>
             {/* Table header */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 100px 100px 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '4px' }}>
-              {['Trader', 'Lots', 'Rate', 'Amount', 'Status'].map(h => (
+              {[t('Trader','المتداول'), t('Lots','اللوتات'), t('Rate','النسبة'), t('Amount','المبلغ'), t('Status','الحالة')].map(h => (
                 <div key={h} style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
               ))}
             </div>
@@ -117,7 +119,7 @@ export default function TheCommission() {
                   onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                   <div>
-                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff' }}>{c.trader_account || `Trader #${i + 1}`}</div>
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff' }}>{c.trader_account || `${t('Trader','متداول')} #${i + 1}`}</div>
                     <div style={{ fontSize: '10px', color: '#94A3B8' }}>{c.created_at ? new Date(c.created_at).toLocaleDateString() : '—'}</div>
                   </div>
                   <div style={{ fontSize: '12px', color: '#fff' }}>{parseFloat(c.lots || 0).toFixed(2)}</div>
@@ -125,7 +127,7 @@ export default function TheCommission() {
                   <div style={{ fontSize: '13px', fontWeight: 700, color: '#10B981' }}>${parseFloat(c.amount || 0).toFixed(2)}</div>
                   <div>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', padding: '3px 8px', borderRadius: '6px', background: st.bg, color: st.color, fontWeight: 600 }}>
-                      <Icon size={10} /> {st.label}
+                      <Icon size={10} /> {t(st.label, st.labelAr)}
                     </span>
                   </div>
                 </motion.div>

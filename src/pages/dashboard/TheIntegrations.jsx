@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle, Plus, ExternalLink, RefreshCw, Trash2, Key } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = {
   card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
@@ -10,48 +11,55 @@ const INTEGRATIONS = [
   {
     id: 'whatsapp', name: 'WhatsApp Business',
     desc: 'Connect your WhatsApp Business API for messaging automation across all doors',
+    descAr: 'اربط واجهة WhatsApp Business API لأتمتة الرسائل عبر جميع الأبواب',
     color: '#25D366', status: 'disconnected',
-    fields: [{ key: 'phone_id', label: 'Phone Number ID' }, { key: 'token', label: 'Access Token', secret: true }, { key: 'waba_id', label: 'WhatsApp Business Account ID' }],
+    fields: [{ key: 'phone_id', label: 'Phone Number ID', labelAr: 'معرف رقم الهاتف' }, { key: 'token', label: 'Access Token', labelAr: 'رمز الوصول', secret: true }, { key: 'waba_id', label: 'WhatsApp Business Account ID', labelAr: 'معرف حساب واتساب الأعمال' }],
     icon: '📱',
   },
   {
     id: 'telegram', name: 'Telegram Bot',
     desc: 'Integrate your Telegram bot for broadcasts, signals, and DMs',
+    descAr: 'اربط بوت تيليجرام الخاص بك للبث والإشارات والرسائل الخاصة',
     color: '#2AABEE', status: 'disconnected',
-    fields: [{ key: 'bot_token', label: 'Bot Token', secret: true }, { key: 'channel_id', label: 'Channel ID (optional)' }],
+    fields: [{ key: 'bot_token', label: 'Bot Token', labelAr: 'رمز البوت', secret: true }, { key: 'channel_id', label: 'Channel ID (optional)', labelAr: 'معرف القناة (اختياري)' }],
     icon: '✈️',
   },
   {
     id: 'mt5', name: 'MT4 / MT5 Broker',
     desc: 'Sync your broker account for live trade data across EDGE and FORGE',
+    descAr: 'زامن حساب الوسيط الخاص بك لبيانات التداول المباشرة عبر EDGE و FORGE',
     color: '#D4A843', status: 'disconnected',
-    fields: [{ key: 'server', label: 'MT Server' }, { key: 'login', label: 'Account Login' }, { key: 'password', label: 'Investor Password', secret: true }],
+    fields: [{ key: 'server', label: 'MT Server', labelAr: 'خادم MT' }, { key: 'login', label: 'Account Login', labelAr: 'دخول الحساب' }, { key: 'password', label: 'Investor Password', labelAr: 'كلمة مرور المستثمر', secret: true }],
     icon: '📊',
   },
   {
     id: 'twitter', name: 'X / Twitter',
     desc: 'Auto-publish signals, content, and market updates',
+    descAr: 'نشر تلقائي للإشارات والمحتوى وتحديثات السوق',
     color: '#1DA1F2', status: 'disconnected',
-    fields: [{ key: 'api_key', label: 'API Key', secret: true }, { key: 'api_secret', label: 'API Secret', secret: true }],
+    fields: [{ key: 'api_key', label: 'API Key', labelAr: 'مفتاح API', secret: true }, { key: 'api_secret', label: 'API Secret', labelAr: 'سر API', secret: true }],
     icon: '𝕏',
   },
   {
     id: 'linkedin', name: 'LinkedIn',
     desc: 'Share market insights and grow your professional network',
+    descAr: 'شارك رؤى السوق ووسّع شبكتك المهنية',
     color: '#0A66C2', status: 'disconnected',
-    fields: [{ key: 'access_token', label: 'Access Token', secret: true }],
+    fields: [{ key: 'access_token', label: 'Access Token', labelAr: 'رمز الوصول', secret: true }],
     icon: 'in',
   },
   {
     id: 'instagram', name: 'Instagram',
     desc: 'Share charts, signals, and educational content automatically',
+    descAr: 'شارك الرسوم البيانية والإشارات والمحتوى التعليمي تلقائياً',
     color: '#E1306C', status: 'disconnected',
-    fields: [{ key: 'account_id', label: 'Business Account ID' }, { key: 'access_token', label: 'Access Token', secret: true }],
+    fields: [{ key: 'account_id', label: 'Business Account ID', labelAr: 'معرف حساب الأعمال' }, { key: 'access_token', label: 'Access Token', labelAr: 'رمز الوصول', secret: true }],
     icon: '📸',
   },
 ];
 
 function IntegrationCard({ integration, idx }) {
+  const { t } = useLang();
   const [expanded, setExpanded] = useState(false);
   const [form, setForm] = useState({});
   const [saving, setSaving] = useState(false);
@@ -82,7 +90,7 @@ function IntegrationCard({ integration, idx }) {
               ? <CheckCircle size={13} color="#10B981" />
               : <AlertCircle size={13} color="#94A3B8" />}
           </div>
-          <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.5 }}>{integration.desc}</p>
+          <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.5 }}>{t(integration.desc, integration.descAr)}</p>
         </div>
 
         {/* Action buttons */}
@@ -90,16 +98,16 @@ function IntegrationCard({ integration, idx }) {
           {connected ? (
             <>
               <button style={{ padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#94A3B8', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <RefreshCw size={11} /> Sync
+                <RefreshCw size={11} /> {t('Sync', 'مزامنة')}
               </button>
               <button style={{ padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(239,68,68,0.25)', background: 'rgba(239,68,68,0.08)', color: '#EF4444', fontSize: '11px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <Trash2 size={11} /> Remove
+                <Trash2 size={11} /> {t('Remove', 'إزالة')}
               </button>
             </>
           ) : (
             <button onClick={() => setExpanded(v => !v)}
               style={{ padding: '7px 16px', borderRadius: '8px', border: `1px solid ${integration.color}45`, background: `${integration.color}12`, color: integration.color, fontSize: '11px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.06em' }}>
-              <Plus size={11} /> CONNECT
+              <Plus size={11} /> {t('CONNECT', 'ربط')}
             </button>
           )}
         </div>
@@ -113,7 +121,7 @@ function IntegrationCard({ integration, idx }) {
             {integration.fields.map(field => (
               <div key={field.key}>
                 <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', display: 'block', marginBottom: '5px' }}>
-                  {field.label}
+                  {t(field.label, field.labelAr)}
                 </label>
                 <div style={{ position: 'relative' }}>
                   {field.secret && <Key size={12} color="#94A3B8" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }} />}
@@ -121,7 +129,7 @@ function IntegrationCard({ integration, idx }) {
                     type={field.secret ? 'password' : 'text'}
                     value={form[field.key] || ''}
                     onChange={e => setForm(prev => ({ ...prev, [field.key]: e.target.value }))}
-                    placeholder={field.secret ? '••••••••••••' : `Enter ${field.label}`}
+                    placeholder={field.secret ? '••••••••••••' : `${t('Enter', 'أدخل')} ${t(field.label, field.labelAr)}`}
                     style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: `9px ${field.secret ? '14px 9px 30px' : '14px'}`, color: '#fff', fontSize: '12px', outline: 'none', boxSizing: 'border-box', paddingLeft: field.secret ? '30px' : '14px' }}
                   />
                 </div>
@@ -131,11 +139,11 @@ function IntegrationCard({ integration, idx }) {
           <div style={{ display: 'flex', gap: '8px' }}>
             <button onClick={handleConnect} disabled={saving}
               style={{ padding: '9px 20px', borderRadius: '8px', border: `1px solid ${integration.color}40`, background: `${integration.color}15`, color: integration.color, fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}>
-              {saving ? 'Connecting...' : 'Save & Connect'}
+              {saving ? t('Connecting...', 'جارٍ الاتصال...') : t('Save & Connect', 'حفظ وربط')}
             </button>
             <button onClick={() => setExpanded(false)}
               style={{ padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#94A3B8', fontSize: '12px', cursor: 'pointer' }}>
-              Cancel
+              {t('Cancel', 'إلغاء')}
             </button>
           </div>
         </motion.div>
@@ -145,21 +153,22 @@ function IntegrationCard({ integration, idx }) {
 }
 
 export default function TheIntegrations() {
+  const { t } = useLang();
   return (
     <div style={{ maxWidth: '860px', margin: '0 auto' }}>
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          INTEGRATIONS
+          {t('INTEGRATIONS', 'التكاملات')}
         </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Connect messaging, social, and broker accounts — shared across all S4 doors</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Connect messaging, social, and broker accounts — shared across all S4 doors', 'اربط حسابات المراسلة والتواصل والوسطاء — مشتركة عبر جميع أبواب S4')}</p>
       </div>
 
       {/* Stats row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px', marginBottom: '24px' }}>
         {[
-          { label: 'Connected', value: '0', color: '#10B981' },
-          { label: 'Available', value: INTEGRATIONS.length.toString(), color: '#6366F1' },
-          { label: 'Pending', value: '0', color: '#F59E0B' },
+          { label: t('Connected', 'متصل'), value: '0', color: '#10B981' },
+          { label: t('Available', 'متاح'), value: INTEGRATIONS.length.toString(), color: '#6366F1' },
+          { label: t('Pending', 'قيد الانتظار'), value: '0', color: '#F59E0B' },
         ].map(({ label, value, color }) => (
           <div key={label} style={{ ...S.card, padding: '16px', textAlign: 'center' }}>
             <div style={{ fontSize: '28px', fontWeight: 800, color }}>{value}</div>
