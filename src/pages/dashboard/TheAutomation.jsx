@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
-import { Zap, Plus, Play, Pause, Trash2, Clock, CheckCircle, AlertCircle, ChevronDown, ChevronRight, MessageCircle, Send, Bell, DollarSign } from 'lucide-react';
+import { Zap, Plus, Play, Pause, Trash2, MessageCircle, Send, Bell, DollarSign } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel, Btn } from '@/hud';
 
-const S = {
-  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
-};
+const ACCENT = '#6366f1';
 
 const TRIGGERS = [
   { key: 'new_trader', label: 'New Trader Joins', labelAr: 'انضمام متداول جديد', door: 'FORGE', color: '#D4A843', Icon: Zap },
@@ -41,7 +40,7 @@ function RuleCard({ rule, idx }) {
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.06 }}
-      style={{ ...S.card, padding: '16px 20px', border: active ? `1px solid ${doorColor}25` : '1px solid rgba(255,255,255,0.06)' }}>
+      className="s4-glass spatial lift" style={{ ['--accent']: doorColor, padding: '16px 20px', borderColor: active ? `${doorColor}35` : undefined }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {/* Status dot */}
         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: active ? '#10B981' : '#94A3B8', boxShadow: active ? '0 0 8px #10B981' : 'none', flexShrink: 0 }} />
@@ -94,32 +93,34 @@ export default function TheAutomation() {
     setShowBuilder(false);
   };
 
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
+
   return (
-    <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '860px', margin: '0 auto' }}>
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', marginBottom: '22px' }}>
         <div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-            {t('AUTOMATION CENTER', 'مركز الأتمتة')}
-          </h1>
-          <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Cross-door automation rules — triggered by any door, acting on any channel', 'قواعد أتمتة عبر الأبواب — تُفعّل من أي باب وتعمل على أي قناة')}</p>
+          <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('CROSS-DOOR RULES', 'قواعد عبر الأبواب')}</div>
+          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+            background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('AUTOMATION CENTER', 'مركز الأتمتة')}</h1>
+          <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door automation rules — triggered by any door, acting on any channel', 'قواعد أتمتة عبر الأبواب — تُفعّل من أي باب وتعمل على أي قناة')}</p>
         </div>
-        <button onClick={() => setShowBuilder(v => !v)}
-          style={{ padding: '10px 18px', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontSize: '12px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.06em' }}>
+        <Btn onClick={() => setShowBuilder(v => !v)} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', padding: '10px 18px' }}>
           <Plus size={13} /> {t('NEW RULE', 'قاعدة جديدة')}
-        </button>
-      </div>
+        </Btn>
+      </motion.div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px', marginBottom: '20px' }}>
         {[
           { label: t('Active Rules', 'القواعد النشطة'), value: rules.filter(r => r.active).length.toString(), color: '#10B981' },
           { label: t('Total Runs', 'إجمالي التشغيلات'), value: rules.reduce((s, r) => s + r.runs, 0).toString(), color: '#6366F1' },
           { label: t('Channels', 'القنوات'), value: '3', color: '#D4A843' },
         ].map(({ label, value, color }) => (
-          <div key={label} style={{ background: `${color}08`, border: `1px solid ${color}25`, borderRadius: '14px', padding: '18px', textAlign: 'center' }}>
-            <div style={{ fontSize: '26px', fontWeight: 800, color }}>{value}</div>
-            <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '4px' }}>{label}</div>
-          </div>
+          <GlassPanel key={label} className="spatial lift" brackets={false} style={{ ['--accent']: color, textAlign: 'center' }}>
+            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '24px', fontWeight: 900, color }}>{value}</div>
+            <div className="s4-label" style={{ fontSize: '9px', marginTop: '4px' }}>{label}</div>
+          </GlassPanel>
         ))}
       </div>
 
@@ -128,10 +129,10 @@ export default function TheAutomation() {
         {showBuilder && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
             style={{ overflow: 'hidden', marginBottom: '20px' }}>
-            <div style={{ ...S.card, border: '1px solid rgba(99,102,241,0.3)', background: 'rgba(99,102,241,0.05)' }}>
+            <GlassPanel className="spatial lift" style={{ borderColor: 'rgba(99,102,241,0.3)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '18px' }}>
                 <Zap size={15} color="#818CF8" />
-                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>{t('BUILD AUTOMATION RULE', 'إنشاء قاعدة أتمتة')}</span>
+                <span className="s4-label s4-accent">{t('BUILD AUTOMATION RULE', 'إنشاء قاعدة أتمتة')}</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
                 <div>
@@ -164,16 +165,14 @@ export default function TheAutomation() {
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button onClick={handleCreate}
-                  style={{ padding: '9px 20px', borderRadius: '8px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}>
-                  <Play size={11} style={{ display: 'inline', marginRight: '5px' }} />{t('Create Rule', 'إنشاء القاعدة')}
-                </button>
-                <button onClick={() => setShowBuilder(false)}
-                  style={{ padding: '9px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)', background: 'transparent', color: '#94A3B8', fontSize: '12px', cursor: 'pointer' }}>
+                <Btn onClick={handleCreate} style={{ padding: '9px 20px', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <Play size={11} />{t('Create Rule', 'إنشاء القاعدة')}
+                </Btn>
+                <Btn ghost onClick={() => setShowBuilder(false)} style={{ padding: '9px 16px', fontSize: '11px' }}>
                   {t('Cancel', 'إلغاء')}
-                </button>
+                </Btn>
               </div>
-            </div>
+            </GlassPanel>
           </motion.div>
         )}
       </AnimatePresence>
@@ -181,10 +180,10 @@ export default function TheAutomation() {
       {/* Rules list */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {rules.length === 0 ? (
-          <div style={{ ...S.card, textAlign: 'center', padding: '40px' }}>
-            <Zap size={40} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#94A3B8', fontSize: '13px' }}>{t('No automation rules yet. Create your first rule.', 'لا توجد قواعد أتمتة بعد. أنشئ قاعدتك الأولى.')}</p>
-          </div>
+          <GlassPanel className="spatial lift" style={{ textAlign: 'center', padding: '44px' }}>
+            <Zap size={32} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.4 }} />
+            <p style={{ color: '#94A3B8', fontSize: '12.5px' }}>{t('No automation rules yet. Create your first rule.', 'لا توجد قواعد أتمتة بعد. أنشئ قاعدتك الأولى.')}</p>
+          </GlassPanel>
         ) : (
           rules.map((rule, i) => <RuleCard key={rule.id} rule={rule} idx={i} />)
         )}

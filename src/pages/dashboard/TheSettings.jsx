@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
-import { Settings, Bell, Globe, Moon, Sun, Shield, Key, Trash2, Save, ChevronRight } from 'lucide-react';
+import { Bell, Globe, Moon, Shield, Key, Trash2, Save } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel, Btn } from '@/hud';
+
+const ACCENT = '#6366f1';
 
 const S = {
-  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
-  label: { fontSize: '11px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
+  label: { fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
   row: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' },
   toggle: (on) => ({
     width: '40px', height: '22px', borderRadius: '11px',
@@ -90,99 +92,109 @@ export default function TheSettings() {
     setSaving(false);
   };
 
-  return (
-    <div style={{ maxWidth: '780px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          {t('SETTINGS', 'الإعدادات')}
-        </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Global preferences across all S4 doors', 'التفضيلات العامة عبر جميع أبواب S4')}</p>
-      </div>
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+  return (
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '780px', margin: '0 auto' }}>
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
+        <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('GLOBAL PREFERENCES', 'التفضيلات العامة')}</div>
+        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('SETTINGS', 'الإعدادات')}</h1>
+        <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Global preferences across all S4 doors', 'التفضيلات العامة عبر جميع أبواب S4')}</p>
+      </motion.div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
         {/* Language */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={S.card}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-            <Globe size={15} color="#6366F1" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>{t('LANGUAGE & REGION', 'اللغة والمنطقة')}</span>
-          </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            {[{ key: 'en', label: 'English' }, { key: 'ar', label: 'عربي' }].map(({ key, label }) => (
-              <button key={key} onClick={() => setSettings(prev => ({ ...prev, lang: key }))}
-                style={{
-                  flex: 1, padding: '12px', borderRadius: '10px', border: `1px solid ${settings.lang === key ? 'rgba(99,102,241,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                  background: settings.lang === key ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.03)',
-                  color: settings.lang === key ? '#818CF8' : '#94A3B8', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                  transition: 'all 0.15s',
-                }}>
-                {label}
-              </button>
-            ))}
-          </div>
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+          <GlassPanel className="spatial lift">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+              <Globe size={15} color={ACCENT} />
+              <span className="s4-label s4-accent">{t('LANGUAGE & REGION', 'اللغة والمنطقة')}</span>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {[{ key: 'en', label: 'English' }, { key: 'ar', label: 'عربي' }].map(({ key, label }) => (
+                <button key={key} onClick={() => setSettings(prev => ({ ...prev, lang: key }))}
+                  style={{
+                    flex: 1, padding: '12px', borderRadius: '10px', border: `1px solid ${settings.lang === key ? 'rgba(99,102,241,0.4)' : 'rgba(255,255,255,0.08)'}`,
+                    background: settings.lang === key ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.03)',
+                    color: settings.lang === key ? '#818CF8' : '#94A3B8', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </GlassPanel>
         </motion.div>
 
         {/* Toggle sections */}
         {SECTIONS.map((section, si) => {
           const Icon = section.icon;
           return (
-            <motion.div key={section.key} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: (si + 1) * 0.06 }} style={S.card}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                <Icon size={15} color={section.color} />
-                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: section.color, fontWeight: 700 }}>{t(section.label, section.labelAr)}</span>
-              </div>
-              {section.items.map(({ key, label, labelAr, desc, descAr }, ii) => (
-                <div key={key} style={{ ...S.row, borderBottom: ii < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                  <div>
-                    <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{t(label, labelAr)}</div>
-                    <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{t(desc, descAr)}</div>
-                  </div>
-                  <Toggle value={settings[key]} onChange={() => toggle(key)} />
+            <motion.div key={section.key} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: (si + 1) * 0.06 }}>
+              <GlassPanel className="spatial lift" style={{ ['--accent']: section.color }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                  <Icon size={15} color={section.color} />
+                  <span className="s4-label s4-accent">{t(section.label, section.labelAr)}</span>
                 </div>
-              ))}
+                {section.items.map(({ key, label, labelAr, desc, descAr }, ii) => (
+                  <div key={key} style={{ ...S.row, borderBottom: ii < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                    <div>
+                      <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{t(label, labelAr)}</div>
+                      <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{t(desc, descAr)}</div>
+                    </div>
+                    <Toggle value={settings[key]} onChange={() => toggle(key)} />
+                  </div>
+                ))}
+              </GlassPanel>
             </motion.div>
           );
         })}
 
         {/* Security */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }} style={S.card}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-            <Key size={15} color="#F59E0B" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#F59E0B', fontWeight: 700 }}>{t('SECURITY', 'الأمان')}</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[{ label: t('Current Password','كلمة المرور الحالية'), key: 'current', type: 'password' }, { label: t('New Password','كلمة المرور الجديدة'), key: 'newPw', type: 'password' }, { label: t('Confirm New Password','تأكيد كلمة المرور الجديدة'), key: 'confirm', type: 'password' }].map(({ label, key, type }) => (
-              <div key={key}>
-                <label style={S.label}>{label}</label>
-                <input type={type} value={pwForm[key]} onChange={e => setPwForm(prev => ({ ...prev, [key]: e.target.value }))}
-                  placeholder="••••••••"
-                  style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }} />
-              </div>
-            ))}
-            <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.1)', color: '#F59E0B', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Key size={13} /> {t('Change Password', 'تغيير كلمة المرور')}
-            </button>
-          </div>
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }}>
+          <GlassPanel className="spatial lift" style={{ ['--accent']: '#F59E0B' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+              <Key size={15} color="#F59E0B" />
+              <span className="s4-label s4-accent">{t('SECURITY', 'الأمان')}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[{ label: t('Current Password', 'كلمة المرور الحالية'), key: 'current', type: 'password' }, { label: t('New Password', 'كلمة المرور الجديدة'), key: 'newPw', type: 'password' }, { label: t('Confirm New Password', 'تأكيد كلمة المرور الجديدة'), key: 'confirm', type: 'password' }].map(({ label, key, type }) => (
+                <div key={key}>
+                  <label style={S.label}>{label}</label>
+                  <input type={type} value={pwForm[key]} onChange={e => setPwForm(prev => ({ ...prev, [key]: e.target.value }))}
+                    placeholder="••••••••"
+                    style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }} />
+                </div>
+              ))}
+              <Btn ghost style={{ padding: '10px 20px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', ['--accent']: '#F59E0B', width: 'fit-content' }}>
+                <Key size={13} /> {t('Change Password', 'تغيير كلمة المرور')}
+              </Btn>
+            </div>
+          </GlassPanel>
         </motion.div>
 
         {/* Danger zone */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} style={{ ...S.card, border: '1px solid rgba(239,68,68,0.2)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-            <Trash2 size={15} color="#EF4444" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#EF4444', fontWeight: 700 }}>{t('DANGER ZONE', 'منطقة الخطر')}</span>
-          </div>
-          <p style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '14px' }}>{t('Deleting your account will remove all data across all S4 doors permanently.', 'حذف حسابك سيزيل جميع بياناتك عبر جميع أبواب S4 بشكل نهائي.')}</p>
-          <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.08)', color: '#EF4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
-            {t('Request Account Deletion', 'طلب حذف الحساب')}
-          </button>
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+          <GlassPanel className="spatial lift" style={{ ['--accent']: '#EF4444', borderColor: 'rgba(239,68,68,0.25)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+              <Trash2 size={15} color="#EF4444" />
+              <span className="s4-label s4-accent">{t('DANGER ZONE', 'منطقة الخطر')}</span>
+            </div>
+            <p style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '14px' }}>{t('Deleting your account will remove all data across all S4 doors permanently.', 'حذف حسابك سيزيل جميع بياناتك عبر جميع أبواب S4 بشكل نهائي.')}</p>
+            <Btn ghost style={{ padding: '10px 20px', fontSize: '12px', ['--accent']: '#EF4444' }}>
+              {t('Request Account Deletion', 'طلب حذف الحساب')}
+            </Btn>
+          </GlassPanel>
         </motion.div>
 
         {/* Save */}
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={saveSettings} disabled={saving}
-            style={{ padding: '12px 28px', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontSize: '13px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Btn onClick={saveSettings} disabled={saving} style={{ padding: '12px 28px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Save size={14} /> {saving ? t('Saving...', 'جارٍ الحفظ...') : t('Save All Settings', 'حفظ جميع الإعدادات')}
-          </button>
+          </Btn>
         </div>
       </div>
     </div>
