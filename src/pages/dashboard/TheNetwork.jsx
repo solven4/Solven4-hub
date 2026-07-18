@@ -325,23 +325,22 @@ export default function TheNetwork() {
   const selected = selectedMember ? MEMBERS.find(m => m.id === selectedMember) : null;
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:'#6366f1', color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
-      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
-        style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.1) 0%,rgba(10,12,30,0.95) 55%,rgba(239,68,68,0.06) 100%)',
-          border:'1px solid rgba(99,102,241,0.2)', backdropFilter:'blur(20px)' }}>
+      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
+        style={{ position:'relative', overflow:'hidden', padding:'20px 24px', marginBottom:'16px',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.1) 0%,rgba(10,12,30,0.95) 55%,rgba(239,68,68,0.06) 100%)' }}>
+        <span className="s4-bracket tl" /><span className="s4-bracket br" />
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
-            <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
-              <Network size={16} color="#6366F1" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE NETWORK', 'الشبكة')}</h1>
-              <div style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', color:'#6366F1', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
-                {t('COMMUNITY INTELLIGENCE', 'ذكاء المجتمع')}
-              </div>
+            <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
+              <Network size={13} /> {t('COMMUNITY INTELLIGENCE', 'ذكاء المجتمع')}
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Connect, learn, and grow with top SOLVEN4 operators across MENA', 'تواصل وتعلّم وانمُ مع أفضل مشغلي SOLVEN4 في المنطقة')}</p>
+            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+              filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('THE NETWORK', 'الشبكة')}</h1>
+            <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Connect, learn, and grow with top SOLVEN4 operators across MENA', 'تواصل وتعلّم وانمُ مع أفضل مشغلي SOLVEN4 في المنطقة')}</p>
           </div>
           <div style={{ display:'flex', gap:'12px' }}>
             {[
@@ -369,7 +368,7 @@ export default function TheNetwork() {
           { id:'feed',      label:t('Live Feed','البث المباشر') },
         ].map(tb => (
           <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
-            style={{ padding:'7px 14px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
+            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 14px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
               background: activeTab===tb.id?'#6366F1':'transparent', color: activeTab===tb.id?'#fff':S.muted }}>
             {tb.label}
           </button>
@@ -391,7 +390,7 @@ export default function TheNetwork() {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'12px' }}>
             {filtered.map((m, i) => (
               <motion.div key={m.id} initial={{ opacity:0, scale:0.97 }} animate={{ opacity:1, scale:1 }} transition={{ delay:i*0.07 }}
-                style={{ background:S.surface, border:`1px solid ${m.rankColor}18`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)', cursor:'pointer', transition:'all 0.15s' }}
+                className="s4-glass" style={{ ['--accent']:m.rankColor, padding:'18px', cursor:'pointer' }}
                 onMouseEnter={e=>{ e.currentTarget.style.borderColor=`${m.rankColor}35`; e.currentTarget.style.transform='translateY(-2px)'; }}
                 onMouseLeave={e=>{ e.currentTarget.style.borderColor=`${m.rankColor}18`; e.currentTarget.style.transform='translateY(0)'; }}>
 
@@ -462,7 +461,7 @@ export default function TheNetwork() {
       {activeTab === 'graph' && (
         <motion.div key="graph" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
           style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:'16px', alignItems:'start' }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'20px', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ padding:'20px' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'14px' }}>{t('NETWORK MAP', 'خريطة الشبكة')}</div>
             <NetworkGraph members={MEMBERS} activeId={selectedMember} onSelect={setSelectedMember} />
             <div style={{ marginTop:'12px', textAlign:'center', color:S.muted, fontSize:'10px' }}>{t('Click a node to see profile', 'انقر على عقدة لمشاهدة الملف الشخصي')}</div>
@@ -472,7 +471,7 @@ export default function TheNetwork() {
             <AnimatePresence>
               {selected ? (
                 <motion.div key={selected.id} initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:20 }}
-                  style={{ background:S.surface, border:`1px solid ${selected.rankColor}25`, borderRadius:'20px', padding:'22px', backdropFilter:'blur(20px)' }}>
+                  className="s4-glass spatial lift" style={{ ['--accent']:selected.rankColor, padding:'22px' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'14px' }}>
                     <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${selected.rankColor}40,${selected.rankColor}20)`, border:`2px solid ${selected.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:selected.rankColor }}>
                       {selected.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
@@ -518,7 +517,7 @@ export default function TheNetwork() {
                   </div>
                 </motion.div>
               ) : (
-                <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'32px', textAlign:'center', backdropFilter:'blur(20px)' }}>
+                <div className="s4-glass" style={{ padding:'32px', textAlign:'center' }}>
                   <Network size={36} style={{ color:S.muted, margin:'0 auto 12px' }} />
                   <div style={{ color:S.muted, fontSize:'13px' }}>{t("Click any node in the graph to view that operator's profile", 'انقر على أي عقدة في الرسم البياني لمشاهدة ملف المشغل')}</div>
                 </div>
@@ -526,7 +525,7 @@ export default function TheNetwork() {
             </AnimatePresence>
 
             {/* Connection stats */}
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'18px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'12px' }}>{t('NETWORK BREAKDOWN', 'تفصيل الشبكة')}</div>
               {Object.entries(DOOR_COLOR).map(([door, color]) => {
                 const count = MEMBERS.filter(m => m.doorsActive.includes(door)).length;
@@ -557,7 +556,7 @@ export default function TheNetwork() {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'12px' }}>
             {MENTORS.map((m, i) => (
               <motion.div key={m.id} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.1 }}
-                style={{ background:S.surface, border:`1px solid rgba(16,185,129,0.2)`, borderRadius:'18px', padding:'20px', backdropFilter:'blur(20px)' }}>
+                className="s4-glass spatial lift" style={{ ['--accent']:'#10B981', padding:'20px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
                   <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:m.rankColor }}>
                     {m.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
@@ -602,7 +601,7 @@ export default function TheNetwork() {
           <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
             {SQUADS.map((sq, i) => (
               <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.1 }}
-                style={{ background:S.surface, border:`1px solid ${sq.color}20`, borderRadius:'18px', padding:'20px', backdropFilter:'blur(20px)' }}>
+                className="s4-glass spatial lift" style={{ ['--accent']:sq.color, padding:'20px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
                   <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:`${sq.color}15`, border:`1px solid ${sq.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                     <Users size={22} style={{ color:sq.color }} />
@@ -662,7 +661,7 @@ export default function TheNetwork() {
           <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
             {DEALS.map((d, i) => (
               <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.08 }}
-                style={{ background:S.surface, border:`1px solid ${d.doorColor}18`, borderRadius:'16px', padding:'18px 20px', backdropFilter:'blur(20px)', cursor:'pointer', transition:'all 0.15s' }}
+                className="s4-glass" style={{ ['--accent']:d.doorColor, padding:'18px 20px', cursor:'pointer' }}
                 onMouseEnter={e=>{ e.currentTarget.style.borderColor=`${d.doorColor}35`; }}
                 onMouseLeave={e=>{ e.currentTarget.style.borderColor=`${d.doorColor}18`; }}>
                 <div style={{ display:'flex', alignItems:'flex-start', gap:'14px' }}>
@@ -697,7 +696,7 @@ export default function TheNetwork() {
           style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
           {FEED.map((f, i) => (
             <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.09 }}
-              style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'16px', padding:'18px 20px', backdropFilter:'blur(20px)' }}>
+              className="s4-glass" style={{ padding:'18px 20px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
                 <div style={{ width:'38px', height:'38px', borderRadius:'50%', background:`linear-gradient(135deg,${DOOR_COLOR[f.door]}40,${DOOR_COLOR[f.door]}20)`, border:`1px solid ${DOOR_COLOR[f.door]}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:900, color:DOOR_COLOR[f.door], flexShrink:0 }}>
                   {f.avatar}
