@@ -7,6 +7,7 @@ import {
   DollarSign, Radio, Cpu, Trophy,
 } from 'lucide-react';
 import { GlassPanel, StatusRail, HoloHero, Btn, CountUp, Gauge, SpatialDeck, Telemetry, Horizon } from '@/hud';
+import { useLang } from '@/lib/LanguageContext';
 
 const HUB_ACCENT = '#6366f1';
 
@@ -66,9 +67,9 @@ const TELEM_ROWS = [
 
 const INTEGRITY = SYSTEM_HEALTH.reduce((s, r) => s + r.pct, 0) / SYSTEM_HEALTH.length / 100;
 
-function getGreeting() { const h = new Date().getHours(); return h < 12 ? 'GOOD MORNING' : h < 18 ? 'GOOD AFTERNOON' : 'GOOD EVENING'; }
+function getGreeting(t) { const h = new Date().getHours(); return h < 12 ? t('GOOD MORNING','صباح الخير') : h < 18 ? t('GOOD AFTERNOON','مساء الخير') : t('GOOD EVENING','مساء الخير'); }
 
-function DoorTile({ door, onClick }) {
+function DoorTile({ door, onClick, t }) {
   const statusColor = { OPTIMAL:'#10B981', ACTIVE:'#3B82F6', SCALING:'#D4A843' }[door.status] || '#10B981';
   return (
     <motion.button
@@ -99,13 +100,14 @@ function DoorTile({ door, onClick }) {
         ))}
       </div>
       <div style={{ display:'flex', alignItems:'center', justifyContent:'flex-end', gap:'4px', color:door.color, fontSize:'11px', fontWeight:700 }}>
-        Enter Door <ArrowRight size={11} />
+        {t('Enter Door', 'دخول الباب')} <ArrowRight size={11} />
       </div>
     </motion.button>
   );
 }
 
 export default function TheCommand() {
+  const { t } = useLang();
   const { user, profile } = useAuthStore();
   const navigate = useNavigate();
   const [now, setNow] = useState(new Date());
@@ -127,7 +129,7 @@ export default function TheCommand() {
       {/* greeting + brief */}
       <motion.div {...rise} transition={{ duration:0.5 }} style={{ marginTop:14, display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap:20, flexWrap:'wrap' }}>
         <div>
-          <div className="s4-label s4-accent" style={{ letterSpacing:'0.35em', marginBottom:6 }}>{getGreeting()}, OPERATOR</div>
+          <div className="s4-label s4-accent" style={{ letterSpacing:'0.35em', marginBottom:6 }}>{getGreeting(t)}, {t('OPERATOR','مشغل')}</div>
           <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(24px,3vw,36px)', fontWeight:900, lineHeight:1.02, margin:0,
             background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
             filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{displayName.toUpperCase()}</h1>
@@ -143,7 +145,7 @@ export default function TheCommand() {
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1.35fr 1fr', gap:14, alignItems:'stretch' }}>
 
           {/* SYSTEM VITALS */}
-          <GlassPanel className="spatial lift" label="System Vitals" tag="LIVE" style={{ ['--accent']:HUB_ACCENT }}>
+          <GlassPanel className="spatial lift" label={t('System Vitals','مؤشرات النظام')} tag={t('LIVE','مباشر')} style={{ ['--accent']:HUB_ACCENT }}>
             <div style={{ display:'flex', flexDirection:'column', gap:'2px' }}>
               {SYSTEM_HEALTH.map(s => (
                 <div key={s.label} style={{ display:'flex', alignItems:'center', gap:'12px', padding:'7px 0', borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
@@ -165,7 +167,7 @@ export default function TheCommand() {
             coreStyle={{ opacity:0.42 }}>
             <span className="s4-bracket tl" /><span className="s4-bracket tr" /><span className="s4-bracket bl" /><span className="s4-bracket br" />
             <div className="s4-label" style={{ display:'flex', justifyContent:'space-between', marginBottom:8 }}>
-              <span>Command Integrity</span><span className="s4-accent">HUB</span>
+              <span>{t('Command Integrity','سلامة القيادة')}</span><span className="s4-accent">HUB</span>
             </div>
             <div style={{ position:'relative', width:'100%', maxWidth:300, aspectRatio:'1', margin:'0 auto', flex:1, display:'grid', placeItems:'center' }}>
               <div style={{ position:'absolute', inset:0 }}><Gauge value={INTEGRITY} size={280} /></div>
@@ -177,28 +179,28 @@ export default function TheCommand() {
                 <div className="s4-num" style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:800, fontSize:'34px', color:'#fff', textShadow:'0 0 24px rgba(99,102,241,0.6)' }}>
                   <CountUp to={98.5} suffix="" />
                 </div>
-                <div className="s4-label" style={{ marginTop:4 }}>System Integrity</div>
+                <div className="s4-label" style={{ marginTop:4 }}>{t('System Integrity','سلامة النظام')}</div>
               </div>
             </div>
             <div style={{ display:'flex', gap:8, marginTop:12 }}>
               <Btn onClick={() => navigate('/dashboard/agent')} style={{ flex:1, padding:'9px', fontSize:'11px', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
-                <Brain size={12} /> Solven AI
+                <Brain size={12} /> {t('Solven AI','سولفن AI')}
               </Btn>
               <Btn ghost onClick={() => navigate('/dashboard/arena')} style={{ flex:1, padding:'9px', fontSize:'11px', display:'flex', alignItems:'center', justifyContent:'center', gap:6, ['--accent']:'#D4A843' }}>
-                <Trophy size={12} /> Arena
+                <Trophy size={12} /> {t('Arena','الساحة')}
               </Btn>
             </div>
           </HoloHero>
 
           {/* TELEMETRY + HORIZON */}
-          <GlassPanel className="spatial lift" label="Telemetry" tag="STREAM" style={{ ['--accent']:HUB_ACCENT, display:'flex', flexDirection:'column' }}>
+          <GlassPanel className="spatial lift" label={t('Telemetry','القياس عن بُعد')} tag={t('STREAM','بث')} style={{ ['--accent']:HUB_ACCENT, display:'flex', flexDirection:'column' }}>
             <Telemetry rows={TELEM_ROWS} />
-            <div className="s4-label" style={{ marginTop:14, marginBottom:8 }}><span>Arena Rank</span></div>
+            <div className="s4-label" style={{ marginTop:14, marginBottom:8 }}><span>{t('Arena Rank','رتبة الساحة')}</span></div>
             <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between' }}>
               <span style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:800, color:'#D4A843', fontSize:'18px' }}>GOLD 7</span>
               <span className="s4-num" style={{ color:'#94A3B8', fontSize:'11px' }}>4,250 XP</span>
             </div>
-            <div className="s4-label" style={{ marginTop:14, marginBottom:8 }}><span>Attitude</span><span className="s4-accent">±</span></div>
+            <div className="s4-label" style={{ marginTop:14, marginBottom:8 }}><span>{t('Attitude','الاتجاه')}</span><span className="s4-accent">±</span></div>
             <Horizon height={46} />
           </GlassPanel>
         </div>
@@ -210,27 +212,29 @@ export default function TheCommand() {
         <div style={{ display:'flex', alignItems:'center', gap:'10px', flexWrap:'wrap' }}>
           <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
             <div className="s4-dot" style={{ ['--accent']:'#10B981' }} /><Brain size={13} color="#818CF8" />
-            <span className="s4-label s4-accent">SOLVEN MORNING BRIEF</span>
+            <span className="s4-label s4-accent">{t('SOLVEN MORNING BRIEF','إحاطة سولفن الصباحية')}</span>
           </div>
           <div style={{ flex:1, minWidth:200, color:'#CBD5E1', fontSize:'12px' }}>
             {briefExpanded
-              ? 'EDGE win rate up 2.1% — consolidate EURUSD signals for today. FORGE has 12 hot leads, follow up before 2PM. ORACLE cohort #7 starts today, 18 students enrolled. NEXUS revenue on track, 3 invoices outstanding.'
-              : 'Markets mixed · XAUUSD testing resistance · FORGE 12 hot leads · NEXUS $18K MTD · ORACLE cohort live'}
+              ? t('EDGE win rate up 2.1% — consolidate EURUSD signals for today. FORGE has 12 hot leads, follow up before 2PM. ORACLE cohort #7 starts today, 18 students enrolled. NEXUS revenue on track, 3 invoices outstanding.',
+                  'معدل ربح EDGE ارتفع 2.1% — راجع إشارات EURUSD اليوم. لدى FORGE 12 عميلاً محتملاً ساخناً، تابعهم قبل الساعة 2 ظهراً. تبدأ دفعة ORACLE رقم 7 اليوم بـ18 طالباً. إيرادات NEXUS على المسار الصحيح، 3 فواتير معلقة.')
+              : t('Markets mixed · XAUUSD testing resistance · FORGE 12 hot leads · NEXUS $18K MTD · ORACLE cohort live',
+                  'الأسواق متباينة · XAUUSD يختبر المقاومة · FORGE 12 عميلاً ساخناً · NEXUS 18 ألف$ · دفعة ORACLE مباشرة')}
           </div>
-          <button onClick={() => setBriefExpanded(v => !v)} style={{ background:'rgba(99,102,241,0.15)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:'6px', padding:'5px 11px', cursor:'pointer', color:'#818CF8', fontSize:'10px', fontWeight:700, whiteSpace:'nowrap' }}>{briefExpanded ? 'Less' : 'Full Brief'}</button>
-          <button onClick={() => navigate('/dashboard/agent')} style={{ display:'flex', alignItems:'center', gap:'4px', background:'rgba(99,102,241,0.2)', border:'1px solid rgba(99,102,241,0.4)', borderRadius:'6px', padding:'5px 11px', cursor:'pointer', color:'#A5B4FC', fontSize:'10px', fontWeight:700, whiteSpace:'nowrap' }}>Ask SOLVEN <ArrowRight size={11} /></button>
+          <button onClick={() => setBriefExpanded(v => !v)} style={{ background:'rgba(99,102,241,0.15)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:'6px', padding:'5px 11px', cursor:'pointer', color:'#818CF8', fontSize:'10px', fontWeight:700, whiteSpace:'nowrap' }}>{briefExpanded ? t('Less','أقل') : t('Full Brief','الإحاطة الكاملة')}</button>
+          <button onClick={() => navigate('/dashboard/agent')} style={{ display:'flex', alignItems:'center', gap:'4px', background:'rgba(99,102,241,0.2)', border:'1px solid rgba(99,102,241,0.4)', borderRadius:'6px', padding:'5px 11px', cursor:'pointer', color:'#A5B4FC', fontSize:'10px', fontWeight:700, whiteSpace:'nowrap' }}>{t('Ask SOLVEN','اسأل سولفن')} <ArrowRight size={11} /></button>
         </div>
       </motion.div>
 
       {/* DOOR REGISTER */}
       <div style={{ marginTop:18 }}>
         <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'12px' }}>
-          <span className="s4-label">S4 ECOSYSTEM DOORS</span>
+          <span className="s4-label">{t('S4 ECOSYSTEM DOORS','أبواب نظام S4')}</span>
           <div style={{ flex:1, height:'1px', background:'linear-gradient(90deg,rgba(99,102,241,0.35),transparent)' }} />
-          <span style={{ color:'#94A3B8', fontSize:'10px' }}>Select an instrument to enter</span>
+          <span style={{ color:'#94A3B8', fontSize:'10px' }}>{t('Select an instrument to enter','اختر باباً للدخول')}</span>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'12px' }}>
-          {DOORS.map(d => <DoorTile key={d.id} door={d} onClick={() => navigate(`/dashboard/door/${d.id.toLowerCase()}`)} />)}
+          {DOORS.map(d => <DoorTile key={d.id} door={d} t={t} onClick={() => navigate(`/dashboard/door/${d.id.toLowerCase()}`)} />)}
         </div>
       </div>
 
@@ -239,7 +243,7 @@ export default function TheCommand() {
         <motion.div {...rise} transition={{ delay:0.4 }}>
           <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']:'#10B981' }}>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'14px' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:'7px' }}><DollarSign size={13} color="#10B981" /><span className="s4-label" style={{ color:'#10B981' }}>REVENUE STREAMS</span></div>
+              <div style={{ display:'flex', alignItems:'center', gap:'7px' }}><DollarSign size={13} color="#10B981" /><span className="s4-label" style={{ color:'#10B981' }}>{t('REVENUE STREAMS','مصادر الإيرادات')}</span></div>
               <span className="s4-num" style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'13px', fontWeight:900, color:'#10B981' }}>$<CountUp to={REVENUE_TOTAL} /></span>
             </div>
             <div style={{ display:'flex', flexDirection:'column', gap:'9px' }}>
@@ -255,14 +259,14 @@ export default function TheCommand() {
                 </div>
               ))}
             </div>
-            <button onClick={() => navigate('/dashboard/vault')} style={{ marginTop:'14px', display:'flex', alignItems:'center', gap:'4px', color:'#10B981', fontSize:'11px', fontWeight:600, background:'none', border:'none', cursor:'pointer', padding:0 }}>Open Vault <ArrowRight size={11} /></button>
+            <button onClick={() => navigate('/dashboard/vault')} style={{ marginTop:'14px', display:'flex', alignItems:'center', gap:'4px', color:'#10B981', fontSize:'11px', fontWeight:600, background:'none', border:'none', cursor:'pointer', padding:0 }}>{t('Open Vault','فتح الخزنة')} <ArrowRight size={11} /></button>
           </GlassPanel>
         </motion.div>
 
         <motion.div {...rise} transition={{ delay:0.45 }}>
           <GlassPanel className="spatial lift" brackets={false}>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'12px' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:'7px' }}><Radio size={13} color="#818CF8" /><span className="s4-label s4-accent">LIVE INTELLIGENCE FEED</span></div>
+              <div style={{ display:'flex', alignItems:'center', gap:'7px' }}><Radio size={13} color="#818CF8" /><span className="s4-label s4-accent">{t('LIVE INTELLIGENCE FEED','بث الذكاء المباشر')}</span></div>
               <div style={{ background:'#6366F1', borderRadius:'999px', fontSize:'9px', fontWeight:700, padding:'2px 7px', color:'#fff' }}>{LIVE_ALERTS.length}</div>
             </div>
             <div style={{ display:'flex', gap:'6px', marginBottom:'12px', flexWrap:'wrap' }}>
@@ -281,8 +285,8 @@ export default function TheCommand() {
                       <div style={{ display:'flex', alignItems:'center', gap:'5px', marginBottom:'2px' }}>
                         <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:a.color, fontWeight:700 }}>{a.door}</span>
                         <div style={{ width:'1px', height:'10px', background:'rgba(255,255,255,0.1)' }} />
-                        <span style={{ color:'#94A3B8', fontSize:'9px' }}>{a.time} ago</span>
-                        {a.priority==='high' && <span style={{ background:'rgba(239,68,68,0.15)', color:'#EF4444', fontSize:'8px', fontWeight:700, padding:'1px 5px', borderRadius:'4px' }}>HIGH</span>}
+                        <span style={{ color:'#94A3B8', fontSize:'9px' }}>{a.time} {t('ago','منذ')}</span>
+                        {a.priority==='high' && <span style={{ background:'rgba(239,68,68,0.15)', color:'#EF4444', fontSize:'8px', fontWeight:700, padding:'1px 5px', borderRadius:'4px' }}>{t('HIGH','عالي')}</span>}
                       </div>
                       <p style={{ color:'#CBD5E1', fontSize:'11px', lineHeight:1.4 }}>{a.msg}</p>
                     </div>
