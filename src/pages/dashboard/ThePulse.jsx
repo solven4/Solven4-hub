@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
 
+const ACCENT = '#10B981';
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 
 /* ── TRADING SESSIONS ── */
@@ -147,23 +148,25 @@ export default function ThePulse() {
   const dubaiTime = now.toLocaleTimeString('en-US', { timeZone:'Asia/Dubai', hour:'2-digit', minute:'2-digit', second:'2-digit' });
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:ACCENT, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
-      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
-        style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(16,185,129,0.12) 0%,rgba(10,12,30,0.95) 55%,rgba(59,130,246,0.08) 100%)',
-          border:'1px solid rgba(16,185,129,0.18)', backdropFilter:'blur(20px)' }}>
+      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
+        style={{ position:'relative', overflow:'hidden', padding:'20px 24px', marginBottom:'16px',
+          background:'linear-gradient(135deg,rgba(16,185,129,0.12) 0%,rgba(10,12,30,0.95) 55%,rgba(59,130,246,0.08) 100%)' }}>
+        <span className="s4-bracket tl" /><span className="s4-bracket br" />
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'20px' }}>
           <div>
-            <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
-              <Radio size={16} color="#10B981" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE PULSE', 'النبض')}</h1>
-              <div style={{ background:'rgba(239,68,68,0.15)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', fontWeight:700, color:'#EF4444', fontFamily:"'Orbitron',sans-serif", animation:'s4p-pulse 2s infinite' }}>
+            <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
+              <Radio size={13} /> {t('LIVE MARKET INTELLIGENCE', 'ذكاء السوق المباشر')}
+              <span style={{ background:'rgba(239,68,68,0.15)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', fontWeight:700, color:'#EF4444', fontFamily:"'Orbitron',sans-serif", letterSpacing:'normal', animation:'s4p-pulse 2s infinite' }}>
                 ● {t('LIVE','مباشر')}
-              </div>
+              </span>
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Real-time market intelligence across all 4 SOLVEN4 doors', 'ذكاء السوق المباشر عبر أبواب SOLVEN4 الأربعة')}</p>
+            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#6EE7B7 60%,#10B981 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+              filter:'drop-shadow(0 4px 22px rgba(16,185,129,0.35))' }}>{t('THE PULSE', 'النبض')}</h1>
+            <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Real-time market intelligence across all 4 SOLVEN4 doors', 'ذكاء السوق المباشر عبر أبواب SOLVEN4 الأربعة')}</p>
           </div>
 
           {/* Session rings */}
@@ -203,8 +206,8 @@ export default function ThePulse() {
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {[['market',t('Market','السوق')], ['calendar',t('Econ Calendar','التقويم الاقتصادي')], ['sentiment',t('Sentiment','المشاعر')], ['news',t('News','الأخبار')]].map(([key, label]) => (
           <button key={key} onClick={()=>setActiveSection(key)}
-            style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
-              background: activeSection===key?'#10B981':'transparent', color: activeSection===key?'#000':S.muted }}>
+            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 18px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', transition:'all 0.15s',
+              background: activeSection===key?ACCENT:'transparent', color: activeSection===key?'#000':S.muted }}>
             {label}
           </button>
         ))}
@@ -218,7 +221,7 @@ export default function ThePulse() {
           {/* Door volatility meters */}
           <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'10px', marginBottom:'14px' }}>
             {VOLATILITY.map(v => (
-              <div key={v.door} style={{ background:S.surface, border:`1px solid ${v.color}20`, borderRadius:'14px', padding:'14px', backdropFilter:'blur(20px)' }}>
+              <div key={v.door} className="s4-glass spatial lift" style={{ ['--accent']:v.color, padding:'14px' }}>
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'10px' }}>
                   <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:v.color, fontWeight:700 }}>{v.door}</span>
                   <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:'#fff' }}>{v.vix}</span>
@@ -235,7 +238,7 @@ export default function ThePulse() {
 
           <div style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:'14px' }}>
             {/* Markets grid */}
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
               <div style={{ padding:'14px 18px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'8px' }}>
                 <Activity size={12} color="#10B981" />
                 <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#10B981', fontWeight:700 }}>{t('LIVE MARKETS','الأسواق المباشرة')}</span>
@@ -286,7 +289,7 @@ export default function ThePulse() {
 
             {/* Door alerts + sentiment preview */}
             <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
-              <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
+              <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'14px' }}>
                   <Zap size={12} color="#D4A843" />
                   <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700 }}>{t('DOOR IMPACT ALERTS','تنبيهات تأثير الأبواب')}</span>
@@ -309,7 +312,7 @@ export default function ThePulse() {
                 </div>
               </div>
 
-              <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
+              <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'14px' }}>
                   <Eye size={12} color="#6366F1" />
                   <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('MARKET SENTIMENT','مشاعر السوق')}</span>
@@ -340,7 +343,7 @@ export default function ThePulse() {
       {/* ── CALENDAR TAB ── */}
       {activeSection === 'calendar' && (
         <motion.div key="cal" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
             <div style={{ padding:'14px 20px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'10px' }}>
               <Clock size={12} color="#6366F1" />
               <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('ECONOMIC CALENDAR — TODAY','التقويم الاقتصادي — اليوم')}</span>
@@ -405,7 +408,7 @@ export default function ThePulse() {
         <motion.div key="sent" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'14px' }}>
             {SENTIMENT.map(s => (
-              <div key={s.asset} style={{ background:S.surface, border:`1px solid ${s.color}18`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
+              <div key={s.asset} className="s4-glass spatial lift" style={{ ['--accent']:s.color, padding:'22px' }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'16px' }}>
                   <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff' }}>{s.asset}</div>
                   <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900, color: s.bull>50?'#10B981':'#EF4444' }}>
@@ -440,9 +443,9 @@ export default function ThePulse() {
           <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
             {NEWS.map((n, i) => (
               <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.07 }}
-                style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'14px', padding:'16px 18px', backdropFilter:'blur(20px)', display:'flex', alignItems:'flex-start', gap:'14px', cursor:'pointer', transition:'all 0.15s' }}
-                onMouseEnter={e=>{ e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.background='rgba(10,12,30,0.95)'; }}
-                onMouseLeave={e=>{ e.currentTarget.style.borderColor=S.border; e.currentTarget.style.background=S.surface; }}>
+                className="s4-glass" style={{ padding:'16px 18px', display:'flex', alignItems:'flex-start', gap:'14px', cursor:'pointer' }}
+                onMouseEnter={e=>{ e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; }}
+                onMouseLeave={e=>{ e.currentTarget.style.borderColor=''; }}>
                 <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:IMPACT_COLOR[n.impact], boxShadow:`0 0 6px ${IMPACT_COLOR[n.impact]}`, marginTop:'5px', flexShrink:0 }} />
                 <div style={{ flex:1 }}>
                   <p style={{ color:'#fff', fontSize:'13px', fontWeight:600, lineHeight:1.6, marginBottom:'8px' }}>{n.headline}</p>
