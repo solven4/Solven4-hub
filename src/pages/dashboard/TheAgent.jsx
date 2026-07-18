@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useLang } from '@/lib/LanguageContext';
 import {
   Brain, Shield, TrendingUp, Send, Star, BarChart3,
   ArrowRight, Play, Layers, CheckCircle, DollarSign,
@@ -372,6 +373,7 @@ function ScoreMeter({ label, value, color }) {
 
 /* ════════════════ CALENDAR COMPONENT ════════════════ */
 function SolvenCalendar({ events, onAddEvent }) {
+  const { t } = useLang();
   const [viewDate, setViewDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showAddForm, setShowAddForm] = useState(false);
@@ -483,7 +485,7 @@ function SolvenCalendar({ events, onAddEvent }) {
             <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#6366F1',fontWeight:700,letterSpacing:'0.1em'}}>
               {selectedDate.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}
             </div>
-            <div style={{fontSize:'10px',color:'#94A3B8',marginTop:'1px'}}>{selEvents.length} events scheduled</div>
+            <div style={{fontSize:'10px',color:'#94A3B8',marginTop:'1px'}}>{selEvents.length} {t('events scheduled','فعاليات مجدولة')}</div>
           </div>
           <button onClick={()=>setShowAddForm(v=>!v)}
             style={{
@@ -491,7 +493,7 @@ function SolvenCalendar({ events, onAddEvent }) {
               background:'rgba(99,102,241,0.15)',border:'1px solid rgba(99,102,241,0.3)',
               borderRadius:'8px',cursor:'pointer',color:'#A5B4FC',fontSize:'11px',fontWeight:600,
             }}>
-            <Plus size={12}/> Add Event
+            <Plus size={12}/> {t('Add Event','إضافة فعالية')}
           </button>
         </div>
 
@@ -504,7 +506,7 @@ function SolvenCalendar({ events, onAddEvent }) {
                 <input value={newEvent.time} onChange={e=>setNewEvent(p=>({...p,time:e.target.value}))} type="time"
                   style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'6px',padding:'6px 8px',color:'#fff',fontSize:'11px',outline:'none'}}/>
                 <input value={newEvent.title} onChange={e=>setNewEvent(p=>({...p,title:e.target.value}))}
-                  placeholder="Event title..." onKeyDown={e=>e.key==='Enter'&&addEvent()}
+                  placeholder={t('Event title...','عنوان الفعالية...')} onKeyDown={e=>e.key==='Enter'&&addEvent()}
                   style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'6px',padding:'6px 10px',color:'#fff',fontSize:'11px',outline:'none'}}/>
               </div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr auto',gap:'6px'}}>
@@ -518,7 +520,7 @@ function SolvenCalendar({ events, onAddEvent }) {
                 </select>
                 <button onClick={addEvent}
                   style={{background:'#6366F1',border:'none',borderRadius:'6px',padding:'6px 12px',cursor:'pointer',color:'#fff',fontSize:'11px',fontWeight:700}}>
-                  Save
+                  {t('Save','حفظ')}
                 </button>
               </div>
             </motion.div>
@@ -530,7 +532,7 @@ function SolvenCalendar({ events, onAddEvent }) {
           {selEvents.length===0 ? (
             <div style={{textAlign:'center',padding:'24px',color:'#94A3B8',fontSize:'12px'}}>
               <Calendar size={22} color="#94A3B8" style={{margin:'0 auto 8px',display:'block',opacity:0.5}}/>
-              No events scheduled. Add one above.
+              {t('No events scheduled. Add one above.', 'لا توجد فعاليات مجدولة. أضف واحدة أعلاه.')}
             </div>
           ) : selEvents.map(ev=>{
             const EIcon = TYPE_ICONS[ev.type] || Clock;
@@ -561,6 +563,7 @@ function SolvenCalendar({ events, onAddEvent }) {
 
 /* ════════════════ DOOR DETAIL PANEL ════════════════ */
 function DoorDetail({ door, onAddCalendarEvent }) {
+  const { t } = useLang();
   const navigate = useNavigate();
   const [tab, setTab] = useState('insights');
   const [done, setDone] = useState({});
@@ -600,7 +603,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
         <div style={{display:'flex',flexDirection:'column',gap:'8px',alignItems:'flex-end',flexShrink:0}}>
           <button onClick={()=>navigate(`/dashboard/door/${door.id}`)}
             style={{background:`linear-gradient(135deg,${door.color},${door.color}bb)`,border:'none',borderRadius:'10px',padding:'9px 18px',cursor:'pointer',color:'#000',fontSize:'12px',fontWeight:800,display:'flex',alignItems:'center',gap:'5px',boxShadow:`0 4px 20px ${door.color}35`}}>
-            Open {door.name} <ArrowRight size={12}/>
+            {t('Open','فتح')} {door.name} <ArrowRight size={12}/>
           </button>
           <div style={{textAlign:'right'}}>
             <span style={{color:'#94A3B8',fontSize:'9px'}}>{door.forecast.label}: </span>
@@ -613,16 +616,16 @@ function DoorDetail({ door, onAddCalendarEvent }) {
       {/* Tabs */}
       <div style={{display:'flex',gap:'2px',padding:'12px 20px 0',borderBottom:'1px solid rgba(255,255,255,0.05)'}}>
         {[
-          {id:'insights',label:'AI Insights',count:door.insights.length},
-          {id:'orders',label:'Execution Orders',count:pending.length,alert:door.orders.some(o=>!done[o.id]&&o.priority==='CRITICAL')},
-          {id:'schedule',label:'Today\'s Schedule',count:door.schedule.length},
-        ].map(t=>(
-          <button key={t.id} onClick={()=>setTab(t.id)}
-            style={{padding:'8px 18px',borderRadius:'8px 8px 0 0',border:'none',cursor:'pointer',background:tab===t.id?`${door.color}18`:'transparent',color:tab===t.id?door.color:'#94A3B8',fontSize:'11px',fontWeight:tab===t.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',borderBottom:tab===t.id?`2px solid ${door.color}`:'2px solid transparent',transition:'all 0.15s',display:'flex',alignItems:'center',gap:'6px'}}>
-            {t.label}
-            {t.count!=null && (
-              <span style={{background:t.alert?'#EF4444':(tab===t.id?door.color:'rgba(255,255,255,0.1)'),color:(t.alert||tab===t.id)?'#fff':'#94A3B8',borderRadius:'999px',fontSize:'8px',fontWeight:700,padding:'1px 6px',minWidth:'16px',textAlign:'center',animation:t.alert?'agent-blink 1.5s infinite':'none'}}>
-                {t.count}
+          {id:'insights',label:t('AI Insights','رؤى الذكاء الاصطناعي'),count:door.insights.length},
+          {id:'orders',label:t('Execution Orders','أوامر التنفيذ'),count:pending.length,alert:door.orders.some(o=>!done[o.id]&&o.priority==='CRITICAL')},
+          {id:'schedule',label:t("Today's Schedule","جدول اليوم"),count:door.schedule.length},
+        ].map(tb=>(
+          <button key={tb.id} onClick={()=>setTab(tb.id)}
+            style={{padding:'8px 18px',borderRadius:'8px 8px 0 0',border:'none',cursor:'pointer',background:tab===tb.id?`${door.color}18`:'transparent',color:tab===tb.id?door.color:'#94A3B8',fontSize:'11px',fontWeight:tab===tb.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',borderBottom:tab===tb.id?`2px solid ${door.color}`:'2px solid transparent',transition:'all 0.15s',display:'flex',alignItems:'center',gap:'6px'}}>
+            {tb.label}
+            {tb.count!=null && (
+              <span style={{background:tb.alert?'#EF4444':(tab===tb.id?door.color:'rgba(255,255,255,0.1)'),color:(tb.alert||tab===tb.id)?'#fff':'#94A3B8',borderRadius:'999px',fontSize:'8px',fontWeight:700,padding:'1px 6px',minWidth:'16px',textAlign:'center',animation:tb.alert?'agent-blink 1.5s infinite':'none'}}>
+                {tb.count}
               </span>
             )}
           </button>
@@ -636,7 +639,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {tab==='insights' && (
             <motion.div key="insights" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}>
               <p style={{color:'#94A3B8',fontSize:'12px',margin:'0 0 12px'}}>
-                Click any insight to read the full SOLVEN analysis — what it means, why it matters, and what you gain by acting.
+                {t('Click any insight to read the full SOLVEN analysis — what it means, why it matters, and what you gain by acting.', 'اضغط على أي رؤية لقراءة تحليل SOLVEN الكامل — ماذا تعني، ولماذا هي مهمة، وما الذي تكسبه بالتصرف بناءً عليها.')}
               </p>
               <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
                 {door.insights.map((ins,i)=>{
@@ -660,8 +663,8 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                         <div style={{flex:1}}>
                           <p style={{color:'#CBD5E1',fontSize:'13px',lineHeight:1.55,margin:'0 0 8px',fontWeight:500}}>{ins.text}</p>
                           <div style={{display:'flex',gap:'10px'}}>
-                            <ScoreMeter label="IMPACT" value={ins.impact} color={ins.color}/>
-                            <ScoreMeter label="RISK IF IGNORED" value={ins.risk} color={PRIORITY_COLORS[ins.priority]||'#F59E0B'}/>
+                            <ScoreMeter label={t('IMPACT','الأثر')} value={ins.impact} color={ins.color}/>
+                            <ScoreMeter label={t('RISK IF IGNORED','المخاطرة عند التجاهل')} value={ins.risk} color={PRIORITY_COLORS[ins.priority]||'#F59E0B'}/>
                           </div>
                         </div>
                         <div style={{display:'flex',flexDirection:'column',gap:'5px',alignItems:'flex-end',flexShrink:0}}>
@@ -670,7 +673,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                             {ins.action}
                           </button>
                           <div style={{color:isOpen?ins.color:'#94A3B8',fontSize:'10px',display:'flex',alignItems:'center',gap:'3px',transition:'color 0.2s'}}>
-                            <Info size={11}/> {isOpen?'Close':'Full Analysis'}
+                            <Info size={11}/> {isOpen?t('Close','إغلاق'):t('Full Analysis','التحليل الكامل')}
                           </div>
                         </div>
                       </motion.div>
@@ -684,19 +687,19 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}>
                                 <div style={{padding:'12px',background:'rgba(255,255,255,0.04)',borderRadius:'9px',border:'1px solid rgba(255,255,255,0.06)'}}>
                                   <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
-                                    <Activity size={10}/> WHAT THIS MEANS
+                                    <Activity size={10}/> {t('WHAT THIS MEANS', 'ماذا يعني هذا')}
                                   </div>
                                   <p style={{color:'#CBD5E1',fontSize:'11px',lineHeight:1.6,margin:0}}>{ins.description}</p>
                                 </div>
                                 <div style={{padding:'12px',background:'rgba(16,185,129,0.06)',borderRadius:'9px',border:'1px solid rgba(16,185,129,0.15)'}}>
                                   <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
-                                    <CheckCircle size={10}/> IF YOU ACT NOW
+                                    <CheckCircle size={10}/> {t('IF YOU ACT NOW', 'إذا تصرفت الآن')}
                                   </div>
                                   <p style={{color:'#CBD5E1',fontSize:'11px',lineHeight:1.6,margin:0}}>{ins.benefit}</p>
                                 </div>
                                 <div style={{padding:'12px',background:'rgba(239,68,68,0.06)',borderRadius:'9px',border:'1px solid rgba(239,68,68,0.15)'}}>
                                   <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#EF4444',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
-                                    <AlertTriangle size={10}/> IF YOU IGNORE IT
+                                    <AlertTriangle size={10}/> {t('IF YOU IGNORE IT', 'إذا تجاهلت الأمر')}
                                   </div>
                                   <p style={{color:'#CBD5E1',fontSize:'11px',lineHeight:1.6,margin:0}}>{ins.consequence}</p>
                                 </div>
@@ -716,7 +719,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {tab==='orders' && (
             <motion.div key="orders" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}>
               <p style={{color:'#94A3B8',fontSize:'12px',margin:'0 0 12px'}}>
-                AI-generated execution orders for {door.name}. Each shows impact and risk scores. Approve to execute — completed orders are logged below.
+                {t(`AI-generated execution orders for ${door.name}. Each shows impact and risk scores. Approve to execute — completed orders are logged below.`, `أوامر تنفيذ من إنشاء الذكاء الاصطناعي لـ ${door.name}. يعرض كل أمر درجات الأثر والمخاطرة. وافق للتنفيذ — يتم تسجيل الأوامر المكتملة أدناه.`)}
               </p>
 
               {/* Pending */}
@@ -735,17 +738,17 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                       </div>
                       <p style={{color:'#94A3B8',fontSize:'11px',margin:'0 0 10px',lineHeight:1.55}}>{order.reason}</p>
                       <div style={{display:'flex',gap:'10px',marginBottom:'12px'}}>
-                        <ScoreMeter label="IMPACT" value={order.impact} color={order.color}/>
-                        <ScoreMeter label="RISK IF SKIPPED" value={order.risk} color={PRIORITY_COLORS[order.priority]||'#F59E0B'}/>
+                        <ScoreMeter label={t('IMPACT','الأثر')} value={order.impact} color={order.color}/>
+                        <ScoreMeter label={t('RISK IF SKIPPED','المخاطرة عند التخطي')} value={order.risk} color={PRIORITY_COLORS[order.priority]||'#F59E0B'}/>
                       </div>
                       <div style={{display:'flex',gap:'6px'}}>
                         <button onClick={()=>executeOrder(order)}
                           style={{background:order.color,border:'none',borderRadius:'7px',padding:'7px 18px',cursor:'pointer',color:'#000',fontSize:'11px',fontWeight:800,display:'flex',alignItems:'center',gap:'4px',boxShadow:`0 4px 14px ${order.color}40`}}>
-                          <Play size={10}/> Execute
+                          <Play size={10}/> {t('Execute','تنفيذ')}
                         </button>
                         <button onClick={()=>setDone(p=>({...p,[order.id]:true}))}
                           style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'7px',padding:'7px 12px',cursor:'pointer',color:'#94A3B8',fontSize:'11px'}}>
-                          Dismiss
+                          {t('Dismiss','تجاهل')}
                         </button>
                       </div>
                     </motion.div>
@@ -754,7 +757,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                 {pending.length===0 && executedLog.length===0 && (
                   <div style={{textAlign:'center',padding:'28px',color:'#94A3B8',fontSize:'13px'}}>
                     <CheckCircle size={28} color="#10B981" style={{margin:'0 auto 10px',display:'block'}}/>
-                    All orders clear. SOLVEN is scanning for new opportunities.
+                    {t('All orders clear. SOLVEN is scanning for new opportunities.', 'جميع الأوامر منجزة. يقوم SOLVEN بالبحث عن فرص جديدة.')}
                   </div>
                 )}
               </div>
@@ -766,7 +769,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                     <div style={{padding:'12px 14px',background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:'12px'}}>
                       <div style={{display:'flex',alignItems:'center',gap:'6px',marginBottom:'10px'}}>
                         <CheckCircle size={13} color="#10B981"/>
-                        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#10B981',letterSpacing:'0.15em',fontWeight:700}}>EXECUTED ORDERS LOG</span>
+                        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#10B981',letterSpacing:'0.15em',fontWeight:700}}>{t('EXECUTED ORDERS LOG', 'سجل الأوامر المنفذة')}</span>
                       </div>
                       <div style={{display:'flex',flexDirection:'column',gap:'5px'}}>
                         {executedLog.map((o,i)=>(
@@ -788,7 +791,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {tab==='schedule' && (
             <motion.div key="schedule" initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0}}>
               <p style={{color:'#94A3B8',fontSize:'12px',margin:'0 0 14px'}}>
-                SOLVEN-planned agenda for {door.name}. Add items to your SOLVEN Calendar — synced across all doors.
+                {t(`SOLVEN-planned agenda for ${door.name}. Add items to your SOLVEN Calendar — synced across all doors.`, `أجندة مخططة من SOLVEN لـ ${door.name}. أضف العناصر إلى تقويم SOLVEN الخاص بك — متزامن عبر جميع الأبواب.`)}
               </p>
               <div style={{display:'flex',flexDirection:'column',gap:'8px',marginBottom:'16px'}}>
                 {door.schedule.map((item,i)=>(
@@ -804,7 +807,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                         onAddCalendarEvent({ id:`ev_${Date.now()}`, date:ds, time:item.time, title:item.text, door:item.door, color:item.color, type:'SCHEDULE' });
                       }}
                       style={{background:`${door.color}14`,border:`1px solid ${door.color}30`,borderRadius:'7px',padding:'5px 12px',cursor:'pointer',color:door.color,fontSize:'10px',fontWeight:700,flexShrink:0,display:'flex',alignItems:'center',gap:'4px'}}>
-                      <Calendar size={10}/> + Calendar
+                      <Calendar size={10}/> + {t('Calendar','التقويم')}
                     </button>
                   </motion.div>
                 ))}
@@ -814,8 +817,8 @@ function DoorDetail({ door, onAddCalendarEvent }) {
               <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:'12px',padding:'14px'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'6px',marginBottom:'10px'}}>
                   <Calendar size={12} color="#6366F1"/>
-                  <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',letterSpacing:'0.15em',fontWeight:700}}>SOLVEN CALENDAR PREVIEW</span>
-                  <span style={{color:'#94A3B8',fontSize:'10px',marginLeft:'auto'}}>Click "SOLVEN Calendar" tab to open full calendar →</span>
+                  <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',letterSpacing:'0.15em',fontWeight:700}}>{t('SOLVEN CALENDAR PREVIEW', 'معاينة تقويم SOLVEN')}</span>
+                  <span style={{color:'#94A3B8',fontSize:'10px',marginLeft:'auto'}}>{t('Click "SOLVEN Calendar" tab to open full calendar →', 'اضغط على تبويب "تقويم SOLVEN" لفتح التقويم الكامل ←')}</span>
                 </div>
                 <div style={{display:'flex',gap:'6px',flexWrap:'wrap'}}>
                   {door.schedule.map((item,i)=>(
@@ -840,6 +843,7 @@ const DOOR_PERSONA = { EDGE: 'signal', FORGE: 'strategist', ORACLE: 'oracle', NE
 
 /* ════════════════════════ MAIN PAGE ════════════════════════ */
 export default function TheAgent() {
+  const { t } = useLang();
   const navigate = useNavigate();
   const [activeDoor, setActiveDoor] = useState('EDGE');
   const [activeSection, setActiveSection] = useState('cockpit'); // cockpit | calendar | briefing
@@ -906,9 +910,9 @@ export default function TheAgent() {
   }).sort((a,b)=>a.time.localeCompare(b.time));
 
   const SECTION_TABS = [
-    { id:'cockpit',  label:'Command Cockpit', Icon:Cpu },
-    { id:'calendar', label:'SOLVEN Calendar', Icon:Calendar },
-    { id:'briefing', label:'Chief Briefing',  Icon:Brain },
+    { id:'cockpit',  label:t('Command Cockpit','قمرة القيادة'), Icon:Cpu },
+    { id:'calendar', label:t('SOLVEN Calendar','تقويم SOLVEN'), Icon:Calendar },
+    { id:'briefing', label:t('Chief Briefing','الإحاطة التنفيذية'),  Icon:Brain },
   ];
 
   return (
@@ -923,22 +927,22 @@ export default function TheAgent() {
               <div style={{width:'7px',height:'7px',borderRadius:'50%',background:d.color,boxShadow:`0 0 10px ${d.color}`,animation:'agent-pulse 2s infinite'}}/>
               <div>
                 <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:d.color,fontWeight:700}}>{d.name}</div>
-                <div style={{fontSize:'8px',color:'#94A3B8'}}>ACTIVE</div>
+                <div style={{fontSize:'8px',color:'#94A3B8'}}>{t('ACTIVE','نشط')}</div>
               </div>
             </div>
           ))}
         </div>
         <div style={{textAlign:'center'}}>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>AFEOS · AI OPERATING SYSTEM</div>
+          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('AFEOS · AI OPERATING SYSTEM', 'AFEOS · نظام تشغيل الذكاء الاصطناعي')}</div>
           <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'20px',fontWeight:900,color:'#fff',letterSpacing:'0.12em'}}>SOLVEN AI</div>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.2em',marginTop:'1px'}}>ALL 8 SKILLS · ALL DOORS MONITORED</div>
+          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.2em',marginTop:'1px'}}>{t('ALL 8 SKILLS · ALL DOORS MONITORED', 'كل المهارات الثمانية · جميع الأبواب مُراقبة')}</div>
         </div>
         <div style={{display:'flex',gap:'12px',alignItems:'center',justifyContent:'flex-end'}}>
           <div style={{textAlign:'right'}}>
             <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'18px',fontWeight:900,color:'#6366F1'}}>{clock.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</div>
             <div style={{fontSize:'10px',color:'#94A3B8'}}>{clock.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}</div>
           </div>
-          {[{l:'PLATFORM SCORE',v:'71',c:'#6366F1'},{l:'ORDERS PENDING',v:String(totalOrders),c:'#EF4444'},{l:"TODAY'S EVENTS",v:String(todayEvents.length),c:'#D4A843'}].map(s=>(
+          {[{l:t('PLATFORM SCORE','درجة المنصة'),v:'71',c:'#6366F1'},{l:t('ORDERS PENDING','الأوامر المعلقة'),v:String(totalOrders),c:'#EF4444'},{l:t("TODAY'S EVENTS",'فعاليات اليوم'),v:String(todayEvents.length),c:'#D4A843'}].map(s=>(
             <div key={s.l} style={{background:`${s.c}12`,border:`1px solid ${s.c}25`,borderRadius:'10px',padding:'7px 12px',textAlign:'center'}}>
               <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'18px',fontWeight:900,color:s.c}}>{s.v}</div>
               <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{s.l}</div>
@@ -968,9 +972,9 @@ export default function TheAgent() {
             {activeSection==='cockpit' && (
               <motion.div key="cockpit" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
                 <div>
-                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>YOUR COMPANY COCKPIT · SELECT A DOOR TO COMMAND</div>
-                  <h1 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff 0%,#A5B4FC 55%,#6366F1 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>SOLVEN COMMAND CENTER</h1>
-                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>Select a door to view AI insights, execute orders, and review your SOLVEN-planned schedule for that platform.</p>
+                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('YOUR COMPANY COCKPIT · SELECT A DOOR TO COMMAND', 'قمرة قيادة شركتك · اختر باباً للتحكم فيه')}</div>
+                  <h1 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff 0%,#A5B4FC 55%,#6366F1 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('SOLVEN COMMAND CENTER', 'مركز قيادة SOLVEN')}</h1>
+                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>{t('Select a door to view AI insights, execute orders, and review your SOLVEN-planned schedule for that platform.', 'اختر باباً لعرض رؤى الذكاء الاصطناعي، وتنفيذ الأوامر، ومراجعة الجدول المخطط من SOLVEN لتلك المنصة.')}</p>
                 </div>
 
                 {/* 4 Door Buttons */}
@@ -1002,7 +1006,7 @@ export default function TheAgent() {
                         </div>
                         {active && (
                           <motion.div initial={{opacity:0}} animate={{opacity:1}} style={{marginTop:'8px',fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:d.color,letterSpacing:'0.12em',display:'flex',alignItems:'center',gap:'4px'}}>
-                            <div style={{width:'5px',height:'5px',borderRadius:'50%',background:d.color,boxShadow:`0 0 8px ${d.color}`}}/> SELECTED
+                            <div style={{width:'5px',height:'5px',borderRadius:'50%',background:d.color,boxShadow:`0 0 8px ${d.color}`}}/> {t('SELECTED','مُحدد')}
                           </motion.div>
                         )}
                       </motion.button>
@@ -1021,16 +1025,16 @@ export default function TheAgent() {
             {activeSection==='calendar' && (
               <motion.div key="calendar" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
                 <div>
-                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>SOLVEN AI · SYNCED SCHEDULE</div>
-                  <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>COMMAND CALENDAR</h2>
-                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>All 4 doors, AI orders, and SOLVEN-planned events in one synced view. Add any schedule item from any door with one click.</p>
+                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('SOLVEN AI · SYNCED SCHEDULE', 'SOLVEN AI · جدول متزامن')}</div>
+                  <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('COMMAND CALENDAR', 'تقويم القيادة')}</h2>
+                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>{t('All 4 doors, AI orders, and SOLVEN-planned events in one synced view. Add any schedule item from any door with one click.', 'جميع الأبواب الأربعة وأوامر الذكاء الاصطناعي والفعاليات المخططة من SOLVEN في عرض متزامن واحد. أضف أي عنصر جدول من أي باب بنقرة واحدة.')}</p>
                 </div>
 
                 {/* Today's summary bar */}
                 <div style={{background:'rgba(99,102,241,0.08)',border:'1px solid rgba(99,102,241,0.2)',borderRadius:'12px',padding:'12px 18px',display:'flex',gap:'16px',alignItems:'center',flexWrap:'wrap'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
                     <Clock size={13} color="#6366F1"/>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',fontWeight:700,letterSpacing:'0.12em'}}>TODAY</span>
+                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',fontWeight:700,letterSpacing:'0.12em'}}>{t('TODAY','اليوم')}</span>
                   </div>
                   {todayEvents.slice(0,5).map(ev=>(
                     <div key={ev.id} style={{display:'flex',alignItems:'center',gap:'5px',padding:'4px 8px',background:`${ev.color}12`,border:`1px solid ${ev.color}25`,borderRadius:'6px'}}>
@@ -1038,7 +1042,7 @@ export default function TheAgent() {
                       <span style={{color:'#CBD5E1',fontSize:'10px'}}>{ev.title.slice(0,28)}{ev.title.length>28?'...':''}</span>
                     </div>
                   ))}
-                  {todayEvents.length===0 && <span style={{color:'#94A3B8',fontSize:'11px'}}>No events today — add from any door's schedule tab</span>}
+                  {todayEvents.length===0 && <span style={{color:'#94A3B8',fontSize:'11px'}}>{t("No events today — add from any door's schedule tab", 'لا توجد فعاليات اليوم — أضف من تبويب الجدول لأي باب')}</span>}
                 </div>
 
                 <div style={{background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'18px',padding:'22px'}}>
@@ -1051,9 +1055,9 @@ export default function TheAgent() {
             {activeSection==='briefing' && (
               <motion.div key="briefing" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
                 <div>
-                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>SOLVEN AI · EXECUTIVE INTELLIGENCE</div>
-                  <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>CHIEF BRIEFING</h2>
-                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>SOLVEN's ranked action plan for today — ordered by revenue impact, risk, and time sensitivity across all 4 doors.</p>
+                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('SOLVEN AI · EXECUTIVE INTELLIGENCE', 'SOLVEN AI · ذكاء تنفيذي')}</div>
+                  <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('CHIEF BRIEFING', 'الإحاطة التنفيذية')}</h2>
+                  <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>{t("SOLVEN's ranked action plan for today — ordered by revenue impact, risk, and time sensitivity across all 4 doors.", 'خطة عمل SOLVEN المرتبة لليوم — مرتبة حسب الأثر على الإيرادات، والمخاطرة، والحساسية الزمنية عبر الأبواب الأربعة.')}</p>
                 </div>
 
                 {/* ── Chief Recommendations — ranked list ── */}
@@ -1071,7 +1075,7 @@ export default function TheAgent() {
                       {/* Rank */}
                       <div style={{flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'4px',minWidth:'36px'}}>
                         <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,color:i===0?rec.color:'#94A3B8',lineHeight:1}}>{rec.rank}</div>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>RANK</div>
+                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{t('RANK','الترتيب')}</div>
                       </div>
 
                       <div style={{width:'1px',background:'rgba(255,255,255,0.06)',flexShrink:0}}/>
@@ -1088,8 +1092,8 @@ export default function TheAgent() {
                         <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'13px',fontWeight:800,color:'#fff',marginBottom:'5px',letterSpacing:'0.03em'}}>{rec.title}</div>
                         <p style={{color:'#CBD5E1',fontSize:'12px',lineHeight:1.6,margin:'0 0 10px'}}>{rec.why}</p>
                         <div style={{display:'flex',gap:'10px'}}>
-                          <ScoreMeter label="IMPACT" value={rec.impact} color={rec.color}/>
-                          <ScoreMeter label="RISK IF SKIPPED" value={rec.risk} color={PRIORITY_COLORS[rec.priority]}/>
+                          <ScoreMeter label={t('IMPACT','الأثر')} value={rec.impact} color={rec.color}/>
+                          <ScoreMeter label={t('RISK IF SKIPPED','المخاطرة عند التخطي')} value={rec.risk} color={PRIORITY_COLORS[rec.priority]}/>
                         </div>
                       </div>
 
@@ -1097,14 +1101,14 @@ export default function TheAgent() {
                       <div style={{flexShrink:0,display:'flex',flexDirection:'column',gap:'8px',alignItems:'flex-end',justifyContent:'center',minWidth:'110px'}}>
                         <div style={{background:`${rec.color}15`,border:`1px solid ${rec.color}30`,borderRadius:'8px',padding:'8px 12px',textAlign:'center'}}>
                           <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'13px',fontWeight:900,color:rec.color}}>{rec.revenue}</div>
-                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',marginTop:'1px'}}>EXPECTED</div>
+                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',marginTop:'1px'}}>{t('EXPECTED','متوقع')}</div>
                         </div>
                         <div style={{fontSize:'10px',color:'#94A3B8',display:'flex',alignItems:'center',gap:'3px'}}>
-                          <Zap size={9} color="#F59E0B"/> Effort: {rec.effort}
+                          <Zap size={9} color="#F59E0B"/> {t('Effort','الجهد')}: {rec.effort}
                         </div>
                         <button onClick={()=>{setActiveDoor(rec.door); setActiveSection('cockpit');}}
                           style={{background:rec.color,border:'none',borderRadius:'7px',padding:'6px 14px',cursor:'pointer',color:'#000',fontSize:'10px',fontWeight:800,display:'flex',alignItems:'center',gap:'4px'}}>
-                          Act Now <ArrowRight size={10}/>
+                          {t('Act Now','تصرف الآن')} <ArrowRight size={10}/>
                         </button>
                       </div>
                     </motion.div>
@@ -1115,7 +1119,7 @@ export default function TheAgent() {
                 <div style={{background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'20px'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'14px'}}>
                     <Brain size={14} color="#6366F1"/>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>SOLVEN DAILY BRIEFING — ALL 4 DOORS</span>
+                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>{t('SOLVEN DAILY BRIEFING — ALL 4 DOORS', 'إحاطة SOLVEN اليومية — كل الأبواب الأربعة')}</span>
                   </div>
                   <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'10px'}}>
                     {Object.entries(DOORS).map(([key,d])=>(
@@ -1129,7 +1133,7 @@ export default function TheAgent() {
                         <div style={{display:'flex',gap:'8px'}}>
                           <div style={{flex:1}}>
                             <div style={{display:'flex',justifyContent:'space-between',fontSize:'8px',marginBottom:'2px'}}>
-                              <span style={{color:'#94A3B8'}}>Impact</span>
+                              <span style={{color:'#94A3B8'}}>{t('Impact','الأثر')}</span>
                               <span style={{color:d.color,fontWeight:700}}>{d.insights[0].impact}%</span>
                             </div>
                             <div style={{height:'3px',borderRadius:'2px',background:'rgba(255,255,255,0.06)',overflow:'hidden'}}>
@@ -1166,7 +1170,7 @@ export default function TheAgent() {
                   <div style={{flex:1}}>
                     <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>SOLVEN AI</div>
                     <div style={{fontSize:'10px',color:'#10B981',display:'flex',alignItems:'center',gap:'4px'}}>
-                      <div style={{width:'5px',height:'5px',borderRadius:'50%',background:'#10B981',animation:'agent-pulse 1.5s infinite'}}/> 8 skills active · All doors
+                      <div style={{width:'5px',height:'5px',borderRadius:'50%',background:'#10B981',animation:'agent-pulse 1.5s infinite'}}/> {t('8 skills active · All doors', '8 مهارات نشطة · جميع الأبواب')}
                     </div>
                   </div>
                   <button onClick={()=>setChatOpen(false)}
@@ -1229,7 +1233,7 @@ export default function TheAgent() {
                 {/* Input */}
                 <div style={{padding:'12px',borderTop:'1px solid rgba(255,255,255,0.05)',display:'flex',gap:'8px'}}>
                   <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()}
-                    placeholder="Ask SOLVEN anything..."
+                    placeholder={t('Ask SOLVEN anything...','اسأل SOLVEN أي شيء...')}
                     style={{flex:1,background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'10px',padding:'10px 13px',color:'#fff',fontSize:'12px',outline:'none'}}
                   />
                   <button onClick={send}
@@ -1252,7 +1256,7 @@ export default function TheAgent() {
                 boxShadow:'0 4px 20px rgba(99,102,241,0.3)',
               }}>
               <Brain size={16} color="#fff"/>
-              <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#fff',fontWeight:700,writingMode:'vertical-rl',transform:'rotate(180deg)',letterSpacing:'0.1em'}}>ASK SOLVEN</span>
+              <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#fff',fontWeight:700,writingMode:'vertical-rl',transform:'rotate(180deg)',letterSpacing:'0.1em'}}>{t('ASK SOLVEN','اسأل SOLVEN')}</span>
             </motion.button>
           )}
         </div>
