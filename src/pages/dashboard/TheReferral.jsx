@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8', accent:'#6366F1' };
 
@@ -118,6 +119,7 @@ function StatCard({ label, value, sub, color, Icon }) {
 }
 
 export default function TheReferral() {
+  const { t } = useLang();
   const { user, profile } = useAuthStore();
   const [tab, setTab] = useState('overview');
   const [copied, setCopied] = useState('');
@@ -129,7 +131,7 @@ export default function TheReferral() {
   function copyToClipboard(text, key) {
     navigator.clipboard.writeText(text);
     setCopied(key);
-    toast.success('Copied to clipboard!');
+    toast.success(t('Copied to clipboard!', 'تم النسخ إلى الحافظة!'));
     setTimeout(() => setCopied(''), 2000);
   }
 
@@ -150,15 +152,15 @@ export default function TheReferral() {
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'6px' }}>
               <Network size={18} color="#6366F1" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900 }}>REFERRAL & AFFILIATE</h1>
+              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900 }}>{t('REFERRAL & AFFILIATE', 'الإحالة والتسويق بالعمولة')}</h1>
               <div style={{ background:'rgba(16,185,129,0.15)', border:'1px solid rgba(16,185,129,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'9px', fontWeight:700, color:'#10B981', fontFamily:"'Orbitron',sans-serif" }}>
-                PROGRAM ACTIVE
+                {t('PROGRAM ACTIVE', 'البرنامج نشط')}
               </div>
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>Multi-tier affiliate program across all 4 SOLVEN4 doors — earn while you grow.</p>
+            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Multi-tier affiliate program across all 4 SOLVEN4 doors — earn while you grow.', 'برنامج تسويق بالعمولة متعدد المستويات عبر أبواب SOLVEN4 الأربعة — اربح بينما تنمو.')}</p>
           </div>
           <div>
-            <div style={{ fontSize:'10px', color:S.muted, marginBottom:'6px', fontWeight:700, letterSpacing:'0.1em' }}>YOUR REFERRAL LINK</div>
+            <div style={{ fontSize:'10px', color:S.muted, marginBottom:'6px', fontWeight:700, letterSpacing:'0.1em' }}>{t('YOUR REFERRAL LINK', 'رابط الإحالة الخاص بك')}</div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
               <div style={{ padding:'10px 14px', borderRadius:'10px', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.1)', fontFamily:'monospace', fontSize:'12px', color:'#A5B4FC', minWidth:'240px' }}>
                 {refLink}
@@ -167,15 +169,15 @@ export default function TheReferral() {
                 style={{ padding:'10px 14px', borderRadius:'10px', cursor:'pointer', border:'none', fontWeight:700, fontSize:'12px', color:'#fff', display:'flex', alignItems:'center', gap:'6px',
                   background: copied==='link'?'#10B981':'#6366F1', boxShadow: copied==='link'?'0 0 16px rgba(16,185,129,0.4)':'0 0 16px rgba(99,102,241,0.4)', transition:'all 0.2s' }}>
                 {copied==='link' ? <CheckCircle size={14}/> : <Copy size={14}/>}
-                {copied==='link' ? 'Copied!' : 'Copy'}
+                {copied==='link' ? t('Copied!','تم النسخ!') : t('Copy','نسخ')}
               </motion.button>
             </div>
             <div style={{ display:'flex', gap:'6px', marginTop:'8px' }}>
               <span style={{ background:'rgba(99,102,241,0.1)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:'6px', padding:'3px 8px', fontSize:'9px', color:'#6366F1', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
-                CODE: {refCode}
+                {t('CODE','الرمز')}: {refCode}
               </span>
               <span style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:'6px', padding:'3px 8px', fontSize:'9px', color:'#10B981' }}>
-                {MY_STATS.totalReferrals} total referrals
+                {MY_STATS.totalReferrals} {t('total referrals','إجمالي الإحالات')}
               </span>
             </div>
           </div>
@@ -184,11 +186,11 @@ export default function TheReferral() {
 
       {/* ── TABS ── */}
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
-        {PAGE_TABS.map(t => (
-          <button key={t} onClick={() => setTab(t)}
+        {[['overview',t('Overview','نظرة عامة')], ['programs',t('Programs','البرامج')], ['network',t('Network','الشبكة')], ['kit',t('Marketing Kit','حقيبة التسويق')]].map(([key, label]) => (
+          <button key={key} onClick={() => setTab(key)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
-              background: tab===t?'#6366F1':'transparent', color: tab===t?'#fff':S.muted }}>
-            {t === 'kit' ? 'Marketing Kit' : t.charAt(0).toUpperCase()+t.slice(1)}
+              background: tab===key?'#6366F1':'transparent', color: tab===key?'#fff':S.muted }}>
+            {label}
           </button>
         ))}
       </div>
@@ -201,18 +203,18 @@ export default function TheReferral() {
 
           {/* KPI row */}
           <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:'10px', marginBottom:'16px' }}>
-            <StatCard label="Total Earned"       value={`$${MY_STATS.totalEarned.toLocaleString()}`} sub="All time"       color="#10B981" Icon={DollarSign} />
-            <StatCard label="Pending Payout"     value={`$${MY_STATS.pendingPayout.toLocaleString()}`} sub="Processing"  color="#F97316" Icon={Timer} />
-            <StatCard label="Total Referrals"    value={MY_STATS.totalReferrals}  sub={`${MY_STATS.activeReferrals} active`}   color="#6366F1" Icon={Users} />
-            <StatCard label="Conversion Rate"    value={`${MY_STATS.conversionRate}%`} sub="Clicks → Sign-ups" color="#D4A843" Icon={TrendingUp} />
-            <StatCard label="Clicks This Month"  value={MY_STATS.clicksThisMonth.toLocaleString()} sub="Link traffic"  color="#8B5CF6" Icon={BarChart2} />
-            <StatCard label="Network Depth"      value="3 Tiers"               sub={`${MY_STATS.tier1Refs}·${MY_STATS.tier2Refs}·${MY_STATS.tier3Refs}`} color="#3B82F6" Icon={Network} />
+            <StatCard label={t('Total Earned','إجمالي الأرباح')}       value={`$${MY_STATS.totalEarned.toLocaleString()}`} sub={t('All time','كل الأوقات')}       color="#10B981" Icon={DollarSign} />
+            <StatCard label={t('Pending Payout','دفعة معلقة')}     value={`$${MY_STATS.pendingPayout.toLocaleString()}`} sub={t('Processing','قيد المعالجة')}  color="#F97316" Icon={Timer} />
+            <StatCard label={t('Total Referrals','إجمالي الإحالات')}    value={MY_STATS.totalReferrals}  sub={`${MY_STATS.activeReferrals} ${t('active','نشط')}`}   color="#6366F1" Icon={Users} />
+            <StatCard label={t('Conversion Rate','معدل التحويل')}    value={`${MY_STATS.conversionRate}%`} sub={t('Clicks → Sign-ups','نقرات ← تسجيلات')} color="#D4A843" Icon={TrendingUp} />
+            <StatCard label={t('Clicks This Month','النقرات هذا الشهر')}  value={MY_STATS.clicksThisMonth.toLocaleString()} sub={t('Link traffic','زيارات الرابط')}  color="#8B5CF6" Icon={BarChart2} />
+            <StatCard label={t('Network Depth','عمق الشبكة')}      value={t('3 Tiers','3 مستويات')}               sub={`${MY_STATS.tier1Refs}·${MY_STATS.tier2Refs}·${MY_STATS.tier3Refs}`} color="#3B82F6" Icon={Network} />
           </div>
 
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
             {/* Commission Tier System */}
             <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>3-TIER COMMISSION SYSTEM</div>
+              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>{t('3-TIER COMMISSION SYSTEM', 'نظام العمولات ثلاثي المستويات')}</div>
               {COMMISSION_TIERS.map(t => (
                 <div key={t.level} style={{ marginBottom:'16px', paddingBottom:'16px', borderBottom:`1px solid ${S.border}` }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'8px' }}>
@@ -238,7 +240,7 @@ export default function TheReferral() {
             {/* Door earnings breakdown */}
             <div style={{ display:'flex', flexDirection:'column', gap:'14px' }}>
               <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#D4A843', fontWeight:700, marginBottom:'14px' }}>EARNINGS BY DOOR</div>
+                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#D4A843', fontWeight:700, marginBottom:'14px' }}>{t('EARNINGS BY DOOR', 'الأرباح حسب الباب')}</div>
                 {PROGRAMS.map(p => (
                   <div key={p.id} style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
                     <div style={{ width:'30px', height:'30px', borderRadius:'8px', background:`${p.color}15`, border:`1px solid ${p.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
@@ -256,19 +258,19 @@ export default function TheReferral() {
                       </div>
                     </div>
                     <div style={{ fontSize:'9px', color:S.muted, textAlign:'right', flexShrink:0 }}>
-                      {p.stats.referrals} refs<br/><span style={{ color:'#F97316' }}>+${p.stats.pending} pend.</span>
+                      {p.stats.referrals} {t('refs','إحالة')}<br/><span style={{ color:'#F97316' }}>+${p.stats.pending} {t('pend.','معلق')}</span>
                     </div>
                   </div>
                 ))}
               </div>
 
               <div style={{ background:S.surface, border:'1px solid rgba(16,185,129,0.15)', borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#10B981', fontWeight:700, marginBottom:'12px' }}>PAYOUT STATUS</div>
+                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#10B981', fontWeight:700, marginBottom:'12px' }}>{t('PAYOUT STATUS', 'حالة الدفع')}</div>
                 {[
-                  { label:'Available for Withdrawal', value:`$${(MY_STATS.totalEarned-4000).toLocaleString()}`, color:'#10B981' },
-                  { label:'Clearing (7-day hold)',    value:`$${MY_STATS.pendingPayout.toLocaleString()}`,      color:'#F97316' },
-                  { label:'Next Auto-payout',        value:'Aug 1, 2026',                                       color:'#6366F1' },
-                  { label:'Minimum Payout',          value:'$100',                                               color:S.muted },
+                  { label:t('Available for Withdrawal','متاح للسحب'), value:`$${(MY_STATS.totalEarned-4000).toLocaleString()}`, color:'#10B981' },
+                  { label:t('Clearing (7-day hold)','قيد التسوية (حجز 7 أيام)'),    value:`$${MY_STATS.pendingPayout.toLocaleString()}`,      color:'#F97316' },
+                  { label:t('Next Auto-payout','الدفعة التلقائية القادمة'),        value:'Aug 1, 2026',                                       color:'#6366F1' },
+                  { label:t('Minimum Payout','الحد الأدنى للدفع'),          value:'$100',                                               color:S.muted },
                 ].map(s => (
                   <div key={s.label} style={{ display:'flex', justifyContent:'space-between', padding:'7px 0', borderBottom:`1px solid ${S.border}` }}>
                     <span style={{ color:S.muted, fontSize:'11px' }}>{s.label}</span>
@@ -313,7 +315,7 @@ export default function TheReferral() {
                   <prog.Icon size={20} style={{ color:prog.color }} />
                 </div>
                 <div>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:prog.color, fontWeight:700 }}>{prog.label} AFFILIATE PROGRAM</div>
+                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:prog.color, fontWeight:700 }}>{prog.label} {t('AFFILIATE PROGRAM', 'برنامج التسويق بالعمولة')}</div>
                   <div style={{ color:'#fff', fontSize:'16px', fontWeight:800 }}>{prog.title}</div>
                 </div>
               </div>
@@ -332,12 +334,12 @@ export default function TheReferral() {
 
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'14px', marginBottom:'20px' }}>
               <div style={{ background:'rgba(255,255,255,0.02)', borderRadius:'12px', padding:'14px' }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:S.muted, marginBottom:'10px', letterSpacing:'0.1em' }}>YOUR PERFORMANCE</div>
+                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:S.muted, marginBottom:'10px', letterSpacing:'0.1em' }}>{t('YOUR PERFORMANCE', 'أداؤك')}</div>
                 {[
-                  { label:'Referrals', value:prog.stats.referrals },
-                  { label:'Active',    value:prog.stats.active },
-                  { label:'Earned',    value:`$${prog.stats.earned.toLocaleString()}` },
-                  { label:'Pending',   value:`$${prog.stats.pending}` },
+                  { label:t('Referrals','الإحالات'), value:prog.stats.referrals },
+                  { label:t('Active','نشط'),    value:prog.stats.active },
+                  { label:t('Earned','مكتسب'),    value:`$${prog.stats.earned.toLocaleString()}` },
+                  { label:t('Pending','معلق'),   value:`$${prog.stats.pending}` },
                 ].map(s => (
                   <div key={s.label} style={{ display:'flex', justifyContent:'space-between', padding:'5px 0', borderBottom:`1px solid ${S.border}` }}>
                     <span style={{ color:S.muted, fontSize:'11px' }}>{s.label}</span>
@@ -346,7 +348,7 @@ export default function TheReferral() {
                 ))}
               </div>
               <div>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:S.muted, marginBottom:'10px', letterSpacing:'0.1em' }}>PROGRAM FEATURES</div>
+                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:S.muted, marginBottom:'10px', letterSpacing:'0.1em' }}>{t('PROGRAM FEATURES', 'ميزات البرنامج')}</div>
                 {prog.features.map(f => (
                   <div key={f} style={{ display:'flex', alignItems:'center', gap:'7px', marginBottom:'8px' }}>
                     <CheckCircle size={11} style={{ color:prog.color, flexShrink:0 }} />
@@ -354,7 +356,7 @@ export default function TheReferral() {
                   </div>
                 ))}
                 <div style={{ marginTop:'12px' }}>
-                  <div style={{ fontSize:'10px', color:S.muted, marginBottom:'5px' }}>Your {prog.label} referral link:</div>
+                  <div style={{ fontSize:'10px', color:S.muted, marginBottom:'5px' }}>{t('Your','رابط')} {prog.label} {t('referral link:','الإحالة الخاص بك:')}</div>
                   <div style={{ display:'flex', gap:'6px' }}>
                     <div style={{ flex:1, padding:'7px 10px', borderRadius:'8px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, fontFamily:'monospace', fontSize:'10px', color:'#A5B4FC', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
                       {refLink}?door={prog.id}
@@ -377,22 +379,22 @@ export default function TheReferral() {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'10px', marginBottom:'16px' }}>
             <div style={{ background:S.surface, border:'1px solid rgba(99,102,241,0.2)', borderRadius:'14px', padding:'16px', textAlign:'center', backdropFilter:'blur(20px)' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#6366F1', marginBottom:'4px' }}>{MY_STATS.tier1Refs}</div>
-              <div style={{ color:S.muted, fontSize:'10px' }}>Tier 1 (Direct)</div>
+              <div style={{ color:S.muted, fontSize:'10px' }}>{t('Tier 1 (Direct)', 'المستوى 1 (مباشر)')}</div>
             </div>
             <div style={{ background:S.surface, border:'1px solid rgba(212,168,67,0.2)', borderRadius:'14px', padding:'16px', textAlign:'center', backdropFilter:'blur(20px)' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#D4A843', marginBottom:'4px' }}>{MY_STATS.tier2Refs}</div>
-              <div style={{ color:S.muted, fontSize:'10px' }}>Tier 2 (Sub-refs)</div>
+              <div style={{ color:S.muted, fontSize:'10px' }}>{t('Tier 2 (Sub-refs)', 'المستوى 2 (إحالات فرعية)')}</div>
             </div>
             <div style={{ background:S.surface, border:'1px solid rgba(16,185,129,0.2)', borderRadius:'14px', padding:'16px', textAlign:'center', backdropFilter:'blur(20px)' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#10B981', marginBottom:'4px' }}>{MY_STATS.tier3Refs}</div>
-              <div style={{ color:S.muted, fontSize:'10px' }}>Tier 3 (Deep)</div>
+              <div style={{ color:S.muted, fontSize:'10px' }}>{t('Tier 3 (Deep)', 'المستوى 3 (عميق)')}</div>
             </div>
           </div>
 
           <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
             <div style={{ padding:'16px 20px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>REFERRAL NETWORK</span>
-              <span style={{ color:S.muted, fontSize:'11px' }}>{REFERRAL_TREE.length} connections shown</span>
+              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('REFERRAL NETWORK', 'شبكة الإحالة')}</span>
+              <span style={{ color:S.muted, fontSize:'11px' }}>{REFERRAL_TREE.length} {t('connections shown','اتصال معروض')}</span>
             </div>
             <div style={{ padding:'8px' }}>
               {REFERRAL_TREE.map((r, i) => (
@@ -406,11 +408,11 @@ export default function TheReferral() {
                     <div style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{r.name}</div>
                     <div style={{ display:'flex', gap:'8px', marginTop:'2px' }}>
                       <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:r.color, fontWeight:700 }}>{r.door}</span>
-                      <span style={{ color:S.muted, fontSize:'10px' }}>Joined {r.joined}</span>
+                      <span style={{ color:S.muted, fontSize:'10px' }}>{t('Joined','انضم')} {r.joined}</span>
                     </div>
                   </div>
                   <div style={{ background:`rgba(99,102,241,0.1)`, border:'1px solid rgba(99,102,241,0.2)', borderRadius:'6px', padding:'3px 8px', fontSize:'9px', fontFamily:"'Orbitron',sans-serif", fontWeight:700, color:'#6366F1' }}>
-                    TIER {r.tier}
+                    {t('TIER','المستوى')} {r.tier}
                   </div>
                   <div style={{ display:'flex', alignItems:'center', gap:'4px' }}>
                     <div style={{ width:'6px', height:'6px', borderRadius:'50%', background: r.status==='active'?'#10B981':'#F97316' }} />
@@ -442,7 +444,7 @@ export default function TheReferral() {
                   <button onClick={() => copyToClipboard(k.content.replace('[YOUR_LINK]', refLink).replace('[USER_ID]', refCode), k.label)}
                     style={{ display:'flex', alignItems:'center', gap:'5px', padding:'5px 10px', borderRadius:'6px', cursor:'pointer', border:`1px solid ${k.color}30`, background:`${k.color}10`, color:k.color, fontSize:'10px', fontWeight:700 }}>
                     {copied===k.label ? <CheckCircle size={11}/> : <Copy size={11}/>}
-                    {copied===k.label ? 'Copied!' : 'Copy'}
+                    {copied===k.label ? t('Copied!','تم النسخ!') : t('Copy','نسخ')}
                   </button>
                 </div>
                 <div style={{ padding:'12px', borderRadius:'10px', background:'rgba(255,255,255,0.02)', border:`1px solid ${S.border}`, fontSize:'11px', color:'#CBD5E1', lineHeight:1.7, fontFamily: k.type==='link'?'monospace':'inherit', color: k.type==='link'?k.color:'#CBD5E1' }}>
@@ -454,7 +456,7 @@ export default function TheReferral() {
 
           {/* Door-specific links */}
           <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#6366F1', fontWeight:700, marginBottom:'14px' }}>DOOR-SPECIFIC REFERRAL LINKS</div>
+            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#6366F1', fontWeight:700, marginBottom:'14px' }}>{t('DOOR-SPECIFIC REFERRAL LINKS', 'روابط إحالة خاصة بكل باب')}</div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'10px' }}>
               {PROGRAMS.map(p => (
                 <div key={p.id} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'10px 12px', borderRadius:'10px', background:'rgba(255,255,255,0.02)', border:`1px solid ${p.color}15` }}>
