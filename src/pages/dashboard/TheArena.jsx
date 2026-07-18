@@ -8,6 +8,7 @@ import { Trophy, Zap, Crown, Share2, Search, Star, Target, Gift,
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
+import { useLang } from '@/lib/LanguageContext';
 
 /* ── RANK SYSTEM ── */
 const RANKS = [
@@ -447,6 +448,7 @@ function JoinCompetitionModal({ prize, onClose }) {
 
 /* ── MAIN COMPONENT ── */
 export default function TheArena() {
+  const { t } = useLang();
   const { user, profile } = useAuthStore();
   const [board, setBoard] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -486,13 +488,13 @@ export default function TheArena() {
   function shareRank() {
     const text = `I'm ranked #${myPos||'?'} on SOLVEN4 with ${myXP.toLocaleString()} XP — ${myRank.name} ${myRank.emoji}. The obsession is real.`;
     if (navigator.share) navigator.share({ title:'My SOLVEN4 Rank', text });
-    else { navigator.clipboard.writeText(text); toast.success('Rank copied!'); }
+    else { navigator.clipboard.writeText(text); toast.success(t('Rank copied!', 'تم نسخ الترتيب!')); }
   }
 
   function handleJoinChallenge(challenge) {
     setChallenges(prev => prev.map(c => c.id === challenge.id ? { ...c, joined:true, participants:c.participants+1 } : c));
     setChallengeDetail(prev => prev ? { ...prev, joined:true } : null);
-    toast.success(`Joined "${challenge.name}"! Good luck!`);
+    toast.success(t(`Joined "${challenge.name}"! Good luck!`, `انضممت إلى "${challenge.name}"! بالتوفيق!`));
   }
 
   const MEDAL = [
@@ -509,14 +511,14 @@ export default function TheArena() {
         <div>
           <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'4px' }}>
             <Trophy size={18} color="#D4A843" />
-            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900 }}>THE ARENA</h1>
-            <div style={{ background:'rgba(212,168,67,0.15)', border:'1px solid rgba(212,168,67,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'9px', fontWeight:700, color:'#D4A843', fontFamily:"'Orbitron',sans-serif" }}>LIVE</div>
+            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900 }}>{t('THE ARENA', 'الساحة')}</h1>
+            <div style={{ background:'rgba(212,168,67,0.15)', border:'1px solid rgba(212,168,67,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'9px', fontWeight:700, color:'#D4A843', fontFamily:"'Orbitron',sans-serif" }}>{t('LIVE','مباشر')}</div>
           </div>
-          <p style={{ color:S.muted, fontSize:'12px' }}>Global XP rankings across all 4 SOLVEN4 doors</p>
+          <p style={{ color:S.muted, fontSize:'12px' }}>{t('Global XP rankings across all 4 SOLVEN4 doors', 'ترتيب نقاط الخبرة العالمي عبر أبواب SOLVEN4 الأربعة')}</p>
         </div>
         <button onClick={shareRank}
           style={{ display:'flex', alignItems:'center', gap:'6px', padding:'8px 14px', borderRadius:'10px', border:'1px solid rgba(212,168,67,0.3)', background:'rgba(212,168,67,0.08)', color:'#D4A843', fontSize:'11px', fontWeight:700, cursor:'pointer' }}>
-          <Share2 size={12} /> Share Rank
+          <Share2 size={12} /> {t('Share Rank','مشاركة الترتيب')}
         </button>
       </div>
 
@@ -543,8 +545,8 @@ export default function TheArena() {
             {nextRank ? (
               <>
                 <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'5px' }}>
-                  <span style={{ color:S.muted, fontSize:'10px' }}>Progress to {nextRank.name}</span>
-                  <span style={{ color:myRank.color, fontSize:'10px', fontWeight:700 }}>{xpToNext.toLocaleString()} XP to go</span>
+                  <span style={{ color:S.muted, fontSize:'10px' }}>{t('Progress to','التقدم نحو')} {nextRank.name}</span>
+                  <span style={{ color:myRank.color, fontSize:'10px', fontWeight:700 }}>{xpToNext.toLocaleString()} {t('XP to go','نقطة خبرة متبقية')}</span>
                 </div>
                 <div style={{ height:'6px', borderRadius:'3px', background:'rgba(255,255,255,0.08)', overflow:'hidden' }}>
                   <motion.div initial={{ width:0 }} animate={{ width:`${xpPct}%` }} transition={{ delay:0.5, duration:1 }}
@@ -556,11 +558,11 @@ export default function TheArena() {
                 </div>
               </>
             ) : (
-              <div style={{ color:'#A855F7', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:700 }}>👑 MAXIMUM RANK ACHIEVED</div>
+              <div style={{ color:'#A855F7', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:700 }}>👑 {t('MAXIMUM RANK ACHIEVED', 'أعلى رتبة تم تحقيقها')}</div>
             )}
           </div>
           <div>
-            <div style={{ fontSize:'10px', color:S.muted, marginBottom:'6px' }}>YOUR PERKS</div>
+            <div style={{ fontSize:'10px', color:S.muted, marginBottom:'6px' }}>{t('YOUR PERKS', 'مزاياك')}</div>
             {myRank.perks.map(p=>(
               <div key={p} style={{ display:'flex', alignItems:'center', gap:'5px', marginBottom:'3px' }}>
                 <CheckCircle2 size={10} style={{ color:myRank.color }} />
@@ -573,11 +575,11 @@ export default function TheArena() {
 
       {/* ── PAGE TABS ── */}
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
-        {PAGE_TABS.map(t=>(
-          <button key={t} onClick={()=>setPageTab(t)}
+        {[['leaderboard',t('leaderboard','لوحة الصدارة')], ['challenges',t('challenges','التحديات')], ['achievements',t('achievements','الإنجازات')], ['prizes',t('prizes','الجوائز')]].map(([key, label])=>(
+          <button key={key} onClick={()=>setPageTab(key)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
-              background:pageTab===t?'#D4A843':'transparent', color:pageTab===t?'#000':S.muted }}>
-            {t}
+              background:pageTab===key?'#D4A843':'transparent', color:pageTab===key?'#000':S.muted }}>
+            {label}
           </button>
         ))}
       </div>
