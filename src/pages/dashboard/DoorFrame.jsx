@@ -48,10 +48,22 @@ export default function DoorFrame() {
     return () => clearInterval(interval);
   }, [bridgeSession, key]);
 
+  // NEXUS has its own embedded-mode header (Back/Reload/Open-in-tab) —
+  // it posts these instead of us providing a separate chrome bar on top.
+  useEffect(() => {
+    const onMessage = (event) => {
+      if (event.data?.type === 'SOLVEN4_BACK_TO_HUB') navigate('/dashboard/command');
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, [navigate]);
+
   if (!door) {
     navigate('/dashboard/command');
     return null;
   }
+
+  const hasOwnChrome = doorId?.toLowerCase() === 'nexus';
 
   function reload() {
     setLoading(true);
@@ -61,7 +73,8 @@ export default function DoorFrame() {
   return (
     <div className="s4hud" style={{ ['--accent']: door.color, display: 'flex', flexDirection: 'column', height: '100%', background: '#05050C' }}>
       <Helmet><title>{door.label} | S4 HUB</title></Helmet>
-      {/* Door top bar */}
+      {/* Door top bar — doors with their own embedded-mode header (currently NEXUS) skip this and provide it themselves */}
+      {!hasOwnChrome && (
       <div style={{
         display: 'flex', alignItems: 'center', gap: '12px',
         padding: '10px 16px',
@@ -143,6 +156,7 @@ export default function DoorFrame() {
           <Maximize2 size={13} />
         </button>
       </div>
+      )}
 
       {/* Iframe */}
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Maximize2, Minimize2, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -13,9 +13,21 @@ export default function DoorEmbed({ door, onClose }) {
   const [maximized, setMaximized] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const config = DOOR_CONFIG[door];
+
+  // NEXUS ships its own embedded-mode header (Back/Reload/Open-in-tab) and posts
+  // this message when its "Back to HUB" control is used — treat it like Close.
+  useEffect(() => {
+    const onMessage = (event) => {
+      if (event.data?.type === 'SOLVEN4_BACK_TO_HUB') onClose();
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, [onClose]);
+
   if (!config || !door) return null;
 
   const url = config.url;
+  const hasOwnChrome = door === 'NEXUS';
 
   // Minimized taskbar chip
   if (minimized) {
@@ -109,7 +121,10 @@ export default function DoorEmbed({ door, onClose }) {
           display: 'flex', alignItems: 'center', gap: '12px',
           flexShrink: 0,
         }}>
-          {/* Door identity */}
+          {/* Door identity — doors with their own embedded-mode header (currently NEXUS) show branding themselves */}
+          {hasOwnChrome ? (
+            <div style={{ flex: 1 }} />
+          ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
             <div style={{
               width: '28px', height: '28px', borderRadius: '8px',
@@ -143,6 +158,7 @@ export default function DoorEmbed({ door, onClose }) {
               }}>LIVE</span>
             </div>
           </div>
+          )}
 
           {/* Controls */}
           <div style={{ display: 'flex', gap: '6px' }}>
