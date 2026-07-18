@@ -580,7 +580,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
   return (
     <motion.div key={door.id} initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-10}}
       transition={{type:'spring',stiffness:260,damping:28}}
-      style={{background:'rgba(10,12,30,0.98)',border:`1px solid ${door.color}28`,borderRadius:'20px',overflow:'hidden',boxShadow:`0 0 60px ${door.glow}`}}>
+      className="s4-glass" style={{['--accent']:door.color,borderColor:`${door.color}28`,overflow:'hidden',boxShadow:`0 0 60px ${door.glow}`}}>
 
       {/* Header */}
       <div style={{padding:'20px 24px',background:`linear-gradient(135deg,${door.color}12 0%,transparent 60%)`,borderBottom:`1px solid ${door.color}18`,display:'flex',alignItems:'center',gap:'16px'}}>
@@ -916,11 +916,11 @@ export default function TheAgent() {
   ];
 
   return (
-    <div style={{color:'#fff',fontFamily:"'Space Grotesk',sans-serif",paddingBottom:'60px'}}>
+    <div className="s4hud" style={{['--accent']:'#6366f1',color:'#fff',fontFamily:"'Space Grotesk',sans-serif",paddingBottom:'60px'}}>
 
       {/* ══ TOP HUD ══ */}
-      <motion.div initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}}
-        style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',alignItems:'center',gap:'16px',marginBottom:'16px',background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'14px 24px',backdropFilter:'blur(40px)'}}>
+      <motion.div initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}} className="s4-glass spatial lift"
+        style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',alignItems:'center',gap:'16px',marginBottom:'16px',padding:'14px 24px'}}>
         <div style={{display:'flex',gap:'18px',alignItems:'center'}}>
           {Object.values(DOORS).map(d=>(
             <div key={d.id} style={{display:'flex',alignItems:'center',gap:'5px'}}>
@@ -1045,7 +1045,7 @@ export default function TheAgent() {
                   {todayEvents.length===0 && <span style={{color:'#94A3B8',fontSize:'11px'}}>{t("No events today — add from any door's schedule tab", 'لا توجد فعاليات اليوم — أضف من تبويب الجدول لأي باب')}</span>}
                 </div>
 
-                <div style={{background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'18px',padding:'22px'}}>
+                <div className="s4-glass spatial lift" style={{padding:'22px'}}>
                   <SolvenCalendar events={calendarEvents} onAddEvent={addCalendarEvent}/>
                 </div>
               </motion.div>
@@ -1116,10 +1116,10 @@ export default function TheAgent() {
                 </div>
 
                 {/* 4-door briefing grid */}
-                <div style={{background:'rgba(10,12,30,0.98)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'16px',padding:'20px'}}>
+                <div className="s4-glass spatial lift" style={{padding:'20px'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'14px'}}>
                     <Brain size={14} color="#6366F1"/>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>{t('SOLVEN DAILY BRIEFING — ALL 4 DOORS', 'إحاطة SOLVEN اليومية — كل الأبواب الأربعة')}</span>
+                    <span className="s4-label s4-accent">{t('SOLVEN DAILY BRIEFING — ALL 4 DOORS', 'إحاطة SOLVEN اليومية — كل الأبواب الأربعة')}</span>
                   </div>
                   <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'10px'}}>
                     {Object.entries(DOORS).map(([key,d])=>(
@@ -1156,11 +1156,7 @@ export default function TheAgent() {
           <AnimatePresence>
             {chatOpen && (
               <motion.div initial={{opacity:0,width:0}} animate={{opacity:1,width:320}} exit={{opacity:0,width:0}}
-                style={{
-                  background:'rgba(10,12,30,0.98)', border:'1px solid rgba(99,102,241,0.2)',
-                  borderRadius:'18px', overflow:'hidden', width:'320px',
-                  boxShadow:'0 4px 60px rgba(99,102,241,0.1)',
-                }}>
+                className="s4-glass" style={{ borderColor:'rgba(99,102,241,0.2)', overflow:'hidden', width:'320px' }}>
 
                 {/* Chat header */}
                 <div style={{padding:'14px 16px',background:'linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.05))',borderBottom:'1px solid rgba(99,102,241,0.15)',display:'flex',alignItems:'center',gap:'10px'}}>
