@@ -56,7 +56,25 @@ export default async function handler(req, res) {
 
     const lastUserMsg = (messages || []).filter(m => m.role === 'user').slice(-1)[0]?.content || '';
     const memoryContext = await getRelevantMemories(supabase, userId, lastUserMsg);
-    const system = memoryContext ? `${baseSystem}\n${memoryContext}` : baseSystem;
+
+    // THE ORACLE persona grounds itself in ORACLE's own live daily briefing
+    // (oracle_cache, key 'daily_briefing' — the same table/row its own
+    // Intelligence API computes and caches) instead of answering macro
+    // questions from training data alone.
+    let intelContext = '';
+    if (personaId === 'oracle') {
+      const { data: cached } = await supabase
+        .from('oracle_cache').select('payload, cached_at').eq('cache_key', 'daily_briefing').maybeSingle();
+      if (cached?.payload) {
+        intelContext = `\n\nLIVE MARKET INTELLIGENCE (from S4 ORACLE, generated ${cached.cached_at}):\n` +
+          `Summary: ${cached.payload.market_summary}\n` +
+          `Risk level: ${cached.payload.risk_level}\n` +
+          `Tactical insight: ${cached.payload.tactical_insight}\n` +
+          `Ground your answer in this data when relevant instead of generic market commentary.`;
+      }
+    }
+
+    const system = [baseSystem, memoryContext, intelContext].filter(Boolean).join('\n');
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-5',
