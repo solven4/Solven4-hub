@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
-import { DollarSign, TrendingUp, Users, Download, Calendar, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, Download, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel, Btn } from '@/hud';
 
-const S = {
-  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
-  statCard: (color) => ({ background: `${color}08`, border: `1px solid ${color}25`, borderRadius: '14px', padding: '20px' }),
-};
+const ACCENT = '#D4A843';
 
 const STATUS_STYLES = {
   paid:    { color: '#10B981', bg: 'rgba(16,185,129,0.1)',  Icon: CheckCircle, label: 'Paid', labelAr: 'مدفوع' },
@@ -40,101 +38,109 @@ export default function TheCommission() {
   const totalLots = members.reduce((sum, m) => sum + (m.total_lots || 0), 0);
 
   const visible = filter === 'all' ? commissions : commissions.filter(c => c.status === filter);
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '960px', margin: '0 auto' }}>
+
+      {/* header */}
+      <motion.div {...rise} transition={{ duration: 0.5 }}
+        style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', marginBottom: '22px' }}>
         <div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-            {t('COMMISSION ENGINE', 'محرك العمولات')}
-          </h1>
-          <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Track earnings across your entire network', 'تتبع الأرباح عبر شبكتك بالكامل')}</p>
+          <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('IB NETWORK EARNINGS', 'أرباح شبكة الوسطاء')}</div>
+          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+            background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('COMMISSION ENGINE', 'محرك العمولات')}</h1>
+          <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Track earnings across your entire network', 'تتبع الأرباح عبر شبكتك بالكامل')}</p>
         </div>
-        <button style={{ padding: '10px 18px', borderRadius: '10px', border: '1px solid rgba(212,168,67,0.3)', background: 'rgba(212,168,67,0.1)', color: '#D4A843', fontSize: '12px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <Btn ghost style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', padding: '10px 16px' }}>
           <Download size={13} /> {t('Export CSV', 'تصدير CSV')}
-        </button>
-      </div>
+        </Btn>
+      </motion.div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '20px' }}>
         {[
           { label: t('Total Earned', 'إجمالي الأرباح'), value: `$${totalEarned.toFixed(2)}`, color: '#10B981', Icon: DollarSign },
           { label: t('Pending', 'قيد الانتظار'), value: `$${totalPending.toFixed(2)}`, color: '#F59E0B', Icon: Clock },
           { label: t('Active Traders', 'المتداولون النشطون'), value: members.length.toString(), color: '#3B82F6', Icon: Users },
           { label: t('Total Lots', 'إجمالي اللوتات'), value: totalLots.toFixed(2), color: '#D4A843', Icon: TrendingUp },
         ].map(({ label, value, color, Icon }, i) => (
-          <motion.div key={label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} style={S.statCard(color)}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-              <Icon size={18} color={color} />
-            </div>
-            <div style={{ fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{value}</div>
-            <div style={{ fontSize: '11px', color: '#94A3B8' }}>{label}</div>
+          <motion.div key={label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
+            <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: color, padding: '18px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <Icon size={18} color={color} />
+              </div>
+              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{value}</div>
+              <div className="s4-label" style={{ fontSize: '9px' }}>{label}</div>
+            </GlassPanel>
           </motion.div>
         ))}
       </div>
 
       {/* Commission log */}
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} style={S.card}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <DollarSign size={15} color="#D4A843" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#D4A843', fontWeight: 700 }}>{t('COMMISSION LOG', 'سجل العمولات')}</span>
-          </div>
-          {/* Filter tabs */}
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {[['all', t('all','الكل')], ['paid', t('paid','مدفوع')], ['pending', t('pending','قيد الانتظار')], ['failed', t('failed','فشل')]].map(([f, fLabel]) => (
-              <button key={f} onClick={() => setFilter(f)}
-                style={{
-                  padding: '5px 12px', borderRadius: '6px', border: 'none', cursor: 'pointer',
-                  background: filter === f ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)',
-                  color: filter === f ? '#818CF8' : '#94A3B8', fontSize: '11px', fontWeight: 600, textTransform: 'capitalize',
-                }}>
-                {fLabel}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {loading ? (
-          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '32px' }}>{t('Loading commissions...', 'جارٍ تحميل العمولات...')}</div>
-        ) : visible.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>
-            <DollarSign size={36} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#94A3B8', fontSize: '13px' }}>{t('No commissions found', 'لم يتم العثور على عمولات')}</p>
-          </div>
-        ) : (
-          <>
-            {/* Table header */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 100px 100px 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '4px' }}>
-              {[t('Trader','المتداول'), t('Lots','اللوتات'), t('Rate','النسبة'), t('Amount','المبلغ'), t('Status','الحالة')].map(h => (
-                <div key={h} style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
+      <motion.div {...rise} transition={{ delay: 0.25 }}>
+        <GlassPanel className="spatial lift">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <DollarSign size={13} color={ACCENT} />
+              <span className="s4-label s4-accent">{t('COMMISSION LOG', 'سجل العمولات')}</span>
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {[['all', t('all', 'الكل')], ['paid', t('paid', 'مدفوع')], ['pending', t('pending', 'قيد الانتظار')], ['failed', t('failed', 'فشل')]].map(([f, fLabel]) => (
+                <button key={f} onClick={() => setFilter(f)}
+                  style={{
+                    fontFamily: "'Orbitron',sans-serif", fontSize: '8px', letterSpacing: '0.1em', fontWeight: 700,
+                    padding: '5px 11px', borderRadius: '6px', cursor: 'pointer', border: 'none', textTransform: 'uppercase',
+                    background: filter === f ? ACCENT : 'rgba(255,255,255,0.05)', color: filter === f ? '#000' : '#94A3B8',
+                  }}>
+                  {fLabel}
+                </button>
               ))}
             </div>
-            {visible.map((c, i) => {
-              const st = STATUS_STYLES[c.status || 'pending'] || STATUS_STYLES.pending;
-              const Icon = st.Icon;
-              return (
-                <motion.div key={c.id || i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.02 }}
-                  style={{ display: 'grid', gridTemplateColumns: '1fr 100px 100px 100px 100px', gap: '12px', padding: '10px 12px', borderRadius: '8px', alignItems: 'center', transition: 'background 0.1s' }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                  <div>
-                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff' }}>{c.trader_account || `${t('Trader','متداول')} #${i + 1}`}</div>
-                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>{c.created_at ? new Date(c.created_at).toLocaleDateString() : '—'}</div>
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#fff' }}>{parseFloat(c.lots || 0).toFixed(2)}</div>
-                  <div style={{ fontSize: '12px', color: '#94A3B8' }}>{c.rate || '0'}%</div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#10B981' }}>${parseFloat(c.amount || 0).toFixed(2)}</div>
-                  <div>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', padding: '3px 8px', borderRadius: '6px', background: st.bg, color: st.color, fontWeight: 600 }}>
-                      <Icon size={10} /> {t(st.label, st.labelAr)}
-                    </span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </>
-        )}
+          </div>
+
+          {loading ? (
+            <div style={{ textAlign: 'center', color: '#94A3B8', padding: '32px', fontSize: '12px' }}>{t('Loading commissions...', 'جارٍ تحميل العمولات...')}</div>
+          ) : visible.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '44px' }}>
+              <DollarSign size={32} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.4 }} />
+              <p style={{ color: '#94A3B8', fontSize: '12.5px' }}>{t('No commissions found', 'لم يتم العثور على عمولات')}</p>
+            </div>
+          ) : (
+            <>
+              {/* Table header */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 100px 100px 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid var(--s4-line)', marginBottom: '4px' }}>
+                {[t('Trader', 'المتداول'), t('Lots', 'اللوتات'), t('Rate', 'النسبة'), t('Amount', 'المبلغ'), t('Status', 'الحالة')].map(h => (
+                  <div key={h} className="s4-label" style={{ fontSize: '9px' }}>{h}</div>
+                ))}
+              </div>
+              {visible.map((c, i) => {
+                const st = STATUS_STYLES[c.status || 'pending'] || STATUS_STYLES.pending;
+                const Icon = st.Icon;
+                return (
+                  <motion.div key={c.id || i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.02 }}
+                    style={{ display: 'grid', gridTemplateColumns: '1fr 100px 100px 100px 100px', gap: '12px', padding: '10px 12px', borderRadius: '8px', alignItems: 'center', transition: 'background 0.1s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                    <div>
+                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff' }}>{c.trader_account || `${t('Trader', 'متداول')} #${i + 1}`}</div>
+                      <div style={{ fontSize: '10px', color: '#94A3B8' }}>{c.created_at ? new Date(c.created_at).toLocaleDateString() : '—'}</div>
+                    </div>
+                    <div className="s4-num" style={{ fontSize: '12px', color: '#fff' }}>{parseFloat(c.lots || 0).toFixed(2)}</div>
+                    <div className="s4-num" style={{ fontSize: '12px', color: '#94A3B8' }}>{c.rate || '0'}%</div>
+                    <div className="s4-num" style={{ fontSize: '13px', fontWeight: 700, color: '#10B981' }}>${parseFloat(c.amount || 0).toFixed(2)}</div>
+                    <div>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '10px', padding: '3px 8px', borderRadius: '6px', background: st.bg, color: st.color, fontWeight: 600 }}>
+                        <Icon size={10} /> {t(st.label, st.labelAr)}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </>
+          )}
+        </GlassPanel>
       </motion.div>
     </div>
   );

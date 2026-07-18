@@ -12,6 +12,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
 import { useLang } from '@/lib/LanguageContext';
+import { Btn } from '@/hud';
 
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8', accent:'#6366F1' };
 
@@ -221,11 +222,10 @@ function StripeDepositFlow({ amount, onSuccess, onBack }) {
       {error && <div style={{ marginTop:'10px', padding:'8px 12px', borderRadius:'8px', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', color:'#EF4444', fontSize:'11px' }}>{error}</div>}
 
       <div style={{ display:'flex', gap:'8px', marginTop:'18px' }}>
-        <button onClick={onBack} style={{ padding:'12px 18px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>{t('Back','رجوع')}</button>
-        <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }} onClick={handlePay}
-          style={{ flex:1, padding:'12px', borderRadius:'10px', background:'linear-gradient(135deg,#635BFF,#6366F1)', border:'none', cursor:'pointer', color:'#fff', fontSize:'13px', fontWeight:900, boxShadow:'0 0 24px rgba(99,91,255,0.35)' }}>
+        <Btn ghost onClick={onBack} style={{ padding:'12px 18px', fontSize:'11px' }}>{t('Back','رجوع')}</Btn>
+        <Btn onClick={handlePay} style={{ flex:1, padding:'12px', fontSize:'12px', ['--accent']:'#635BFF' }}>
           {t('Pay', 'ادفع')} {fmt(parseFloat(amount)||0)} {t('with Stripe', 'عبر سترايب')}
-        </motion.button>
+        </Btn>
       </div>
       <div style={{ textAlign:'center', marginTop:'10px', color:S.muted, fontSize:'10px' }}>
         {t('Your card data is processed securely by Stripe and never stored on our servers', 'تتم معالجة بيانات بطاقتك بأمان عبر سترايب ولا يتم تخزينها على خوادمنا أبداً')}
@@ -444,11 +444,10 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
         ⚠️ {t('Cryptocurrency withdrawals are irreversible. Verify the address before confirming.', 'سحوبات العملات الرقمية لا يمكن التراجع عنها. تحقق من العنوان قبل التأكيد.')}
       </div>
       <div style={{ display:'flex', gap:'8px' }}>
-        <button onClick={()=>setStep('form')} style={{ padding:'12px 18px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>{t('Back','رجوع')}</button>
-        <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }} onClick={handleConfirm}
-          style={{ flex:1, padding:'12px', borderRadius:'10px', background:'linear-gradient(135deg,#6366F1,#8B5CF6)', border:'none', cursor:'pointer', color:'#fff', fontSize:'13px', fontWeight:900, boxShadow:'0 0 24px rgba(99,102,241,0.3)' }}>
+        <Btn ghost onClick={()=>setStep('form')} style={{ padding:'12px 18px', fontSize:'11px' }}>{t('Back','رجوع')}</Btn>
+        <Btn onClick={handleConfirm} style={{ flex:1, padding:'12px', fontSize:'12px' }}>
           {t('Confirm & Broadcast', 'تأكيد وبث')}
-        </motion.button>
+        </Btn>
       </div>
     </div>
   );
@@ -490,11 +489,10 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
         ✓ {t('Zero withdrawal fees · Blockchain confirmation in real-time · Instant approval', 'بدون رسوم سحب · تأكيد فوري على البلوكتشين · موافقة فورية')}
       </div>
       <div style={{ display:'flex', gap:'8px' }}>
-        <button onClick={onBack} style={{ padding:'12px 18px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>{t('Back','رجوع')}</button>
-        <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.98 }} onClick={handleSubmit}
-          style={{ flex:1, padding:'12px', borderRadius:'10px', background:'linear-gradient(135deg,#6366F1,#8B5CF6)', border:'none', cursor:'pointer', color:'#fff', fontSize:'13px', fontWeight:900 }}>
+        <Btn ghost onClick={onBack} style={{ padding:'12px 18px', fontSize:'11px' }}>{t('Back','رجوع')}</Btn>
+        <Btn onClick={handleSubmit} style={{ flex:1, padding:'12px', fontSize:'12px' }}>
           {t('Review Withdrawal →', 'مراجعة السحب ←')}
-        </motion.button>
+        </Btn>
       </div>
     </div>
   );
@@ -559,20 +557,20 @@ export default function TheVault() {
   function resetWithdraw() { setWithdrawMethod(null); setWithdrawSuccess(false); }
 
   return (
-    <div style={{ minHeight:'100vh', padding:'20px', background:S.bg, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:S.accent, minHeight:'100vh', padding:'20px', background:S.bg, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HERO BALANCE ── */}
-      <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
-        style={{ position:'relative', borderRadius:'24px', overflow:'hidden', padding:'28px 32px', marginBottom:'20px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.18) 0%,rgba(10,12,30,0.96) 55%,rgba(139,92,246,0.1) 100%)',
-          backdropFilter:'blur(24px)', border:'1px solid rgba(99,102,241,0.2)' }}>
+      <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
+        style={{ position:'relative', overflow:'hidden', padding:'28px 32px', marginBottom:'20px',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.18) 0%,rgba(10,12,30,0.96) 55%,rgba(139,92,246,0.1) 100%)' }}>
+        <span className="s4-bracket tl" /><span className="s4-bracket br" />
         <div style={{ position:'absolute', inset:0, opacity:0.3,
           backgroundImage:'linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)',
           backgroundSize:'28px 28px', pointerEvents:'none' }} />
         <div style={{ position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'24px', flexWrap:'wrap' }}>
             <div>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.3em', color:S.muted, marginBottom:'8px' }}>{t('AVAILABLE BALANCE · SOLVEN4 VAULT', 'الرصيد المتاح · خزنة SOLVEN4')}</div>
+              <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8 }}>{t('AVAILABLE BALANCE · SOLVEN4 VAULT', 'الرصيد المتاح · خزنة SOLVEN4')}</div>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'48px', fontWeight:900, color:'#fff', lineHeight:1, marginBottom:'6px' }}>
                 {fmt(balance)}<span style={{ fontSize:'16px', color:S.muted, marginLeft:'8px', fontWeight:400 }}>{currency}</span>
               </div>
@@ -582,14 +580,12 @@ export default function TheVault() {
               </div>
             </div>
             <div style={{ display:'flex', gap:'10px', alignItems:'flex-start' }}>
-              <motion.button whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }} onClick={() => setTab('deposit')}
-                style={{ display:'flex', alignItems:'center', gap:'7px', padding:'10px 20px', borderRadius:'12px', cursor:'pointer', fontWeight:700, fontSize:'13px', color:'#fff', border:'none', background:'linear-gradient(135deg,#10B981,#059669)', boxShadow:'0 0 20px rgba(16,185,129,0.35)' }}>
+              <Btn onClick={() => setTab('deposit')} style={{ display:'flex', alignItems:'center', gap:'7px', padding:'10px 20px', fontSize:'12px', ['--accent']:'#10B981' }}>
                 <Plus size={15} /> {t('Deposit','إيداع')}
-              </motion.button>
-              <motion.button whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }} onClick={() => setTab('withdraw')}
-                style={{ display:'flex', alignItems:'center', gap:'7px', padding:'10px 20px', borderRadius:'12px', cursor:'pointer', fontWeight:700, fontSize:'13px', color:'#fff', border:'none', background:'linear-gradient(135deg,#6366F1,#8B5CF6)', boxShadow:'0 0 20px rgba(99,102,241,0.35)' }}>
+              </Btn>
+              <Btn onClick={() => setTab('withdraw')} style={{ display:'flex', alignItems:'center', gap:'7px', padding:'10px 20px', fontSize:'12px' }}>
                 <Send size={15} /> {t('Withdraw','سحب')}
-              </motion.button>
+              </Btn>
             </div>
           </div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:'12px', marginTop:'20px', paddingTop:'16px', borderTop:'1px solid rgba(255,255,255,0.06)' }}>
@@ -617,8 +613,8 @@ export default function TheVault() {
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:'1px solid rgba(255,255,255,0.06)', marginBottom:'20px', width:'fit-content' }}>
         {[['overview',t('overview','نظرة عامة')], ['income',t('income','الدخل')], ['history',t('history','السجل')], ['deposit',t('deposit','إيداع')], ['withdraw',t('withdraw','سحب')], ['subscriptions',t('subscriptions','الاشتراكات')]].map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)}
-            style={{ padding:'7px 16px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', transition:'all 0.15s', textTransform:'capitalize',
-              background: tab===key?'#6366F1':'transparent', color: tab===key?'#fff':S.muted }}>
+            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 16px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.06em', fontWeight:700, cursor:'pointer', border:'none', transition:'all 0.15s', textTransform:'uppercase',
+              background: tab===key?S.accent:'transparent', color: tab===key?'#fff':S.muted }}>
             {label}
           </button>
         ))}
@@ -630,7 +626,7 @@ export default function TheVault() {
       {tab === 'overview' && (
         <motion.div key="ov" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
           style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:'16px' }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
             <div style={{ padding:'16px 18px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', justifyContent:'space-between' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'7px' }}>
                 <History size={13} color="#6366F1" />
@@ -641,13 +637,13 @@ export default function TheVault() {
             <div style={{ padding:'4px 8px' }}>{txs.slice(0,6).map(tx=><TxRow key={tx.id} tx={tx} />)}</div>
           </div>
           <div style={{ display:'flex', flexDirection:'column', gap:'14px' }}>
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'7px', marginBottom:'14px' }}>
                 <BarChart2 size={13} color="#10B981" /><span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', fontWeight:700, color:'#10B981' }}>{t('6-MONTH INCOME', 'الدخل خلال 6 أشهر')}</span>
               </div>
               <SparkBar data={MONTHLY_DATA} maxVal={MAX_MONTHLY} />
             </div>
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'12px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'7px' }}>
                   <PieChart size={13} color="#D4A843" /><span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', fontWeight:700, color:'#D4A843' }}>{t('INCOME BY DOOR', 'الدخل حسب الباب')}</span>
@@ -667,7 +663,7 @@ export default function TheVault() {
                 </div>
               ))}
             </div>
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'7px', marginBottom:'12px' }}>
                 <Zap size={13} color="#D4A843" /><span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', fontWeight:700, color:'#D4A843' }}>{t('QUICK ACTIONS', 'إجراءات سريعة')}</span>
               </div>
@@ -696,7 +692,7 @@ export default function TheVault() {
       {tab === 'income' && (
         <motion.div key="income" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
           style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ padding:'22px' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#D4A843', fontWeight:700, marginBottom:'20px' }}>{t('INCOME BREAKDOWN — THIS MONTH', 'تفصيل الدخل — هذا الشهر')}</div>
             {INCOME_SOURCES.map(r=>(
               <div key={r.label} style={{ marginBottom:'16px' }}>
@@ -725,7 +721,7 @@ export default function TheVault() {
             </div>
           </div>
           <div style={{ display:'flex', flexDirection:'column', gap:'14px' }}>
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'22px' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>{t('6-MONTH REVENUE TREND', 'اتجاه الإيرادات خلال 6 أشهر')}</div>
               <SparkBar data={MONTHLY_DATA} maxVal={MAX_MONTHLY} />
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px', marginTop:'14px' }}>
@@ -742,7 +738,7 @@ export default function TheVault() {
                 ))}
               </div>
             </div>
-            <div style={{ background:S.surface, border:'1px solid rgba(16,185,129,0.15)', borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'22px', borderColor:'rgba(16,185,129,0.25)' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#10B981', fontWeight:700, marginBottom:'12px' }}>{t('FINANCIAL HEALTH', 'الصحة المالية')}</div>
               {[
                 { label:t('P&L This Month','الأرباح والخسائر هذا الشهر'), value:fmt(totalIn-totalOut), up:(totalIn-totalOut)>=0 },
@@ -762,7 +758,7 @@ export default function TheVault() {
       {/* ── HISTORY ── */}
       {tab === 'history' && (
         <motion.div key="history" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
-          style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+          className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
           <div style={{ padding:'16px 18px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'12px', flexWrap:'wrap' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', fontWeight:700, color:'#6366F1' }}>{t('FULL TRANSACTION HISTORY', 'سجل المعاملات الكامل')}</div>
             <div style={{ flex:1 }} />
@@ -783,7 +779,10 @@ export default function TheVault() {
           </div>
           <div style={{ padding:'4px 10px' }}>
             {filteredTxs.length === 0
-              ? <div style={{ textAlign:'center', padding:'32px', color:S.muted, fontSize:'13px' }}>{t('No transactions found', 'لم يتم العثور على معاملات')}</div>
+              ? <div style={{ textAlign:'center', padding:'44px' }}>
+                  <History size={32} color="#94A3B8" style={{ margin:'0 auto 12px', display:'block', opacity:0.4 }} />
+                  <p style={{ color:S.muted, fontSize:'12.5px' }}>{t('No transactions found', 'لم يتم العثور على معاملات')}</p>
+                </div>
               : filteredTxs.map(tx=><TxRow key={tx.id} tx={tx} />)
             }
           </div>
@@ -795,7 +794,7 @@ export default function TheVault() {
         <motion.div key="deposit" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
           style={{ maxWidth:'560px' }}>
           {depositSuccess ? (
-            <div style={{ background:S.surface, border:'1px solid rgba(16,185,129,0.3)', borderRadius:'18px', padding:'40px', textAlign:'center', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass" style={{ padding:'40px', textAlign:'center', borderColor:'rgba(16,185,129,0.35)' }}>
               <CheckCircle2 size={52} style={{ color:'#10B981', margin:'0 auto 16px', display:'block' }} />
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('DEPOSIT CONFIRMED', 'تم تأكيد الإيداع')}</div>
               <div style={{ color:S.muted, fontSize:'13px', marginBottom:'24px' }}>{t('Your funds have been credited to your SOLVEN4 Vault.', 'تم إضافة أموالك إلى خزنة SOLVEN4 الخاصة بك.')}</div>
@@ -805,7 +804,7 @@ export default function TheVault() {
             </div>
           ) : !depositMethod ? (
             /* Method selector */
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#10B981', fontWeight:700, marginBottom:'6px', display:'flex', alignItems:'center', gap:'7px' }}>
                 <Plus size={13} /> {t('ADD FUNDS TO VAULT', 'إضافة أموال إلى الخزنة')}
               </div>
@@ -834,7 +833,7 @@ export default function TheVault() {
             </div>
           ) : depositMethod === 'stripe' && !depositAmountConfirmed ? (
             /* Stripe amount entry */
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'20px' }}>
                 <button onClick={() => setDepositMethod(null)} style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, borderRadius:'8px', padding:'6px 10px', cursor:'pointer', color:S.muted, fontSize:'11px' }}>{t('← Back','→ رجوع')}</button>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:'#635BFF', fontWeight:700, letterSpacing:'0.15em' }}>{t('STRIPE DEPOSIT', 'إيداع سترايب')}</div>
@@ -853,19 +852,17 @@ export default function TheVault() {
               <div style={{ padding:'10px 12px', borderRadius:'8px', background:'rgba(99,91,255,0.06)', border:'1px solid rgba(99,91,255,0.15)', marginBottom:'16px', fontSize:'11px', color:S.muted }}>
                 {t('Minimum deposit: $100 · Instantly credited to your Vault · No Stripe fees charged', 'الحد الأدنى للإيداع: 100$ · يُضاف فوراً إلى خزنتك · بدون رسوم من سترايب')}
               </div>
-              <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }}
-                onClick={()=>{ if(parseFloat(depositAmount)>=100) setDepositAmountConfirmed(true); }}
-                style={{ width:'100%', padding:'14px', borderRadius:'12px', fontWeight:900, fontSize:'13px', color:'#fff', border:'none', cursor:'pointer',
-                  background:'linear-gradient(135deg,#635BFF,#6366F1)', boxShadow:'0 0 24px rgba(99,91,255,0.3)', opacity:parseFloat(depositAmount)<100?0.5:1 }}>
+              <Btn onClick={()=>{ if(parseFloat(depositAmount)>=100) setDepositAmountConfirmed(true); }}
+                style={{ width:'100%', padding:'14px', fontSize:'12px', ['--accent']:'#635BFF', opacity:parseFloat(depositAmount)<100?0.5:1 }}>
                 {t('Continue to Card Details', 'متابعة إلى تفاصيل البطاقة')}
-              </motion.button>
+              </Btn>
             </div>
           ) : depositMethod === 'stripe' && depositAmountConfirmed ? (
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <StripeDepositFlow amount={depositAmount} onSuccess={() => setDepositSuccess(true)} onBack={()=>setDepositAmountConfirmed(false)} />
             </div>
           ) : depositMethod === 'crypto' ? (
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'20px' }}>
                 <button onClick={() => setDepositMethod(null)} style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, borderRadius:'8px', padding:'6px 10px', cursor:'pointer', color:S.muted, fontSize:'11px' }}>{t('← Back','→ رجوع')}</button>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:'#F7931A', fontWeight:700, letterSpacing:'0.15em' }}>{t('CRYPTO DEPOSIT', 'إيداع بالعملات الرقمية')}</div>
@@ -881,7 +878,7 @@ export default function TheVault() {
         <motion.div key="withdraw" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
           style={{ maxWidth:'560px' }}>
           {withdrawSuccess ? (
-            <div style={{ background:S.surface, border:'1px solid rgba(99,102,241,0.3)', borderRadius:'18px', padding:'40px', textAlign:'center', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass" style={{ padding:'40px', textAlign:'center', borderColor:'rgba(99,102,241,0.35)' }}>
               <CheckCircle2 size={52} style={{ color:'#6366F1', margin:'0 auto 16px', display:'block' }} />
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('WITHDRAWAL COMPLETE', 'اكتمل السحب')}</div>
               <div style={{ color:S.muted, fontSize:'13px', marginBottom:'24px' }}>{t('Funds have been broadcast to the blockchain and confirmed.', 'تم بث الأموال إلى البلوكتشين وتأكيدها.')}</div>
@@ -890,7 +887,7 @@ export default function TheVault() {
               </button>
             </div>
           ) : !withdrawMethod ? (
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.2em', color:'#6366F1', fontWeight:700, marginBottom:'6px', display:'flex', alignItems:'center', gap:'7px' }}>
                 <Send size={13} /> {t('REQUEST WITHDRAWAL', 'طلب سحب')}
               </div>
@@ -922,7 +919,7 @@ export default function TheVault() {
               </div>
             </div>
           ) : withdrawMethod === 'crypto' ? (
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'20px' }}>
                 <button onClick={()=>setWithdrawMethod(null)} style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, borderRadius:'8px', padding:'6px 10px', cursor:'pointer', color:S.muted, fontSize:'11px' }}>{t('← Back','→ رجوع')}</button>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:'#F7931A', fontWeight:700, letterSpacing:'0.15em' }}>{t('CRYPTO WITHDRAWAL', 'سحب بالعملات الرقمية')}</div>
@@ -930,7 +927,7 @@ export default function TheVault() {
               <CryptoWithdrawalFlow balance={balance} onSuccess={()=>setWithdrawSuccess(true)} onBack={()=>setWithdrawMethod(null)} />
             </div>
           ) : withdrawMethod === 'stripe' ? (
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'28px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'28px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'20px' }}>
                 <button onClick={()=>setWithdrawMethod(null)} style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, borderRadius:'8px', padding:'6px 10px', cursor:'pointer', color:S.muted, fontSize:'11px' }}>{t('← Back','→ رجوع')}</button>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:'#635BFF', fontWeight:700, letterSpacing:'0.15em' }}>{t('STRIPE PAYOUT', 'دفعة سترايب')}</div>
@@ -959,7 +956,7 @@ export default function TheVault() {
         <motion.div key="subscriptions" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'14px' }}>
             {SUBS.map(s=>(
-              <div key={s.door} style={{ background:S.surface, border:`1px solid ${s.color}20`, borderRadius:'16px', padding:'20px', backdropFilter:'blur(20px)' }}>
+              <div key={s.door} className="s4-glass" style={{ padding:'20px', borderColor:`${s.color}30` }}>
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'14px' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'9px' }}>
                     <div style={{ width:'36px', height:'36px', borderRadius:'10px', background:`${s.color}15`, border:`1px solid ${s.color}30`, display:'flex', alignItems:'center', justifyContent:'center' }}>
