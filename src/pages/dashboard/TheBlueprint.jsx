@@ -5,6 +5,7 @@ import {
   TrendingUp, BookOpen, Users, Building2, Brain, Flame, Clock, RotateCcw,
   Share2, Download, Star, Zap, Trophy,
 } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
@@ -144,6 +145,7 @@ function ProgressRing({ pct, color, size=80 }) {
 }
 
 export default function TheBlueprint() {
+  const { t } = useLang();
   const [activeTab, setActiveTab] = useState('goals');
   const [expandedGoal, setExpandedGoal] = useState(null);
   const [checkedActions, setCheckedActions] = useState({});
@@ -169,19 +171,19 @@ export default function TheBlueprint() {
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
               <Map size={16} color="#D4A843" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>THE BLUEPRINT</h1>
+              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE BLUEPRINT', 'المخطط')}</h1>
               <div style={{ background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', color:'#D4A843', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
-                AI ROADMAP OS
+                {t('AI ROADMAP OS', 'نظام خارطة الطريق الذكي')}
               </div>
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>Your personal AI-generated 90-day roadmap across all 4 doors</p>
+            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Your personal AI-generated 90-day roadmap across all 4 doors', 'خارطة طريقك الشخصية لـ90 يوماً مُولّدة بالذكاء الاصطناعي عبر الأبواب الأربعة')}</p>
           </div>
           {/* Stats */}
           <div style={{ display:'flex', gap:'12px' }}>
             {[
-              { label:'Active Goals', value:'4', color:'#D4A843' },
-              { label:'Week XP Available', value:totalXP, color:'#6366F1' },
-              { label:'Avg Progress', value:`${Math.round(GOALS.reduce((s,g)=>s+g.progress,0)/GOALS.length)}%`, color:'#10B981' },
+              { label:t('Active Goals','الأهداف النشطة'), value:'4', color:'#D4A843' },
+              { label:t('Week XP Available','نقاط الخبرة المتاحة هذا الأسبوع'), value:totalXP, color:'#6366F1' },
+              { label:t('Avg Progress','متوسط التقدم'), value:`${Math.round(GOALS.reduce((s,g)=>s+g.progress,0)/GOALS.length)}%`, color:'#10B981' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
@@ -191,10 +193,10 @@ export default function TheBlueprint() {
           </div>
           <div style={{ display:'flex', gap:'8px' }}>
             <button style={{ display:'flex', alignItems:'center', gap:'6px', padding:'9px 14px', borderRadius:'10px', background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.25)', cursor:'pointer', color:'#D4A843', fontSize:'11px', fontWeight:700 }}>
-              <Share2 size={12} /> Share Blueprint
+              <Share2 size={12} /> {t('Share Blueprint', 'مشاركة المخطط')}
             </button>
             <button style={{ display:'flex', alignItems:'center', gap:'6px', padding:'9px 14px', borderRadius:'10px', background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', cursor:'pointer', color:'#CBD5E1', fontSize:'11px', fontWeight:700 }}>
-              <Download size={12} /> Export PDF
+              <Download size={12} /> {t('Export PDF', 'تصدير PDF')}
             </button>
           </div>
         </div>
@@ -203,15 +205,15 @@ export default function TheBlueprint() {
       {/* ── TABS ── */}
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {[
-          { id:'goals',   label:'My Goals' },
-          { id:'weekly',  label:'This Week' },
-          { id:'ai',      label:'AI Adjustments' },
-          { id:'milestones',label:'Milestones' },
-        ].map(t => (
-          <button key={t.id} onClick={()=>setActiveTab(t.id)}
+          { id:'goals',   label:t('My Goals','أهدافي') },
+          { id:'weekly',  label:t('This Week','هذا الأسبوع') },
+          { id:'ai',      label:t('AI Adjustments','تعديلات الذكاء الاصطناعي') },
+          { id:'milestones',label:t('Milestones','المحطات') },
+        ].map(tb => (
+          <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
-              background: activeTab===t.id?'#D4A843':'transparent', color: activeTab===t.id?'#000':S.muted }}>
-            {t.label}
+              background: activeTab===tb.id?'#D4A843':'transparent', color: activeTab===tb.id?'#000':S.muted }}>
+            {tb.label}
           </button>
         ))}
       </div>
@@ -245,7 +247,7 @@ export default function TheBlueprint() {
                   <div style={{ display:'flex', gap:'16px', alignItems:'center' }}>
                     <StreakRing days={g.streakDays} total={g.totalDays} color={g.color} />
                     <div style={{ textAlign:'right' }}>
-                      <div style={{ color:S.muted, fontSize:'10px', marginBottom:'2px' }}>Deadline</div>
+                      <div style={{ color:S.muted, fontSize:'10px', marginBottom:'2px' }}>{t('Deadline','الموعد النهائي')}</div>
                       <div style={{ color:'#CBD5E1', fontSize:'11px', fontWeight:700 }}>{g.deadline}</div>
                     </div>
                     <motion.div animate={{ rotate: expanded ? 90 : 0 }}>
@@ -262,11 +264,11 @@ export default function TheBlueprint() {
                       <div style={{ padding:'18px 20px', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
                         {/* Milestones */}
                         <div>
-                          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:g.color, letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>30 · 60 · 90 DAY MILESTONES</div>
+                          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:g.color, letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>{t('30 · 60 · 90 DAY MILESTONES', 'محطات 30 · 60 · 90 يوماً')}</div>
                           {[
-                            { label:'30 days', val:g.milestone30, done:g.progress >= 33 },
-                            { label:'60 days', val:g.milestone60, done:g.progress >= 66 },
-                            { label:'90 days', val:g.milestone90, done:g.progress >= 99 },
+                            { label:t('30 days','30 يوماً'), val:g.milestone30, done:g.progress >= 33 },
+                            { label:t('60 days','60 يوماً'), val:g.milestone60, done:g.progress >= 66 },
+                            { label:t('90 days','90 يوماً'), val:g.milestone90, done:g.progress >= 99 },
                           ].map(m => (
                             <div key={m.label} style={{ display:'flex', gap:'10px', marginBottom:'10px' }}>
                               {m.done
@@ -283,7 +285,7 @@ export default function TheBlueprint() {
 
                         {/* This week's actions */}
                         <div>
-                          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>THIS WEEK'S ACTIONS</div>
+                          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>{t("THIS WEEK'S ACTIONS", 'إجراءات هذا الأسبوع')}</div>
                           {g.actions.map((a, ai) => {
                             const ck = checkedActions[`${g.id}-${ai}`] ?? a.done;
                             return (
@@ -310,7 +312,7 @@ export default function TheBlueprint() {
           <button style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', padding:'16px', borderRadius:'18px', border:'1px dashed rgba(255,255,255,0.12)', background:'transparent', cursor:'pointer', color:S.muted, fontSize:'13px', transition:'all 0.15s', width:'100%' }}
             onMouseEnter={e=>{ e.currentTarget.style.borderColor='rgba(212,168,67,0.35)'; e.currentTarget.style.color='#D4A843'; }}
             onMouseLeave={e=>{ e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.color=S.muted; }}>
-            <Plus size={16} /> Add New Goal
+            <Plus size={16} /> {t('Add New Goal', 'إضافة هدف جديد')}
           </button>
         </motion.div>
       )}
@@ -321,12 +323,12 @@ export default function TheBlueprint() {
           <div style={{ background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:'14px', padding:'14px 18px', marginBottom:'14px', display:'flex', alignItems:'center', gap:'10px' }}>
             <Sparkles size={14} color="#6366F1" />
             <div style={{ flex:1 }}>
-              <span style={{ color:'#6366F1', fontWeight:700, fontSize:'12px' }}>SOLVEN AI Weekly Brief: </span>
+              <span style={{ color:'#6366F1', fontWeight:700, fontSize:'12px' }}>{t('SOLVEN AI Weekly Brief:', 'إحاطة سولفن الأسبوعية:')} </span>
               <span style={{ color:'#CBD5E1', fontSize:'12px' }}>This is a high-leverage week. Completing ORACLE Lesson 8 before Thursday's exam will directly lift your trade win-rate. Prioritize EDGE morning sessions — London open is your peak performance window.</span>
             </div>
             <div style={{ textAlign:'right', flexShrink:0 }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#6366F1' }}>{totalXP} XP</div>
-              <div style={{ color:S.muted, fontSize:'9px' }}>Available this week</div>
+              <div style={{ color:S.muted, fontSize:'9px' }}>{t('Available this week', 'متاح هذا الأسبوع')}</div>
             </div>
           </div>
 
@@ -339,7 +341,7 @@ export default function TheBlueprint() {
                 </div>
                 <div style={{ padding:'8px' }}>
                   {day.tasks.length === 0
-                    ? <div style={{ color:'rgba(255,255,255,0.15)', fontSize:'9px', textAlign:'center', padding:'8px 0' }}>Rest</div>
+                    ? <div style={{ color:'rgba(255,255,255,0.15)', fontSize:'9px', textAlign:'center', padding:'8px 0' }}>{t('Rest','راحة')}</div>
                     : day.tasks.map((t, ti) => (
                       <div key={ti} style={{ marginBottom:'6px', padding:'6px 8px', borderRadius:'8px', background:`${t.color}08`, border:`1px solid ${t.color}18` }}>
                         <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'6px', color:t.color, fontWeight:700, marginBottom:'3px' }}>{t.door}</div>
@@ -361,7 +363,7 @@ export default function TheBlueprint() {
           style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
           <div style={{ background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:'14px', padding:'14px 18px', display:'flex', alignItems:'center', gap:'10px' }}>
             <Brain size={14} color="#6366F1" />
-            <span style={{ color:'#CBD5E1', fontSize:'12px' }}>SOLVEN AI continuously analyzes your cross-door progress and generates smart adjustments to keep your blueprint optimal and achievable.</span>
+            <span style={{ color:'#CBD5E1', fontSize:'12px' }}>{t('SOLVEN AI continuously analyzes your cross-door progress and generates smart adjustments to keep your blueprint optimal and achievable.', 'يحلل سولفن AI باستمرار تقدمك عبر الأبواب ويولّد تعديلات ذكية لإبقاء مخططك مثالياً وقابلاً للتحقيق.')}</span>
           </div>
           {ADJUSTMENTS.map((a, i) => (
             <motion.div key={i} initial={{ opacity:0, x:-10 }} animate={{ opacity:1, x:0 }} transition={{ delay:i*0.1 }}
@@ -378,7 +380,7 @@ export default function TheBlueprint() {
                       {a.action}
                     </button>
                     <button style={{ padding:'8px 16px', borderRadius:'8px', background:'transparent', border:'1px solid rgba(255,255,255,0.08)', cursor:'pointer', color:S.muted, fontSize:'11px' }}>
-                      Dismiss
+                      {t('Dismiss', 'تجاهل')}
                     </button>
                   </div>
                 </div>
