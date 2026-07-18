@@ -4,12 +4,23 @@ import { db } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
 
+// Keyed on the real notification.type values written across every door
+// (signal/commission/lead_converted/etc, not the earlier info/success/warning
+// placeholders this page was designed around before any door wrote real rows).
 const TYPE_CONFIG = {
-  info:    { icon: Info,          color: '#3B82F6', bg: 'rgba(59,130,246,0.08)',  border: 'rgba(59,130,246,0.2)',  label: 'INFO' },
-  success: { icon: Zap,          color: '#10B981', bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)', label: 'SUCCESS' },
-  warning: { icon: AlertTriangle, color: '#F97316', bg: 'rgba(249,115,22,0.08)',  border: 'rgba(249,115,22,0.2)',  label: 'ALERT' },
-  alert:   { icon: XCircle,      color: '#EF4444', bg: 'rgba(239,68,68,0.08)',   border: 'rgba(239,68,68,0.2)',   label: 'URGENT' },
-  reward:  { icon: Star,         color: '#D4A843', bg: 'rgba(212,168,67,0.08)',  border: 'rgba(212,168,67,0.2)',  label: 'REWARD' },
+  info:            { icon: Info,          color: '#3B82F6', bg: 'rgba(59,130,246,0.08)',  border: 'rgba(59,130,246,0.2)',  label: 'INFO' },
+  success:         { icon: Zap,          color: '#10B981', bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)', label: 'SUCCESS' },
+  warning:         { icon: AlertTriangle, color: '#F97316', bg: 'rgba(249,115,22,0.08)',  border: 'rgba(249,115,22,0.2)',  label: 'ALERT' },
+  alert:           { icon: XCircle,      color: '#EF4444', bg: 'rgba(239,68,68,0.08)',   border: 'rgba(239,68,68,0.2)',   label: 'URGENT' },
+  reward:          { icon: Star,         color: '#D4A843', bg: 'rgba(212,168,67,0.08)',  border: 'rgba(212,168,67,0.2)',  label: 'REWARD' },
+  signal:          { icon: Zap,          color: '#22D3EE', bg: 'rgba(34,211,238,0.08)',  border: 'rgba(34,211,238,0.2)',  label: 'SIGNAL' },
+  commission:      { icon: Star,         color: '#D4A843', bg: 'rgba(212,168,67,0.08)',  border: 'rgba(212,168,67,0.2)',  label: 'COMMISSION' },
+  trade_closed:    { icon: CheckCheck,   color: '#10B981', bg: 'rgba(16,185,129,0.08)',  border: 'rgba(16,185,129,0.2)',  label: 'TRADE' },
+  lead_converted:  { icon: Zap,          color: '#10B981', bg: 'rgba(16,185,129,0.08)',  border: 'rgba(16,185,129,0.2)',  label: 'CONVERSION' },
+  arena:           { icon: Star,         color: '#A855F7', bg: 'rgba(168,85,247,0.08)',  border: 'rgba(168,85,247,0.2)',  label: 'ARENA' },
+  channel:         { icon: Bell,         color: '#3B82F6', bg: 'rgba(59,130,246,0.08)',  border: 'rgba(59,130,246,0.2)',  label: 'CHANNEL' },
+  solven:          { icon: Info,          color: '#6366F1', bg: 'rgba(99,102,241,0.08)',  border: 'rgba(99,102,241,0.2)',  label: 'SOLVEN AI' },
+  system:          { icon: Info,          color: '#94A3B8', bg: 'rgba(148,163,184,0.08)', border: 'rgba(148,163,184,0.2)', label: 'SYSTEM' },
 };
 
 const DEMO_SIGNALS = [
@@ -38,8 +49,9 @@ export default function TheSignals() {
 
   useEffect(() => {
     if (!user) { setNotifs(DEMO_SIGNALS); setLoading(false); return; }
-    db.notifications().select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(30)
-      .then(({ data }) => {
+    db.notifications().select('*').eq('owner_id', user.id).order('created_at', { ascending: false }).limit(30)
+      .then(({ data, error }) => {
+        if (error) console.error('[TheSignals]', error);
         setNotifs(data && data.length > 0 ? data : DEMO_SIGNALS);
         setLoading(false);
       });
@@ -53,7 +65,7 @@ export default function TheSignals() {
 
   const markAllRead = async () => {
     if (!user) { setNotifs(n => n.map(x => ({ ...x, is_read: true }))); toast.success('All signals cleared.'); return; }
-    await db.notifications().update({ is_read: true }).eq('user_id', user.id).eq('is_read', false);
+    await db.notifications().update({ is_read: true }).eq('owner_id', user.id).eq('is_read', false);
     setNotifs(n => n.map(x => ({ ...x, is_read: true })));
     toast.success('All signals marked as read.');
   };
@@ -154,7 +166,7 @@ export default function TheSignals() {
                       <div className="text-[10px] text-opiom-muted/60">{timeAgo(n.created_at)}</div>
                     </div>
                   </div>
-                  <p className="text-xs text-opiom-muted mt-1 leading-relaxed">{n.message}</p>
+                  <p className="text-xs text-opiom-muted mt-1 leading-relaxed">{n.body ?? n.message}</p>
                 </div>
 
                 {!n.is_read && (
