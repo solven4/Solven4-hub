@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import { DollarSign, TrendingUp, Clock, CheckCircle, ArrowDownToLine, BarChart3, Filter } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { DollarSign, TrendingUp, Clock, CheckCircle, ArrowDownToLine, BarChart3 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { db } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel } from '@/hud';
+
+const ACCENT = '#D4A843';
 
 const CHART_STYLE = {
   contentStyle: { background: '#0A0C1E', border: '1px solid #29293D', borderRadius: 12, color: '#fff', fontSize: 11 },
@@ -41,7 +45,6 @@ export default function TheScore() {
   const pending     = commissions.filter(c => c.status === 'pending').reduce((s, c) => s + (c.amount ?? 0), 0);
   const paid        = commissions.filter(c => c.status === 'paid').reduce((s, c) => s + (c.amount ?? 0), 0);
   const approved    = commissions.filter(c => c.status === 'approved').reduce((s, c) => s + (c.amount ?? 0), 0);
-  const available   = approved + pending;
 
   // Build monthly chart data from commissions
   const monthlyMap = {};
@@ -50,59 +53,56 @@ export default function TheScore() {
     monthlyMap[m] = (monthlyMap[m] ?? 0) + (c.amount ?? 0);
   });
   const chartData = Object.entries(monthlyMap).slice(-6).map(([month, amount]) => ({ month, amount: +amount.toFixed(2) }));
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif" }}>
+
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <DollarSign size={18} className="text-gold" />
-            <h1 className="font-heading text-2xl font-black text-white tracking-wider">{t('THE SCORE', 'النقاط')}</h1>
-          </div>
-          <p className="text-sm text-opiom-muted">{t('Cross-door commissions, approvals, and payout tracking.', 'تتبع العمولات والموافقات والمدفوعات عبر الأبواب.')}</p>
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
+        <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <DollarSign size={13} /> CROSS-DOOR COMMISSIONS
         </div>
-      </div>
+        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE SCORE', 'النقاط')}</h1>
+        <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door commissions, approvals, and payout tracking.', 'تتبع العمولات والموافقات والمدفوعات عبر الأبواب.')}</p>
+      </motion.div>
 
       {/* KPI row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '20px' }}>
         {[
-          { label: t('Total Earned','إجمالي الأرباح'),  val: totalEarned, color: '#D4A843', icon: TrendingUp, suffix: '$', sub: t('All time','كل الأوقات') },
-          { label: t('Pending','قيد الانتظار'),       val: pending,     color: '#F97316', icon: Clock,      suffix: '$', sub: t('Awaiting approval','بانتظار الموافقة') },
-          { label: t('Approved','موافق عليه'),      val: approved,    color: '#10B981', icon: CheckCircle,suffix: '$', sub: t('Ready to withdraw','جاهز للسحب') },
-          { label: t('Total Paid','إجمالي المدفوع'),    val: paid,        color: '#3B82F6', icon: ArrowDownToLine, suffix: '$', sub: t('Withdrawn','مسحوب') },
+          { label: t('Total Earned', 'إجمالي الأرباح'), val: totalEarned, color: '#D4A843', icon: TrendingUp, suffix: '$', sub: t('All time', 'كل الأوقات') },
+          { label: t('Pending', 'قيد الانتظار'), val: pending, color: '#F97316', icon: Clock, suffix: '$', sub: t('Awaiting approval', 'بانتظار الموافقة') },
+          { label: t('Approved', 'موافق عليه'), val: approved, color: '#10B981', icon: CheckCircle, suffix: '$', sub: t('Ready to withdraw', 'جاهز للسحب') },
+          { label: t('Total Paid', 'إجمالي المدفوع'), val: paid, color: '#3B82F6', icon: ArrowDownToLine, suffix: '$', sub: t('Withdrawn', 'مسحوب') },
         ].map(s => {
           const Icon = s.icon;
           return (
-            <div key={s.label} className="relative rounded-2xl overflow-hidden border border-opiom-border p-5"
-              style={{ background: 'linear-gradient(135deg, #060D18, #0A0C1E)' }}>
-              <div className="absolute top-0 right-0 w-16 h-16"
-                style={{ background: `radial-gradient(circle at top right, ${s.color}15, transparent)` }} />
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-[10px] text-opiom-muted uppercase tracking-widest">{s.label}</div>
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                  style={{ background: `${s.color}15`, border: `1px solid ${s.color}25` }}>
+            <GlassPanel key={s.label} className="spatial lift" brackets={false} style={{ ['--accent']: s.color }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <div className="s4-label" style={{ fontSize: '9px' }}>{s.label}</div>
+                <div style={{ width: '26px', height: '26px', borderRadius: '8px', background: `${s.color}15`, border: `1px solid ${s.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon size={13} style={{ color: s.color }} />
                 </div>
               </div>
-              <div className="font-heading text-2xl font-black mb-1" style={{ color: s.color }}>
+              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '22px', fontWeight: 900, color: s.color, marginBottom: '3px' }}>
                 {s.suffix}{loading ? '—' : s.val.toFixed(0)}
               </div>
-              <div className="text-[10px] text-opiom-muted/60">{s.sub}</div>
-            </div>
+              <div style={{ fontSize: '10px', color: '#94A3B8' }}>{s.sub}</div>
+            </GlassPanel>
           );
         })}
       </div>
 
       {/* Chart */}
       {chartData.length > 0 && (
-        <div className="rounded-2xl border border-opiom-border p-5" style={{ background: '#060D18' }}>
-          <div className="flex items-center justify-between mb-5">
-            <div className="text-[11px] text-opiom-muted font-heading tracking-[0.3em] uppercase flex items-center gap-2">
-              <BarChart3 size={12} className="text-gold" />
-              {t('MONTHLY COMMISSIONS', 'العمولات الشهرية')}
+        <GlassPanel className="spatial lift" style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+            <div className="s4-label s4-accent" style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+              <BarChart3 size={12} /> {t('MONTHLY COMMISSIONS', 'العمولات الشهرية')}
             </div>
-            <div className="text-sm font-heading font-black text-gold">${totalEarned.toFixed(2)} {t('total','إجمالي')}</div>
+            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '13px', fontWeight: 900, color: ACCENT }}>${totalEarned.toFixed(2)} {t('total', 'إجمالي')}</div>
           </div>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart data={chartData}>
@@ -114,54 +114,52 @@ export default function TheScore() {
               </defs>
               <XAxis dataKey="month" tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip {...CHART_STYLE} formatter={(v) => [`$${v}`, t('Amount','المبلغ')]} />
+              <Tooltip {...CHART_STYLE} formatter={(v) => [`$${v}`, t('Amount', 'المبلغ')]} />
               <Area type="monotone" dataKey="amount" stroke="#D4A843" strokeWidth={2} fill="url(#goldGrad)" dot={{ fill: '#D4A843', r: 3 }} />
             </AreaChart>
           </ResponsiveContainer>
-        </div>
+        </GlassPanel>
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-opiom-surface rounded-xl border border-opiom-border w-fit">
-        {[['commissions', t('commissions','العمولات')], ['payouts', t('payouts','المدفوعات')]].map(([tabKey, tabLabel]) => (
+      <div style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '12px', background: 'rgba(10,12,30,0.8)', border: '1px solid var(--s4-line)', marginBottom: '16px', width: 'fit-content' }}>
+        {[['commissions', t('commissions', 'العمولات')], ['payouts', t('payouts', 'المدفوعات')]].map(([tabKey, tabLabel]) => (
           <button key={tabKey} onClick={() => setTab(tabKey)}
-            className={`px-5 py-2 rounded-lg text-xs font-heading font-black tracking-wider transition-all ${tab === tabKey ? 'bg-gold text-opiom-bg' : 'text-opiom-muted hover:text-white'}`}>
+            style={{ fontFamily: "'Orbitron',sans-serif", padding: '7px 18px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
+              background: tab === tabKey ? ACCENT : 'transparent', color: tab === tabKey ? '#000' : '#94A3B8' }}>
             {tabLabel.toUpperCase()}
           </button>
         ))}
       </div>
 
       {/* Table */}
-      <div className="rounded-2xl border border-opiom-border overflow-hidden" style={{ background: '#060D18' }}>
-        <div className="px-5 py-4 border-b border-opiom-border">
-          <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">
-            {tab === 'commissions' ? `${commissions.length} ${t('Commissions','عمولة')}` : `${payouts.length} ${t('Payouts','مدفوعات')}`}
+      <GlassPanel className="spatial lift">
+        <div style={{ paddingBottom: '14px', marginBottom: '4px', borderBottom: '1px solid var(--s4-line)' }}>
+          <div className="s4-label" style={{ fontSize: '9px' }}>
+            {tab === 'commissions' ? `${commissions.length} ${t('Commissions', 'عمولة')}` : `${payouts.length} ${t('Payouts', 'مدفوعات')}`}
           </div>
         </div>
         {loading ? (
-          <div className="flex items-center justify-center h-40">
-            <div className="w-6 h-6 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-          </div>
+          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '40px', fontSize: '13px' }}>{t('Loading...', 'جارٍ التحميل...')}</div>
         ) : tab === 'commissions' ? (
           commissions.length === 0 ? (
-            <div className="p-12 text-center">
-              <DollarSign size={32} className="text-opiom-muted/20 mx-auto mb-3" />
-              <p className="text-opiom-muted text-sm">{t('No commissions yet. Grow your network to start earning.', 'لا توجد عمولات بعد. وسّع شبكتك لتبدأ بالربح.')}</p>
+            <div style={{ textAlign: 'center', padding: '44px' }}>
+              <DollarSign size={32} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.4 }} />
+              <p style={{ color: '#94A3B8', fontSize: '12.5px' }}>{t('No commissions yet. Grow your network to start earning.', 'لا توجد عمولات بعد. وسّع شبكتك لتبدأ بالربح.')}</p>
             </div>
           ) : (
-            <div className="divide-y divide-opiom-border/50">
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               {commissions.map(c => {
                 const s = STATUS[c.status] ?? STATUS.pending;
                 return (
-                  <div key={c.id} className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/2 transition-colors">
-                    <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: s.color }} />
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-white truncate">{c.description ?? t('Commission','عمولة')}</div>
-                      <div className="text-[10px] text-opiom-muted mt-0.5">{new Date(c.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                  <div key={c.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 4px', borderBottom: '1px solid var(--s4-line)' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: s.color, flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.description ?? t('Commission', 'عمولة')}</div>
+                      <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '2px' }}>{new Date(c.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
                     </div>
-                    <div className="text-[10px] font-heading font-black px-2 py-1 rounded-lg"
-                      style={{ color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
-                    <div className="font-heading font-black text-gold">${(c.amount ?? 0).toFixed(2)}</div>
+                    <div style={{ fontSize: '9px', fontFamily: "'Orbitron',sans-serif", fontWeight: 900, padding: '3px 8px', borderRadius: '6px', color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
+                    <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 900, color: ACCENT }}>${(c.amount ?? 0).toFixed(2)}</div>
                   </div>
                 );
               })}
@@ -169,31 +167,30 @@ export default function TheScore() {
           )
         ) : (
           payouts.length === 0 ? (
-            <div className="p-12 text-center">
-              <ArrowDownToLine size={32} className="text-opiom-muted/20 mx-auto mb-3" />
-              <p className="text-opiom-muted text-sm">{t('No payouts yet. Request one from The Vault.', 'لا توجد مدفوعات بعد. اطلب واحدة من الخزنة.')}</p>
+            <div style={{ textAlign: 'center', padding: '44px' }}>
+              <ArrowDownToLine size={32} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.4 }} />
+              <p style={{ color: '#94A3B8', fontSize: '12.5px' }}>{t('No payouts yet. Request one from The Vault.', 'لا توجد مدفوعات بعد. اطلب واحدة من الخزنة.')}</p>
             </div>
           ) : (
-            <div className="divide-y divide-opiom-border/50">
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               {payouts.map(p => {
                 const s = STATUS[p.status] ?? STATUS.pending;
                 return (
-                  <div key={p.id} className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/2 transition-colors">
-                    <ArrowDownToLine size={14} style={{ color: s.color }} className="flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-white">{p.method ?? t('Bank Transfer','تحويل بنكي')}</div>
-                      <div className="text-[10px] text-opiom-muted">{new Date(p.created_at).toLocaleDateString()}</div>
+                  <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 4px', borderBottom: '1px solid var(--s4-line)' }}>
+                    <ArrowDownToLine size={14} style={{ color: s.color, flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{p.method ?? t('Bank Transfer', 'تحويل بنكي')}</div>
+                      <div style={{ fontSize: '10px', color: '#94A3B8' }}>{new Date(p.created_at).toLocaleDateString()}</div>
                     </div>
-                    <div className="text-[10px] font-heading font-black px-2 py-1 rounded-lg"
-                      style={{ color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
-                    <div className="font-heading font-black text-gold">${(p.amount ?? 0).toFixed(2)}</div>
+                    <div style={{ fontSize: '9px', fontFamily: "'Orbitron',sans-serif", fontWeight: 900, padding: '3px 8px', borderRadius: '6px', color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
+                    <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 900, color: ACCENT }}>${(p.amount ?? 0).toFixed(2)}</div>
                   </div>
                 );
               })}
             </div>
           )
         )}
-      </div>
+      </GlassPanel>
     </div>
   );
 }

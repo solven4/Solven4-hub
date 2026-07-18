@@ -59,7 +59,7 @@ export default function DoorFrame() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#05050C' }}>
+    <div className="s4hud" style={{ ['--accent']: door.color, display: 'flex', flexDirection: 'column', height: '100%', background: '#05050C' }}>
       <Helmet><title>{door.label} | S4 HUB</title></Helmet>
       {/* Door top bar */}
       <div style={{
@@ -88,8 +88,8 @@ export default function DoorFrame() {
           background: `${door.color}10`, border: `1px solid ${door.color}30`,
           borderRadius: '8px', padding: '5px 12px',
         }}>
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: door.color, boxShadow: `0 0 8px ${door.color}` }} />
-          <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '11px', fontWeight: 700, color: door.color, letterSpacing: '0.12em' }}>
+          <div className="s4-dot" />
+          <span className="s4-label s4-accent" style={{ fontSize: '11px' }}>
             {door.label}
           </span>
           <span style={{ color: '#94A3B8', fontSize: '11px' }}>— {door.desc}</span>
@@ -169,7 +169,7 @@ export default function DoorFrame() {
                 background: `${door.color}15`, boxShadow: `0 0 20px ${door.color}30`,
               }} />
             </div>
-            <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '13px', color: door.color, letterSpacing: '0.2em', marginBottom: '8px' }}>
+            <div className="s4-label s4-accent" style={{ fontSize: '13px', marginBottom: '8px' }}>
               {t('LOADING', 'جارٍ التحميل')} {door.label}
             </div>
             <div style={{ color: '#94A3B8', fontSize: '12px' }}>{t('Connecting to', 'جارٍ الاتصال بـ')} {door.desc}...</div>
