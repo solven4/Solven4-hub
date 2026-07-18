@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useSearchParams } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import { supabase } from '@/lib/supabase';
@@ -49,10 +49,42 @@ function ProtectedRoute({ children }) {
   return user ? children : <Navigate to="/auth/login" replace />;
 }
 
+// Doors send unauthenticated visitors here as
+// /auth/login?redirect=<door-url> (AccessGate). If the visitor already has
+// a live HUB session, they were bounced straight back to /dashboard with
+// the redirect silently dropped — this sends them back to the door they
+// actually came from instead. Validated against a fixed origin allowlist
+// so ?redirect= can't be turned into an open redirect to an arbitrary URL.
+const DOOR_ORIGINS = [
+  'https://solven4-edge-six.vercel.app',
+  'https://solven4-forge-pi.vercel.app',
+  'https://solven4-oracle-eight.vercel.app',
+  'https://solven4-nexus-self.vercel.app',
+];
+
+function safeRedirectTarget(raw) {
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    return DOOR_ORIGINS.includes(url.origin) ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
 function PublicRoute({ children }) {
   const { user, loading } = useAuthStore();
+  const [searchParams] = useSearchParams();
+
   if (loading) return null;
-  return !user ? children : <Navigate to="/dashboard" replace />;
+  if (!user) return children;
+
+  const target = safeRedirectTarget(searchParams.get('redirect'));
+  if (target) {
+    window.location.replace(target);
+    return null;
+  }
+  return <Navigate to="/dashboard" replace />;
 }
 
 function InnerApp() {
