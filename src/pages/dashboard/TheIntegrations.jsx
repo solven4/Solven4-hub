@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, AlertCircle, Plus, ExternalLink, RefreshCw, Trash2, Key } from 'lucide-react';
+import { CheckCircle, AlertCircle, Plus, RefreshCw, Trash2, Key } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel, Btn } from '@/hud';
 
-const S = {
-  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
-};
+const ACCENT = '#6366f1';
 
 const INTEGRATIONS = [
   {
@@ -74,7 +73,7 @@ function IntegrationCard({ integration, idx }) {
 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.06 }}
-      style={{ ...S.card, border: connected ? `1px solid ${integration.color}35` : '1px solid rgba(255,255,255,0.07)', background: connected ? `${integration.color}05` : 'rgba(10,12,30,0.85)' }}>
+      className="s4-glass spatial lift" style={{ ['--accent']: integration.color, padding: '22px', borderColor: connected ? `${integration.color}45` : undefined }}>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {/* Icon */}
@@ -105,10 +104,9 @@ function IntegrationCard({ integration, idx }) {
               </button>
             </>
           ) : (
-            <button onClick={() => setExpanded(v => !v)}
-              style={{ padding: '7px 16px', borderRadius: '8px', border: `1px solid ${integration.color}45`, background: `${integration.color}12`, color: integration.color, fontSize: '11px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.06em' }}>
+            <Btn onClick={() => setExpanded(v => !v)} style={{ padding: '7px 16px', fontSize: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Plus size={11} /> {t('CONNECT', 'ربط')}
-            </button>
+            </Btn>
           )}
         </div>
       </div>
@@ -154,26 +152,28 @@ function IntegrationCard({ integration, idx }) {
 
 export default function TheIntegrations() {
   const { t } = useLang();
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
   return (
-    <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          {t('INTEGRATIONS', 'التكاملات')}
-        </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Connect messaging, social, and broker accounts — shared across all S4 doors', 'اربط حسابات المراسلة والتواصل والوسطاء — مشتركة عبر جميع أبواب S4')}</p>
-      </div>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '860px', margin: '0 auto' }}>
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
+        <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('CONNECTED SERVICES', 'الخدمات المتصلة')}</div>
+        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('INTEGRATIONS', 'التكاملات')}</h1>
+        <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Connect messaging, social, and broker accounts — shared across all S4 doors', 'اربط حسابات المراسلة والتواصل والوسطاء — مشتركة عبر جميع أبواب S4')}</p>
+      </motion.div>
 
       {/* Stats row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px', marginBottom: '20px' }}>
         {[
           { label: t('Connected', 'متصل'), value: '0', color: '#10B981' },
           { label: t('Available', 'متاح'), value: INTEGRATIONS.length.toString(), color: '#6366F1' },
           { label: t('Pending', 'قيد الانتظار'), value: '0', color: '#F59E0B' },
         ].map(({ label, value, color }) => (
-          <div key={label} style={{ ...S.card, padding: '16px', textAlign: 'center' }}>
-            <div style={{ fontSize: '28px', fontWeight: 800, color }}>{value}</div>
-            <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '4px' }}>{label}</div>
-          </div>
+          <GlassPanel key={label} className="spatial lift" brackets={false} style={{ ['--accent']: color, textAlign: 'center' }}>
+            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '24px', fontWeight: 900, color }}>{value}</div>
+            <div className="s4-label" style={{ fontSize: '9px', marginTop: '4px' }}>{label}</div>
+          </GlassPanel>
         ))}
       </div>
 

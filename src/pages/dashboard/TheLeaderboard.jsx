@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
-import { Trophy, Medal, Crown, TrendingUp, Users, Star } from 'lucide-react';
+import { Trophy, Medal, Crown, Star } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel } from '@/hud';
 
-const S = {
-  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '22px' },
-};
+const ACCENT = '#6366f1';
 
 const DOORS = [
   { key: 'network', label: 'FORGE', sublabel: 'IB Network', color: '#D4A843', metric: 'clients', table: 'network_members', col: 'total_lots' },
@@ -40,18 +39,21 @@ export default function TheLeaderboard() {
 
   const activeDoor = DOORS.find(d => d.key === activeTab);
   const myRank = entries.findIndex(e => e.id === user?.id) + 1;
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          {t('LEADERBOARD', 'لوحة الصدارة')}
-        </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Cross-door rankings — unified across SOLVEN4', 'ترتيب موحد عبر جميع أبواب SOLVEN4')}</p>
-      </div>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '900px', margin: '0 auto' }}>
+
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
+        <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('CROSS-DOOR RANKINGS', 'الترتيب عبر الأبواب')}</div>
+        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('LEADERBOARD', 'لوحة الصدارة')}</h1>
+        <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door rankings — unified across SOLVEN4', 'ترتيب موحد عبر جميع أبواب SOLVEN4')}</p>
+      </motion.div>
 
       {/* Door tabs */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', padding: '4px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px' }}>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', padding: '4px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px' }}>
         {DOORS.map(d => (
           <button key={d.key} onClick={() => setActiveTab(d.key)}
             style={{
@@ -68,8 +70,8 @@ export default function TheLeaderboard() {
 
       {/* My rank card */}
       {myRank > 0 && (
-        <div style={{ ...S.card, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '16px', background: `${activeDoor.color}08`, border: `1px solid ${activeDoor.color}30` }}>
-          <div style={{ fontSize: '28px', fontWeight: 800, color: activeDoor.color, fontFamily: "'Orbitron',sans-serif", minWidth: '48px', textAlign: 'center' }}>
+        <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: activeDoor.color, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="s4-num" style={{ fontSize: '28px', fontWeight: 800, color: activeDoor.color, fontFamily: "'Orbitron',sans-serif", minWidth: '48px', textAlign: 'center' }}>
             #{myRank}
           </div>
           <div style={{ flex: 1 }}>
@@ -77,81 +79,83 @@ export default function TheLeaderboard() {
             <div style={{ fontSize: '11px', color: '#94A3B8' }}>{activeDoor.label} · {activeDoor.sublabel}</div>
           </div>
           <Star size={18} color={activeDoor.color} />
-        </div>
+        </GlassPanel>
       )}
 
       {/* Leaderboard table */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={S.card}>
-        {loading ? (
-          <div style={{ textAlign: 'center', color: '#94A3B8', padding: '40px', fontSize: '13px' }}>{t('Loading rankings...', 'جارٍ تحميل الترتيب...')}</div>
-        ) : entries.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>
-            <Trophy size={40} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.3 }} />
-            <p style={{ color: '#94A3B8', fontSize: '13px' }}>{t('No rankings yet. Be the first!', 'لا يوجد ترتيب بعد. كن الأول!')}</p>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {/* Header */}
-            <div style={{ display: 'grid', gridTemplateColumns: '48px 1fr 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', marginBottom: '4px' }}>
-              {['#', t('Operator','المشغل'), t('Rank','الرتبة'), activeDoor.metric.toUpperCase()].map(h => (
-                <div key={h} style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em', fontWeight: 700 }}>{h}</div>
-              ))}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <GlassPanel className="spatial lift" style={{ ['--accent']: activeDoor.color }}>
+          {loading ? (
+            <div style={{ textAlign: 'center', color: '#94A3B8', padding: '40px', fontSize: '13px' }}>{t('Loading rankings...', 'جارٍ تحميل الترتيب...')}</div>
+          ) : entries.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '44px' }}>
+              <Trophy size={32} color="#94A3B8" style={{ margin: '0 auto 12px', display: 'block', opacity: 0.4 }} />
+              <p style={{ color: '#94A3B8', fontSize: '12.5px' }}>{t('No rankings yet. Be the first!', 'لا يوجد ترتيب بعد. كن الأول!')}</p>
             </div>
-            {entries.map((entry, i) => {
-              const medal = MEDALS.find(m => m.rank === i + 1);
-              const isMe = entry.id === user?.id;
-              return (
-                <motion.div key={entry.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }}
-                  style={{
-                    display: 'grid', gridTemplateColumns: '48px 1fr 100px 100px', gap: '12px',
-                    padding: '10px 12px', borderRadius: '10px', alignItems: 'center',
-                    background: isMe ? `${activeDoor.color}10` : i < 3 ? 'rgba(255,255,255,0.02)' : 'transparent',
-                    border: isMe ? `1px solid ${activeDoor.color}30` : '1px solid transparent',
-                    transition: 'background 0.1s',
-                  }}
-                  onMouseEnter={e => !isMe && (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
-                  onMouseLeave={e => !isMe && (e.currentTarget.style.background = 'transparent')}>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {/* Header */}
+              <div style={{ display: 'grid', gridTemplateColumns: '48px 1fr 100px 100px', gap: '12px', padding: '8px 12px', borderBottom: '1px solid var(--s4-line)', marginBottom: '4px' }}>
+                {['#', t('Operator', 'المشغل'), t('Rank', 'الرتبة'), activeDoor.metric.toUpperCase()].map(h => (
+                  <div key={h} className="s4-label" style={{ fontSize: '9px' }}>{h}</div>
+                ))}
+              </div>
+              {entries.map((entry, i) => {
+                const medal = MEDALS.find(m => m.rank === i + 1);
+                const isMe = entry.id === user?.id;
+                return (
+                  <motion.div key={entry.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }}
+                    style={{
+                      display: 'grid', gridTemplateColumns: '48px 1fr 100px 100px', gap: '12px',
+                      padding: '10px 12px', borderRadius: '10px', alignItems: 'center',
+                      background: isMe ? `${activeDoor.color}10` : i < 3 ? 'rgba(255,255,255,0.02)' : 'transparent',
+                      border: isMe ? `1px solid ${activeDoor.color}30` : '1px solid transparent',
+                      transition: 'background 0.1s',
+                    }}
+                    onMouseEnter={e => !isMe && (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
+                    onMouseLeave={e => !isMe && (e.currentTarget.style.background = 'transparent')}>
 
-                  {/* Rank */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {medal
-                      ? <medal.Icon size={18} color={medal.color} />
-                      : <span style={{ fontSize: '13px', fontWeight: 700, color: '#94A3B8' }}>{i + 1}</span>}
-                  </div>
-
-                  {/* Name */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
-                    <div style={{
-                      width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
-                      background: `${activeDoor.color}25`, border: `1px solid ${activeDoor.color}40`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '13px', fontWeight: 700, color: activeDoor.color,
-                    }}>
-                      {entry.full_name?.[0]?.toUpperCase() || '?'}
+                    {/* Rank */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {medal
+                        ? <medal.Icon size={18} color={medal.color} />
+                        : <span className="s4-num" style={{ fontSize: '13px', fontWeight: 700, color: '#94A3B8' }}>{i + 1}</span>}
                     </div>
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: '13px', fontWeight: 600, color: isMe ? activeDoor.color : '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {entry.full_name || t('Anonymous','مجهول')} {isMe && `(${t('you','أنت')})`}
+
+                    {/* Name */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+                      <div style={{
+                        width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
+                        background: `${activeDoor.color}25`, border: `1px solid ${activeDoor.color}40`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '13px', fontWeight: 700, color: activeDoor.color,
+                      }}>
+                        {entry.full_name?.[0]?.toUpperCase() || '?'}
+                      </div>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontSize: '13px', fontWeight: 600, color: isMe ? activeDoor.color : '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {entry.full_name || t('Anonymous', 'مجهول')} {isMe && `(${t('you', 'أنت')})`}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Rank badge */}
-                  <div>
-                    <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#94A3B8', fontWeight: 600, textTransform: 'capitalize' }}>
-                      {entry.rank || 'rookie'}
-                    </span>
-                  </div>
+                    {/* Rank badge */}
+                    <div>
+                      <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', color: '#94A3B8', fontWeight: 600, textTransform: 'capitalize' }}>
+                        {entry.rank || 'rookie'}
+                      </span>
+                    </div>
 
-                  {/* Score */}
-                  <div style={{ fontSize: '14px', fontWeight: 700, color: i < 3 ? activeDoor.color : '#fff' }}>
-                    {(entry.xp_points || 0).toLocaleString()}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
+                    {/* Score */}
+                    <div className="s4-num" style={{ fontSize: '14px', fontWeight: 700, color: i < 3 ? activeDoor.color : '#fff' }}>
+                      {(entry.xp_points || 0).toLocaleString()}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+        </GlassPanel>
       </motion.div>
     </div>
   );
