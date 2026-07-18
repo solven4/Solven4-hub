@@ -5,6 +5,7 @@ import {
   BarChart2, Activity, Users, BookOpen, Building2, Brain, ChevronRight,
   Flame, Wind, Minus, ArrowUpRight, ArrowDownRight, Eye, Newspaper,
 } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 
@@ -80,6 +81,7 @@ const VOLATILITY = [
 ];
 
 function SessionRing({ session }) {
+  const { t } = useLang();
   const active = isSessionActive(session.open, session.close);
   const now = new Date();
   const pct = (now.getUTCHours() * 60 + now.getUTCMinutes()) / (24 * 60) * 100;
@@ -105,7 +107,7 @@ function SessionRing({ session }) {
         {session.name}
       </div>
       <div style={{ fontSize:'9px', color: active ? '#10B981' : S.muted, fontWeight:700 }}>
-        {active ? 'LIVE' : 'CLOSED'}
+        {active ? t('LIVE','مباشر') : t('CLOSED','مغلق')}
       </div>
     </div>
   );
@@ -131,6 +133,7 @@ const SENTIMENT_COLOR = { bullish:'#10B981', bearish:'#EF4444', neutral:'#94A3B8
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 export default function ThePulse() {
+  const { t } = useLang();
   const [now, setNow] = useState(new Date());
   const [activeSection, setActiveSection] = useState('market');
   const [briefExpanded, setBriefExpanded] = useState(false);
@@ -155,12 +158,12 @@ export default function ThePulse() {
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
               <Radio size={16} color="#10B981" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>THE PULSE</h1>
+              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE PULSE', 'النبض')}</h1>
               <div style={{ background:'rgba(239,68,68,0.15)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', fontWeight:700, color:'#EF4444', fontFamily:"'Orbitron',sans-serif", animation:'s4p-pulse 2s infinite' }}>
-                ● LIVE
+                ● {t('LIVE','مباشر')}
               </div>
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>Real-time market intelligence across all 4 SOLVEN4 doors</p>
+            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Real-time market intelligence across all 4 SOLVEN4 doors', 'ذكاء السوق المباشر عبر أبواب SOLVEN4 الأربعة')}</p>
           </div>
 
           {/* Session rings */}
@@ -170,7 +173,7 @@ export default function ThePulse() {
 
           <div style={{ textAlign:'right', flexShrink:0 }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900, color:'#10B981' }}>{dubaiTime}</div>
-            <div style={{ color:S.muted, fontSize:'10px', marginTop:'2px' }}>DUBAI · GST+4</div>
+            <div style={{ color:S.muted, fontSize:'10px', marginTop:'2px' }}>{t('DUBAI','دبي')} · GST+4</div>
             <div style={{ color:S.muted, fontSize:'9px', marginTop:'1px' }}>UTC {utcTime}</div>
           </div>
         </div>
@@ -179,16 +182,18 @@ export default function ThePulse() {
         <div style={{ marginTop:'14px', background:'rgba(16,185,129,0.07)', border:'1px solid rgba(16,185,129,0.18)', borderRadius:'10px', padding:'10px 14px' }}>
           <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
             <Brain size={12} color="#10B981" />
-            <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#10B981', letterSpacing:'0.15em', fontWeight:700 }}>SOLVEN MARKET BRIEF · {now.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}</span>
+            <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#10B981', letterSpacing:'0.15em', fontWeight:700 }}>{t('SOLVEN MARKET BRIEF','إحاطة سولفن للسوق')} · {now.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}</span>
             <div style={{ flex:1, color:'#CBD5E1', fontSize:'11px' }}>
               {briefExpanded
-                ? 'Gold testing $2,390 resistance with strong momentum — 3 buy signals ready. EURUSD ranging ahead of ECB; avoid until decision. MENA session opening — optimal FORGE recruitment window. Dubai DIFC activity elevated; NEXUS opportunity. ORACLE cohort 7 assessment due today.'
-                : 'Gold at $2,387 testing resistance · ECB decision in 4h · MENA session open · FORGE recruitment window active · BTC elevated'
+                ? t('Gold testing $2,390 resistance with strong momentum — 3 buy signals ready. EURUSD ranging ahead of ECB; avoid until decision. MENA session opening — optimal FORGE recruitment window. Dubai DIFC activity elevated; NEXUS opportunity. ORACLE cohort 7 assessment due today.',
+                     'الذهب يختبر مقاومة 2,390$ بزخم قوي — 3 إشارات شراء جاهزة. اليورو/دولار متذبذب قبل قرار البنك المركزي الأوروبي؛ تجنب حتى صدور القرار. جلسة الشرق الأوسط تفتح — نافذة توظيف مثالية لـFORGE. نشاط DIFC دبي مرتفع؛ فرصة NEXUS. تقييم دفعة ORACLE رقم 7 مستحق اليوم.')
+                : t('Gold at $2,387 testing resistance · ECB decision in 4h · MENA session open · FORGE recruitment window active · BTC elevated',
+                     'الذهب عند 2,387$ يختبر المقاومة · قرار البنك المركزي الأوروبي خلال 4 ساعات · جلسة الشرق الأوسط مفتوحة · نافذة توظيف FORGE نشطة · البيتكوين مرتفع')
               }
             </div>
             <button onClick={()=>setBriefExpanded(v=>!v)}
               style={{ background:'rgba(16,185,129,0.12)', border:'1px solid rgba(16,185,129,0.25)', borderRadius:'6px', padding:'4px 10px', cursor:'pointer', color:'#10B981', fontSize:'9px', fontWeight:700, whiteSpace:'nowrap', flexShrink:0 }}>
-              {briefExpanded ? 'Collapse' : 'Full Brief'}
+              {briefExpanded ? t('Collapse','طي') : t('Full Brief','الإحاطة الكاملة')}
             </button>
           </div>
         </div>
@@ -196,11 +201,11 @@ export default function ThePulse() {
 
       {/* ── SECTION TABS ── */}
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
-        {['market','calendar','sentiment','news'].map(t => (
-          <button key={t} onClick={()=>setActiveSection(t)}
+        {[['market',t('Market','السوق')], ['calendar',t('Econ Calendar','التقويم الاقتصادي')], ['sentiment',t('Sentiment','المشاعر')], ['news',t('News','الأخبار')]].map(([key, label]) => (
+          <button key={key} onClick={()=>setActiveSection(key)}
             style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', textTransform:'capitalize', transition:'all 0.15s',
-              background: activeSection===t?'#10B981':'transparent', color: activeSection===t?'#000':S.muted }}>
-            {t === 'calendar' ? 'Econ Calendar' : t.charAt(0).toUpperCase()+t.slice(1)}
+              background: activeSection===key?'#10B981':'transparent', color: activeSection===key?'#000':S.muted }}>
+            {label}
           </button>
         ))}
       </div>
@@ -233,10 +238,10 @@ export default function ThePulse() {
             <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
               <div style={{ padding:'14px 18px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'8px' }}>
                 <Activity size={12} color="#10B981" />
-                <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#10B981', fontWeight:700 }}>LIVE MARKETS</span>
+                <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#10B981', fontWeight:700 }}>{t('LIVE MARKETS','الأسواق المباشرة')}</span>
                 <div style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:'5px', fontSize:'9px', color:'#10B981' }}>
                   <div style={{ width:'5px', height:'5px', borderRadius:'50%', background:'#10B981', animation:'s4p-pulse 1.5s infinite' }} />
-                  STREAMING
+                  {t('STREAMING','بث مباشر')}
                 </div>
               </div>
               <div>
@@ -284,7 +289,7 @@ export default function ThePulse() {
               <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'14px' }}>
                   <Zap size={12} color="#D4A843" />
-                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700 }}>DOOR IMPACT ALERTS</span>
+                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700 }}>{t('DOOR IMPACT ALERTS','تنبيهات تأثير الأبواب')}</span>
                 </div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
                   {DOOR_ALERTS.map(a => (
@@ -307,7 +312,7 @@ export default function ThePulse() {
               <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', padding:'18px', backdropFilter:'blur(20px)' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'14px' }}>
                   <Eye size={12} color="#6366F1" />
-                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>MARKET SENTIMENT</span>
+                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('MARKET SENTIMENT','مشاعر السوق')}</span>
                 </div>
                 {SENTIMENT.map(s => (
                   <div key={s.asset} style={{ marginBottom:'10px' }}>
@@ -338,18 +343,18 @@ export default function ThePulse() {
           <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
             <div style={{ padding:'14px 20px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'10px' }}>
               <Clock size={12} color="#6366F1" />
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>ECONOMIC CALENDAR — TODAY</span>
+              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('ECONOMIC CALENDAR — TODAY','التقويم الاقتصادي — اليوم')}</span>
               <div style={{ marginLeft:'auto', display:'flex', gap:'10px', fontSize:'10px' }}>
-                <span style={{ color:'#EF4444' }}>● High Impact</span>
-                <span style={{ color:'#F97316' }}>● Medium</span>
-                <span style={{ color:'#10B981' }}>● Low</span>
+                <span style={{ color:'#EF4444' }}>● {t('High Impact','تأثير عالٍ')}</span>
+                <span style={{ color:'#F97316' }}>● {t('Medium','متوسط')}</span>
+                <span style={{ color:'#10B981' }}>● {t('Low','منخفض')}</span>
               </div>
             </div>
             <div style={{ overflowX:'auto' }}>
               <table style={{ width:'100%', borderCollapse:'collapse' }}>
                 <thead>
                   <tr style={{ borderBottom:`1px solid ${S.border}` }}>
-                    {['Time (Dubai)','Currency','Event','Impact','Forecast','Previous','Actual','Doors'].map(h => (
+                    {[t('Time (Dubai)','الوقت (دبي)'),t('Currency','العملة'),t('Event','الحدث'),t('Impact','التأثير'),t('Forecast','التوقع'),t('Previous','السابق'),t('Actual','الفعلي'),t('Doors','الأبواب')].map(h => (
                       <th key={h} style={{ padding:'10px 16px', textAlign:'left', fontSize:'9px', color:S.muted, fontWeight:700, fontFamily:"'Orbitron',sans-serif", letterSpacing:'0.1em', whiteSpace:'nowrap' }}>{h}</th>
                     ))}
                   </tr>
@@ -376,7 +381,7 @@ export default function ThePulse() {
                       <td style={{ padding:'12px 16px' }}>
                         {e.actual
                           ? <span style={{ color:'#10B981', fontFamily:'monospace', fontSize:'11px', fontWeight:700 }}>{e.actual}</span>
-                          : <span style={{ color:'rgba(255,255,255,0.15)', fontSize:'11px' }}>Pending</span>
+                          : <span style={{ color:'rgba(255,255,255,0.15)', fontSize:'11px' }}>{t('Pending','معلق')}</span>
                         }
                       </td>
                       <td style={{ padding:'12px 16px' }}>
@@ -404,7 +409,7 @@ export default function ThePulse() {
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'16px' }}>
                   <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff' }}>{s.asset}</div>
                   <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900, color: s.bull>50?'#10B981':'#EF4444' }}>
-                    {s.bull>50?'BULLISH':'BEARISH'}
+                    {s.bull>50?t('BULLISH','صاعد'):t('BEARISH','هابط')}
                   </div>
                 </div>
                 <div style={{ height:'12px', borderRadius:'6px', overflow:'hidden', display:'flex', marginBottom:'10px' }}>
@@ -416,11 +421,11 @@ export default function ThePulse() {
                 <div style={{ display:'flex', justifyContent:'space-between' }}>
                   <div>
                     <div style={{ color:'#10B981', fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{s.bull}%</div>
-                    <div style={{ color:S.muted, fontSize:'10px' }}>Bullish</div>
+                    <div style={{ color:S.muted, fontSize:'10px' }}>{t('Bullish','صاعد')}</div>
                   </div>
                   <div style={{ textAlign:'right' }}>
                     <div style={{ color:'#EF4444', fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{s.bear}%</div>
-                    <div style={{ color:S.muted, fontSize:'10px' }}>Bearish</div>
+                    <div style={{ color:S.muted, fontSize:'10px' }}>{t('Bearish','هابط')}</div>
                   </div>
                 </div>
               </div>
@@ -444,7 +449,7 @@ export default function ThePulse() {
                   <div style={{ display:'flex', gap:'8px', alignItems:'center', flexWrap:'wrap' }}>
                     <span style={{ color:S.muted, fontSize:'10px', fontWeight:700 }}>{n.source}</span>
                     <span style={{ color:S.muted, fontSize:'9px' }}>·</span>
-                    <span style={{ color:S.muted, fontSize:'10px' }}>{n.time} ago</span>
+                    <span style={{ color:S.muted, fontSize:'10px' }}>{n.time} {t('ago','منذ')}</span>
                     <span style={{ color:S.muted, fontSize:'9px' }}>·</span>
                     <span style={{ fontSize:'10px', fontWeight:700, color:SENTIMENT_COLOR[n.sentiment] }}>{n.sentiment.toUpperCase()}</span>
                     <div style={{ display:'flex', gap:'4px', marginLeft:'auto' }}>
