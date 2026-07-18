@@ -4,6 +4,7 @@ import { ArrowLeft, Maximize2, RefreshCw } from 'lucide-react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/lib/supabase';
+import { useLang } from '@/lib/LanguageContext';
 
 // HUB is the only client that ever calls Supabase's token-refresh endpoint —
 // each door disabled its own autoRefreshToken (see their supabaseClient.js)
@@ -21,6 +22,7 @@ const DOORS = {
 };
 
 export default function DoorFrame() {
+  const { t } = useLang();
   const { doorId } = useParams();
   const navigate = useNavigate();
   const door = DOORS[doorId?.toLowerCase()];
@@ -76,7 +78,7 @@ export default function DoorFrame() {
             color: '#94A3B8', fontSize: '12px',
           }}
         >
-          <ArrowLeft size={14} /> Back to HUB
+          <ArrowLeft size={14} /> {t('Back to HUB', 'العودة إلى HUB')}
         </button>
 
         <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.08)' }} />
@@ -98,7 +100,7 @@ export default function DoorFrame() {
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#94A3B8', fontSize: '11px' }}>
             <RefreshCw size={12} style={{ animation: 'spin 1s linear infinite' }} />
-            Connecting...
+            {t('Connecting...', 'جارٍ الاتصال...')}
           </div>
         )}
 
@@ -136,7 +138,7 @@ export default function DoorFrame() {
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '6px', padding: '6px', cursor: 'pointer', color: '#94A3B8', display: 'flex',
           }}
-          title="Open in new tab"
+          title={t('Open in new tab', 'فتح في تبويب جديد')}
         >
           <Maximize2 size={13} />
         </button>
@@ -168,9 +170,9 @@ export default function DoorFrame() {
               }} />
             </div>
             <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '13px', color: door.color, letterSpacing: '0.2em', marginBottom: '8px' }}>
-              LOADING {door.label}
+              {t('LOADING', 'جارٍ التحميل')} {door.label}
             </div>
-            <div style={{ color: '#94A3B8', fontSize: '12px' }}>Connecting to {door.desc}...</div>
+            <div style={{ color: '#94A3B8', fontSize: '12px' }}>{t('Connecting to', 'جارٍ الاتصال بـ')} {door.desc}...</div>
           </motion.div>
         )}
         <iframe
