@@ -6,7 +6,9 @@ import {
   Share2, Download, Star, Zap, Trophy,
 } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { Btn } from '@/hud';
 
+const ACCENT = '#D4A843';
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
@@ -160,23 +162,22 @@ export default function TheBlueprint() {
   const totalXP = WEEKLY_PLAN.flatMap(d => d.tasks).reduce((s,t) => s+t.xp, 0);
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:ACCENT, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
-      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
-        style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(212,168,67,0.1) 0%,rgba(10,12,30,0.95) 55%,rgba(139,92,246,0.08) 100%)',
-          border:'1px solid rgba(212,168,67,0.2)', backdropFilter:'blur(20px)' }}>
+      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
+        style={{ position:'relative', overflow:'hidden', padding:'20px 24px', marginBottom:'16px',
+          background:'linear-gradient(135deg,rgba(212,168,67,0.1) 0%,rgba(10,12,30,0.95) 55%,rgba(139,92,246,0.08) 100%)' }}>
+        <span className="s4-bracket tl" /><span className="s4-bracket br" />
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
-            <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
-              <Map size={16} color="#D4A843" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE BLUEPRINT', 'المخطط')}</h1>
-              <div style={{ background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', color:'#D4A843', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
-                {t('AI ROADMAP OS', 'نظام خارطة الطريق الذكي')}
-              </div>
+            <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
+              <Map size={13} /> {t('AI ROADMAP OS', 'نظام خارطة الطريق الذكي')}
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Your personal AI-generated 90-day roadmap across all 4 doors', 'خارطة طريقك الشخصية لـ90 يوماً مُولّدة بالذكاء الاصطناعي عبر الأبواب الأربعة')}</p>
+            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+              filter:'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE BLUEPRINT', 'المخطط')}</h1>
+            <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Your personal AI-generated 90-day roadmap across all 4 doors', 'خارطة طريقك الشخصية لـ90 يوماً مُولّدة بالذكاء الاصطناعي عبر الأبواب الأربعة')}</p>
           </div>
           {/* Stats */}
           <div style={{ display:'flex', gap:'12px' }}>
@@ -192,12 +193,12 @@ export default function TheBlueprint() {
             ))}
           </div>
           <div style={{ display:'flex', gap:'8px' }}>
-            <button style={{ display:'flex', alignItems:'center', gap:'6px', padding:'9px 14px', borderRadius:'10px', background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.25)', cursor:'pointer', color:'#D4A843', fontSize:'11px', fontWeight:700 }}>
+            <Btn ghost style={{ display:'flex', alignItems:'center', gap:'6px', padding:'9px 14px', fontSize:'10px' }}>
               <Share2 size={12} /> {t('Share Blueprint', 'مشاركة المخطط')}
-            </button>
-            <button style={{ display:'flex', alignItems:'center', gap:'6px', padding:'9px 14px', borderRadius:'10px', background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', cursor:'pointer', color:'#CBD5E1', fontSize:'11px', fontWeight:700 }}>
+            </Btn>
+            <Btn ghost style={{ display:'flex', alignItems:'center', gap:'6px', padding:'9px 14px', fontSize:'10px' }}>
               <Download size={12} /> {t('Export PDF', 'تصدير PDF')}
-            </button>
+            </Btn>
           </div>
         </div>
       </motion.div>
@@ -211,8 +212,8 @@ export default function TheBlueprint() {
           { id:'milestones',label:t('Milestones','المحطات') },
         ].map(tb => (
           <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
-            style={{ padding:'7px 18px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
-              background: activeTab===tb.id?'#D4A843':'transparent', color: activeTab===tb.id?'#000':S.muted }}>
+            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 18px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
+              background: activeTab===tb.id?ACCENT:'transparent', color: activeTab===tb.id?'#000':S.muted }}>
             {tb.label}
           </button>
         ))}
@@ -228,7 +229,7 @@ export default function TheBlueprint() {
             const expanded = expandedGoal === g.id;
             return (
               <motion.div key={g.id} layout initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.08 }}
-                style={{ background:S.surface, border:`1px solid ${g.color}20`, borderRadius:'18px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+                className="s4-glass spatial lift" style={{ ['--accent']:g.color, overflow:'hidden' }}>
                 {/* Header row */}
                 <div style={{ padding:'18px 20px', cursor:'pointer', display:'flex', alignItems:'center', gap:'16px' }}
                   onClick={()=>setExpandedGoal(expanded ? null : g.id)}>
@@ -335,7 +336,7 @@ export default function TheBlueprint() {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(7,1fr)', gap:'8px' }}>
             {WEEKLY_PLAN.map((day, i) => (
               <motion.div key={day.day} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.06 }}
-                style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'14px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+                className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
                 <div style={{ padding:'10px 10px 6px', borderBottom:`1px solid ${S.border}`, textAlign:'center' }}>
                   <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', fontWeight:900, color: i===0?'#D4A843':'#CBD5E1' }}>{day.day}</div>
                 </div>
@@ -367,7 +368,7 @@ export default function TheBlueprint() {
           </div>
           {ADJUSTMENTS.map((a, i) => (
             <motion.div key={i} initial={{ opacity:0, x:-10 }} animate={{ opacity:1, x:0 }} transition={{ delay:i*0.1 }}
-              style={{ background:S.surface, border:`1px solid ${a.color}20`, borderRadius:'18px', padding:'20px', backdropFilter:'blur(20px)' }}>
+              className="s4-glass spatial lift" style={{ ['--accent']:a.color, padding:'20px' }}>
               <div style={{ display:'flex', alignItems:'flex-start', gap:'14px' }}>
                 <div style={{ width:'44px', height:'44px', borderRadius:'12px', background:`${a.color}15`, border:`1px solid ${a.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                   <a.Icon size={18} style={{ color:a.color }} />
@@ -398,7 +399,7 @@ export default function TheBlueprint() {
         <motion.div key="milestones" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'12px' }}>
             {GOALS.map((g, i) => (
-              <div key={g.id} style={{ background:S.surface, border:`1px solid ${g.color}18`, borderRadius:'18px', padding:'20px', backdropFilter:'blur(20px)' }}>
+              <div key={g.id} className="s4-glass spatial lift" style={{ ['--accent']:g.color, padding:'20px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'16px' }}>
                   <div style={{ width:'36px', height:'36px', borderRadius:'10px', background:`${g.color}15`, border:`1px solid ${g.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                     <g.icon size={16} style={{ color:g.color }} />
