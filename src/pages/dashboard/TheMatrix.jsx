@@ -140,23 +140,22 @@ export default function TheMatrix() {
   const maxPnl = Math.max(...TIMELINE.map(t => Math.abs(t.pnl)));
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:'#6366f1', color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
-      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
-        style={{ position:'relative', overflow:'hidden', borderRadius:'20px', padding:'20px 24px', marginBottom:'16px',
-          background:'linear-gradient(135deg,rgba(99,102,241,0.12) 0%,rgba(10,12,30,0.95) 55%,rgba(139,92,246,0.08) 100%)',
-          border:'1px solid rgba(99,102,241,0.2)', backdropFilter:'blur(20px)' }}>
+      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
+        style={{ position:'relative', overflow:'hidden', padding:'20px 24px', marginBottom:'16px',
+          background:'linear-gradient(135deg,rgba(99,102,241,0.12) 0%,rgba(10,12,30,0.95) 55%,rgba(139,92,246,0.08) 100%)' }}>
+        <span className="s4-bracket tl" /><span className="s4-bracket br" />
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div>
-            <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
-              <Activity size={16} color="#6366F1" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE MATRIX', 'المصفوفة')}</h1>
-              <div style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', color:'#6366F1', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
-                {t('PERFORMANCE DNA', 'الحمض النووي للأداء')}
-              </div>
+            <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
+              <Activity size={13} /> {t('PERFORMANCE DNA', 'الحمض النووي للأداء')}
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Deep behavioral analysis of your cross-door trading patterns and performance genome', 'تحليل سلوكي عميق لأنماط تداولك عبر الأبواب وجينوم أدائك')}</p>
+            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+              filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('THE MATRIX', 'المصفوفة')}</h1>
+            <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Deep behavioral analysis of your cross-door trading patterns and performance genome', 'تحليل سلوكي عميق لأنماط تداولك عبر الأبواب وجينوم أدائك')}</p>
           </div>
           {/* Top 3 stats */}
           <div style={{ display:'flex', gap:'12px' }}>
@@ -184,7 +183,7 @@ export default function TheMatrix() {
           { id:'timeline',label:t('Evolution','التطور') },
         ].map(tb => (
           <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
-            style={{ padding:'7px 16px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
+            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 16px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
               background: activeTab===tb.id?'#6366F1':'transparent', color: activeTab===tb.id?'#fff':S.muted }}>
             {tb.label}
           </button>
@@ -199,7 +198,7 @@ export default function TheMatrix() {
           style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:'16px', alignItems:'start' }}>
 
           {/* Radar */}
-          <div style={{ background:S.surface, border:`1px solid rgba(99,102,241,0.2)`, borderRadius:'20px', padding:'24px', backdropFilter:'blur(20px)', display:'flex', flexDirection:'column', alignItems:'center' }}>
+          <div className="s4-glass spatial lift" style={{ padding:'24px', display:'flex', flexDirection:'column', alignItems:'center' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
               {t('TRADING DNA RADAR', 'رادار الحمض النووي للتداول')}
             </div>
@@ -213,7 +212,7 @@ export default function TheMatrix() {
 
           {/* Axis details */}
           <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'20px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'20px' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
                 {t('DNA AXIS BREAKDOWN', 'تفصيل محاور الحمض النووي')}
               </div>
@@ -240,7 +239,7 @@ export default function TheMatrix() {
             </div>
 
             {/* Cross-door correlations */}
-            <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'20px', backdropFilter:'blur(20px)' }}>
+            <div className="s4-glass spatial lift" style={{ padding:'20px' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'14px' }}>
                 {t('CROSS-DOOR CORRELATIONS', 'الارتباطات عبر الأبواب')}
               </div>
@@ -271,7 +270,7 @@ export default function TheMatrix() {
       {/* ── SESSION HEATMAP ── */}
       {activeTab === 'heatmap' && (
         <motion.div key="heatmap" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'24px', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ padding:'24px' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'5px' }}>
               {t('PERFORMANCE HEATMAP — BY DAY & HOUR', 'خريطة الأداء الحرارية — حسب اليوم والساعة')}
             </div>
@@ -339,7 +338,7 @@ export default function TheMatrix() {
       {/* ── PAIR ANALYSIS ── */}
       {activeTab === 'pairs' && (
         <motion.div key="pairs" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
             <div style={{ padding:'16px 20px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'8px' }}>
               <BarChart2 size={12} color="#6366F1" />
               <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('INSTRUMENT PERFORMANCE BREAKDOWN', 'تفصيل أداء الأدوات')}</span>
@@ -393,7 +392,7 @@ export default function TheMatrix() {
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px' }}>
             {PATTERNS.map((p, i) => (
               <motion.div key={i} initial={{ opacity:0, scale:0.97 }} animate={{ opacity:1, scale:1 }} transition={{ delay:i*0.08 }}
-                style={{ background:S.surface, border:`1px solid ${p.color}20`, borderRadius:'16px', padding:'18px', backdropFilter:'blur(20px)' }}>
+                className="s4-glass spatial lift" style={{ ['--accent']:p.color, padding:'18px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'10px' }}>
                   <div style={{ width:'36px', height:'36px', borderRadius:'10px', background:`${p.color}15`, border:`1px solid ${p.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
                     <p.Icon size={16} style={{ color:p.color }} />
@@ -418,7 +417,7 @@ export default function TheMatrix() {
       {/* ── EVOLUTION TIMELINE ── */}
       {activeTab === 'timeline' && (
         <motion.div key="timeline" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
-          <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'24px', backdropFilter:'blur(20px)' }}>
+          <div className="s4-glass spatial lift" style={{ padding:'24px' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'20px' }}>
               {t('6-MONTH PERFORMANCE EVOLUTION', 'تطور الأداء لـ6 أشهر')}
             </div>
