@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { Brain, Send, Trash2, Download, Copy, Sparkles, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
+import { useLang } from '@/lib/LanguageContext';
 
 const PERSONAS = [
   {
@@ -65,6 +66,7 @@ function TypingIndicator({ color }) {
 }
 
 export default function TheBrain() {
+  const { t } = useLang();
   const { profile } = useAuthStore();
   const [persona, setPersona] = useState(PERSONAS[0]);
   const [messages, setMessages] = useState([]);
@@ -133,7 +135,7 @@ export default function TheBrain() {
   const clearChat = () => {
     localStorage.removeItem(LS_KEY(persona.id));
     setMessages([{ role: 'assistant', content: persona.welcome, ts: Date.now() }]);
-    toast.success('Chat cleared.');
+    toast.success(t('Chat cleared.', 'تم مسح المحادثة.'));
   };
 
   const exportChat = () => {
@@ -142,12 +144,12 @@ export default function TheBrain() {
     a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
     a.download = `opiom_${persona.id}_${Date.now()}.txt`;
     a.click();
-    toast.success('Chat exported.');
+    toast.success(t('Chat exported.', 'تم تصدير المحادثة.'));
   };
 
   const copyLast = () => {
     const last = [...messages].reverse().find(m => m.role === 'assistant');
-    if (last) { navigator.clipboard.writeText(last.content); toast.success('Copied!'); }
+    if (last) { navigator.clipboard.writeText(last.content); toast.success(t('Copied!', 'تم النسخ!')); }
   };
 
   return (
@@ -157,7 +159,7 @@ export default function TheBrain() {
       <div className="w-52 flex-shrink-0 flex flex-col gap-2">
         <div className="text-[10px] text-opiom-muted font-heading tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
           <Sparkles size={11} className="text-gold" />
-          AI PERSONAS
+          {t('AI PERSONAS', 'شخصيات الذكاء الاصطناعي')}
         </div>
         {PERSONAS.map(p => (
           <button key={p.id} onClick={() => setPersona(p)}
@@ -172,7 +174,7 @@ export default function TheBrain() {
             <div className="text-[9px] text-opiom-muted">{p.sub}</div>
             {persona.id === p.id && (
               <div className="mt-2 flex items-center gap-1 text-[9px] font-heading font-black tracking-wider" style={{ color: p.color }}>
-                ACTIVE <ChevronRight size={9} />
+                {t('ACTIVE', 'نشط')} <ChevronRight size={9} />
               </div>
             )}
           </button>
@@ -188,19 +190,19 @@ export default function TheBrain() {
             <div className="text-2xl">{persona.emoji}</div>
             <div>
               <div className="text-sm font-heading font-black tracking-wider" style={{ color: persona.color }}>{persona.name}</div>
-              <div className="text-[10px] text-opiom-muted">{persona.sub} · SOLVEN4 Intelligence</div>
+              <div className="text-[10px] text-opiom-muted">{persona.sub} · {t('SOLVEN4 Intelligence', 'ذكاء SOLVEN4')}</div>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
-            <button onClick={copyLast} title="Copy last response"
+            <button onClick={copyLast} title={t('Copy last response', 'نسخ آخر رد')}
               className="p-2 rounded-lg text-opiom-muted hover:text-white hover:bg-white/5 transition-all">
               <Copy size={13} />
             </button>
-            <button onClick={exportChat} title="Export conversation"
+            <button onClick={exportChat} title={t('Export conversation', 'تصدير المحادثة')}
               className="p-2 rounded-lg text-opiom-muted hover:text-white hover:bg-white/5 transition-all">
               <Download size={13} />
             </button>
-            <button onClick={clearChat} title="Clear conversation"
+            <button onClick={clearChat} title={t('Clear conversation', 'مسح المحادثة')}
               className="p-2 rounded-lg text-opiom-muted hover:text-danger hover:bg-danger/5 transition-all">
               <Trash2 size={13} />
             </button>
@@ -264,7 +266,7 @@ export default function TheBrain() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), send())}
-              placeholder={`Ask ${persona.name}…`}
+              placeholder={`${t('Ask', 'اسأل')} ${persona.name}…`}
               className="flex-1 bg-transparent text-sm text-white placeholder-opiom-muted/40 focus:outline-none"
             />
             <button onClick={() => send()} disabled={!input.trim() || thinking}
@@ -274,7 +276,7 @@ export default function TheBrain() {
             </button>
           </div>
           <div className="text-[9px] text-opiom-muted/30 mt-2 text-center">
-            Press Enter to send · Shift+Enter for new line
+            {t('Press Enter to send · Shift+Enter for new line', 'اضغط Enter للإرسال · Shift+Enter لسطر جديد')}
           </div>
         </div>
       </div>
