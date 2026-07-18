@@ -7,11 +7,13 @@ import {
   Edit3, Save, X, Mail, Phone, Globe, Calendar, Award
 } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel, Btn } from '@/hud';
+
+const ACCENT = '#6366f1';
 
 const S = {
-  card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
-  label: { fontSize: '11px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' },
-  input: { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', outline: 'none' },
+  label: { fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' },
+  input: { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', outline: 'none', boxSizing: 'border-box' },
   btn: { padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.15s' },
 };
 
@@ -62,15 +64,18 @@ export default function TheProfile() {
   const kycCount = Object.values(kycStatus).filter(Boolean).length;
   const kycPct = Math.round((kycCount / KYC_STEPS.length) * 100);
 
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
+
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '900px', margin: '0 auto' }}>
       {/* Header */}
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          {t('PROFILE & KYC', 'الملف الشخصي والتحقق')}
-        </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Unified identity across all S4 doors', 'هوية موحدة عبر جميع أبواب S4')}</p>
-      </div>
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
+        <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('UNIFIED IDENTITY', 'هوية موحدة')}</div>
+        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('PROFILE & KYC', 'الملف الشخصي والتحقق')}</h1>
+        <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Unified identity across all S4 doors', 'هوية موحدة عبر جميع أبواب S4')}</p>
+      </motion.div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
 
@@ -78,7 +83,8 @@ export default function TheProfile() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
           {/* Avatar + Name card */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={S.card}>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+          <GlassPanel className="spatial lift">
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
               <div style={{
                 width: '64px', height: '64px', borderRadius: '50%',
@@ -132,11 +138,12 @@ export default function TheProfile() {
               ))}
 
               {editing && (
-                <button onClick={handleSave} disabled={saving} style={{ ...S.btn, background: 'rgba(99,102,241,0.15)', color: '#818CF8', border: '1px solid rgba(99,102,241,0.3)', justifyContent: 'center', width: '100%' }}>
-                  <Save size={14} /> {saving ? t('Saving...','جارٍ الحفظ...') : t('Save Changes','حفظ التغييرات')}
-                </button>
+                <Btn onClick={handleSave} disabled={saving} style={{ padding: '10px 20px', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
+                  <Save size={14} /> {saving ? t('Saving...', 'جارٍ الحفظ...') : t('Save Changes', 'حفظ التغييرات')}
+                </Btn>
               )}
             </div>
+          </GlassPanel>
           </motion.div>
         </div>
 
@@ -144,13 +151,14 @@ export default function TheProfile() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
           {/* KYC card */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} style={S.card}>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
+          <GlassPanel className="spatial lift">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Shield size={16} color="#6366F1" />
-                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>{t('KYC STATUS', 'حالة التحقق')}</span>
+                <Shield size={16} color={ACCENT} />
+                <span className="s4-label s4-accent">{t('KYC STATUS', 'حالة التحقق')}</span>
               </div>
-              <div style={{ fontSize: '18px', fontWeight: 800, color: kycPct === 100 ? '#10B981' : '#D4A843' }}>{kycPct}%</div>
+              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '18px', fontWeight: 900, color: kycPct === 100 ? '#10B981' : '#D4A843' }}>{kycPct}%</div>
             </div>
 
             {/* Progress bar */}
@@ -171,31 +179,34 @@ export default function TheProfile() {
                       <div style={{ fontSize: '11px', color: '#94A3B8' }}>{t(desc, descAr)}</div>
                     </div>
                     {!done && (
-                      <button style={{ ...S.btn, padding: '5px 12px', fontSize: '11px', background: 'rgba(99,102,241,0.12)', color: '#818CF8', border: '1px solid rgba(99,102,241,0.25)' }}>
+                      <Btn ghost style={{ padding: '5px 12px', fontSize: '10px', display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <Upload size={11} /> {t('Start', 'ابدأ')}
-                      </button>
+                      </Btn>
                     )}
                   </div>
                 );
               })}
             </div>
+          </GlassPanel>
           </motion.div>
 
           {/* Cross-door stats */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={S.card}>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <GlassPanel className="spatial lift" style={{ ['--accent']: '#D4A843' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
               <Award size={16} color="#D4A843" />
-              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#D4A843', fontWeight: 700 }}>{t('DOOR ACTIVITY', 'نشاط الأبواب')}</span>
+              <span className="s4-label s4-accent">{t('DOOR ACTIVITY', 'نشاط الأبواب')}</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {DOOR_STATS.map(({ door, color, label, stat, statAr, value }) => (
                 <div key={door} style={{ padding: '12px', borderRadius: '10px', background: `${color}08`, border: `1px solid ${color}25` }}>
                   <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', color: color, fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>{door}</div>
                   <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '2px' }}>{t(stat, statAr)}</div>
-                  <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{value}</div>
+                  <div className="s4-num" style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{value}</div>
                 </div>
               ))}
             </div>
+          </GlassPanel>
           </motion.div>
         </div>
       </div>
