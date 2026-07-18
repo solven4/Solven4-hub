@@ -153,20 +153,21 @@ export default function TheBrain() {
   };
 
   return (
-    <div className="flex gap-5 animate-fade-in" style={{ height: 'calc(100vh - 112px)' }}>
+    <div className="s4hud flex gap-5 animate-fade-in" style={{ ['--accent']: persona.color, height: 'calc(100vh - 112px)' }}>
 
       {/* Persona Panel */}
       <div className="w-52 flex-shrink-0 flex flex-col gap-2">
-        <div className="text-[10px] text-opiom-muted font-heading tracking-[0.3em] uppercase mb-1 flex items-center gap-2">
-          <Sparkles size={11} className="text-gold" />
+        <div className="s4-label s4-accent mb-1 flex items-center gap-2" style={{ fontSize: '10px' }}>
+          <Sparkles size={11} />
           {t('AI PERSONAS', 'شخصيات الذكاء الاصطناعي')}
         </div>
         {PERSONAS.map(p => (
           <button key={p.id} onClick={() => setPersona(p)}
-            className="text-left p-3.5 rounded-2xl border transition-all duration-200 group"
+            className="s4-glass text-left p-3.5 transition-all duration-200 group"
             style={{
-              borderColor: persona.id === p.id ? p.border : 'rgba(41,41,61,0.8)',
-              background: persona.id === p.id ? p.bg : 'rgba(6,13,24,0.6)',
+              ['--accent']: p.color,
+              borderColor: persona.id === p.id ? p.border : undefined,
+              background: persona.id === p.id ? p.bg : undefined,
             }}>
             <div className="text-xl mb-2">{p.emoji}</div>
             <div className="text-[11px] font-heading font-black tracking-wider mb-0.5"
@@ -182,7 +183,7 @@ export default function TheBrain() {
       </div>
 
       {/* Chat Window */}
-      <div className="flex-1 flex flex-col rounded-2xl border overflow-hidden" style={{ borderColor: persona.border, background: '#060D18' }}>
+      <div className="s4-glass flex-1 flex flex-col overflow-hidden" style={{ borderColor: persona.border }}>
         {/* Chat Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b flex-shrink-0"
           style={{ borderColor: 'rgba(41,41,61,0.6)', background: persona.bg }}>
