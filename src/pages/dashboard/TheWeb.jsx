@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Network, Users, Link2, TrendingUp, DollarSign, GitBranch, ArrowUpRight, Trophy, Zap, MessageCircle, Send, Globe } from 'lucide-react';
 import { db } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
+import { useLang } from '@/lib/LanguageContext';
 
 // SOLVEN4 FORGE (S4-II) — IB command center full feature map
 const NETWORK_MODULES = [
@@ -50,6 +51,7 @@ const NETWORK_MODULES = [
 ];
 
 export default function TheWeb() {
+  const { t } = useLang();
   const { user } = useAuthStore();
   const [members, setMembers] = useState([]);
   const [links, setLinks] = useState([]);
@@ -77,9 +79,9 @@ export default function TheWeb() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-white tracking-wider">THE WEB</h1>
+          <h1 className="font-heading text-2xl font-bold text-white tracking-wider">{t('THE WEB', 'الشبكة')}</h1>
           <p className="text-sm text-opiom-muted mt-0.5">
-            S4 FORGE (S4-II) — IB empire, referrals, commissions & network intelligence.
+            {t('S4 FORGE (S4-II) — IB empire, referrals, commissions & network intelligence.', 'S4 FORGE — إمبراطورية الوسطاء، الإحالات، العمولات وذكاء الشبكة.')}
           </p>
         </div>
         <a
@@ -88,17 +90,17 @@ export default function TheWeb() {
           rel="noopener noreferrer"
           className="flex items-center gap-2 bg-gold/10 border border-gold/20 text-gold text-xs font-heading font-bold px-4 py-2 rounded-xl hover:bg-gold/20 transition-colors tracking-wider"
         >
-          ENTER S4 FORGE <ArrowUpRight size={13} />
+          {t('ENTER S4 FORGE', 'ادخل S4 FORGE')} <ArrowUpRight size={13} />
         </a>
       </div>
 
       {/* Quick stats from Supabase shared DB */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Network Members', val: members.length,                     icon: Users,       color: 'text-ascend' },
-          { label: 'Referral Links',  val: links.length,                       icon: Link2,       color: 'text-pulse' },
-          { label: 'Commissions',     val: `$${totalCommissions.toFixed(0)}`,  icon: DollarSign,  color: 'text-gold' },
-          { label: 'Network Depth',   val: '3 Levels',                         icon: GitBranch,   color: 'text-command' },
+          { label: t('Network Members', 'أعضاء الشبكة'), val: members.length,                     icon: Users,       color: 'text-ascend' },
+          { label: t('Referral Links', 'روابط الإحالة'),  val: links.length,                       icon: Link2,       color: 'text-pulse' },
+          { label: t('Commissions', 'العمولات'),     val: `$${totalCommissions.toFixed(0)}`,  icon: DollarSign,  color: 'text-gold' },
+          { label: t('Network Depth', 'عمق الشبكة'),   val: t('3 Levels', '3 مستويات'),                         icon: GitBranch,   color: 'text-command' },
         ].map(s => {
           const Icon = s.icon;
           return (
@@ -119,11 +121,11 @@ export default function TheWeb() {
           {/* Network Members */}
           <div className="bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden">
             <div className="px-5 py-4 border-b border-opiom-border flex items-center justify-between">
-              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">Network Members</div>
+              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">{t('Network Members', 'أعضاء الشبكة')}</div>
               <Users size={13} className="text-ascend" />
             </div>
             {members.length === 0 ? (
-              <div className="p-6 text-center text-opiom-muted text-xs">No members yet. Share your link to grow The Web.</div>
+              <div className="p-6 text-center text-opiom-muted text-xs">{t('No members yet. Share your link to grow The Web.', 'لا يوجد أعضاء بعد. شارك رابطك لتنمية شبكتك.')}</div>
             ) : (
               <div className="divide-y divide-opiom-border">
                 {members.slice(0, 6).map(m => (
@@ -132,7 +134,7 @@ export default function TheWeb() {
                       {m.member_name?.[0] ?? 'A'}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-white truncate">{m.member_name ?? 'Agent'}</div>
+                      <div className="text-xs font-semibold text-white truncate">{m.member_name ?? t('Agent','وكيل')}</div>
                       <div className="text-[10px] text-opiom-muted">{new Date(m.created_at).toLocaleDateString()}</div>
                     </div>
                     <div className="text-[9px] bg-ascend/10 text-ascend px-1.5 py-0.5 rounded-full font-bold">Lv.{m.level ?? 1}</div>
@@ -145,20 +147,20 @@ export default function TheWeb() {
           {/* Referral Links */}
           <div className="bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden">
             <div className="px-5 py-4 border-b border-opiom-border flex items-center justify-between">
-              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">Referral Links</div>
+              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">{t('Referral Links', 'روابط الإحالة')}</div>
               <Link2 size={13} className="text-pulse" />
             </div>
             {links.length === 0 ? (
-              <div className="p-6 text-center text-opiom-muted text-xs">No links yet. Create them in S4 FORGE.</div>
+              <div className="p-6 text-center text-opiom-muted text-xs">{t('No links yet. Create them in S4 FORGE.', 'لا توجد روابط بعد. أنشئها في S4 FORGE.')}</div>
             ) : (
               <div className="divide-y divide-opiom-border">
                 {links.map(l => (
                   <div key={l.id} className="px-5 py-3">
-                    <div className="text-xs font-semibold text-white mb-1">{l.name ?? 'Referral Link'}</div>
+                    <div className="text-xs font-semibold text-white mb-1">{l.name ?? t('Referral Link','رابط إحالة')}</div>
                     <div className="text-[10px] text-opiom-muted font-mono truncate mb-1">{l.slug}</div>
                     <div className="flex gap-3 text-[10px] text-opiom-muted">
-                      <span><span className="text-gold font-bold">{l.click_count ?? 0}</span> clicks</span>
-                      <span><span className="text-ascend font-bold">{l.conversion_count ?? 0}</span> converted</span>
+                      <span><span className="text-gold font-bold">{l.click_count ?? 0}</span> {t('clicks','نقرة')}</span>
+                      <span><span className="text-ascend font-bold">{l.conversion_count ?? 0}</span> {t('converted','تحويل')}</span>
                     </div>
                   </div>
                 ))}
@@ -169,17 +171,17 @@ export default function TheWeb() {
           {/* Recent Commissions */}
           <div className="bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden">
             <div className="px-5 py-4 border-b border-opiom-border flex items-center justify-between">
-              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">Recent Commissions</div>
+              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">{t('Recent Commissions', 'أحدث العمولات')}</div>
               <DollarSign size={13} className="text-gold" />
             </div>
             {commissions.length === 0 ? (
-              <div className="p-6 text-center text-opiom-muted text-xs">No commissions yet.</div>
+              <div className="p-6 text-center text-opiom-muted text-xs">{t('No commissions yet.', 'لا توجد عمولات بعد.')}</div>
             ) : (
               <div className="divide-y divide-opiom-border">
                 {commissions.map((c, i) => (
                   <div key={i} className="flex items-center gap-3 px-5 py-3">
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-white">{c.description ?? 'Commission'}</div>
+                      <div className="text-xs font-semibold text-white">{c.description ?? t('Commission','عمولة')}</div>
                       <div className="text-[10px] text-opiom-muted">{new Date(c.created_at).toLocaleDateString()}</div>
                     </div>
                     <div className="text-xs font-bold text-gold">${(c.amount ?? 0).toFixed(2)}</div>
@@ -195,7 +197,7 @@ export default function TheWeb() {
       <div>
         <div className="flex items-center gap-3 mb-4">
           <Network size={16} className="text-gold" />
-          <div className="text-[11px] text-opiom-muted font-heading tracking-[0.3em] uppercase">S4 FORGE — Full Module Map</div>
+          <div className="text-[11px] text-opiom-muted font-heading tracking-[0.3em] uppercase">{t('S4 FORGE — Full Module Map', 'S4 FORGE — خريطة الوحدات الكاملة')}</div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {NETWORK_MODULES.map(mod => (
@@ -216,13 +218,13 @@ export default function TheWeb() {
 
       {/* Messaging channels quick-access */}
       <div className="bg-opiom-surface border border-opiom-border rounded-2xl p-5">
-        <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase mb-4">Messaging Channels (in S4 FORGE)</div>
+        <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase mb-4">{t('Messaging Channels (in S4 FORGE)', 'قنوات المراسلة (في S4 FORGE)')}</div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'WhatsApp',    sub: 'Broadcast & DM',   icon: MessageCircle, color: 'text-[#25D366] bg-[#25D366]/10 border-[#25D366]/20' },
-            { label: 'Telegram',    sub: 'Bot & Channels',   icon: Send,          color: 'text-[#2AABEE] bg-[#2AABEE]/10 border-[#2AABEE]/20' },
-            { label: 'Social Hub',  sub: '6 Platforms',      icon: Globe,         color: 'text-pulse bg-pulse/10 border-pulse/20' },
-            { label: 'Live Signals',sub: 'Trading Alerts',   icon: TrendingUp,    color: 'text-gold bg-gold/10 border-gold/20' },
+            { label: 'WhatsApp',    sub: t('Broadcast & DM','بث ورسائل خاصة'),   icon: MessageCircle, color: 'text-[#25D366] bg-[#25D366]/10 border-[#25D366]/20' },
+            { label: 'Telegram',    sub: t('Bot & Channels','بوت وقنوات'),   icon: Send,          color: 'text-[#2AABEE] bg-[#2AABEE]/10 border-[#2AABEE]/20' },
+            { label: t('Social Hub','مركز التواصل'),  sub: t('6 Platforms','6 منصات'),      icon: Globe,         color: 'text-pulse bg-pulse/10 border-pulse/20' },
+            { label: t('Live Signals','إشارات مباشرة'),sub: t('Trading Alerts','تنبيهات التداول'),   icon: TrendingUp,    color: 'text-gold bg-gold/10 border-gold/20' },
           ].map(ch => {
             const Icon = ch.icon;
             return (

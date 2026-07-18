@@ -6,6 +6,7 @@ import {
   UserCircle, Shield, CheckCircle, AlertCircle, Upload,
   Edit3, Save, X, Mail, Phone, Globe, Calendar, Award
 } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = {
   card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
@@ -15,20 +16,21 @@ const S = {
 };
 
 const KYC_STEPS = [
-  { key: 'email', label: 'Email Verified', desc: 'Confirm your email address' },
-  { key: 'phone', label: 'Phone Verified', desc: 'Add and verify your phone number' },
-  { key: 'id', label: 'ID Document', desc: 'Upload a government-issued ID' },
-  { key: 'selfie', label: 'Selfie / Liveness', desc: 'A quick selfie to match your ID' },
+  { key: 'email', label: 'Email Verified', labelAr: 'تم التحقق من البريد', desc: 'Confirm your email address', descAr: 'أكّد عنوان بريدك الإلكتروني' },
+  { key: 'phone', label: 'Phone Verified', labelAr: 'تم التحقق من الهاتف', desc: 'Add and verify your phone number', descAr: 'أضف وتحقق من رقم هاتفك' },
+  { key: 'id', label: 'ID Document', labelAr: 'وثيقة الهوية', desc: 'Upload a government-issued ID', descAr: 'ارفع هوية صادرة عن جهة حكومية' },
+  { key: 'selfie', label: 'Selfie / Liveness', labelAr: 'صورة شخصية / تحقق حي', desc: 'A quick selfie to match your ID', descAr: 'صورة شخصية سريعة لمطابقة هويتك' },
 ];
 
 const DOOR_STATS = [
-  { door: 'EDGE', color: '#06B6D4', label: 'Trader', stat: 'Active Positions', value: '0' },
-  { door: 'FORGE', color: '#D4A843', label: 'IB Network', stat: 'Total Clients', value: '0' },
-  { door: 'ORACLE', color: '#10B981', label: 'Academy', stat: 'Courses Done', value: '0' },
-  { door: 'NEXUS', color: '#EF4444', label: 'Business', stat: 'Pipeline Value', value: '$0' },
+  { door: 'EDGE', color: '#06B6D4', label: 'Trader', labelAr: 'متداول', stat: 'Active Positions', statAr: 'مراكز نشطة', value: '0' },
+  { door: 'FORGE', color: '#D4A843', label: 'IB Network', labelAr: 'شبكة الوسطاء', stat: 'Total Clients', statAr: 'إجمالي العملاء', value: '0' },
+  { door: 'ORACLE', color: '#10B981', label: 'Academy', labelAr: 'الأكاديمية', stat: 'Courses Done', statAr: 'الدورات المكتملة', value: '0' },
+  { door: 'NEXUS', color: '#EF4444', label: 'Business', labelAr: 'الأعمال', stat: 'Pipeline Value', statAr: 'قيمة خط الأنابيب', value: '$0' },
 ];
 
 export default function TheProfile() {
+  const { t } = useLang();
   const { user, profile } = useAuthStore();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -65,9 +67,9 @@ export default function TheProfile() {
       {/* Header */}
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          PROFILE & KYC
+          {t('PROFILE & KYC', 'الملف الشخصي والتحقق')}
         </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Unified identity across all S4 doors</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Unified identity across all S4 doors', 'هوية موحدة عبر جميع أبواب S4')}</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
@@ -88,15 +90,15 @@ export default function TheProfile() {
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: '16px', fontWeight: 700, color: '#fff', marginBottom: '3px' }}>
-                  {profile?.full_name || 'Operator'}
+                  {profile?.full_name || t('Operator', 'مشغل')}
                 </div>
                 <div style={{ fontSize: '12px', color: '#94A3B8' }}>{user?.email}</div>
                 <div style={{ display: 'flex', gap: '6px', marginTop: '6px' }}>
                   <span style={{ fontSize: '10px', padding: '2px 10px', borderRadius: '20px', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontWeight: 600, fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em' }}>
-                    {profile?.plan?.toUpperCase() || 'FREE'}
+                    {profile?.plan?.toUpperCase() || t('FREE','مجاني')}
                   </span>
                   <span style={{ fontSize: '10px', padding: '2px 10px', borderRadius: '20px', background: 'rgba(212,168,67,0.15)', color: '#D4A843', fontWeight: 600 }}>
-                    {profile?.rank || 'Rookie'}
+                    {profile?.rank || t('Rookie','مبتدئ')}
                   </span>
                 </div>
               </div>
@@ -107,10 +109,10 @@ export default function TheProfile() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {[
-                { key: 'full_name', label: 'Full Name', icon: UserCircle, placeholder: 'Your full name' },
-                { key: 'phone', label: 'Phone', icon: Phone, placeholder: '+1 234 567 8900' },
-                { key: 'country', label: 'Country', icon: Globe, placeholder: 'UAE, KSA, EG...' },
-                { key: 'timezone', label: 'Timezone', icon: Calendar, placeholder: 'Asia/Dubai' },
+                { key: 'full_name', label: t('Full Name','الاسم الكامل'), icon: UserCircle, placeholder: t('Your full name','اسمك الكامل') },
+                { key: 'phone', label: t('Phone','الهاتف'), icon: Phone, placeholder: '+1 234 567 8900' },
+                { key: 'country', label: t('Country','الدولة'), icon: Globe, placeholder: 'UAE, KSA, EG...' },
+                { key: 'timezone', label: t('Timezone','المنطقة الزمنية'), icon: Calendar, placeholder: 'Asia/Dubai' },
               ].map(({ key, label, icon: Icon, placeholder }) => (
                 <div key={key}>
                   <label style={S.label}>{label}</label>
@@ -131,7 +133,7 @@ export default function TheProfile() {
 
               {editing && (
                 <button onClick={handleSave} disabled={saving} style={{ ...S.btn, background: 'rgba(99,102,241,0.15)', color: '#818CF8', border: '1px solid rgba(99,102,241,0.3)', justifyContent: 'center', width: '100%' }}>
-                  <Save size={14} /> {saving ? 'Saving...' : 'Save Changes'}
+                  <Save size={14} /> {saving ? t('Saving...','جارٍ الحفظ...') : t('Save Changes','حفظ التغييرات')}
                 </button>
               )}
             </div>
@@ -146,7 +148,7 @@ export default function TheProfile() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Shield size={16} color="#6366F1" />
-                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>KYC STATUS</span>
+                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>{t('KYC STATUS', 'حالة التحقق')}</span>
               </div>
               <div style={{ fontSize: '18px', fontWeight: 800, color: kycPct === 100 ? '#10B981' : '#D4A843' }}>{kycPct}%</div>
             </div>
@@ -157,7 +159,7 @@ export default function TheProfile() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {KYC_STEPS.map(({ key, label, desc }) => {
+              {KYC_STEPS.map(({ key, label, labelAr, desc, descAr }) => {
                 const done = kycStatus[key];
                 return (
                   <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '10px', background: done ? 'rgba(16,185,129,0.06)' : 'rgba(255,255,255,0.02)', border: `1px solid ${done ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.06)'}` }}>
@@ -165,12 +167,12 @@ export default function TheProfile() {
                       ? <CheckCircle size={16} color="#10B981" />
                       : <AlertCircle size={16} color="#F59E0B" />}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: done ? '#10B981' : '#fff' }}>{label}</div>
-                      <div style={{ fontSize: '11px', color: '#94A3B8' }}>{desc}</div>
+                      <div style={{ fontSize: '12px', fontWeight: 600, color: done ? '#10B981' : '#fff' }}>{t(label, labelAr)}</div>
+                      <div style={{ fontSize: '11px', color: '#94A3B8' }}>{t(desc, descAr)}</div>
                     </div>
                     {!done && (
                       <button style={{ ...S.btn, padding: '5px 12px', fontSize: '11px', background: 'rgba(99,102,241,0.12)', color: '#818CF8', border: '1px solid rgba(99,102,241,0.25)' }}>
-                        <Upload size={11} /> Start
+                        <Upload size={11} /> {t('Start', 'ابدأ')}
                       </button>
                     )}
                   </div>
@@ -183,13 +185,13 @@ export default function TheProfile() {
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} style={S.card}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
               <Award size={16} color="#D4A843" />
-              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#D4A843', fontWeight: 700 }}>DOOR ACTIVITY</span>
+              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#D4A843', fontWeight: 700 }}>{t('DOOR ACTIVITY', 'نشاط الأبواب')}</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              {DOOR_STATS.map(({ door, color, label, stat, value }) => (
+              {DOOR_STATS.map(({ door, color, label, stat, statAr, value }) => (
                 <div key={door} style={{ padding: '12px', borderRadius: '10px', background: `${color}08`, border: `1px solid ${color}25` }}>
                   <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', color: color, fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>{door}</div>
-                  <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '2px' }}>{stat}</div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '2px' }}>{t(stat, statAr)}</div>
                   <div style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{value}</div>
                 </div>
               ))}
