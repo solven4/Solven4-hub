@@ -4,6 +4,7 @@ import {
   Activity, Brain, TrendingUp, TrendingDown, Target, Zap, Clock, BarChart2,
   ArrowUpRight, AlertTriangle, Lightbulb, ChevronRight, Flame, Eye, Shield,
 } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
@@ -132,6 +133,7 @@ function RadarChart({ data }) {
 const SCORE_COLOR = s => s >= 70 ? '#10B981' : s >= 50 ? '#D4A843' : '#EF4444';
 
 export default function TheMatrix() {
+  const { t } = useLang();
   const [activeTab, setActiveTab] = useState('dna');
   const [hoverCell, setHoverCell] = useState(null);
 
@@ -149,19 +151,19 @@ export default function TheMatrix() {
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'5px' }}>
               <Activity size={16} color="#6366F1" />
-              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>THE MATRIX</h1>
+              <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900 }}>{t('THE MATRIX', 'المصفوفة')}</h1>
               <div style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'8px', color:'#6366F1', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
-                PERFORMANCE DNA
+                {t('PERFORMANCE DNA', 'الحمض النووي للأداء')}
               </div>
             </div>
-            <p style={{ color:S.muted, fontSize:'12px' }}>Deep behavioral analysis of your cross-door trading patterns and performance genome</p>
+            <p style={{ color:S.muted, fontSize:'12px' }}>{t('Deep behavioral analysis of your cross-door trading patterns and performance genome', 'تحليل سلوكي عميق لأنماط تداولك عبر الأبواب وجينوم أدائك')}</p>
           </div>
           {/* Top 3 stats */}
           <div style={{ display:'flex', gap:'12px' }}>
             {[
-              { label:'Overall Win Rate', value:'67%', color:'#10B981' },
-              { label:'Best Pair',        value:'XAU/USD', color:'#D4A843' },
-              { label:'DNA Score',        value:'74 / 100', color:'#6366F1' },
+              { label:t('Overall Win Rate','معدل الربح الإجمالي'), value:'67%', color:'#10B981' },
+              { label:t('Best Pair','أفضل زوج'),        value:'XAU/USD', color:'#D4A843' },
+              { label:t('DNA Score','نقاط الحمض النووي'),        value:'74 / 100', color:'#6366F1' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:s.color }}>{s.value}</div>
@@ -175,16 +177,16 @@ export default function TheMatrix() {
       {/* ── TABS ── */}
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:`1px solid ${S.border}`, marginBottom:'16px', width:'fit-content' }}>
         {[
-          { id:'dna',     label:'DNA Profile' },
-          { id:'heatmap', label:'Session Heatmap' },
-          { id:'pairs',   label:'Pair Analysis' },
-          { id:'patterns',label:'Behavioral Patterns' },
-          { id:'timeline',label:'Evolution' },
-        ].map(t => (
-          <button key={t.id} onClick={()=>setActiveTab(t.id)}
+          { id:'dna',     label:t('DNA Profile','ملف الحمض النووي') },
+          { id:'heatmap', label:t('Session Heatmap','خريطة حرارية للجلسات') },
+          { id:'pairs',   label:t('Pair Analysis','تحليل الأزواج') },
+          { id:'patterns',label:t('Behavioral Patterns','الأنماط السلوكية') },
+          { id:'timeline',label:t('Evolution','التطور') },
+        ].map(tb => (
+          <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
             style={{ padding:'7px 16px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
-              background: activeTab===t.id?'#6366F1':'transparent', color: activeTab===t.id?'#fff':S.muted }}>
-            {t.label}
+              background: activeTab===tb.id?'#6366F1':'transparent', color: activeTab===tb.id?'#fff':S.muted }}>
+            {tb.label}
           </button>
         ))}
       </div>
@@ -199,13 +201,13 @@ export default function TheMatrix() {
           {/* Radar */}
           <div style={{ background:S.surface, border:`1px solid rgba(99,102,241,0.2)`, borderRadius:'20px', padding:'24px', backdropFilter:'blur(20px)', display:'flex', flexDirection:'column', alignItems:'center' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
-              TRADING DNA RADAR
+              {t('TRADING DNA RADAR', 'رادار الحمض النووي للتداول')}
             </div>
             <RadarChart data={DNA_AXES} />
             <div style={{ marginTop:'12px', textAlign:'center' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#6366F1' }}>74</div>
-              <div style={{ color:S.muted, fontSize:'10px' }}>Overall DNA Score</div>
-              <div style={{ color:'#10B981', fontSize:'10px', marginTop:'3px' }}>▲ +6 pts this month</div>
+              <div style={{ color:S.muted, fontSize:'10px' }}>{t('Overall DNA Score', 'إجمالي نقاط الحمض النووي')}</div>
+              <div style={{ color:'#10B981', fontSize:'10px', marginTop:'3px' }}>▲ {t('+6 pts this month', '+6 نقاط هذا الشهر')}</div>
             </div>
           </div>
 
@@ -213,7 +215,7 @@ export default function TheMatrix() {
           <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
             <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'20px', backdropFilter:'blur(20px)' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
-                DNA AXIS BREAKDOWN
+                {t('DNA AXIS BREAKDOWN', 'تفصيل محاور الحمض النووي')}
               </div>
               <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
                 {DNA_AXES.map(ax => (
@@ -240,7 +242,7 @@ export default function TheMatrix() {
             {/* Cross-door correlations */}
             <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'20px', backdropFilter:'blur(20px)' }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'14px' }}>
-                CROSS-DOOR CORRELATIONS
+                {t('CROSS-DOOR CORRELATIONS', 'الارتباطات عبر الأبواب')}
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px' }}>
                 {CORRELATIONS.map((c, i) => (
@@ -271,9 +273,9 @@ export default function TheMatrix() {
         <motion.div key="heatmap" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'24px', backdropFilter:'blur(20px)' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'5px' }}>
-              PERFORMANCE HEATMAP — BY DAY & HOUR
+              {t('PERFORMANCE HEATMAP — BY DAY & HOUR', 'خريطة الأداء الحرارية — حسب اليوم والساعة')}
             </div>
-            <p style={{ color:S.muted, fontSize:'11px', marginBottom:'20px' }}>Win-rate intensity by hour of day. Green = high performance window.</p>
+            <p style={{ color:S.muted, fontSize:'11px', marginBottom:'20px' }}>{t('Win-rate intensity by hour of day. Green = high performance window.', 'كثافة معدل الربح حسب ساعة اليوم. الأخضر = نافذة أداء عالٍ.')}</p>
 
             <div style={{ display:'flex', gap:'6px', alignItems:'flex-start', overflowX:'auto' }}>
               {/* Day labels */}
@@ -311,7 +313,7 @@ export default function TheMatrix() {
                             transition:'all 0.1s', position:'relative' }}>
                           {isHov && (
                             <div style={{ position:'absolute', bottom:'26px', left:'50%', transform:'translateX(-50%)', background:'rgba(5,5,12,0.95)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:'6px', padding:'4px 8px', whiteSpace:'nowrap', zIndex:10, fontSize:'10px', color:'#fff', fontWeight:700 }}>
-                              {DAYS[di]} {hi}:00 · {cell.score}% win
+                              {DAYS[di]} {hi}:00 · {cell.score}% {t('win','ربح')}
                             </div>
                           )}
                         </div>
@@ -324,11 +326,11 @@ export default function TheMatrix() {
 
             {/* Legend */}
             <div style={{ display:'flex', alignItems:'center', gap:'12px', marginTop:'16px', fontSize:'10px', color:S.muted }}>
-              <span>Less effective</span>
+              <span>{t('Less effective', 'أقل فعالية')}</span>
               {[0.1,0.3,0.5,0.7,0.9].map(a => (
                 <div key={a} style={{ width:'16px', height:'16px', borderRadius:'3px', background:`rgba(16,185,129,${a})` }} />
               ))}
-              <span>Most effective</span>
+              <span>{t('Most effective', 'أكثر فعالية')}</span>
             </div>
           </div>
         </motion.div>
@@ -340,7 +342,7 @@ export default function TheMatrix() {
           <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', overflow:'hidden', backdropFilter:'blur(20px)' }}>
             <div style={{ padding:'16px 20px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'8px' }}>
               <BarChart2 size={12} color="#6366F1" />
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>INSTRUMENT PERFORMANCE BREAKDOWN</span>
+              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('INSTRUMENT PERFORMANCE BREAKDOWN', 'تفصيل أداء الأدوات')}</span>
             </div>
             {PAIRS.map((p, i) => (
               <motion.div key={p.pair} initial={{ opacity:0, x:-10 }} animate={{ opacity:1, x:0 }} transition={{ delay:i*0.08 }}
@@ -355,15 +357,15 @@ export default function TheMatrix() {
                     <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'8px' }}>
                       <span style={{ color:'#fff', fontSize:'14px', fontWeight:700 }}>{p.pair}</span>
                       <div style={{ display:'flex', gap:'16px', fontSize:'11px' }}>
-                        <span style={{ color:S.muted }}>{p.trades} trades</span>
-                        <span style={{ color:'#D4A843' }}>Best: {p.bestSession}</span>
-                        <span style={{ color:'#8B5CF6' }}>Avg R:R {p.avgRR}</span>
+                        <span style={{ color:S.muted }}>{p.trades} {t('trades','صفقة')}</span>
+                        <span style={{ color:'#D4A843' }}>{t('Best','الأفضل')}: {p.bestSession}</span>
+                        <span style={{ color:'#8B5CF6' }}>{t('Avg R:R','متوسط R:R')} {p.avgRR}</span>
                       </div>
                     </div>
                     <div style={{ display:'flex', alignItems:'center', gap:'12px' }}>
                       <div style={{ flex:1 }}>
                         <div style={{ display:'flex', justifyContent:'space-between', fontSize:'9px', color:S.muted, marginBottom:'3px' }}>
-                          <span>Win Rate</span>
+                          <span>{t('Win Rate','معدل الربح')}</span>
                           <span style={{ color:SCORE_COLOR(p.winRate), fontWeight:700 }}>{p.winRate}%</span>
                         </div>
                         <div style={{ height:'6px', borderRadius:'3px', background:'rgba(255,255,255,0.06)', overflow:'hidden' }}>
@@ -399,7 +401,7 @@ export default function TheMatrix() {
                   <div>
                     <div style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{p.label}</div>
                     <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:p.type==='strength'?'#10B981':p.type==='warning'?'#EF4444':'#D4A843', fontWeight:700 }}>
-                      {p.type.toUpperCase()}
+                      {p.type==='strength'?t('STRENGTH','قوة'):p.type==='warning'?t('WARNING','تحذير'):t('INSIGHT','ملاحظة')}
                     </div>
                   </div>
                   <div style={{ marginLeft:'auto', fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:p.color }}>
@@ -418,12 +420,12 @@ export default function TheMatrix() {
         <motion.div key="timeline" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div style={{ background:S.surface, border:`1px solid ${S.border}`, borderRadius:'20px', padding:'24px', backdropFilter:'blur(20px)' }}>
             <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'20px' }}>
-              6-MONTH PERFORMANCE EVOLUTION
+              {t('6-MONTH PERFORMANCE EVOLUTION', 'تطور الأداء لـ6 أشهر')}
             </div>
 
             {/* PnL bars */}
             <div style={{ marginBottom:'24px' }}>
-              <div style={{ color:S.muted, fontSize:'10px', marginBottom:'10px', fontWeight:700 }}>Monthly PnL</div>
+              <div style={{ color:S.muted, fontSize:'10px', marginBottom:'10px', fontWeight:700 }}>{t('Monthly PnL', 'الأرباح والخسائر الشهرية')}</div>
               <div style={{ display:'flex', gap:'8px', alignItems:'flex-end', height:'100px' }}>
                 {TIMELINE.map((t, i) => {
                   const h = Math.abs(t.pnl) / maxPnl * 80;
@@ -449,7 +451,7 @@ export default function TheMatrix() {
             <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'12px' }}>
               <thead>
                 <tr style={{ borderBottom:`1px solid ${S.border}` }}>
-                  {['Month','Win Rate','PnL','Avg R:R','Trades'].map(h => (
+                  {[t('Month','الشهر'),t('Win Rate','معدل الربح'),t('PnL','الأرباح والخسائر'),t('Avg R:R','متوسط R:R'),t('Trades','الصفقات')].map(h => (
                     <th key={h} style={{ padding:'8px 12px', textAlign:'left', color:S.muted, fontSize:'9px', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>{h}</th>
                   ))}
                 </tr>
