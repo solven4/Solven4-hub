@@ -7,15 +7,16 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
+import { useLang } from '@/lib/LanguageContext';
 
 const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
 
 const TIER_CONFIG = {
-  1: { label: 'Tier 1 — Regional',    color: '#94A3B8', min: 0,      max: 49 },
-  2: { label: 'Tier 2 — Established', color: '#10B981', min: 50,     max: 199 },
-  3: { label: 'Tier 3 — Premium',     color: '#3B82F6', min: 200,    max: 999 },
-  4: { label: 'Tier 4 — Elite',       color: '#D4A843', min: 1000,   max: Infinity },
+  1: { label: 'Tier 1 — Regional', labelAr: 'المستوى 1 — إقليمي',    color: '#94A3B8', min: 0,      max: 49 },
+  2: { label: 'Tier 2 — Established', labelAr: 'المستوى 2 — راسخ', color: '#10B981', min: 50,     max: 199 },
+  3: { label: 'Tier 3 — Premium', labelAr: 'المستوى 3 — متميز',     color: '#3B82F6', min: 200,    max: 999 },
+  4: { label: 'Tier 4 — Elite', labelAr: 'المستوى 4 — النخبة',       color: '#D4A843', min: 1000,   max: Infinity },
 };
 
 function StatCard({ icon: Icon, label, value, sub, color = '#6366F1', delay = 0 }) {
@@ -48,7 +49,8 @@ function StatCard({ icon: Icon, label, value, sub, color = '#6366F1', delay = 0 
 }
 
 function IBRow({ broker, rank }) {
-  const tier = Object.values(TIER_CONFIG).find(t => broker.active_ibs >= t.min && broker.active_ibs <= t.max) ?? TIER_CONFIG[1];
+  const { t } = useLang();
+  const tier = Object.values(TIER_CONFIG).find(tc => broker.active_ibs >= tc.min && broker.active_ibs <= tc.max) ?? TIER_CONFIG[1];
   return (
     <motion.div
       variants={fadeUp}
@@ -61,18 +63,18 @@ function IBRow({ broker, rank }) {
         {(broker.name ?? 'B').charAt(0)}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-sm font-bold text-white truncate">{broker.name ?? 'Unknown Broker'}</div>
-        <div className="text-[10px]" style={{ color: tier.color }}>{tier.label}</div>
+        <div className="text-sm font-bold text-white truncate">{broker.name ?? t('Unknown Broker','وسيط غير معروف')}</div>
+        <div className="text-[10px]" style={{ color: tier.color }}>{t(tier.label, tier.labelAr)}</div>
       </div>
       <div className="text-right">
         <div className="text-sm font-bold text-white">{(broker.active_ibs ?? 0).toLocaleString()}</div>
-        <div className="text-[10px] text-s4-muted">IBs</div>
+        <div className="text-[10px] text-s4-muted">{t('IBs','وسطاء')}</div>
       </div>
       <div className="text-right hidden sm:block">
         <div className="text-sm font-bold" style={{ color: '#10B981' }}>
           ${((broker.total_volume ?? 0) / 1e6).toFixed(1)}M
         </div>
-        <div className="text-[10px] text-s4-muted">Volume</div>
+        <div className="text-[10px] text-s4-muted">{t('Volume','الحجم')}</div>
       </div>
       <ChevronRight className="w-4 h-4 text-s4-muted flex-shrink-0" />
     </motion.div>
@@ -80,6 +82,7 @@ function IBRow({ broker, rank }) {
 }
 
 export default function BrokerB2B() {
+  const { t } = useLang();
   const { user } = useAuthStore();
   const [brokers, setBrokers]   = useState([]);
   const [stats, setStats]       = useState({ total_brokers: 0, total_ibs: 0, total_volume: 0, active_countries: 0 });
@@ -127,9 +130,9 @@ export default function BrokerB2B() {
   }, []);
 
   const TABS = [
-    { id: 'overview',   label: 'Overview' },
-    { id: 'brokers',    label: 'Broker Directory' },
-    { id: 'compliance', label: 'Compliance' },
+    { id: 'overview',   label: t('Overview','نظرة عامة') },
+    { id: 'brokers',    label: t('Broker Directory','دليل الوسطاء') },
+    { id: 'compliance', label: t('Compliance','الامتثال') },
   ];
 
   return (
@@ -138,22 +141,22 @@ export default function BrokerB2B() {
       <motion.div initial="hidden" animate="show" variants={container} className="space-y-1">
         <motion.div variants={fadeUp} className="flex items-center gap-2 text-[10px] text-s4-muted tracking-[0.3em] uppercase font-heading">
           <Building2 className="w-3 h-3" style={{ color: '#6366F1' }} />
-          SOLVEN4 HUB — B2B BROKER INTELLIGENCE
+          {t('SOLVEN4 HUB — B2B BROKER INTELLIGENCE', 'SOLVEN4 HUB — ذكاء الوسطاء B2B')}
         </motion.div>
         <motion.h1 variants={fadeUp} className="font-heading text-3xl font-black text-white">
-          Broker <span style={{ color: '#6366F1' }}>Network</span>
+          {t('Broker', 'شبكة')} <span style={{ color: '#6366F1' }}>{t('Network', 'الوسطاء')}</span>
         </motion.h1>
         <motion.p variants={fadeUp} className="text-s4-muted text-sm">
-          Real-time view of all broker partners and IB network performance across MENA.
+          {t('Real-time view of all broker partners and IB network performance across MENA.', 'نظرة مباشرة على جميع شركاء الوسطاء وأداء شبكة الوسطاء المُعرِّفين عبر المنطقة.')}
         </motion.p>
       </motion.div>
 
       {/* Stats */}
       <motion.div initial="hidden" animate="show" variants={container} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Building2} label="Active Brokers"       value={stats.total_brokers}                         color="#6366F1" delay={0} />
-        <StatCard icon={Users}     label="Total IB Operators"   value={stats.total_ibs.toLocaleString()}            color="#10B981" delay={0.05} />
-        <StatCard icon={DollarSign} label="Network Volume"      value={`$${(stats.total_volume / 1e9).toFixed(1)}B`} color="#D4A843" delay={0.1} sub="All-time brokered" />
-        <StatCard icon={Globe}     label="Active Countries"     value={stats.active_countries}                      color="#3B82F6" delay={0.15} />
+        <StatCard icon={Building2} label={t('Active Brokers','الوسطاء النشطون')}       value={stats.total_brokers}                         color="#6366F1" delay={0} />
+        <StatCard icon={Users}     label={t('Total IB Operators','إجمالي مشغلي الوسطاء')}   value={stats.total_ibs.toLocaleString()}            color="#10B981" delay={0.05} />
+        <StatCard icon={DollarSign} label={t('Network Volume','حجم الشبكة')}      value={`$${(stats.total_volume / 1e9).toFixed(1)}B`} color="#D4A843" delay={0.1} sub={t('All-time brokered','إجمالي التداول عبر الوسطاء')} />
+        <StatCard icon={Globe}     label={t('Active Countries','الدول النشطة')}     value={stats.active_countries}                      color="#3B82F6" delay={0.15} />
       </motion.div>
 
       {/* Tier legend */}
@@ -167,7 +170,7 @@ export default function BrokerB2B() {
           <div key={tier} className="flex items-center gap-1.5 text-[11px] font-medium px-3 py-1.5 rounded-lg"
             style={{ background: `${cfg.color}12`, border: `1px solid ${cfg.color}30`, color: cfg.color }}>
             <div className="w-1.5 h-1.5 rounded-full" style={{ background: cfg.color }} />
-            {cfg.label}
+            {t(cfg.label, cfg.labelAr)}
           </div>
         ))}
       </motion.div>
@@ -204,12 +207,12 @@ export default function BrokerB2B() {
             <div className="p-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
               <h3 className="font-heading text-sm font-black text-white flex items-center gap-2">
                 <Award className="w-4 h-4" style={{ color: '#D4A843' }} />
-                TOP BROKER PARTNERS
+                {t('TOP BROKER PARTNERS', 'أهم شركاء الوسطاء')}
               </h3>
             </div>
             <motion.div variants={container} className="p-2">
               {loading
-                ? <div className="text-center py-8 text-s4-muted text-sm">Loading broker data…</div>
+                ? <div className="text-center py-8 text-s4-muted text-sm">{t('Loading broker data…', 'جارٍ تحميل بيانات الوسطاء…')}</div>
                 : brokers.slice(0, 10).map((b, i) => <IBRow key={b.id} broker={b} rank={i + 1} />)
               }
             </motion.div>
@@ -229,15 +232,15 @@ export default function BrokerB2B() {
             >
               <h3 className="font-heading text-xs font-black text-white tracking-widest uppercase mb-4 flex items-center gap-2">
                 <Activity className="w-3.5 h-3.5" style={{ color: '#6366F1' }} />
-                INTEGRATIONS
+                {t('INTEGRATIONS', 'التكاملات')}
               </h3>
               <div className="space-y-3">
                 {[
-                  { name: 'MT5 Data Feed',        status: 'active',  note: 'Real-time trade sync' },
-                  { name: 'Commission API',        status: 'active',  note: 'Auto-calculate & pay' },
+                  { name: 'MT5 Data Feed',        status: 'active',  note: t('Real-time trade sync','مزامنة تداول لحظية') },
+                  { name: 'Commission API',        status: 'active',  note: t('Auto-calculate & pay','حساب ودفع تلقائي') },
                   { name: 'IB Portal Bridge',      status: 'active',  note: 'Broker ↔ SOLVEN4' },
-                  { name: 'Ayrshare Social',       status: 'pending', note: 'Content publishing' },
-                  { name: 'WhatsApp Business API', status: 'pending', note: 'Lead notifications' },
+                  { name: 'Ayrshare Social',       status: 'pending', note: t('Content publishing','نشر المحتوى') },
+                  { name: 'WhatsApp Business API', status: 'pending', note: t('Lead notifications','إشعارات العملاء المحتملين') },
                 ].map(item => (
                   <div key={item.name} className="flex items-center justify-between gap-3">
                     <div>
@@ -265,14 +268,14 @@ export default function BrokerB2B() {
             >
               <h3 className="font-heading text-xs font-black text-white tracking-widest uppercase mb-4 flex items-center gap-2">
                 <Layers className="w-3.5 h-3.5" style={{ color: '#6366F1' }} />
-                B2B ACTIONS
+                {t('B2B ACTIONS', 'إجراءات B2B')}
               </h3>
               <div className="space-y-2">
                 {[
-                  { label: 'Add New Broker',       icon: Building2, color: '#6366F1' },
-                  { label: 'Commission Report',    icon: DollarSign, color: '#D4A843' },
-                  { label: 'IB Performance PDF',   icon: BarChart3,  color: '#10B981' },
-                  { label: 'Compliance Audit',     icon: Shield,     color: '#3B82F6' },
+                  { label: t('Add New Broker','إضافة وسيط جديد'),       icon: Building2, color: '#6366F1' },
+                  { label: t('Commission Report','تقرير العمولات'),    icon: DollarSign, color: '#D4A843' },
+                  { label: t('IB Performance PDF','تقرير أداء الوسطاء PDF'),   icon: BarChart3,  color: '#10B981' },
+                  { label: t('Compliance Audit','تدقيق الامتثال'),     icon: Shield,     color: '#3B82F6' },
                 ].map(action => (
                   <button
                     key={action.label}
@@ -305,7 +308,7 @@ export default function BrokerB2B() {
           }}
         >
           <div className="p-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <h3 className="font-heading text-sm font-black text-white">Full Broker Directory</h3>
+            <h3 className="font-heading text-sm font-black text-white">{t('Full Broker Directory', 'دليل الوسطاء الكامل')}</h3>
           </div>
           <div className="p-2">
             {brokers.map((b, i) => <IBRow key={b.id} broker={b} rank={i + 1} />)}
@@ -326,20 +329,20 @@ export default function BrokerB2B() {
         >
           <h3 className="font-heading text-sm font-black text-white mb-4 flex items-center gap-2">
             <Shield className="w-4 h-4" style={{ color: '#6366F1' }} />
-            COMPLIANCE & LEGAL
+            {t('COMPLIANCE & LEGAL', 'الامتثال والقانون')}
           </h3>
           <div className="space-y-4 text-sm text-s4-muted">
             <div className="p-4 rounded-xl" style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)' }}>
-              <div className="font-bold text-white mb-1">Data Ownership</div>
-              <p>SOLVEN4 has operational access to broker data only. All trader data belongs to the respective broker. SOLVEN4 acts as a technology service provider under B2B agreement.</p>
+              <div className="font-bold text-white mb-1">{t('Data Ownership', 'ملكية البيانات')}</div>
+              <p>{t('SOLVEN4 has operational access to broker data only. All trader data belongs to the respective broker. SOLVEN4 acts as a technology service provider under B2B agreement.', 'يمتلك SOLVEN4 وصولاً تشغيلياً فقط إلى بيانات الوسيط. جميع بيانات المتداولين تعود ملكيتها للوسيط المعني. يعمل SOLVEN4 كمزود خدمة تقنية بموجب اتفاقية B2B.')}</p>
             </div>
             <div className="p-4 rounded-xl" style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.15)' }}>
-              <div className="font-bold text-white mb-1">MT5 Integration</div>
-              <p>MT5 Expert Advisor is READ-ONLY. SOLVEN4 pulls trade data only — no order execution, no position modification, no account management commands are ever sent.</p>
+              <div className="font-bold text-white mb-1">{t('MT5 Integration', 'تكامل MT5')}</div>
+              <p>{t('MT5 Expert Advisor is READ-ONLY. SOLVEN4 pulls trade data only — no order execution, no position modification, no account management commands are ever sent.', 'مستشار الخبراء MT5 للقراءة فقط. يسحب SOLVEN4 بيانات التداول فقط — لا تنفيذ أوامر، لا تعديل مراكز، ولا تُرسل أي أوامر إدارة حساب على الإطلاق.')}</p>
             </div>
             <div className="p-4 rounded-xl" style={{ background: 'rgba(212,168,67,0.06)', border: '1px solid rgba(212,168,67,0.15)' }}>
-              <div className="font-bold text-white mb-1">Commission Payments</div>
-              <p>Commission calculations are verified against broker statements. SOLVEN4 facilitates tracking and reporting — actual payment execution remains with the broker.</p>
+              <div className="font-bold text-white mb-1">{t('Commission Payments', 'مدفوعات العمولات')}</div>
+              <p>{t('Commission calculations are verified against broker statements. SOLVEN4 facilitates tracking and reporting — actual payment execution remains with the broker.', 'يتم التحقق من حسابات العمولات مقابل كشوفات الوسيط. يسهّل SOLVEN4 التتبع والتقارير — يبقى تنفيذ الدفع الفعلي مسؤولية الوسيط.')}</p>
             </div>
           </div>
         </motion.div>
