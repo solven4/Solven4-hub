@@ -1,53 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Network, Users, Link2, TrendingUp, DollarSign, GitBranch, ArrowUpRight, Trophy, Zap, MessageCircle, Send, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Network, Users, Link2, TrendingUp, DollarSign, GitBranch, ArrowUpRight, MessageCircle, Send, Globe } from 'lucide-react';
 import { db } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel } from '@/hud';
+
+const ACCENT = '#D4A843';
 
 // SOLVEN4 FORGE (S4-II) — IB command center full feature map
 const NETWORK_MODULES = [
-  {
-    group: 'INTELLIGENCE',
-    color: 'text-gold',
-    border: 'border-gold/20',
-    bg: 'bg-gold/5',
-    items: ['Network Hub (Tree view)', 'Network CRM (Trader Kanban)', 'Lead Intelligence (Kanban)', 'Leads & Clients (Table)', 'Activity Log', 'Analytics (7 tabs)'],
-  },
-  {
-    group: 'AI TOOLS',
-    color: 'text-pulse',
-    border: 'border-pulse/20',
-    bg: 'bg-pulse/5',
-    items: ['Market Signals', 'Deposit Predictor', 'Churn Predictor', 'Retention Bot', 'Client Segmentation', 'Content Generator', 'Lead Generator', 'Smart Calendar'],
-  },
-  {
-    group: 'MESSAGING',
-    color: 'text-ascend',
-    border: 'border-ascend/20',
-    bg: 'bg-ascend/5',
-    items: ['Social Hub (6 tabs)', 'WhatsApp Broadcast & DM', 'Telegram Bot & Channels', 'Live Signals', 'Unified Inbox', 'Alerts Center'],
-  },
-  {
-    group: 'FINANCE & NETWORK',
-    color: 'text-network',
-    border: 'border-gold/20',
-    bg: 'bg-gold/5',
-    items: ['Finance Hub', 'Commission Engine', 'Broker Rebate Config', 'Tier Upgrade Panel', 'Referral Link Generator', 'Payout Rules & Scheduler'],
-  },
-  {
-    group: 'GAMIFICATION',
-    color: 'text-command',
-    border: 'border-command/20',
-    bg: 'bg-command/5',
-    items: ['XP Leaderboard', 'Arena Challenges', 'Trade Heatmap', 'Milestone Notifier', 'Public Leaderboard', 'Referral Leaderboard'],
-  },
-  {
-    group: 'TOOLS',
-    color: 'text-fire',
-    border: 'border-fire/20',
-    bg: 'bg-fire/5',
-    items: ['Content Studio (AI)', 'Automation Center', 'MT4/MT5 Sync', 'Brand Share Cards', 'Content Calendar', 'Social Accounts Manager'],
-  },
+  { group: 'INTELLIGENCE', color: '#D4A843', items: ['Network Hub (Tree view)', 'Network CRM (Trader Kanban)', 'Lead Intelligence (Kanban)', 'Leads & Clients (Table)', 'Activity Log', 'Analytics (7 tabs)'] },
+  { group: 'AI TOOLS', color: '#06B6D4', items: ['Market Signals', 'Deposit Predictor', 'Churn Predictor', 'Retention Bot', 'Client Segmentation', 'Content Generator', 'Lead Generator', 'Smart Calendar'] },
+  { group: 'MESSAGING', color: '#10B981', items: ['Social Hub (6 tabs)', 'WhatsApp Broadcast & DM', 'Telegram Bot & Channels', 'Live Signals', 'Unified Inbox', 'Alerts Center'] },
+  { group: 'FINANCE & NETWORK', color: '#D4A843', items: ['Finance Hub', 'Commission Engine', 'Broker Rebate Config', 'Tier Upgrade Panel', 'Referral Link Generator', 'Payout Rules & Scheduler'] },
+  { group: 'GAMIFICATION', color: '#6366F1', items: ['XP Leaderboard', 'Arena Challenges', 'Trade Heatmap', 'Milestone Notifier', 'Public Leaderboard', 'Referral Leaderboard'] },
+  { group: 'TOOLS', color: '#EF4444', items: ['Content Studio (AI)', 'Automation Center', 'MT4/MT5 Sync', 'Brand Share Cards', 'Content Calendar', 'Social Accounts Manager'] },
 ];
 
 export default function TheWeb() {
@@ -73,140 +41,141 @@ export default function TheWeb() {
   }, [user]);
 
   const totalCommissions = commissions.reduce((s, c) => s + (c.amount ?? 0), 0);
+  const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif" }}>
+
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <motion.div {...rise} transition={{ duration: 0.5 }} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', marginBottom: '22px' }}>
         <div>
-          <h1 className="font-heading text-2xl font-bold text-white tracking-wider">{t('THE WEB', 'الشبكة')}</h1>
-          <p className="text-sm text-opiom-muted mt-0.5">
+          <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('S4 FORGE · IB EMPIRE', 'S4 FORGE · إمبراطورية الوسطاء')}</div>
+          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+            background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE WEB', 'الشبكة')}</h1>
+          <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>
             {t('S4 FORGE (S4-II) — IB empire, referrals, commissions & network intelligence.', 'S4 FORGE — إمبراطورية الوسطاء، الإحالات، العمولات وذكاء الشبكة.')}
           </p>
         </div>
-        <a
-          href="https://solven4-forge-pi.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 bg-gold/10 border border-gold/20 text-gold text-xs font-heading font-bold px-4 py-2 rounded-xl hover:bg-gold/20 transition-colors tracking-wider"
-        >
+        <a href="https://solven4-forge-pi.vercel.app" target="_blank" rel="noopener noreferrer" className="s4-btn"
+          style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', padding: '10px 18px', textDecoration: 'none' }}>
           {t('ENTER S4 FORGE', 'ادخل S4 FORGE')} <ArrowUpRight size={13} />
         </a>
-      </div>
+      </motion.div>
 
-      {/* Quick stats from Supabase shared DB */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Quick stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '14px', marginBottom: '20px' }}>
         {[
-          { label: t('Network Members', 'أعضاء الشبكة'), val: members.length,                     icon: Users,       color: 'text-ascend' },
-          { label: t('Referral Links', 'روابط الإحالة'),  val: links.length,                       icon: Link2,       color: 'text-pulse' },
-          { label: t('Commissions', 'العمولات'),     val: `$${totalCommissions.toFixed(0)}`,  icon: DollarSign,  color: 'text-gold' },
-          { label: t('Network Depth', 'عمق الشبكة'),   val: t('3 Levels', '3 مستويات'),                         icon: GitBranch,   color: 'text-command' },
+          { label: t('Network Members', 'أعضاء الشبكة'), val: members.length, icon: Users, color: '#10B981' },
+          { label: t('Referral Links', 'روابط الإحالة'), val: links.length, icon: Link2, color: '#06B6D4' },
+          { label: t('Commissions', 'العمولات'), val: `$${totalCommissions.toFixed(0)}`, icon: DollarSign, color: '#D4A843' },
+          { label: t('Network Depth', 'عمق الشبكة'), val: t('3 Levels', '3 مستويات'), icon: GitBranch, color: '#6366F1' },
         ].map(s => {
           const Icon = s.icon;
           return (
-            <div key={s.label} className="bg-opiom-surface border border-opiom-border rounded-xl p-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-[10px] text-opiom-muted uppercase tracking-widest">{s.label}</div>
-                <Icon size={14} className={s.color} />
+            <GlassPanel key={s.label} className="spatial lift" brackets={false} style={{ ['--accent']: s.color }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <div className="s4-label" style={{ fontSize: '9px' }}>{s.label}</div>
+                <Icon size={14} style={{ color: s.color }} />
               </div>
-              <div className={`font-heading text-xl font-black ${s.color}`}>{loading ? '—' : s.val}</div>
-            </div>
+              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 900, color: s.color }}>{loading ? '—' : s.val}</div>
+            </GlassPanel>
           );
         })}
       </div>
 
       {/* Live data panels */}
       {!loading && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px', marginBottom: '20px' }}>
           {/* Network Members */}
-          <div className="bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-opiom-border flex items-center justify-between">
-              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">{t('Network Members', 'أعضاء الشبكة')}</div>
-              <Users size={13} className="text-ascend" />
+          <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: '#10B981' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span className="s4-label s4-accent">{t('Network Members', 'أعضاء الشبكة')}</span>
+              <Users size={13} color="#10B981" />
             </div>
             {members.length === 0 ? (
-              <div className="p-6 text-center text-opiom-muted text-xs">{t('No members yet. Share your link to grow The Web.', 'لا يوجد أعضاء بعد. شارك رابطك لتنمية شبكتك.')}</div>
+              <div style={{ textAlign: 'center', padding: '20px 0', color: '#94A3B8', fontSize: '11px' }}>{t('No members yet. Share your link to grow The Web.', 'لا يوجد أعضاء بعد. شارك رابطك لتنمية شبكتك.')}</div>
             ) : (
-              <div className="divide-y divide-opiom-border">
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {members.slice(0, 6).map(m => (
-                  <div key={m.id} className="flex items-center gap-3 px-5 py-3">
-                    <div className="w-7 h-7 rounded-full bg-ascend/20 border border-ascend/30 flex items-center justify-center text-ascend text-xs font-bold flex-shrink-0">
+                  <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', borderBottom: '1px solid var(--s4-line)' }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 700, color: '#10B981', flexShrink: 0 }}>
                       {m.member_name?.[0] ?? 'A'}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-white truncate">{m.member_name ?? t('Agent','وكيل')}</div>
-                      <div className="text-[10px] text-opiom-muted">{new Date(m.created_at).toLocaleDateString()}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.member_name ?? t('Agent', 'وكيل')}</div>
+                      <div style={{ fontSize: '10px', color: '#94A3B8' }}>{new Date(m.created_at).toLocaleDateString()}</div>
                     </div>
-                    <div className="text-[9px] bg-ascend/10 text-ascend px-1.5 py-0.5 rounded-full font-bold">Lv.{m.level ?? 1}</div>
+                    <div style={{ fontSize: '9px', background: 'rgba(16,185,129,0.1)', color: '#10B981', padding: '2px 6px', borderRadius: '999px', fontWeight: 700 }}>Lv.{m.level ?? 1}</div>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </GlassPanel>
 
           {/* Referral Links */}
-          <div className="bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-opiom-border flex items-center justify-between">
-              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">{t('Referral Links', 'روابط الإحالة')}</div>
-              <Link2 size={13} className="text-pulse" />
+          <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: '#06B6D4' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span className="s4-label s4-accent">{t('Referral Links', 'روابط الإحالة')}</span>
+              <Link2 size={13} color="#06B6D4" />
             </div>
             {links.length === 0 ? (
-              <div className="p-6 text-center text-opiom-muted text-xs">{t('No links yet. Create them in S4 FORGE.', 'لا توجد روابط بعد. أنشئها في S4 FORGE.')}</div>
+              <div style={{ textAlign: 'center', padding: '20px 0', color: '#94A3B8', fontSize: '11px' }}>{t('No links yet. Create them in S4 FORGE.', 'لا توجد روابط بعد. أنشئها في S4 FORGE.')}</div>
             ) : (
-              <div className="divide-y divide-opiom-border">
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {links.map(l => (
-                  <div key={l.id} className="px-5 py-3">
-                    <div className="text-xs font-semibold text-white mb-1">{l.name ?? t('Referral Link','رابط إحالة')}</div>
-                    <div className="text-[10px] text-opiom-muted font-mono truncate mb-1">{l.slug}</div>
-                    <div className="flex gap-3 text-[10px] text-opiom-muted">
-                      <span><span className="text-gold font-bold">{l.click_count ?? 0}</span> {t('clicks','نقرة')}</span>
-                      <span><span className="text-ascend font-bold">{l.conversion_count ?? 0}</span> {t('converted','تحويل')}</span>
+                  <div key={l.id} style={{ padding: '9px 0', borderBottom: '1px solid var(--s4-line)' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff', marginBottom: '3px' }}>{l.name ?? t('Referral Link', 'رابط إحالة')}</div>
+                    <div style={{ fontSize: '10px', color: '#94A3B8', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '3px' }}>{l.slug}</div>
+                    <div style={{ display: 'flex', gap: '10px', fontSize: '10px', color: '#94A3B8' }}>
+                      <span><span style={{ color: '#D4A843', fontWeight: 700 }}>{l.click_count ?? 0}</span> {t('clicks', 'نقرة')}</span>
+                      <span><span style={{ color: '#10B981', fontWeight: 700 }}>{l.conversion_count ?? 0}</span> {t('converted', 'تحويل')}</span>
                     </div>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </GlassPanel>
 
           {/* Recent Commissions */}
-          <div className="bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden">
-            <div className="px-5 py-4 border-b border-opiom-border flex items-center justify-between">
-              <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">{t('Recent Commissions', 'أحدث العمولات')}</div>
-              <DollarSign size={13} className="text-gold" />
+          <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: '#D4A843' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <span className="s4-label s4-accent">{t('Recent Commissions', 'أحدث العمولات')}</span>
+              <DollarSign size={13} color="#D4A843" />
             </div>
             {commissions.length === 0 ? (
-              <div className="p-6 text-center text-opiom-muted text-xs">{t('No commissions yet.', 'لا توجد عمولات بعد.')}</div>
+              <div style={{ textAlign: 'center', padding: '20px 0', color: '#94A3B8', fontSize: '11px' }}>{t('No commissions yet.', 'لا توجد عمولات بعد.')}</div>
             ) : (
-              <div className="divide-y divide-opiom-border">
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {commissions.map((c, i) => (
-                  <div key={i} className="flex items-center gap-3 px-5 py-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs font-semibold text-white">{c.description ?? t('Commission','عمولة')}</div>
-                      <div className="text-[10px] text-opiom-muted">{new Date(c.created_at).toLocaleDateString()}</div>
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '9px 0', borderBottom: '1px solid var(--s4-line)' }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff' }}>{c.description ?? t('Commission', 'عمولة')}</div>
+                      <div style={{ fontSize: '10px', color: '#94A3B8' }}>{new Date(c.created_at).toLocaleDateString()}</div>
                     </div>
-                    <div className="text-xs font-bold text-gold">${(c.amount ?? 0).toFixed(2)}</div>
+                    <div className="s4-num" style={{ fontSize: '12px', fontWeight: 700, color: '#D4A843' }}>${(c.amount ?? 0).toFixed(2)}</div>
                   </div>
                 ))}
               </div>
             )}
-          </div>
+          </GlassPanel>
         </div>
       )}
 
       {/* NETWORK Door Feature Map */}
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <Network size={16} className="text-gold" />
-          <div className="text-[11px] text-opiom-muted font-heading tracking-[0.3em] uppercase">{t('S4 FORGE — Full Module Map', 'S4 FORGE — خريطة الوحدات الكاملة')}</div>
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+          <Network size={15} color={ACCENT} />
+          <span className="s4-label s4-accent">{t('S4 FORGE — Full Module Map', 'S4 FORGE — خريطة الوحدات الكاملة')}</span>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' }}>
           {NETWORK_MODULES.map(mod => (
-            <div key={mod.group} className={`border ${mod.border} ${mod.bg} rounded-xl p-4`}>
-              <div className={`text-[10px] font-heading font-black tracking-widest uppercase mb-3 ${mod.color}`}>{mod.group}</div>
-              <div className="space-y-1.5">
+            <div key={mod.group} className="s4-glass" style={{ ['--accent']: mod.color, padding: '16px', borderColor: `${mod.color}30` }}>
+              <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', fontWeight: 900, letterSpacing: '0.1em', color: mod.color, marginBottom: '10px' }}>{mod.group}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {mod.items.map(item => (
-                  <div key={item} className="flex items-center gap-2 text-xs text-opiom-muted">
-                    <div className={`w-1 h-1 rounded-full flex-shrink-0 ${mod.color.replace('text-', 'bg-')}`} />
+                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#94A3B8' }}>
+                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: mod.color, flexShrink: 0 }} />
                     {item}
                   </div>
                 ))}
@@ -217,26 +186,25 @@ export default function TheWeb() {
       </div>
 
       {/* Messaging channels quick-access */}
-      <div className="bg-opiom-surface border border-opiom-border rounded-2xl p-5">
-        <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase mb-4">{t('Messaging Channels (in S4 FORGE)', 'قنوات المراسلة (في S4 FORGE)')}</div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <GlassPanel className="spatial lift" label={t('Messaging Channels (in S4 FORGE)', 'قنوات المراسلة (في S4 FORGE)')}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '10px' }}>
           {[
-            { label: 'WhatsApp',    sub: t('Broadcast & DM','بث ورسائل خاصة'),   icon: MessageCircle, color: 'text-[#25D366] bg-[#25D366]/10 border-[#25D366]/20' },
-            { label: 'Telegram',    sub: t('Bot & Channels','بوت وقنوات'),   icon: Send,          color: 'text-[#2AABEE] bg-[#2AABEE]/10 border-[#2AABEE]/20' },
-            { label: t('Social Hub','مركز التواصل'),  sub: t('6 Platforms','6 منصات'),      icon: Globe,         color: 'text-pulse bg-pulse/10 border-pulse/20' },
-            { label: t('Live Signals','إشارات مباشرة'),sub: t('Trading Alerts','تنبيهات التداول'),   icon: TrendingUp,    color: 'text-gold bg-gold/10 border-gold/20' },
+            { label: 'WhatsApp', sub: t('Broadcast & DM', 'بث ورسائل خاصة'), icon: MessageCircle, color: '#25D366' },
+            { label: 'Telegram', sub: t('Bot & Channels', 'بوت وقنوات'), icon: Send, color: '#2AABEE' },
+            { label: t('Social Hub', 'مركز التواصل'), sub: t('6 Platforms', '6 منصات'), icon: Globe, color: '#06B6D4' },
+            { label: t('Live Signals', 'إشارات مباشرة'), sub: t('Trading Alerts', 'تنبيهات التداول'), icon: TrendingUp, color: '#D4A843' },
           ].map(ch => {
             const Icon = ch.icon;
             return (
-              <div key={ch.label} className={`border rounded-xl p-3 ${ch.color}`}>
-                <Icon size={16} className="mb-2" />
-                <div className="text-xs font-heading font-bold">{ch.label}</div>
-                <div className="text-[10px] opacity-70 mt-0.5">{ch.sub}</div>
+              <div key={ch.label} style={{ border: `1px solid ${ch.color}30`, background: `${ch.color}0C`, borderRadius: '12px', padding: '12px' }}>
+                <Icon size={16} style={{ color: ch.color, marginBottom: '8px' }} />
+                <div style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>{ch.label}</div>
+                <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '2px' }}>{ch.sub}</div>
               </div>
             );
           })}
         </div>
-      </div>
+      </GlassPanel>
     </div>
   );
 }
