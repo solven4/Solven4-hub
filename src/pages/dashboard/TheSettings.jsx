@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
 import { Settings, Bell, Globe, Moon, Sun, Shield, Key, Trash2, Save, ChevronRight } from 'lucide-react';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = {
   card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
@@ -31,42 +32,43 @@ const Toggle = ({ value, onChange }) => (
 const SECTIONS = [
   {
     key: 'notifications',
-    label: 'NOTIFICATIONS',
+    label: 'NOTIFICATIONS', labelAr: 'الإشعارات',
     icon: Bell,
     color: '#6366F1',
     items: [
-      { key: 'notif_email', label: 'Email Notifications', desc: 'Receive updates via email' },
-      { key: 'notif_trades', label: 'Trade Alerts (EDGE)', desc: 'Signals and P&L notifications' },
-      { key: 'notif_network', label: 'Network Updates (FORGE)', desc: 'New trader registrations' },
-      { key: 'notif_referral', label: 'Referral Earnings', desc: 'Commission and referral alerts' },
-      { key: 'notif_platform', label: 'Platform Announcements', desc: 'SOLVEN4 news and updates' },
+      { key: 'notif_email', label: 'Email Notifications', labelAr: 'إشعارات البريد الإلكتروني', desc: 'Receive updates via email', descAr: 'استلم التحديثات عبر البريد الإلكتروني' },
+      { key: 'notif_trades', label: 'Trade Alerts (EDGE)', labelAr: 'تنبيهات التداول (EDGE)', desc: 'Signals and P&L notifications', descAr: 'إشعارات الإشارات والأرباح والخسائر' },
+      { key: 'notif_network', label: 'Network Updates (FORGE)', labelAr: 'تحديثات الشبكة (FORGE)', desc: 'New trader registrations', descAr: 'تسجيلات المتداولين الجدد' },
+      { key: 'notif_referral', label: 'Referral Earnings', labelAr: 'أرباح الإحالة', desc: 'Commission and referral alerts', descAr: 'تنبيهات العمولات والإحالات' },
+      { key: 'notif_platform', label: 'Platform Announcements', labelAr: 'إعلانات المنصة', desc: 'SOLVEN4 news and updates', descAr: 'أخبار وتحديثات SOLVEN4' },
     ],
   },
   {
     key: 'privacy',
-    label: 'PRIVACY',
+    label: 'PRIVACY', labelAr: 'الخصوصية',
     icon: Shield,
     color: '#10B981',
     items: [
-      { key: 'privacy_leaderboard', label: 'Appear on Leaderboard', desc: 'Show your name on rankings' },
-      { key: 'privacy_analytics', label: 'Share Analytics Data', desc: 'Help improve the platform' },
-      { key: 'privacy_public_profile', label: 'Public Profile', desc: 'Allow others to view your profile' },
+      { key: 'privacy_leaderboard', label: 'Appear on Leaderboard', labelAr: 'الظهور في لوحة الصدارة', desc: 'Show your name on rankings', descAr: 'إظهار اسمك في الترتيب' },
+      { key: 'privacy_analytics', label: 'Share Analytics Data', labelAr: 'مشاركة بيانات التحليلات', desc: 'Help improve the platform', descAr: 'ساعد في تحسين المنصة' },
+      { key: 'privacy_public_profile', label: 'Public Profile', labelAr: 'الملف الشخصي العام', desc: 'Allow others to view your profile', descAr: 'السماح للآخرين بمشاهدة ملفك الشخصي' },
     ],
   },
   {
     key: 'appearance',
-    label: 'APPEARANCE',
+    label: 'APPEARANCE', labelAr: 'المظهر',
     icon: Moon,
     color: '#D4A843',
     items: [
-      { key: 'app_dark', label: 'Dark Mode', desc: 'Optimised for night trading' },
-      { key: 'app_compact', label: 'Compact Sidebar', desc: 'Icon-only sidebar by default' },
-      { key: 'app_animations', label: 'UI Animations', desc: 'Smooth transitions and effects' },
+      { key: 'app_dark', label: 'Dark Mode', labelAr: 'الوضع الداكن', desc: 'Optimised for night trading', descAr: 'مُحسّن للتداول الليلي' },
+      { key: 'app_compact', label: 'Compact Sidebar', labelAr: 'شريط جانبي مضغوط', desc: 'Icon-only sidebar by default', descAr: 'شريط جانبي بأيقونات فقط افتراضياً' },
+      { key: 'app_animations', label: 'UI Animations', labelAr: 'حركات الواجهة', desc: 'Smooth transitions and effects', descAr: 'انتقالات وتأثيرات سلسة' },
     ],
   },
 ];
 
 export default function TheSettings() {
+  const { t } = useLang();
   const { user, profile } = useAuthStore();
   const [settings, setSettings] = useState({
     notif_email: true, notif_trades: true, notif_network: false, notif_referral: true, notif_platform: true,
@@ -92,9 +94,9 @@ export default function TheSettings() {
     <div style={{ maxWidth: '780px', margin: '0 auto' }}>
       <div style={{ marginBottom: '28px' }}>
         <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-          SETTINGS
+          {t('SETTINGS', 'الإعدادات')}
         </h1>
-        <p style={{ fontSize: '13px', color: '#94A3B8' }}>Global preferences across all S4 doors</p>
+        <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('Global preferences across all S4 doors', 'التفضيلات العامة عبر جميع أبواب S4')}</p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -103,7 +105,7 @@ export default function TheSettings() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={S.card}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Globe size={15} color="#6366F1" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>LANGUAGE & REGION</span>
+            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#818CF8', fontWeight: 700 }}>{t('LANGUAGE & REGION', 'اللغة والمنطقة')}</span>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
             {[{ key: 'en', label: 'English' }, { key: 'ar', label: 'عربي' }].map(({ key, label }) => (
@@ -127,13 +129,13 @@ export default function TheSettings() {
             <motion.div key={section.key} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: (si + 1) * 0.06 }} style={S.card}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
                 <Icon size={15} color={section.color} />
-                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: section.color, fontWeight: 700 }}>{section.label}</span>
+                <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: section.color, fontWeight: 700 }}>{t(section.label, section.labelAr)}</span>
               </div>
-              {section.items.map(({ key, label, desc }, ii) => (
+              {section.items.map(({ key, label, labelAr, desc, descAr }, ii) => (
                 <div key={key} style={{ ...S.row, borderBottom: ii < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
                   <div>
-                    <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{label}</div>
-                    <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{desc}</div>
+                    <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>{t(label, labelAr)}</div>
+                    <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '2px' }}>{t(desc, descAr)}</div>
                   </div>
                   <Toggle value={settings[key]} onChange={() => toggle(key)} />
                 </div>
@@ -146,10 +148,10 @@ export default function TheSettings() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }} style={S.card}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Key size={15} color="#F59E0B" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#F59E0B', fontWeight: 700 }}>SECURITY</span>
+            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#F59E0B', fontWeight: 700 }}>{t('SECURITY', 'الأمان')}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[{ label: 'Current Password', key: 'current', type: 'password' }, { label: 'New Password', key: 'newPw', type: 'password' }, { label: 'Confirm New Password', key: 'confirm', type: 'password' }].map(({ label, key, type }) => (
+            {[{ label: t('Current Password','كلمة المرور الحالية'), key: 'current', type: 'password' }, { label: t('New Password','كلمة المرور الجديدة'), key: 'newPw', type: 'password' }, { label: t('Confirm New Password','تأكيد كلمة المرور الجديدة'), key: 'confirm', type: 'password' }].map(({ label, key, type }) => (
               <div key={key}>
                 <label style={S.label}>{label}</label>
                 <input type={type} value={pwForm[key]} onChange={e => setPwForm(prev => ({ ...prev, [key]: e.target.value }))}
@@ -158,7 +160,7 @@ export default function TheSettings() {
               </div>
             ))}
             <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.1)', color: '#F59E0B', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Key size={13} /> Change Password
+              <Key size={13} /> {t('Change Password', 'تغيير كلمة المرور')}
             </button>
           </div>
         </motion.div>
@@ -167,11 +169,11 @@ export default function TheSettings() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} style={{ ...S.card, border: '1px solid rgba(239,68,68,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
             <Trash2 size={15} color="#EF4444" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#EF4444', fontWeight: 700 }}>DANGER ZONE</span>
+            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#EF4444', fontWeight: 700 }}>{t('DANGER ZONE', 'منطقة الخطر')}</span>
           </div>
-          <p style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '14px' }}>Deleting your account will remove all data across all S4 doors permanently.</p>
+          <p style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '14px' }}>{t('Deleting your account will remove all data across all S4 doors permanently.', 'حذف حسابك سيزيل جميع بياناتك عبر جميع أبواب S4 بشكل نهائي.')}</p>
           <button style={{ padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(239,68,68,0.3)', background: 'rgba(239,68,68,0.08)', color: '#EF4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
-            Request Account Deletion
+            {t('Request Account Deletion', 'طلب حذف الحساب')}
           </button>
         </motion.div>
 
@@ -179,7 +181,7 @@ export default function TheSettings() {
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button onClick={saveSettings} disabled={saving}
             style={{ padding: '12px 28px', borderRadius: '10px', border: '1px solid rgba(99,102,241,0.4)', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontSize: '13px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Save size={14} /> {saving ? 'Saving...' : 'Save All Settings'}
+            <Save size={14} /> {saving ? t('Saving...', 'جارٍ الحفظ...') : t('Save All Settings', 'حفظ جميع الإعدادات')}
           </button>
         </div>
       </div>
