@@ -4,6 +4,7 @@ import { useAuthStore } from '@/store/authStore';
 import { supabase } from '@/lib/supabase';
 import { CreditCard, Crown, Check, ArrowRight, Receipt, Zap, Lock, Users } from 'lucide-react';
 import { SEO } from '@/components/SEO';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = {
   card: { background: 'rgba(10,12,30,0.85)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '24px' },
@@ -73,6 +74,7 @@ const TIERS = [
 const DOOR_COLORS = { HUB: '#6366F1', EDGE: '#06B6D4', FORGE: '#D4A843', ORACLE: '#10B981', NEXUS: '#EF4444' };
 
 export default function TheSubscription() {
+  const { t } = useLang();
   const { user, profile } = useAuthStore();
   const [inventory, setInventory] = useState({});
   const [payments, setPayments] = useState([]);
@@ -155,9 +157,9 @@ export default function TheSubscription() {
       <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
         <div style={{ marginBottom: '28px' }}>
           <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', marginBottom: '4px' }}>
-            FOUNDING MEMBER ACCESS
+            {t('FOUNDING MEMBER ACCESS', 'وصول الأعضاء المؤسسين')}
           </h1>
-          <p style={{ fontSize: '13px', color: '#94A3B8' }}>One-time lifetime access — no subscriptions, no renewals. 250 seats total.</p>
+          <p style={{ fontSize: '13px', color: '#94A3B8' }}>{t('One-time lifetime access — no subscriptions, no renewals. 250 seats total.', 'وصول مدى الحياة لمرة واحدة — بدون اشتراكات أو تجديدات. 250 مقعداً إجمالاً.')}</p>
         </div>
 
         {/* Founder status banner */}
@@ -168,14 +170,14 @@ export default function TheSubscription() {
               <Crown size={24} color="#D4A843" />
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '4px' }}>Founding Member</div>
+              <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '4px' }}>{t('Founding Member', 'عضو مؤسس')}</div>
               <div style={{ fontSize: '18px', fontWeight: 800, color: '#D4A843', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em' }}>
-                {memberTier?.toUpperCase()} ACCESS
+                {memberTier?.toUpperCase()} {t('ACCESS', 'وصول')}
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 8px #10B981' }} />
-              <span style={{ fontSize: '11px', color: '#10B981', fontWeight: 600 }}>LIFETIME ACTIVE</span>
+              <span style={{ fontSize: '11px', color: '#10B981', fontWeight: 600 }}>{t('LIFETIME ACTIVE', 'نشط مدى الحياة')}</span>
             </div>
           </motion.div>
         )}
@@ -186,7 +188,7 @@ export default function TheSubscription() {
             style={{ ...S.card, marginBottom: '20px', padding: '16px 24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
               <Users size={14} color="#94A3B8" />
-              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#94A3B8', fontWeight: 700 }}>LIVE SEAT AVAILABILITY</span>
+              <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#94A3B8', fontWeight: 700 }}>{t('LIVE SEAT AVAILABILITY', 'توفر المقاعد المباشر')}</span>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981', boxShadow: '0 0 6px #10B981', marginLeft: '4px' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '12px' }}>
@@ -199,7 +201,7 @@ export default function TheSubscription() {
                   <div key={t.key}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                       <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', color: t.color, fontWeight: 700 }}>{t.label}</span>
-                      <span style={{ fontSize: '11px', color: available === 0 ? '#EF4444' : '#10B981', fontWeight: 700 }}>{available} left</span>
+                      <span style={{ fontSize: '11px', color: available === 0 ? '#EF4444' : '#10B981', fontWeight: 700 }}>{available} {t('left','متبقٍ')}</span>
                     </div>
                     <div style={{ height: '4px', background: 'rgba(255,255,255,0.06)', borderRadius: '2px', overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${pct}%`, background: pct >= 80 ? '#EF4444' : t.color, borderRadius: '2px', transition: 'width 0.5s' }} />
@@ -235,17 +237,17 @@ export default function TheSubscription() {
                 }}>
                 {tier.popular && !isCurrent && !soldOut && (
                   <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#000', fontSize: '9px', fontWeight: 800, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
-                    MOST POPULAR
+                    {t('MOST POPULAR', 'الأكثر شيوعاً')}
                   </div>
                 )}
                 {isCurrent && (
                   <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#000', fontSize: '9px', fontWeight: 800, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
-                    YOUR TIER
+                    {t('YOUR TIER', 'باقتك')}
                   </div>
                 )}
                 {soldOut && !isCurrent && (
                   <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: '#EF4444', color: '#fff', fontSize: '9px', fontWeight: 800, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
-                    SOLD OUT
+                    {t('SOLD OUT', 'نفدت الكمية')}
                   </div>
                 )}
 
@@ -255,7 +257,7 @@ export default function TheSubscription() {
                   <span style={{ fontSize: '26px', fontWeight: 800, color: '#fff' }}>${tier.price}</span>
                 </div>
                 <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Zap size={10} color="#D4A843" /> One-time · Lifetime access
+                  <Zap size={10} color="#D4A843" /> {t('One-time · Lifetime access', 'دفعة واحدة · وصول مدى الحياة')}
                 </div>
 
                 {/* Door access */}
@@ -288,13 +290,13 @@ export default function TheSubscription() {
                     opacity: isLoading ? 0.7 : 1,
                   }}>
                   {isCurrent ? (
-                    <><Lock size={11} /> YOUR PLAN</>
+                    <><Lock size={11} /> {t('YOUR PLAN', 'باقتك')}</>
                   ) : soldOut ? (
-                    'SOLD OUT'
+                    t('SOLD OUT', 'نفدت الكمية')
                   ) : isLoading ? (
-                    'LOADING...'
+                    t('LOADING...', 'جارٍ التحميل...')
                   ) : (
-                    <>CLAIM SEAT <ArrowRight size={11} /></>
+                    <>{t('CLAIM SEAT', 'احجز مقعدك')} <ArrowRight size={11} /></>
                   )}
                 </button>
               </motion.div>
@@ -306,9 +308,9 @@ export default function TheSubscription() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
           style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
           {[
-            { icon: Lock, text: 'Secure checkout via Dodo Payments' },
-            { icon: Zap, text: 'Instant access on payment' },
-            { icon: Crown, text: 'Lifetime access — no renewals' },
+            { icon: Lock, text: t('Secure checkout via Dodo Payments', 'دفع آمن عبر Dodo Payments') },
+            { icon: Zap, text: t('Instant access on payment', 'وصول فوري عند الدفع') },
+            { icon: Crown, text: t('Lifetime access — no renewals', 'وصول مدى الحياة — بدون تجديدات') },
           ].map(({ icon: Icon, text }) => (
             <div key={text} style={{ flex: 1, ...S.card, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Icon size={14} color="#94A3B8" style={{ flexShrink: 0 }} />
@@ -321,13 +323,13 @@ export default function TheSubscription() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} style={S.card}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
             <Receipt size={16} color="#94A3B8" />
-            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#94A3B8', fontWeight: 700 }}>FOUNDING MEMBER RECORD</span>
+            <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.15em', color: '#94A3B8', fontWeight: 700 }}>{t('FOUNDING MEMBER RECORD', 'سجل الأعضاء المؤسسين')}</span>
           </div>
           {loadingPay ? (
-            <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '13px', padding: '20px' }}>Loading...</div>
+            <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '13px', padding: '20px' }}>{t('Loading...', 'جارٍ التحميل...')}</div>
           ) : payments.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '13px', padding: '20px' }}>
-              No founding member records yet. Claim your seat above.
+              {t('No founding member records yet. Claim your seat above.', 'لا توجد سجلات أعضاء مؤسسين بعد. احجز مقعدك أعلاه.')}
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -335,12 +337,12 @@ export default function TheSubscription() {
                 <div key={p.id || i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <CreditCard size={14} color="#94A3B8" />
-                    <span style={{ fontSize: '12px', color: '#fff' }}>Founding Member — {p.tier?.toUpperCase()}</span>
+                    <span style={{ fontSize: '12px', color: '#fff' }}>{t('Founding Member','عضو مؤسس')} — {p.tier?.toUpperCase()}</span>
                   </div>
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                     <span style={{ fontSize: '12px', color: '#94A3B8' }}>{p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}</span>
                     <span style={{ fontSize: '13px', fontWeight: 700, color: '#10B981' }}>${parseFloat(p.amount_paid || 0).toFixed(2)}</span>
-                    <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(16,185,129,0.12)', color: '#10B981', fontWeight: 700 }}>CONFIRMED</span>
+                    <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '6px', background: 'rgba(16,185,129,0.12)', color: '#10B981', fontWeight: 700 }}>{t('CONFIRMED', 'مؤكد')}</span>
                   </div>
                 </div>
               ))}
