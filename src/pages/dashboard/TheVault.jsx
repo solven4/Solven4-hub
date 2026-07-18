@@ -11,6 +11,7 @@ import {
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
+import { useLang } from '@/lib/LanguageContext';
 
 const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8', accent:'#6366F1' };
 
@@ -499,6 +500,7 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
 const TABS = ['overview','income','history','deposit','withdraw','subscriptions'];
 
 export default function TheVault() {
+  const { t } = useLang();
   const { user } = useAuthStore();
   const [wallet, setWallet] = useState(null);
   const [txs, setTxs] = useState([]);
@@ -567,33 +569,33 @@ export default function TheVault() {
         <div style={{ position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'24px', flexWrap:'wrap' }}>
             <div>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.3em', color:S.muted, marginBottom:'8px' }}>AVAILABLE BALANCE · SOLVEN4 VAULT</div>
+              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.3em', color:S.muted, marginBottom:'8px' }}>{t('AVAILABLE BALANCE · SOLVEN4 VAULT', 'الرصيد المتاح · خزنة SOLVEN4')}</div>
               <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'48px', fontWeight:900, color:'#fff', lineHeight:1, marginBottom:'6px' }}>
                 {fmt(balance)}<span style={{ fontSize:'16px', color:S.muted, marginLeft:'8px', fontWeight:400 }}>{currency}</span>
               </div>
               <div style={{ display:'flex', gap:'16px', marginTop:'8px' }}>
-                {pending > 0 && <div style={{ display:'flex', alignItems:'center', gap:'5px', color:'#F97316', fontSize:'12px' }}><Clock size={12} /> +{fmt(pending)} pending</div>}
-                {commPend > 0 && <div style={{ display:'flex', alignItems:'center', gap:'5px', color:'#D4A843', fontSize:'12px' }}><Zap size={12} /> {fmt(commPend)} commissions clearing</div>}
+                {pending > 0 && <div style={{ display:'flex', alignItems:'center', gap:'5px', color:'#F97316', fontSize:'12px' }}><Clock size={12} /> +{fmt(pending)} {t('pending','قيد الانتظار')}</div>}
+                {commPend > 0 && <div style={{ display:'flex', alignItems:'center', gap:'5px', color:'#D4A843', fontSize:'12px' }}><Zap size={12} /> {fmt(commPend)} {t('commissions clearing','عمولات قيد التسوية')}</div>}
               </div>
             </div>
             <div style={{ display:'flex', gap:'10px', alignItems:'flex-start' }}>
               <motion.button whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }} onClick={() => setTab('deposit')}
                 style={{ display:'flex', alignItems:'center', gap:'7px', padding:'10px 20px', borderRadius:'12px', cursor:'pointer', fontWeight:700, fontSize:'13px', color:'#fff', border:'none', background:'linear-gradient(135deg,#10B981,#059669)', boxShadow:'0 0 20px rgba(16,185,129,0.35)' }}>
-                <Plus size={15} /> Deposit
+                <Plus size={15} /> {t('Deposit','إيداع')}
               </motion.button>
               <motion.button whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }} onClick={() => setTab('withdraw')}
                 style={{ display:'flex', alignItems:'center', gap:'7px', padding:'10px 20px', borderRadius:'12px', cursor:'pointer', fontWeight:700, fontSize:'13px', color:'#fff', border:'none', background:'linear-gradient(135deg,#6366F1,#8B5CF6)', boxShadow:'0 0 20px rgba(99,102,241,0.35)' }}>
-                <Send size={15} /> Withdraw
+                <Send size={15} /> {t('Withdraw','سحب')}
               </motion.button>
             </div>
           </div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:'12px', marginTop:'20px', paddingTop:'16px', borderTop:'1px solid rgba(255,255,255,0.06)' }}>
             {[
-              { label:'Lifetime Earned',  value:fmt(lifetime), color:'#10B981' },
-              { label:'This Month In',    value:fmt(totalIn),  color:'#D4A843' },
-              { label:'This Month Out',   value:fmt(totalOut), color:'#EF4444' },
-              { label:'Net This Month',   value:fmt(totalIn-totalOut), color:(totalIn-totalOut)>=0?'#10B981':'#EF4444' },
-              { label:'Monthly Target',   value:`${targetPct}%`, color:'#6366F1', bar:true },
+              { label:t('Lifetime Earned','إجمالي الأرباح'),  value:fmt(lifetime), color:'#10B981' },
+              { label:t('This Month In','الوارد هذا الشهر'),    value:fmt(totalIn),  color:'#D4A843' },
+              { label:t('This Month Out','الصادر هذا الشهر'),   value:fmt(totalOut), color:'#EF4444' },
+              { label:t('Net This Month','الصافي هذا الشهر'),   value:fmt(totalIn-totalOut), color:(totalIn-totalOut)>=0?'#10B981':'#EF4444' },
+              { label:t('Monthly Target','الهدف الشهري'),   value:`${targetPct}%`, color:'#6366F1', bar:true },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center' }}>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'15px', fontWeight:900, color:s.color, marginBottom:'3px' }}>{s.value}</div>
@@ -610,11 +612,11 @@ export default function TheVault() {
 
       {/* ── TABS ── */}
       <div style={{ display:'flex', gap:'4px', padding:'4px', borderRadius:'12px', background:'rgba(10,12,30,0.8)', border:'1px solid rgba(255,255,255,0.06)', marginBottom:'20px', width:'fit-content' }}>
-        {TABS.map(t => (
-          <button key={t} onClick={() => setTab(t)}
+        {[['overview',t('overview','نظرة عامة')], ['income',t('income','الدخل')], ['history',t('history','السجل')], ['deposit',t('deposit','إيداع')], ['withdraw',t('withdraw','سحب')], ['subscriptions',t('subscriptions','الاشتراكات')]].map(([key, label]) => (
+          <button key={key} onClick={() => setTab(key)}
             style={{ padding:'7px 16px', borderRadius:'8px', fontSize:'11px', fontWeight:700, cursor:'pointer', border:'none', transition:'all 0.15s', textTransform:'capitalize',
-              background: tab===t?'#6366F1':'transparent', color: tab===t?'#fff':S.muted }}>
-            {t}
+              background: tab===key?'#6366F1':'transparent', color: tab===key?'#fff':S.muted }}>
+            {label}
           </button>
         ))}
       </div>
