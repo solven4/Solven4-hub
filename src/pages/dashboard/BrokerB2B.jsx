@@ -8,6 +8,9 @@ import {
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { useLang } from '@/lib/LanguageContext';
+import { GlassPanel } from '@/hud';
+
+const ACCENT = '#6366f1';
 
 const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } };
@@ -21,29 +24,19 @@ const TIER_CONFIG = {
 
 function StatCard({ icon: Icon, label, value, sub, color = '#6366F1', delay = 0 }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      transition={{ delay }}
-      className="relative rounded-2xl p-5 overflow-hidden"
-      style={{
-        background: 'rgba(10,12,30,0.85)',
-        backdropFilter: 'blur(24px)',
-        border: '1px solid rgba(255,255,255,0.06)',
-      }}
-      whileHover={{ scale: 1.015, borderColor: `${color}40` }}
-    >
-      <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none"
-        style={{ background: `radial-gradient(circle at top right, ${color}18, transparent 70%)` }} />
-      <div className="flex items-start justify-between mb-3">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
-          <Icon className="w-4 h-4" style={{ color }} />
+    <motion.div variants={fadeUp} transition={{ delay }} whileHover={{ scale: 1.015 }}>
+      <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: color }}>
+        <div className="flex items-start justify-between mb-3">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+            style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
+            <Icon className="w-4 h-4" style={{ color }} />
+          </div>
+          <ArrowUpRight className="w-3.5 h-3.5 text-s4-muted" />
         </div>
-        <ArrowUpRight className="w-3.5 h-3.5 text-s4-muted" />
-      </div>
-      <div className="font-heading text-2xl font-black text-white mb-0.5">{value}</div>
-      <div className="text-xs text-s4-muted font-medium">{label}</div>
-      {sub && <div className="text-[10px] mt-1" style={{ color }}>{sub}</div>}
+        <div className="s4-num font-heading text-2xl font-black text-white mb-0.5">{value}</div>
+        <div className="s4-label" style={{ fontSize: '9px' }}>{label}</div>
+        {sub && <div className="text-[10px] mt-1" style={{ color }}>{sub}</div>}
+      </GlassPanel>
     </motion.div>
   );
 }
@@ -136,15 +129,17 @@ export default function BrokerB2B() {
   ];
 
   return (
-    <div className="min-h-screen p-6 space-y-6" style={{ background: '#05050C' }}>
+    <div className="s4hud min-h-screen p-6 space-y-6" style={{ ['--accent']: ACCENT, background: '#05050C' }}>
       {/* Header */}
       <motion.div initial="hidden" animate="show" variants={container} className="space-y-1">
-        <motion.div variants={fadeUp} className="flex items-center gap-2 text-[10px] text-s4-muted tracking-[0.3em] uppercase font-heading">
-          <Building2 className="w-3 h-3" style={{ color: '#6366F1' }} />
+        <motion.div variants={fadeUp} className="s4-label s4-accent flex items-center gap-2" style={{ letterSpacing: '0.3em' }}>
+          <Building2 className="w-3 h-3" />
           {t('SOLVEN4 HUB — B2B BROKER INTELLIGENCE', 'SOLVEN4 HUB — ذكاء الوسطاء B2B')}
         </motion.div>
-        <motion.h1 variants={fadeUp} className="font-heading text-3xl font-black text-white">
-          {t('Broker', 'شبكة')} <span style={{ color: '#6366F1' }}>{t('Network', 'الوسطاء')}</span>
+        <motion.h1 variants={fadeUp} style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, margin: 0,
+          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>
+          {t('Broker', 'شبكة')} {t('Network', 'الوسطاء')}
         </motion.h1>
         <motion.p variants={fadeUp} className="text-s4-muted text-sm">
           {t('Real-time view of all broker partners and IB network performance across MENA.', 'نظرة مباشرة على جميع شركاء الوسطاء وأداء شبكة الوسطاء المُعرِّفين عبر المنطقة.')}
@@ -176,16 +171,14 @@ export default function BrokerB2B() {
       </motion.div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl w-fit"
-        style={{ background: 'rgba(10,12,30,0.8)', border: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="flex gap-1 p-1 rounded-xl w-fit" style={{ background: 'rgba(10,12,30,0.8)', border: '1px solid var(--s4-line)' }}>
         {TABS.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className="px-4 py-2 rounded-lg text-xs font-bold transition-all"
-            style={activeTab === tab.id
-              ? { background: '#6366F1', color: '#fff' }
-              : { color: '#94A3B8' }}
+            style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase',
+              ...(activeTab === tab.id ? { background: ACCENT, color: '#fff' } : { color: '#94A3B8' }) }}
           >
             {tab.label}
           </button>
@@ -195,17 +188,9 @@ export default function BrokerB2B() {
       {activeTab === 'overview' && (
         <motion.div initial="hidden" animate="show" variants={container} className="grid lg:grid-cols-3 gap-6">
           {/* Broker Leaderboard */}
-          <motion.div
-            variants={fadeUp}
-            className="lg:col-span-2 rounded-2xl overflow-hidden"
-            style={{
-              background: 'rgba(10,12,30,0.85)',
-              backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(255,255,255,0.06)',
-            }}
-          >
-            <div className="p-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-              <h3 className="font-heading text-sm font-black text-white flex items-center gap-2">
+          <motion.div variants={fadeUp} className="s4-glass lg:col-span-2 overflow-hidden">
+            <div className="p-5 border-b" style={{ borderColor: 'var(--s4-line)' }}>
+              <h3 className="s4-label s4-accent flex items-center gap-2" style={{ fontSize: '11px' }}>
                 <Award className="w-4 h-4" style={{ color: '#D4A843' }} />
                 {t('TOP BROKER PARTNERS', 'أهم شركاء الوسطاء')}
               </h3>
@@ -221,17 +206,9 @@ export default function BrokerB2B() {
           {/* Side panel */}
           <div className="space-y-4">
             {/* Integration status */}
-            <motion.div
-              variants={fadeUp}
-              className="rounded-2xl p-5"
-              style={{
-                background: 'rgba(10,12,30,0.85)',
-                backdropFilter: 'blur(24px)',
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}
-            >
-              <h3 className="font-heading text-xs font-black text-white tracking-widest uppercase mb-4 flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5" style={{ color: '#6366F1' }} />
+            <motion.div variants={fadeUp} className="s4-glass p-5">
+              <h3 className="s4-label s4-accent mb-4 flex items-center gap-2" style={{ fontSize: '10px' }}>
+                <Activity className="w-3.5 h-3.5" />
                 {t('INTEGRATIONS', 'التكاملات')}
               </h3>
               <div className="space-y-3">
@@ -257,17 +234,9 @@ export default function BrokerB2B() {
             </motion.div>
 
             {/* Quick actions */}
-            <motion.div
-              variants={fadeUp}
-              className="rounded-2xl p-5"
-              style={{
-                background: 'rgba(10,12,30,0.85)',
-                backdropFilter: 'blur(24px)',
-                border: '1px solid rgba(255,255,255,0.06)',
-              }}
-            >
-              <h3 className="font-heading text-xs font-black text-white tracking-widest uppercase mb-4 flex items-center gap-2">
-                <Layers className="w-3.5 h-3.5" style={{ color: '#6366F1' }} />
+            <motion.div variants={fadeUp} className="s4-glass p-5">
+              <h3 className="s4-label s4-accent mb-4 flex items-center gap-2" style={{ fontSize: '10px' }}>
+                <Layers className="w-3.5 h-3.5" />
                 {t('B2B ACTIONS', 'إجراءات B2B')}
               </h3>
               <div className="space-y-2">
@@ -297,18 +266,9 @@ export default function BrokerB2B() {
       )}
 
       {activeTab === 'brokers' && (
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl overflow-hidden"
-          style={{
-            background: 'rgba(10,12,30,0.85)',
-            backdropFilter: 'blur(24px)',
-            border: '1px solid rgba(255,255,255,0.06)',
-          }}
-        >
-          <div className="p-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <h3 className="font-heading text-sm font-black text-white">{t('Full Broker Directory', 'دليل الوسطاء الكامل')}</h3>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="s4-glass overflow-hidden">
+          <div className="p-5 border-b" style={{ borderColor: 'var(--s4-line)' }}>
+            <h3 className="s4-label s4-accent" style={{ fontSize: '11px' }}>{t('Full Broker Directory', 'دليل الوسطاء الكامل')}</h3>
           </div>
           <div className="p-2">
             {brokers.map((b, i) => <IBRow key={b.id} broker={b} rank={i + 1} />)}
@@ -317,18 +277,9 @@ export default function BrokerB2B() {
       )}
 
       {activeTab === 'compliance' && (
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl p-6"
-          style={{
-            background: 'rgba(10,12,30,0.85)',
-            backdropFilter: 'blur(24px)',
-            border: '1px solid rgba(255,255,255,0.06)',
-          }}
-        >
-          <h3 className="font-heading text-sm font-black text-white mb-4 flex items-center gap-2">
-            <Shield className="w-4 h-4" style={{ color: '#6366F1' }} />
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="s4-glass p-6">
+          <h3 className="s4-label s4-accent mb-4 flex items-center gap-2" style={{ fontSize: '11px' }}>
+            <Shield className="w-4 h-4" />
             {t('COMPLIANCE & LEGAL', 'الامتثال والقانون')}
           </h3>
           <div className="space-y-4 text-sm text-s4-muted">
