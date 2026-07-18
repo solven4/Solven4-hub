@@ -3,6 +3,7 @@ import { DollarSign, TrendingUp, Clock, CheckCircle, ArrowDownToLine, BarChart3,
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { db } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
+import { useLang } from '@/lib/LanguageContext';
 
 const CHART_STYLE = {
   contentStyle: { background: '#0A0C1E', border: '1px solid #29293D', borderRadius: 12, color: '#fff', fontSize: 11 },
@@ -10,13 +11,14 @@ const CHART_STYLE = {
 };
 
 const STATUS = {
-  pending:  { color: '#F97316', bg: 'rgba(249,115,22,0.1)',  label: 'PENDING' },
-  approved: { color: '#10B981', bg: 'rgba(16,185,129,0.1)', label: 'APPROVED' },
-  paid:     { color: '#D4A843', bg: 'rgba(212,168,67,0.1)', label: 'PAID' },
-  rejected: { color: '#EF4444', bg: 'rgba(239,68,68,0.1)',  label: 'REJECTED' },
+  pending:  { color: '#F97316', bg: 'rgba(249,115,22,0.1)',  label: 'PENDING', labelAr: 'قيد الانتظار' },
+  approved: { color: '#10B981', bg: 'rgba(16,185,129,0.1)', label: 'APPROVED', labelAr: 'موافق عليه' },
+  paid:     { color: '#D4A843', bg: 'rgba(212,168,67,0.1)', label: 'PAID', labelAr: 'مدفوع' },
+  rejected: { color: '#EF4444', bg: 'rgba(239,68,68,0.1)',  label: 'REJECTED', labelAr: 'مرفوض' },
 };
 
 export default function TheScore() {
+  const { t } = useLang();
   const { user } = useAuthStore();
   const [commissions, setCommissions] = useState([]);
   const [payouts, setPayouts] = useState([]);
@@ -56,19 +58,19 @@ export default function TheScore() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <DollarSign size={18} className="text-gold" />
-            <h1 className="font-heading text-2xl font-black text-white tracking-wider">THE SCORE</h1>
+            <h1 className="font-heading text-2xl font-black text-white tracking-wider">{t('THE SCORE', 'النقاط')}</h1>
           </div>
-          <p className="text-sm text-opiom-muted">Cross-door commissions, approvals, and payout tracking.</p>
+          <p className="text-sm text-opiom-muted">{t('Cross-door commissions, approvals, and payout tracking.', 'تتبع العمولات والموافقات والمدفوعات عبر الأبواب.')}</p>
         </div>
       </div>
 
       {/* KPI row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Earned',  val: totalEarned, color: '#D4A843', icon: TrendingUp, suffix: '$', sub: 'All time' },
-          { label: 'Pending',       val: pending,     color: '#F97316', icon: Clock,      suffix: '$', sub: 'Awaiting approval' },
-          { label: 'Approved',      val: approved,    color: '#10B981', icon: CheckCircle,suffix: '$', sub: 'Ready to withdraw' },
-          { label: 'Total Paid',    val: paid,        color: '#3B82F6', icon: ArrowDownToLine, suffix: '$', sub: 'Withdrawn' },
+          { label: t('Total Earned','إجمالي الأرباح'),  val: totalEarned, color: '#D4A843', icon: TrendingUp, suffix: '$', sub: t('All time','كل الأوقات') },
+          { label: t('Pending','قيد الانتظار'),       val: pending,     color: '#F97316', icon: Clock,      suffix: '$', sub: t('Awaiting approval','بانتظار الموافقة') },
+          { label: t('Approved','موافق عليه'),      val: approved,    color: '#10B981', icon: CheckCircle,suffix: '$', sub: t('Ready to withdraw','جاهز للسحب') },
+          { label: t('Total Paid','إجمالي المدفوع'),    val: paid,        color: '#3B82F6', icon: ArrowDownToLine, suffix: '$', sub: t('Withdrawn','مسحوب') },
         ].map(s => {
           const Icon = s.icon;
           return (
@@ -98,9 +100,9 @@ export default function TheScore() {
           <div className="flex items-center justify-between mb-5">
             <div className="text-[11px] text-opiom-muted font-heading tracking-[0.3em] uppercase flex items-center gap-2">
               <BarChart3 size={12} className="text-gold" />
-              MONTHLY COMMISSIONS
+              {t('MONTHLY COMMISSIONS', 'العمولات الشهرية')}
             </div>
-            <div className="text-sm font-heading font-black text-gold">${totalEarned.toFixed(2)} total</div>
+            <div className="text-sm font-heading font-black text-gold">${totalEarned.toFixed(2)} {t('total','إجمالي')}</div>
           </div>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart data={chartData}>
@@ -112,7 +114,7 @@ export default function TheScore() {
               </defs>
               <XAxis dataKey="month" tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill: '#94A3B8', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip {...CHART_STYLE} formatter={(v) => [`$${v}`, 'Amount']} />
+              <Tooltip {...CHART_STYLE} formatter={(v) => [`$${v}`, t('Amount','المبلغ')]} />
               <Area type="monotone" dataKey="amount" stroke="#D4A843" strokeWidth={2} fill="url(#goldGrad)" dot={{ fill: '#D4A843', r: 3 }} />
             </AreaChart>
           </ResponsiveContainer>
@@ -121,10 +123,10 @@ export default function TheScore() {
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-opiom-surface rounded-xl border border-opiom-border w-fit">
-        {['commissions', 'payouts'].map(t => (
-          <button key={t} onClick={() => setTab(t)}
-            className={`px-5 py-2 rounded-lg text-xs font-heading font-black tracking-wider transition-all ${tab === t ? 'bg-gold text-opiom-bg' : 'text-opiom-muted hover:text-white'}`}>
-            {t.toUpperCase()}
+        {[['commissions', t('commissions','العمولات')], ['payouts', t('payouts','المدفوعات')]].map(([tabKey, tabLabel]) => (
+          <button key={tabKey} onClick={() => setTab(tabKey)}
+            className={`px-5 py-2 rounded-lg text-xs font-heading font-black tracking-wider transition-all ${tab === tabKey ? 'bg-gold text-opiom-bg' : 'text-opiom-muted hover:text-white'}`}>
+            {tabLabel.toUpperCase()}
           </button>
         ))}
       </div>
@@ -133,7 +135,7 @@ export default function TheScore() {
       <div className="rounded-2xl border border-opiom-border overflow-hidden" style={{ background: '#060D18' }}>
         <div className="px-5 py-4 border-b border-opiom-border">
           <div className="text-[11px] text-opiom-muted font-heading tracking-widest uppercase">
-            {tab === 'commissions' ? `${commissions.length} Commissions` : `${payouts.length} Payouts`}
+            {tab === 'commissions' ? `${commissions.length} ${t('Commissions','عمولة')}` : `${payouts.length} ${t('Payouts','مدفوعات')}`}
           </div>
         </div>
         {loading ? (
@@ -144,7 +146,7 @@ export default function TheScore() {
           commissions.length === 0 ? (
             <div className="p-12 text-center">
               <DollarSign size={32} className="text-opiom-muted/20 mx-auto mb-3" />
-              <p className="text-opiom-muted text-sm">No commissions yet. Grow your network to start earning.</p>
+              <p className="text-opiom-muted text-sm">{t('No commissions yet. Grow your network to start earning.', 'لا توجد عمولات بعد. وسّع شبكتك لتبدأ بالربح.')}</p>
             </div>
           ) : (
             <div className="divide-y divide-opiom-border/50">
@@ -154,11 +156,11 @@ export default function TheScore() {
                   <div key={c.id} className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/2 transition-colors">
                     <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: s.color }} />
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-white truncate">{c.description ?? 'Commission'}</div>
+                      <div className="text-sm font-semibold text-white truncate">{c.description ?? t('Commission','عمولة')}</div>
                       <div className="text-[10px] text-opiom-muted mt-0.5">{new Date(c.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
                     </div>
                     <div className="text-[10px] font-heading font-black px-2 py-1 rounded-lg"
-                      style={{ color: s.color, background: s.bg }}>{s.label}</div>
+                      style={{ color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
                     <div className="font-heading font-black text-gold">${(c.amount ?? 0).toFixed(2)}</div>
                   </div>
                 );
@@ -169,7 +171,7 @@ export default function TheScore() {
           payouts.length === 0 ? (
             <div className="p-12 text-center">
               <ArrowDownToLine size={32} className="text-opiom-muted/20 mx-auto mb-3" />
-              <p className="text-opiom-muted text-sm">No payouts yet. Request one from The Vault.</p>
+              <p className="text-opiom-muted text-sm">{t('No payouts yet. Request one from The Vault.', 'لا توجد مدفوعات بعد. اطلب واحدة من الخزنة.')}</p>
             </div>
           ) : (
             <div className="divide-y divide-opiom-border/50">
@@ -179,11 +181,11 @@ export default function TheScore() {
                   <div key={p.id} className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/2 transition-colors">
                     <ArrowDownToLine size={14} style={{ color: s.color }} className="flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold text-white">{p.method ?? 'Bank Transfer'}</div>
+                      <div className="text-sm font-semibold text-white">{p.method ?? t('Bank Transfer','تحويل بنكي')}</div>
                       <div className="text-[10px] text-opiom-muted">{new Date(p.created_at).toLocaleDateString()}</div>
                     </div>
                     <div className="text-[10px] font-heading font-black px-2 py-1 rounded-lg"
-                      style={{ color: s.color, background: s.bg }}>{s.label}</div>
+                      style={{ color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
                     <div className="font-heading font-black text-gold">${(p.amount ?? 0).toFixed(2)}</div>
                   </div>
                 );
