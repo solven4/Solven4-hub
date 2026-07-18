@@ -32,6 +32,7 @@ import TheLeaderboard from '@/pages/dashboard/TheLeaderboard';
 import TheCommission from '@/pages/dashboard/TheCommission';
 import TheAutomation from '@/pages/dashboard/TheAutomation';
 import LegalPages from '@/pages/legal/LegalPages';
+import { BlogList, BlogPost } from '@/pages/Blog';
 import MaintenanceGate from '@/components/MaintenanceGate';
 
 // NOTE: Admin functionality moved to the standalone SOLVEN4 COCKPIT platform
@@ -115,6 +116,8 @@ function InnerApp() {
         <Route path="/admin/*" element={<Navigate to="/dashboard" replace />} />
         <Route path="/legal/:doc" element={<LegalPages />} />
         <Route path="/legal" element={<LegalPages />} />
+        <Route path="/blog" element={<BlogList />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
