@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'sonner';
 import { useLang } from '@/lib/LanguageContext';
+import { Btn } from '@/hud';
 
 /* ── RANK SYSTEM ── */
 const RANKS = [
@@ -504,29 +505,29 @@ export default function TheArena() {
   ];
 
   return (
-    <div style={{ color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:'#D4A843', color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'16px' }}>
         <div>
-          <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'4px' }}>
-            <Trophy size={18} color="#D4A843" />
-            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'22px', fontWeight:900 }}>{t('THE ARENA', 'الساحة')}</h1>
-            <div style={{ background:'rgba(212,168,67,0.15)', border:'1px solid rgba(212,168,67,0.3)', borderRadius:'6px', padding:'2px 8px', fontSize:'9px', fontWeight:700, color:'#D4A843', fontFamily:"'Orbitron',sans-serif" }}>{t('LIVE','مباشر')}</div>
+          <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:6, display:'flex', alignItems:'center', gap:'8px' }}>
+            <Trophy size={13} /> {t('LIVE','مباشر')}
           </div>
-          <p style={{ color:S.muted, fontSize:'12px' }}>{t('Global XP rankings across all 4 SOLVEN4 doors', 'ترتيب نقاط الخبرة العالمي عبر أبواب SOLVEN4 الأربعة')}</p>
+          <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+            background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+            filter:'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE ARENA', 'الساحة')}</h1>
+          <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Global XP rankings across all 4 SOLVEN4 doors', 'ترتيب نقاط الخبرة العالمي عبر أبواب SOLVEN4 الأربعة')}</p>
         </div>
-        <button onClick={shareRank}
-          style={{ display:'flex', alignItems:'center', gap:'6px', padding:'8px 14px', borderRadius:'10px', border:'1px solid rgba(212,168,67,0.3)', background:'rgba(212,168,67,0.08)', color:'#D4A843', fontSize:'11px', fontWeight:700, cursor:'pointer' }}>
+        <Btn ghost onClick={shareRank} style={{ display:'flex', alignItems:'center', gap:'6px', padding:'8px 14px', fontSize:'11px' }}>
           <Share2 size={12} /> {t('Share Rank','مشاركة الترتيب')}
-        </button>
+        </Btn>
       </div>
 
       {/* ── MY RANK CARD ── */}
-      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
-        style={{ position:'relative', overflow:'hidden', borderRadius:'18px', padding:'20px 24px', marginBottom:'16px',
+      <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
+        style={{ position:'relative', overflow:'hidden', padding:'20px 24px', marginBottom:'16px',
           background:`linear-gradient(135deg,${myRank.color}12 0%,rgba(10,12,30,0.95) 60%)`,
-          border:`1px solid ${myRank.color}30` }}>
+          borderColor:`${myRank.color}30` }}>
         <div style={{ position:'absolute', top:0, right:0, width:'200px', height:'100%', background:`radial-gradient(ellipse at top right,${myRank.color}15,transparent 70%)`, pointerEvents:'none' }} />
         <div style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', gap:'20px', flexWrap:'wrap' }}>
           <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'36px', fontWeight:900, color:myRank.color }}>#{myPos||'—'}</div>
@@ -651,7 +652,7 @@ export default function TheArena() {
               <div style={{ position:'relative', marginBottom:'12px', maxWidth:'280px' }}>
                 <Search size={12} style={{ position:'absolute', left:'10px', top:'50%', transform:'translateY(-50%)', color:S.muted }} />
                 <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search agents..."
-                  style={{ width:'100%', padding:'8px 10px 8px 28px', borderRadius:'10px', fontSize:'12px', color:'#fff', background:S.surface, border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box' }} />
+                  style={{ width:'100%', padding:'8px 10px 8px 28px', borderRadius:'10px', fontSize:'12px', color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box' }} />
               </div>
 
               <div style={{ borderRadius:'16px', border:`1px solid ${S.border}`, overflow:'hidden', background:'rgba(6,13,24,0.95)' }}>
@@ -701,7 +702,7 @@ export default function TheArena() {
           style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'14px' }}>
           {challenges.map(c=>(
             <motion.div key={c.id} whileHover={{ scale:1.01 }}
-              style={{ background:S.surface, border:`1px solid ${c.color}20`, borderRadius:'18px', padding:'20px', backdropFilter:'blur(20px)', position:'relative', overflow:'hidden' }}>
+              className="s4-glass" style={{ ['--accent']:c.color, padding:'20px', position:'relative', overflow:'hidden' }}>
               <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:`linear-gradient(90deg,transparent,${c.color},transparent)` }} />
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
                 <div style={{ width:'38px', height:'38px', borderRadius:'10px', background:`${c.color}15`, border:`1px solid ${c.color}30`, display:'flex', alignItems:'center', justifyContent:'center' }}>
@@ -774,8 +775,8 @@ export default function TheArena() {
 
           <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'12px' }}>
             {ACHIEVEMENTS.map(a=>(
-              <motion.div key={a.id} whileHover={{ scale:1.04 }}
-                style={{ background:S.surface, border:`1px solid ${a.earned?a.color+'30':'rgba(255,255,255,0.04)'}`, borderRadius:'16px', padding:'18px', backdropFilter:'blur(20px)',
+              <motion.div key={a.id} whileHover={{ scale:1.04 }} className="s4-glass"
+                style={{ ['--accent']:a.color, borderColor:a.earned?`${a.color}30`:undefined, padding:'18px',
                   opacity:a.earned?1:0.65, position:'relative', overflow:'hidden', cursor:'pointer' }}>
                 <div style={{ position:'absolute', top:'8px', right:'8px' }}>
                   {a.earned ? <CheckCircle2 size={13} style={{ color:'#10B981' }} /> : <Lock size={12} style={{ color:S.muted }} />}
@@ -812,8 +813,8 @@ export default function TheArena() {
         <motion.div key="pr" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'14px' }}>
             {PRIZES.map(p=>(
-              <motion.div key={p.id} whileHover={{ scale:1.01 }}
-                style={{ background:S.surface, border:`1px solid ${p.color}25`, borderRadius:'18px', padding:'22px', backdropFilter:'blur(20px)', position:'relative', overflow:'hidden', cursor:'pointer' }}
+              <motion.div key={p.id} whileHover={{ scale:1.01 }} className="s4-glass"
+                style={{ ['--accent']:p.color, padding:'22px', position:'relative', overflow:'hidden', cursor:'pointer' }}
                 onClick={()=>setPrizeDetail(p)}>
                 <div style={{ position:'absolute', top:0, right:0, width:'100px', height:'100px', background:`radial-gradient(circle at top right,${p.color}18,transparent 70%)`, pointerEvents:'none' }} />
                 <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:'14px' }}>
@@ -845,7 +846,7 @@ export default function TheArena() {
               </motion.div>
             ))}
 
-            <div style={{ gridColumn:'1/-1', background:S.surface, border:'1px solid rgba(168,85,247,0.2)', borderRadius:'18px', padding:'24px', backdropFilter:'blur(20px)', display:'flex', alignItems:'center', gap:'20px' }}>
+            <div className="s4-glass" style={{ gridColumn:'1/-1', borderColor:'rgba(168,85,247,0.2)', padding:'24px', display:'flex', alignItems:'center', gap:'20px' }}>
               <div style={{ fontSize:'40px' }}>🏆</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'12px', color:'#A855F7', fontWeight:900, marginBottom:'6px' }}>S4 LEGEND SEASON PRIZE POOL</div>
