@@ -72,18 +72,39 @@ function safeRedirectTarget(raw) {
   }
 }
 
+// Bridges the current HUB session into a door URL the same way DoorFrame's
+// "open in new tab" does — a door landing on its own bare URL has no way to
+// see HUB's session (different origin), so without s4_at/s4_rt its
+// AccessGate finds nothing, times out, and bounces back here forever.
+export async function bridgeRedirectTarget(raw) {
+  const target = safeRedirectTarget(raw);
+  if (!target) return null;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return target;
+    const url = new URL(target);
+    url.searchParams.set('s4_at', session.access_token);
+    url.searchParams.set('s4_rt', session.refresh_token);
+    return url.toString();
+  } catch {
+    return target;
+  }
+}
+
 function PublicRoute({ children }) {
   const { user, loading } = useAuthStore();
   const [searchParams] = useSearchParams();
 
+  useEffect(() => {
+    if (loading || !user) return;
+    const raw = searchParams.get('redirect');
+    if (!safeRedirectTarget(raw)) return;
+    bridgeRedirectTarget(raw).then(target => { if (target) window.location.replace(target); });
+  }, [loading, user, searchParams]);
+
   if (loading) return null;
   if (!user) return children;
-
-  const target = safeRedirectTarget(searchParams.get('redirect'));
-  if (target) {
-    window.location.replace(target);
-    return null;
-  }
+  if (safeRedirectTarget(searchParams.get('redirect'))) return null;
   return <Navigate to="/dashboard" replace />;
 }
 

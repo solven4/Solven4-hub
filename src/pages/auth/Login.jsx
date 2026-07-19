@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from 'lucide-react';
@@ -52,13 +52,15 @@ function ParticleOrb() {
 }
 
 export default function Login() {
-  const navigate = useNavigate();
   const { t, lang, setLang, isAr } = useLang();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // No manual navigate() here — PublicRoute (App.jsx) re-renders once `user`
+  // flips truthy and handles where to go next, including bridging the fresh
+  // session's tokens back to a door if we arrived via ?redirect=<door_url>.
   async function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) { toast.error(t('Enter your email and password', 'أدخل بريدك الإلكتروني وكلمة المرور')); return; }
@@ -67,13 +69,14 @@ export default function Login() {
     setLoading(false);
     if (error) { toast.error(error.message); return; }
     toast.success(t('Welcome back, Operator', 'أهلاً بعودتك أيها المشغل'));
-    navigate('/dashboard');
   }
 
   async function handleGoogle() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/dashboard` },
+      // Preserve ?redirect= across the OAuth round-trip so PublicRoute can
+      // still bridge the session back to the originating door afterward.
+      options: { redirectTo: `${window.location.origin}/auth/login${window.location.search}` },
     });
     if (error) toast.error(error.message);
   }
