@@ -50,13 +50,17 @@ export default function DoorFrame() {
 
   // NEXUS has its own embedded-mode header (Back/Reload/Open-in-tab) —
   // it posts these instead of us providing a separate chrome bar on top.
+  // It also asks for an immediate re-bridge on load (SOLVEN4_REQUEST_AUTH)
+  // rather than waiting for our onLoad-triggered bridge — closes the race
+  // against its own AccessGate safety-net timeout.
   useEffect(() => {
     const onMessage = (event) => {
       if (event.data?.type === 'SOLVEN4_BACK_TO_HUB') navigate('/dashboard/command');
+      if (event.data?.type === 'SOLVEN4_REQUEST_AUTH') bridgeSession();
     };
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
-  }, [navigate]);
+  }, [navigate, bridgeSession]);
 
   if (!door) {
     navigate('/dashboard/command');
