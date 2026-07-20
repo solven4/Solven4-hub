@@ -16,6 +16,7 @@ const JOBS = {
   'sync-all-accounts': () => import('../_jobs/sync-all-accounts.js'),
   'release-expired':   () => import('../_jobs/release-expired.js'),
   'weekly-report':     () => import('../_jobs/weekly-report.js'),
+  'run-automations':   () => import('../_jobs/run-automations.js'),
 };
 
 export default async function handler(req, res) {
