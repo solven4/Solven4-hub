@@ -80,8 +80,22 @@ export default function TheSubscription() {
   const [loadingPay, setLoadingPay] = useState(true);
   const [checkingOut, setCheckingOut] = useState(null);
   const [error, setError] = useState('');
+  const [founding, setFounding] = useState(null);
 
-  const memberTier = profile?.founding_tier || profile?.plan || null;
+  // BUG FIX (payment audit H1): founding_tier lives on the founding_members
+  // table, never on profiles — profile?.founding_tier was always undefined,
+  // so a real founding member never saw their tier here, the buy button
+  // never disabled for their own tier, and they could re-purchase (and be
+  // charged again) for a tier they already own.
+  useEffect(() => {
+    if (!user?.id) { setFounding(null); return; }
+    supabase.from('founding_members').select('founding_tier, founding_doors')
+      .eq('user_id', user.id).maybeSingle()
+      .then(({ data }) => setFounding(data))
+      .catch(() => setFounding(null));
+  }, [user?.id]);
+
+  const memberTier = founding?.founding_tier || profile?.plan || null;
   const isFounder = !!memberTier;
 
   useEffect(() => {
