@@ -42,32 +42,57 @@ async function sendWhatsApp(to, body) {
   }).catch(console.error);
 }
 
+// Vercel's default body parser JSON-parses the request before a handler
+// ever sees it, which loses the exact bytes Dodo actually signed —
+// re-serializing via JSON.stringify(req.body) is not guaranteed to
+// reproduce the same bytes (whitespace/key-order/number-formatting can
+// differ), so it can cause legitimate signatures to fail verification
+// (payment audit C4). Reading the raw body ourselves fixes that.
+export const config = { api: { bodyParser: false } };
+
+async function readRawBody(req) {
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  return Buffer.concat(chunks).toString('utf8');
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // 1. Verify Dodo webhook signature
-  const signature = req.headers['dodo-signature'] || req.headers['x-dodo-signature'] || '';
-  const rawBody   = JSON.stringify(req.body);
-  const expected  = crypto
-    .createHmac('sha256', process.env.DODO_WEBHOOK_SECRET || '')
-    .update(rawBody)
-    .digest('hex');
+  const rawBody = await readRawBody(req);
+  let parsedBody;
+  try { parsedBody = JSON.parse(rawBody); } catch { return res.status(400).json({ error: 'Invalid JSON body' }); }
 
-  if (process.env.DODO_WEBHOOK_SECRET && signature !== `sha256=${expected}`) {
+  // 1. Verify Dodo webhook signature.
+  // SECURITY FIX (payment audit C3/C4): previously skipped verification
+  // entirely whenever DODO_WEBHOOK_SECRET was unset on a given deploy —
+  // any POST with the right shape was trusted. Now refuses to process
+  // unless a secret is configured and the signature matches.
+  const signature = req.headers['dodo-signature'] || req.headers['x-dodo-signature'] || '';
+  const webhookSecret = process.env.DODO_WEBHOOK_SECRET;
+
+  if (!webhookSecret) {
+    console.error('DODO_WEBHOOK_SECRET not set — rejecting webhook rather than processing unverified.');
+    return res.status(500).json({ error: 'Webhook verification not configured' });
+  }
+
+  const expected = crypto.createHmac('sha256', webhookSecret).update(rawBody).digest('hex');
+
+  if (signature !== `sha256=${expected}`) {
     const supabase = getSupabase();
     await supabase.from('security_events').insert({
       event_type: 'invalid_webhook_signature',
       severity: 'high',
       source_ip: req.headers['x-forwarded-for'] || 'unknown',
       path: '/api/webhooks/dodo',
-      details: { received: signature, path: '/api/webhooks/dodo' },
+      details: { received: signature || '(missing)', path: '/api/webhooks/dodo' },
     });
     await sendTelegramAlert('🚨 <b>INVALID WEBHOOK SIGNATURE</b> on Dodo webhook endpoint');
     return res.status(400).json({ error: 'Invalid signature' });
   }
 
   const supabase = getSupabase();
-  const { type, data } = req.body;
+  const { type, data } = parsedBody;
 
   try {
     if (type === 'payment.succeeded') {

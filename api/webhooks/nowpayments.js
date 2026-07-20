@@ -33,11 +33,16 @@ async function sendTelegramAlert(text) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // Verify NOWPayments IPN signature
+  // Verify NOWPayments IPN signature.
+  // SECURITY FIX (payment audit C3): this previously only verified when
+  // BOTH ipnSecret was configured AND the signature header was present —
+  // an attacker could bypass verification entirely just by omitting the
+  // x-nowpayments-sig header, even with a secret configured. Now: if a
+  // secret is configured, a missing/invalid signature is always rejected.
   const signature = req.headers['x-nowpayments-sig'];
   const ipnSecret = process.env.NOWPAYMENTS_IPN_SECRET;
 
-  if (ipnSecret && signature) {
+  if (ipnSecret) {
     // NOWPayments signs: HMAC-SHA512 of sorted JSON body
     const sortedBody = JSON.stringify(req.body, Object.keys(req.body).sort());
     const expected = crypto
@@ -45,18 +50,23 @@ export default async function handler(req, res) {
       .update(sortedBody)
       .digest('hex');
 
-    if (signature !== expected) {
+    if (!signature || signature !== expected) {
       const supabase = getSupabase();
       await supabase.from('security_events').insert({
         event_type: 'invalid_webhook_signature',
         severity: 'high',
         source_ip: req.headers['x-forwarded-for'] || 'unknown',
         path: '/api/webhooks/nowpayments',
-        details: { received: signature },
+        details: { received: signature || '(missing)' },
       });
-      await sendTelegramAlert('🚨 <b>INVALID NOWPAYMENTS SIGNATURE</b>');
+      await sendTelegramAlert('🚨 <b>INVALID NOWPAYMENTS SIGNATURE</b>' + (!signature ? ' (header missing)' : ''));
       return res.status(400).json({ error: 'Invalid signature' });
     }
+  } else {
+    // No secret configured on this deploy at all — refuse to process
+    // payment webhooks unverified rather than silently trusting them.
+    console.error('NOWPAYMENTS_IPN_SECRET not set — rejecting webhook rather than processing unverified.');
+    return res.status(500).json({ error: 'Webhook verification not configured' });
   }
 
   const { payment_id, payment_status, order_id: reservationId, price_amount, outcome_currency } = req.body;
