@@ -17,6 +17,7 @@ const JOBS = {
   'release-expired':   () => import('../_jobs/release-expired.js'),
   'weekly-report':     () => import('../_jobs/weekly-report.js'),
   'run-automations':   () => import('../_jobs/run-automations.js'),
+  'check-oracle-subscriptions': () => import('../_jobs/check-oracle-subscriptions.js'),
 };
 
 export default async function handler(req, res) {

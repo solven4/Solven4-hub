@@ -222,6 +222,75 @@ export default async function handler(req, res) {
       }
     }
 
+    // ── ORACLE Brain recurring subscription lifecycle ──
+    // NOTE: exact event `type` strings and `data` fields below follow Dodo's
+    // documented subscription webhook shape as of this build — verify
+    // against Dodo's current API reference (same caveat noted in
+    // api/brain/tier.js where the subscription is created).
+    if (type?.startsWith('subscription.')) {
+      const sub = data;
+      const meta = sub?.metadata || {};
+      const dodoSubId = sub?.id || sub?.subscription_id;
+      const upUser = meta.userId;
+      const targetTier = meta.targetTier;
+
+      if (type === 'subscription.active' || type === 'subscription.renewed') {
+        const periodEnd = sub?.current_period_end || sub?.next_billing_date || null;
+        await supabase.from('oracle_subscriptions').upsert({
+          user_id: upUser, tier: targetTier, dodo_subscription_id: dodoSubId,
+          status: 'active', current_period_end: periodEnd,
+          cancel_at_period_end: !!sub?.cancel_at_period_end,
+          amount_usd: sub?.amount ? sub.amount / 100 : undefined,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'user_id' });
+
+        const { data: prof } = await supabase
+          .from('profiles').select('oracle_tier, email, full_name').eq('id', upUser).maybeSingle();
+        await supabase.from('profiles')
+          .update({ oracle_tier: targetTier, plan: targetTier, updated_at: new Date().toISOString() })
+          .eq('id', upUser);
+
+        if (type === 'subscription.active') {
+          await supabase.from('activities').insert({
+            user_id: upUser, activity_type: 'oracle_tier_upgraded',
+            metadata: { from: prof?.oracle_tier || 'signal', to: targetTier, dodoSubId, recurring: true },
+          }).catch(() => {});
+          if (prof?.email) {
+            await sendEmail('tier_upgrade', prof.email, { name: prof.full_name, tier: (targetTier || '').toUpperCase() });
+          }
+          await sendTelegramAlert(`⚡ <b>ORACLE SUBSCRIPTION ACTIVE</b>\nUser: ${prof?.email || upUser}\nTier: <b>${targetTier}</b>`);
+        }
+      }
+
+      if (type === 'subscription.past_due') {
+        await supabase.from('oracle_subscriptions')
+          .update({ status: 'past_due', updated_at: new Date().toISOString() })
+          .eq('dodo_subscription_id', dodoSubId);
+        await sendTelegramAlert(`⚠️ <b>ORACLE SUBSCRIPTION PAST DUE</b>\nSubscription: ${dodoSubId}`);
+      }
+
+      if (type === 'subscription.cancelled' || type === 'subscription.expired' || type === 'subscription.failed') {
+        const { data: cancelledSub } = await supabase
+          .from('oracle_subscriptions')
+          .update({ status: type === 'subscription.cancelled' ? 'cancelled' : 'expired', updated_at: new Date().toISOString() })
+          .eq('dodo_subscription_id', dodoSubId)
+          .select('user_id')
+          .maybeSingle();
+
+        const downgradeUser = cancelledSub?.user_id || upUser;
+        if (downgradeUser) {
+          await supabase.from('profiles')
+            .update({ oracle_tier: 'signal', plan: 'signal', updated_at: new Date().toISOString() })
+            .eq('id', downgradeUser);
+          await supabase.from('activities').insert({
+            user_id: downgradeUser, activity_type: 'oracle_tier_downgraded',
+            metadata: { to: 'signal', reason: type, dodoSubId },
+          }).catch(() => {});
+        }
+        await sendTelegramAlert(`📉 <b>ORACLE SUBSCRIPTION ${type === 'subscription.cancelled' ? 'CANCELLED' : 'ENDED'}</b>\nSubscription: ${dodoSubId}`);
+      }
+    }
+
   } catch (err) {
     console.error('Dodo webhook error:', err);
     await supabase.from('security_events').insert({
