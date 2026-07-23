@@ -25,11 +25,13 @@ export async function saveMemory(supabase, userId, door, feature, userMsg, aiRes
     const content = `[${feature}] User: ${userMsg}\nAssistant: ${aiResponse}`.slice(0, 4000);
     const embedding = await generateEmbedding(content);
 
+    // Column names match the real `memories` table (owner_id/app don't
+    // exist on it — see SOLVEN4_ADD_MEMORIES_DOOR_FEATURE.sql).
     const record = {
-      owner_id: userId,
-      role: 'conversation',
+      user_id: userId,
       content,
-      app: door,
+      door,
+      feature,
       created_at: new Date().toISOString(),
     };
 
@@ -54,7 +56,7 @@ export async function getRelevantMemories(supabase, userId, queryText, limit = M
       // Vector similarity search (HNSW index on memories table)
       const { data: rows } = await supabase.rpc('match_memories', {
         query_embedding: embedding,
-        match_user_id: userId,
+        target_user_id: userId,
         match_count: limit,
       });
       data = rows;
@@ -63,7 +65,7 @@ export async function getRelevantMemories(supabase, userId, queryText, limit = M
       const { data: rows } = await supabase
         .from('memories')
         .select('content, created_at')
-        .eq('owner_id', userId)
+        .eq('user_id', userId)
         .order('created_at', { ascending: false })
         .limit(limit);
       data = rows;

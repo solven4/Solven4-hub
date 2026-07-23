@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, TrendingUp, DollarSign, Copy, CheckCircle,
@@ -124,9 +125,40 @@ export default function TheReferral() {
   const [tab, setTab] = useState('overview');
   const [copied, setCopied] = useState('');
   const [activeProg, setActiveProg] = useState('edge');
+  const [realCode, setRealCode] = useState(null);
+  const [realReferrals, setRealReferrals] = useState([]);
 
-  const refCode = user?.id?.slice(0, 8)?.toUpperCase() ?? 'S4X00000';
+  useEffect(() => {
+    if (!user?.id) return;
+    (async () => {
+      try {
+        const res = await fetch('/api/referral/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user.id }),
+        });
+        const data = await res.json();
+        if (data?.code) setRealCode(data.code);
+      } catch { /* fall back to derived code below */ }
+
+      const { data: refs } = await supabase
+        .from('referrals')
+        .select('id, status, commission_usd, referred_user_id, converted_at')
+        .eq('referrer_user_id', user.id);
+      setRealReferrals(refs || []);
+    })();
+  }, [user?.id]);
+
+  const refCode = realCode ?? (user?.id?.slice(0, 8)?.toUpperCase() ?? 'S4X00000');
   const refLink = `https://solven4.com/ref/${refCode}`;
+
+  // Real stats — flat 10% commission, 14-day pending clearance (the actual
+  // backend model; the per-door tiered "20-25% / Tier 1-3" copy further
+  // below describes a scheme this platform doesn't pay out yet).
+  const realTotalEarned = realReferrals.filter(r => r.status !== 'pending_clearance').reduce((s, r) => s + (Number(r.commission_usd) || 0), 0);
+  const realPending = realReferrals.filter(r => r.status === 'pending_clearance').reduce((s, r) => s + (Number(r.commission_usd) || 0), 0);
+  const realTotalReferrals = realReferrals.length;
+  const realActiveReferrals = realReferrals.filter(r => !!r.referred_user_id).length;
 
   function copyToClipboard(text, key) {
     navigator.clipboard.writeText(text);
@@ -157,7 +189,7 @@ export default function TheReferral() {
                 {t('PROGRAM ACTIVE', 'البرنامج نشط')}
               </span>
             </div>
-            <p style={{ color: S.muted, fontSize: '12px' }}>{t('Multi-tier affiliate program across all 4 SOLVEN4 doors — earn while you grow.', 'برنامج تسويق بالعمولة متعدد المستويات عبر أبواب SOLVEN4 الأربعة — اربح بينما تنمو.')}</p>
+            <p style={{ color: S.muted, fontSize: '12px' }}>{t('Live model: flat 10% commission on your referral\'s founding purchase, credited after a 14-day clearance window. The multi-tier door programs below are on the roadmap, not yet live.', 'النموذج الفعلي: عمولة ثابتة 10% على شراء من تحيله، تُصرف بعد فترة تسوية 14 يوماً. برامج الأبواب متعددة المستويات أدناه على خارطة الطريق، وليست فعالة بعد.')}</p>
           </div>
           <div>
             <div className="s4-label" style={{ fontSize: '9px', marginBottom: '6px' }}>{t('YOUR REFERRAL LINK', 'رابط الإحالة الخاص بك')}</div>
@@ -176,7 +208,7 @@ export default function TheReferral() {
                 {t('CODE', 'الرمز')}: {refCode}
               </span>
               <span style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: '6px', padding: '3px 8px', fontSize: '9px', color: '#10B981' }}>
-                {MY_STATS.totalReferrals} {t('total referrals', 'إجمالي الإحالات')}
+                {realTotalReferrals} {t('total referrals', 'إجمالي الإحالات')}
               </span>
             </div>
           </div>
@@ -202,17 +234,17 @@ export default function TheReferral() {
 
             {/* KPI row */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '10px', marginBottom: '16px' }}>
-              <StatCard label={t('Total Earned', 'إجمالي الأرباح')} value={`$${MY_STATS.totalEarned.toLocaleString()}`} sub={t('All time', 'كل الأوقات')} color="#10B981" Icon={DollarSign} />
-              <StatCard label={t('Pending Payout', 'دفعة معلقة')} value={`$${MY_STATS.pendingPayout.toLocaleString()}`} sub={t('Processing', 'قيد المعالجة')} color="#F97316" Icon={Timer} />
-              <StatCard label={t('Total Referrals', 'إجمالي الإحالات')} value={MY_STATS.totalReferrals} sub={`${MY_STATS.activeReferrals} ${t('active', 'نشط')}`} color="#6366F1" Icon={Users} />
-              <StatCard label={t('Conversion Rate', 'معدل التحويل')} value={`${MY_STATS.conversionRate}%`} sub={t('Clicks → Sign-ups', 'نقرات ← تسجيلات')} color="#D4A843" Icon={TrendingUp} />
-              <StatCard label={t('Clicks This Month', 'النقرات هذا الشهر')} value={MY_STATS.clicksThisMonth.toLocaleString()} sub={t('Link traffic', 'زيارات الرابط')} color="#8B5CF6" Icon={BarChart2} />
-              <StatCard label={t('Network Depth', 'عمق الشبكة')} value={t('3 Tiers', '3 مستويات')} sub={`${MY_STATS.tier1Refs}·${MY_STATS.tier2Refs}·${MY_STATS.tier3Refs}`} color="#3B82F6" Icon={Network} />
+              <StatCard label={t('Total Earned', 'إجمالي الأرباح')} value={`$${realTotalEarned.toLocaleString()}`} sub={t('All time', 'كل الأوقات')} color="#10B981" Icon={DollarSign} />
+              <StatCard label={t('Pending (14-day clearance)', 'معلق (تسوية 14 يوماً)')} value={`$${realPending.toLocaleString()}`} sub={t('Processing', 'قيد المعالجة')} color="#F97316" Icon={Timer} />
+              <StatCard label={t('Total Referrals', 'إجمالي الإحالات')} value={realTotalReferrals} sub={`${realActiveReferrals} ${t('converted', 'تم التحويل')}`} color="#6366F1" Icon={Users} />
+              <StatCard label={t('Commission Rate', 'معدل العمولة')} value="10%" sub={t('Flat rate, all doors', 'معدل ثابت، كل الأبواب')} color="#D4A843" Icon={TrendingUp} />
+              <StatCard label={t('Your Code', 'رمزك')} value={refCode} sub={t('Share your link', 'شارك رابطك')} color="#8B5CF6" Icon={BarChart2} />
+              <StatCard label={t('Clearance Window', 'فترة التسوية')} value={t('14 Days', '14 يوماً')} sub={t('Refund-protection hold', 'حجز حماية الاسترداد')} color="#3B82F6" Icon={Network} />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {/* Commission Tier System */}
-              <GlassPanel className="spatial lift" label={t('3-Tier Commission System', 'نظام العمولات ثلاثي المستويات')}>
+              <GlassPanel className="spatial lift" label={t('3-Tier Commission System (Roadmap — not yet live)', 'نظام العمولات ثلاثي المستويات (خارطة الطريق — غير فعال بعد)')}>
                 {COMMISSION_TIERS.map(ct => (
                   <div key={ct.level} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: `1px solid ${S.border}` }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>

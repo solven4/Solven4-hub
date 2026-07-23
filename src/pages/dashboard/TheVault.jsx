@@ -128,54 +128,45 @@ function TxRow({ tx }) {
   );
 }
 
-/* ── STRIPE DEPOSIT FLOW ── */
+/* ── CARD DEPOSIT FLOW (Dodo hosted checkout — no card data ever touches our servers) ── */
 function StripeDepositFlow({ amount, onSuccess, onBack }) {
   const { t } = useLang();
-  const [step, setStep] = useState('form'); // form | processing | success
-  const [cardNum, setCardNum] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvc, setCvc] = useState('');
-  const [name, setName] = useState('');
-  const [showCvc, setShowCvc] = useState(false);
+  const { user } = useAuthStore();
+  const [step, setStep] = useState('confirm'); // confirm | redirecting | error
   const [error, setError] = useState('');
 
-  const formatCard = v => v.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim();
-  const formatExpiry = v => { const d=v.replace(/\D/g,'').slice(0,4); return d.length>2?d.slice(0,2)+'/'+d.slice(2):d; };
-
   async function handlePay() {
-    if (!cardNum.replace(/\s/g,'') || cardNum.replace(/\s/g,'').length < 16) { setError(t('Enter a valid 16-digit card number','أدخل رقم بطاقة صالح مكون من 16 رقماً')); return; }
-    if (!expiry || expiry.length < 5) { setError(t('Enter a valid expiry (MM/YY)','أدخل تاريخ انتهاء صالح (شهر/سنة)')); return; }
-    if (!cvc || cvc.length < 3) { setError(t('Enter a valid CVC','أدخل رمز تحقق صالح')); return; }
-    if (!name.trim()) { setError(t('Enter cardholder name','أدخل اسم حامل البطاقة')); return; }
-    setError(''); setStep('processing');
-    // Simulate Stripe processing (in production: call /api/stripe/create-payment-intent)
-    await new Promise(r => setTimeout(r, 2800));
-    setStep('success');
-    setTimeout(onSuccess, 1500);
+    setError(''); setStep('redirecting');
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/wallet/deposit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ userEmail: user?.email, amount: parseFloat(amount), method: 'card' }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.checkoutUrl) { setError(data.error || 'Could not start checkout'); setStep('confirm'); return; }
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setError(err.message || 'Could not start checkout');
+      setStep('confirm');
+    }
   }
 
-  if (step === 'processing') return (
+  if (step === 'redirecting') return (
     <div style={{ textAlign:'center', padding:'40px 20px' }}>
       <div style={{ width:'48px', height:'48px', borderRadius:'50%', border:'3px solid rgba(99,102,241,0.2)', borderTopColor:'#6366F1', animation:'s4v-spin 1s linear infinite', margin:'0 auto 20px' }} />
-      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('PROCESSING PAYMENT', 'جارٍ معالجة الدفع')}</div>
-      <div style={{ color:S.muted, fontSize:'12px' }}>{t('Connecting to Stripe secure servers...', 'جارٍ الاتصال بخوادم سترايب الآمنة...')}</div>
-    </div>
-  );
-
-  if (step === 'success') return (
-    <div style={{ textAlign:'center', padding:'40px 20px' }}>
-      <CheckCircle2 size={48} style={{ color:'#10B981', margin:'0 auto 16px', display:'block' }} />
-      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('PAYMENT CONFIRMED', 'تم تأكيد الدفع')}</div>
-      <div style={{ color:'#10B981', fontSize:'12px' }}>{fmt(parseFloat(amount))} {t('credited to your Vault', 'أُضيفت إلى خزنتك')}</div>
+      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('REDIRECTING TO SECURE CHECKOUT', 'جارٍ التحويل إلى صفحة الدفع الآمنة')}</div>
+      <div style={{ color:S.muted, fontSize:'12px' }}>{t('Connecting to Dodo Payments...', 'جارٍ الاتصال بـ Dodo Payments...')}</div>
     </div>
   );
 
   return (
     <div>
-      {/* Stripe badge */}
+      {/* Provider badge */}
       <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'18px', padding:'10px 14px', borderRadius:'10px', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)' }}>
-        <div style={{ background:'#635BFF', borderRadius:'6px', padding:'3px 8px', fontFamily:"'Orbitron',sans-serif", fontSize:'10px', fontWeight:900, color:'#fff', letterSpacing:'0.05em' }}>stripe</div>
-        <span style={{ color:S.muted, fontSize:'11px' }}>{t('Secured by Stripe · 256-bit SSL encryption', 'محمي بواسطة سترايب · تشفير SSL 256-بت')}</span>
+        <div style={{ background:'#635BFF', borderRadius:'6px', padding:'3px 8px', fontFamily:"'Orbitron',sans-serif", fontSize:'10px', fontWeight:900, color:'#fff', letterSpacing:'0.05em' }}>dodo</div>
+        <span style={{ color:S.muted, fontSize:'11px' }}>{t('Secured by Dodo Payments · hosted checkout', 'محمي بواسطة Dodo Payments · صفحة دفع مستضافة')}</span>
         <Shield size={12} style={{ color:'#10B981', marginLeft:'auto' }} />
       </div>
 
@@ -185,50 +176,17 @@ function StripeDepositFlow({ amount, onSuccess, onBack }) {
         <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#10B981' }}>{fmt(parseFloat(amount)||0)}</div>
       </div>
 
-      {/* Card form */}
-      <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
-        <div>
-          <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'5px', textTransform:'uppercase' }}>{t('Card Number', 'رقم البطاقة')}</label>
-          <div style={{ position:'relative' }}>
-            <input value={cardNum} onChange={e=>setCardNum(formatCard(e.target.value))} placeholder="4242 4242 4242 4242"
-              style={{ width:'100%', padding:'11px 40px 11px 14px', borderRadius:'10px', fontSize:'14px', color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:'monospace', letterSpacing:'0.08em' }} />
-            <CreditCard size={16} style={{ position:'absolute', right:'12px', top:'50%', transform:'translateY(-50%)', color:S.muted }} />
-          </div>
-        </div>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px' }}>
-          <div>
-            <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'5px', textTransform:'uppercase' }}>{t('Expiry', 'تاريخ الانتهاء')}</label>
-            <input value={expiry} onChange={e=>setExpiry(formatExpiry(e.target.value))} placeholder="MM/YY"
-              style={{ width:'100%', padding:'11px 14px', borderRadius:'10px', fontSize:'14px', color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:'monospace' }} />
-          </div>
-          <div>
-            <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'5px', textTransform:'uppercase' }}>{t('CVC', 'رمز التحقق')}</label>
-            <div style={{ position:'relative' }}>
-              <input type={showCvc?'text':'password'} value={cvc} onChange={e=>setCvc(e.target.value.replace(/\D/g,'').slice(0,4))} placeholder="•••"
-                style={{ width:'100%', padding:'11px 36px 11px 14px', borderRadius:'10px', fontSize:'14px', color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:'monospace' }} />
-              <button onClick={()=>setShowCvc(v=>!v)} style={{ position:'absolute', right:'10px', top:'50%', transform:'translateY(-50%)', background:'none', border:'none', cursor:'pointer', color:S.muted, padding:0 }}>
-                {showCvc ? <EyeOff size={13} /> : <Eye size={13} />}
-              </button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'5px', textTransform:'uppercase' }}>{t('Cardholder Name', 'اسم حامل البطاقة')}</label>
-          <input value={name} onChange={e=>setName(e.target.value)} placeholder={t('Name as on card','الاسم كما يظهر على البطاقة')}
-            style={{ width:'100%', padding:'11px 14px', borderRadius:'10px', fontSize:'14px', color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box' }} />
-        </div>
-      </div>
+      <p style={{ color:S.muted, fontSize:'12px', lineHeight:1.6, marginBottom:'8px' }}>
+        {t("You'll be redirected to Dodo's secure hosted checkout to complete payment. Your card details are entered there, never on SOLVEN4's own pages.", 'سيتم تحويلك إلى صفحة الدفع الآمنة الخاصة بـ Dodo لإكمال العملية. تُدخل بيانات بطاقتك هناك، وليس على صفحات SOLVEN4 أبداً.')}
+      </p>
 
       {error && <div style={{ marginTop:'10px', padding:'8px 12px', borderRadius:'8px', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', color:'#EF4444', fontSize:'11px' }}>{error}</div>}
 
       <div style={{ display:'flex', gap:'8px', marginTop:'18px' }}>
         <Btn ghost onClick={onBack} style={{ padding:'12px 18px', fontSize:'11px' }}>{t('Back','رجوع')}</Btn>
         <Btn onClick={handlePay} style={{ flex:1, padding:'12px', fontSize:'12px', ['--accent']:'#635BFF' }}>
-          {t('Pay', 'ادفع')} {fmt(parseFloat(amount)||0)} {t('with Stripe', 'عبر سترايب')}
+          {t('Continue to Checkout', 'المتابعة إلى الدفع')} — {fmt(parseFloat(amount)||0)}
         </Btn>
-      </div>
-      <div style={{ textAlign:'center', marginTop:'10px', color:S.muted, fontSize:'10px' }}>
-        {t('Your card data is processed securely by Stripe and never stored on our servers', 'تتم معالجة بيانات بطاقتك بأمان عبر سترايب ولا يتم تخزينها على خوادمنا أبداً')}
       </div>
     </div>
   );
@@ -237,25 +195,38 @@ function StripeDepositFlow({ amount, onSuccess, onBack }) {
 /* ── CRYPTO DEPOSIT FLOW ── */
 function CryptoDepositFlow({ selectedCrypto, onSelect, onBack }) {
   const { t } = useLang();
-  const [copied, setCopied] = useState(false);
-  const [awaitingConfirm, setAwaitingConfirm] = useState(false);
-  const [confirmations, setConfirmations] = useState(0);
+  const { user } = useAuthStore();
+  const [amount, setAmount] = useState('');
+  const [redirecting, setRedirecting] = useState(false);
+  const [error, setError] = useState('');
 
-  function copyAddress() {
-    navigator.clipboard.writeText(selectedCrypto.address);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  async function handleCreateInvoice() {
+    if (!selectedCrypto) { setError(t('Select a cryptocurrency','اختر عملة رقمية')); return; }
+    if (!amount || parseFloat(amount) < 10) { setError(t('Minimum deposit is $10','الحد الأدنى للإيداع هو 10$')); return; }
+    setError(''); setRedirecting(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/wallet/deposit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ userEmail: user?.email, amount: parseFloat(amount), method: 'crypto' }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.checkoutUrl) { setError(data.error || 'Could not create invoice'); setRedirecting(false); return; }
+      window.location.href = data.checkoutUrl;
+    } catch (err) {
+      setError(err.message || 'Could not create invoice');
+      setRedirecting(false);
+    }
   }
 
-  function simulateBlockchain() {
-    setAwaitingConfirm(true);
-    let count = 0;
-    const iv = setInterval(() => {
-      count++;
-      setConfirmations(count);
-      if (count >= 3) clearInterval(iv);
-    }, 2000);
-  }
+  if (redirecting) return (
+    <div style={{ textAlign:'center', padding:'40px 20px' }}>
+      <div style={{ width:'48px', height:'48px', borderRadius:'50%', border:'3px solid rgba(249,115,22,0.2)', borderTopColor:'#F7931A', animation:'s4v-spin 1s linear infinite', margin:'0 auto 20px' }} />
+      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('CREATING SECURE INVOICE', 'جارٍ إنشاء فاتورة آمنة')}</div>
+      <div style={{ color:S.muted, fontSize:'12px' }}>{t('Connecting to NOWPayments...', 'جارٍ الاتصال بـ NOWPayments...')}</div>
+    </div>
+  );
 
   return (
     <div>
@@ -268,7 +239,7 @@ function CryptoDepositFlow({ selectedCrypto, onSelect, onBack }) {
             const selKey = selectedCrypto ? getCryptoKey(selectedCrypto) : null;
             const isSelected = key === selKey;
             return (
-              <button key={key} onClick={() => { onSelect(c); setAwaitingConfirm(false); setConfirmations(0); }}
+              <button key={key} onClick={() => onSelect(c)}
                 style={{ padding:'8px 6px', borderRadius:'10px', cursor:'pointer', border:`1px solid ${isSelected?c.color+'50':'rgba(255,255,255,0.06)'}`,
                   background: isSelected?`${c.color}15`:'rgba(255,255,255,0.02)', transition:'all 0.15s', display:'flex', flexDirection:'column', alignItems:'center', gap:'3px' }}>
                 <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', fontWeight:900, color:isSelected?c.color:'#CBD5E1' }}>{c.symbol}</span>
@@ -282,85 +253,21 @@ function CryptoDepositFlow({ selectedCrypto, onSelect, onBack }) {
       {selectedCrypto && (
         <AnimatePresence>
           <motion.div key={getCryptoKey(selectedCrypto)} initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }}>
-            {/* Network warning */}
-            <div style={{ padding:'10px 12px', borderRadius:'8px', background:'rgba(249,115,22,0.08)', border:'1px solid rgba(249,115,22,0.2)', marginBottom:'14px', display:'flex', gap:'8px', alignItems:'flex-start' }}>
-              <AlertCircle size={13} style={{ color:'#F97316', flexShrink:0, marginTop:'1px' }} />
-              <div style={{ fontSize:'11px', color:'#F97316' }}>
-                <strong>{t('Network','الشبكة')}: {selectedCrypto.network}</strong> — {t('Only send','أرسل فقط')} {selectedCrypto.symbol} {t('via the','عبر شبكة')} <strong>{selectedCrypto.network}</strong> {t('network. Sending via wrong network will result in permanent loss of funds.','. الإرسال عبر شبكة خاطئة سيؤدي إلى فقدان دائم للأموال.')}
-              </div>
+            <div style={{ marginBottom:'14px' }}>
+              <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'6px', textTransform:'uppercase' }}>{t('Amount (USD)', 'المبلغ (USD)')}</label>
+              <input type="number" value={amount} onChange={e=>setAmount(e.target.value)} placeholder="0.00"
+                style={{ width:'100%', padding:'14px', borderRadius:'10px', fontSize:'22px', fontWeight:800, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Orbitron',sans-serif" }} />
             </div>
 
-            {/* Address display */}
-            <div style={{ padding:'16px', borderRadius:'12px', background:`${selectedCrypto.color}06`, border:`1px solid ${selectedCrypto.color}20`, marginBottom:'14px' }}>
-              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'8px' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-                  <div style={{ width:'24px', height:'24px', borderRadius:'6px', background:`${selectedCrypto.color}20`, border:`1px solid ${selectedCrypto.color}30`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                    <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:selectedCrypto.color, fontWeight:900 }}>{selectedCrypto.symbol}</span>
-                  </div>
-                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:selectedCrypto.color, fontWeight:700 }}>{selectedCrypto.name} {t('DEPOSIT ADDRESS', 'عنوان الإيداع')}</span>
-                </div>
-                <div style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:'6px', padding:'2px 8px', fontSize:'9px', color:'#10B981', fontWeight:700 }}>{t('VERIFIED', 'موثّق')}</div>
-              </div>
-              <div style={{ fontFamily:'monospace', fontSize:'12px', color:'#fff', wordBreak:'break-all', lineHeight:1.6, marginBottom:'10px', padding:'10px', borderRadius:'8px', background:'rgba(0,0,0,0.3)', border:'1px solid rgba(255,255,255,0.06)' }}>
-                {selectedCrypto.address}
-              </div>
-              <button onClick={copyAddress}
-                style={{ display:'flex', alignItems:'center', gap:'6px', padding:'8px 14px', borderRadius:'8px', background:`${selectedCrypto.color}15`, border:`1px solid ${selectedCrypto.color}30`, cursor:'pointer', color:selectedCrypto.color, fontSize:'11px', fontWeight:700 }}>
-                {copied ? <CheckCircle2 size={13} /> : <Copy size={13} />}
-                {copied ? t('Address Copied!','تم نسخ العنوان!') : t('Copy Address','نسخ العنوان')}
-              </button>
+            <div style={{ padding:'12px 14px', borderRadius:'10px', background:`${selectedCrypto.color}08`, border:`1px solid ${selectedCrypto.color}20`, marginBottom:'14px', fontSize:'11px', color:'#CBD5E1', lineHeight:1.6 }}>
+              {t("You'll be redirected to NOWPayments' secure hosted invoice, which issues a real one-time deposit address for", "سيتم تحويلك إلى فاتورة NOWPayments الآمنة المستضافة، والتي تصدر عنوان إيداع حقيقي لمرة واحدة لـ")} <strong>{selectedCrypto.symbol} ({selectedCrypto.network})</strong> {t('and monitors blockchain confirmations for you. Funds are credited to your Vault automatically once confirmed.', 'وتراقب تأكيدات البلوكتشين نيابة عنك. تُضاف الأموال إلى خزنتك تلقائياً بمجرد التأكيد.')}
             </div>
 
-            {/* Deposit details */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'8px', marginBottom:'14px' }}>
-              {[
-                { label:t('Min Deposit','الحد الأدنى للإيداع'), value:`${selectedCrypto.minDeposit} ${selectedCrypto.symbol}` },
-                { label:t('Network','الشبكة'), value:selectedCrypto.network },
-                { label:t('Confirmations','التأكيدات'), value:selectedCrypto.network === 'Bitcoin' ? t('2 required','2 مطلوبة') : t('3 required','3 مطلوبة') },
-              ].map(d => (
-                <div key={d.label} style={{ padding:'10px', borderRadius:'8px', background:'rgba(255,255,255,0.02)', border:`1px solid ${S.border}`, textAlign:'center' }}>
-                  <div style={{ color:S.muted, fontSize:'9px', marginBottom:'3px' }}>{d.label}</div>
-                  <div style={{ color:'#fff', fontSize:'11px', fontWeight:700 }}>{d.value}</div>
-                </div>
-              ))}
-            </div>
+            {error && <div style={{ marginBottom:'10px', padding:'8px 12px', borderRadius:'8px', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', color:'#EF4444', fontSize:'11px' }}>{error}</div>}
 
-            {/* Blockchain confirmation simulator */}
-            {!awaitingConfirm ? (
-              <div style={{ padding:'12px 14px', borderRadius:'10px', background:'rgba(16,185,129,0.05)', border:'1px solid rgba(16,185,129,0.15)', display:'flex', alignItems:'center', gap:'10px' }}>
-                <div style={{ flex:1 }}>
-                  <div style={{ color:'#CBD5E1', fontSize:'11px', fontWeight:700, marginBottom:'2px' }}>{t('Sent your','هل أرسلت')} {selectedCrypto.symbol}?</div>
-                  <div style={{ color:S.muted, fontSize:'10px' }}>{t('Once you send, click to start blockchain confirmation monitoring', 'بمجرد الإرسال، اضغط لبدء مراقبة تأكيدات البلوكتشين')}</div>
-                </div>
-                <button onClick={simulateBlockchain}
-                  style={{ padding:'8px 14px', borderRadius:'8px', background:'rgba(16,185,129,0.12)', border:'1px solid rgba(16,185,129,0.25)', cursor:'pointer', color:'#10B981', fontSize:'11px', fontWeight:700, whiteSpace:'nowrap', display:'flex', alignItems:'center', gap:'5px' }}>
-                  <RefreshCw size={11} /> {t('I Sent','لقد أرسلت')} {selectedCrypto.symbol}
-                </button>
-              </div>
-            ) : (
-              <div style={{ padding:'14px', borderRadius:'10px', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.2)' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'10px' }}>
-                  {confirmations >= (selectedCrypto.network === 'Bitcoin' ? 2 : 3)
-                    ? <CheckCircle2 size={16} style={{ color:'#10B981' }} />
-                    : <div style={{ width:'16px', height:'16px', borderRadius:'50%', border:'2px solid rgba(99,102,241,0.2)', borderTopColor:'#6366F1', animation:'s4v-spin 1s linear infinite' }} />
-                  }
-                  <span style={{ color:'#fff', fontSize:'12px', fontWeight:700 }}>
-                    {confirmations >= (selectedCrypto.network === 'Bitcoin' ? 2 : 3) ? t('Deposit Confirmed!','تم تأكيد الإيداع!') : t('Monitoring blockchain...','جارٍ مراقبة البلوكتشين...')}
-                  </span>
-                </div>
-                <div style={{ display:'flex', gap:'6px' }}>
-                  {Array.from({ length: selectedCrypto.network === 'Bitcoin' ? 2 : 3 }, (_, i) => (
-                    <div key={i} style={{ flex:1, height:'6px', borderRadius:'3px', background: confirmations > i ? '#10B981' : 'rgba(255,255,255,0.08)', transition:'background 0.5s' }} />
-                  ))}
-                </div>
-                <div style={{ color:S.muted, fontSize:'10px', marginTop:'6px' }}>
-                  {confirmations >= (selectedCrypto.network === 'Bitcoin' ? 2 : 3)
-                    ? `✓ ${confirmations} ${t('confirmations — funds credited to your Vault','تأكيدات — تمت إضافة الأموال إلى خزنتك')}`
-                    : `${confirmations} ${t('of','من')} ${selectedCrypto.network === 'Bitcoin' ? 2 : 3} ${t('confirmations received','تأكيدات مستلمة')}`
-                  }
-                </div>
-              </div>
-            )}
+            <Btn onClick={handleCreateInvoice} style={{ width:'100%', padding:'13px', fontSize:'12px', ['--accent']:selectedCrypto.color }}>
+              {t('Create Deposit Invoice', 'إنشاء فاتورة الإيداع')}
+            </Btn>
           </motion.div>
         </AnimatePresence>
       )}
@@ -389,35 +296,38 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
     setError(''); setStep('review');
   }
 
+  const { user } = useAuthStore();
+
   async function handleConfirm() {
     setStep('processing');
-    // Simulate backend → blockchain broadcast
-    await new Promise(r => setTimeout(r, 2000));
-    const hash = '0x' + Array.from({length:64},()=>Math.floor(Math.random()*16).toString(16)).join('');
-    setTxHash(hash);
-    let count = 0;
-    const iv = setInterval(() => { count++; setConfirmations(count); if (count >= 3) { clearInterval(iv); setTimeout(onSuccess, 1000); } }, 1800);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch('/api/wallet/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ amount: parseFloat(amount), destination: toAddress, network: selectedCrypto?.network }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) { setError(data.error || 'Withdrawal request failed'); setStep('review'); return; }
+      onSuccess();
+    } catch (err) {
+      setError(err.message || 'Withdrawal request failed');
+      setStep('review');
+    }
   }
 
   if (step === 'processing') return (
     <div>
       <div style={{ textAlign:'center', padding:'20px 0 10px' }}>
-        {confirmations >= 3 ? <CheckCircle2 size={44} style={{ color:'#10B981', margin:'0 auto', display:'block' }} /> :
-          <div style={{ width:'44px', height:'44px', borderRadius:'50%', border:'3px solid rgba(99,102,241,0.2)', borderTopColor:'#6366F1', animation:'s4v-spin 1s linear infinite', margin:'0 auto' }} />}
+        <div style={{ width:'44px', height:'44px', borderRadius:'50%', border:'3px solid rgba(99,102,241,0.2)', borderTopColor:'#6366F1', animation:'s4v-spin 1s linear infinite', margin:'0 auto' }} />
         <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'13px', fontWeight:900, color:'#fff', marginTop:'12px', marginBottom:'6px' }}>
-          {confirmations >= 3 ? t('WITHDRAWAL COMPLETE','اكتمل السحب') : t('BROADCASTING TO BLOCKCHAIN','جارٍ البث إلى البلوكتشين')}
+          {t('SUBMITTING WITHDRAWAL REQUEST','جارٍ إرسال طلب السحب')}
         </div>
-        <div style={{ color:S.muted, fontSize:'11px' }}>{confirmations >= 3 ? `${confirmations} ${t('confirmations received','تأكيدات مستلمة')}` : `${confirmations}/3 ${t('confirmations','تأكيدات')}`}</div>
+        <div style={{ color:S.muted, fontSize:'11px' }}>{t('Your request will be reviewed and processed by the SOLVEN4 team.', 'سيتم مراجعة طلبك ومعالجته من قبل فريق SOLVEN4.')}</div>
       </div>
-      {txHash && (
-        <div style={{ padding:'12px', borderRadius:'10px', background:'rgba(255,255,255,0.02)', border:`1px solid ${S.border}`, marginTop:'14px' }}>
-          <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px', fontWeight:700 }}>{t('TRANSACTION HASH', 'تجزئة المعاملة')}</div>
-          <div style={{ fontFamily:'monospace', fontSize:'9px', color:'#10B981', wordBreak:'break-all' }}>{txHash}</div>
-        </div>
-      )}
       <div style={{ display:'flex', gap:'6px', marginTop:'12px' }}>
         {Array.from({length:3},(_,i)=>(
-          <div key={i} style={{ flex:1, height:'5px', borderRadius:'3px', background:confirmations>i?'#10B981':'rgba(255,255,255,0.08)', transition:'background 0.5s' }} />
+          <div key={i} style={{ flex:1, height:'5px', borderRadius:'3px', background:'rgba(255,255,255,0.08)', transition:'background 0.5s' }} />
         ))}
       </div>
     </div>
@@ -529,9 +439,9 @@ export default function TheVault() {
           supabase.from('wallets').select('*').eq('user_id', user.id).single(),
           supabase.from('wallet_transactions').select('*').eq('user_id', user.id).order('created_at',{ascending:false}).limit(50),
         ]);
-        setWallet(w ?? MOCK_WALLET);
-        setTxs(t?.length ? t : MOCK_TXS);
-      } catch { setWallet(MOCK_WALLET); setTxs(MOCK_TXS); }
+        setWallet(w ?? { balance: 0, pending_balance: 0, currency: 'USD', total_earned: 0, monthly_target: 15000, commission_pending: 0 });
+        setTxs(t || []);
+      } catch { setWallet({ balance: 0, pending_balance: 0, currency: 'USD', total_earned: 0, monthly_target: 15000, commission_pending: 0 }); setTxs([]); }
       finally { setLoading(false); }
     }
     load();
@@ -880,8 +790,8 @@ export default function TheVault() {
           {withdrawSuccess ? (
             <div className="s4-glass" style={{ padding:'40px', textAlign:'center', borderColor:'rgba(99,102,241,0.35)' }}>
               <CheckCircle2 size={52} style={{ color:'#6366F1', margin:'0 auto 16px', display:'block' }} />
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('WITHDRAWAL COMPLETE', 'اكتمل السحب')}</div>
-              <div style={{ color:S.muted, fontSize:'13px', marginBottom:'24px' }}>{t('Funds have been broadcast to the blockchain and confirmed.', 'تم بث الأموال إلى البلوكتشين وتأكيدها.')}</div>
+              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('WITHDRAWAL REQUESTED', 'تم طلب السحب')}</div>
+              <div style={{ color:S.muted, fontSize:'13px', marginBottom:'24px' }}>{t('Your request has been submitted and is pending review. You\'ll be notified once it\'s processed.', 'تم إرسال طلبك وهو قيد المراجعة. سيتم إشعارك بمجرد معالجته.')}</div>
               <button onClick={resetWithdraw} style={{ padding:'10px 28px', borderRadius:'10px', background:'#6366F1', color:'#fff', fontWeight:700, fontSize:'12px', border:'none', cursor:'pointer' }}>
                 {t('New Withdrawal', 'سحب جديد')}
               </button>

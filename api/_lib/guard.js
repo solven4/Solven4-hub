@@ -76,3 +76,23 @@ export async function logAiCost(supabase, { userId, door, feature, model, inputT
 
 export const THROTTLE_MESSAGE =
   'AI features are temporarily paused (daily capacity reached). Please try again later.';
+
+// Verifies the caller's Supabase session JWT and returns the authenticated
+// user id — use this instead of trusting a client-supplied userId/body
+// field on any endpoint that reads/writes another user's data or money
+// (platform-wide finding: every non-webhook endpoint previously trusted
+// req.body.userId as-is, protected only by CORS). Returns null if the
+// Authorization header is missing/invalid; callers should reject the
+// request rather than fall back to an unverified id.
+export async function verifyAuth(req, supabase) {
+  const authHeader = req.headers?.authorization || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  if (!token) return null;
+  try {
+    const { data, error } = await supabase.auth.getUser(token);
+    if (error || !data?.user) return null;
+    return data.user.id;
+  } catch {
+    return null;
+  }
+}

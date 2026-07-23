@@ -12,13 +12,15 @@ import { useLang } from '@/lib/LanguageContext';
 import { Btn } from '@/hud';
 
 /* ── RANK SYSTEM ── */
+// Canonical platform-wide ladder (unified 2026-07-22 — matches the
+// update_user_xp() DB trigger and increment-xp Edge Function exactly).
 const RANKS = [
-  { name:'The Curious',  color:'#94A3B8', emoji:'👁️',  bg:'rgba(136,153,180,0.08)', minXP:0,     maxXP:500,   perks:['Basic signal access','Community forum'] },
-  { name:'The Hooked',   color:'#06B6D4', emoji:'🎣',  bg:'rgba(59,130,246,0.08)',  minXP:500,   maxXP:2000,  perks:['Priority signals','Weekly brief'] },
-  { name:'The Obsessed', color:'#10B981', emoji:'🔥',  bg:'rgba(16,185,129,0.08)',  minXP:2000,  maxXP:5000,  perks:['SOLVEN AI full access','Monthly reward'] },
-  { name:'The Addict',   color:'#F97316', emoji:'💊',  bg:'rgba(249,115,22,0.08)',  minXP:5000,  maxXP:12000, perks:['1-on-1 coaching session','Custom signals'] },
-  { name:'The Dealer',   color:'#D4A843', emoji:'💰',  bg:'rgba(212,168,67,0.08)',  minXP:12000, maxXP:30000, perks:['Revenue share bonus','Elite IB status'] },
-  { name:'The Legend',   color:'#A855F7', emoji:'👑',  bg:'rgba(168,85,247,0.08)',  minXP:30000, maxXP:null,  perks:['Annual prize pool','S4 Legend NFT badge','SOLVEN Board access'] },
+  { name:'The Curious',  color:'#94A3B8', emoji:'👁️',  bg:'rgba(136,153,180,0.08)', minXP:0,      maxXP:25000,   perks:['Basic signal access','Community forum'] },
+  { name:'The Hooked',   color:'#06B6D4', emoji:'🎣',  bg:'rgba(59,130,246,0.08)',  minXP:25000,  maxXP:80000,   perks:['Priority signals','Weekly brief'] },
+  { name:'The Obsessed', color:'#10B981', emoji:'🔥',  bg:'rgba(16,185,129,0.08)',  minXP:80000,  maxXP:200000,  perks:['SOLVEN AI full access','Monthly reward'] },
+  { name:'The Addict',   color:'#F97316', emoji:'💊',  bg:'rgba(249,115,22,0.08)',  minXP:200000, maxXP:500000,  perks:['1-on-1 coaching session','Custom signals'] },
+  { name:'The Dealer',   color:'#D4A843', emoji:'💰',  bg:'rgba(212,168,67,0.08)',  minXP:500000, maxXP:1000000, perks:['Revenue share bonus','Elite IB status'] },
+  { name:'The Legend',   color:'#A855F7', emoji:'👑',  bg:'rgba(168,85,247,0.08)',  minXP:1000000,maxXP:null,    perks:['Annual prize pool','S4 Legend NFT badge','SOLVEN Board access'] },
 ];
 
 /* ── MOCK LEADERBOARD ── */

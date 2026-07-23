@@ -98,22 +98,67 @@ export default async function handler(req, res) {
     if (type === 'payment.succeeded') {
       const { id: paymentId, metadata, amount, customer } = data;
 
+      // ── Wallet deposit (Vault top-up — separate purpose, not a founding seat) ──
+      if (metadata?.purpose === 'wallet_deposit') {
+        const { walletTxId, userId: depositUserId } = metadata;
+        const amountUsd = amount / 100;
+
+        const { data: txRow } = await supabase.from('wallet_transactions').select('status').eq('id', walletTxId).single();
+        if (!txRow) return res.json({ received: true, warning: 'wallet transaction not found' });
+        if (txRow.status === 'completed') return res.json({ received: true, duplicate: true });
+
+        await supabase.from('wallet_transactions').update({
+          status: 'completed', metadata: { ...metadata, dodo_payment_id: paymentId },
+        }).eq('id', walletTxId);
+
+        await supabase.rpc('allocate_revenue', {
+          p_amount_usd: amountUsd, p_source: 'dodo', p_source_id: paymentId,
+          p_description: `Vault deposit — ${depositUserId}`,
+        }).catch(() => {});
+
+        await sendTelegramAlert(`💰 <b>VAULT DEPOSIT</b>\nUser: ${depositUserId}\nAmount: $${amountUsd}\nPayment ID: ${paymentId}`);
+        return res.json({ received: true, wallet_deposit_completed: true });
+      }
+
       // ── ORACLE Brain tier upgrade (separate purpose, not a founding seat) ──
       if (metadata?.purpose === 'oracle_tier') {
         const { userId: upUser, targetTier } = metadata;
+        const amountUsdOracle = amount / 100;
         const { data: prof } = await supabase
           .from('profiles').select('oracle_tier, email, full_name').eq('id', upUser).maybeSingle();
         await supabase.from('profiles')
           .update({ oracle_tier: targetTier, plan: targetTier, updated_at: new Date().toISOString() })
           .eq('id', upUser);
+
+        // Activate the pending oracle_subscriptions row tier.js created at
+        // checkout time — previously left at status:'pending' forever, so
+        // tier.js's GET (renewal display) never showed a real renewal date.
+        const now = new Date();
+        const periodEnd = new Date(now); periodEnd.setMonth(periodEnd.getMonth() + 1);
+        await supabase.from('oracle_subscriptions').upsert({
+          user_id: upUser, tier: targetTier, status: 'active',
+          dodo_subscription_id: paymentId, amount_usd: amountUsdOracle,
+          current_period_start: now.toISOString(), current_period_end: periodEnd.toISOString(),
+          cancel_at_period_end: false, updated_at: now.toISOString(),
+        }, { onConflict: 'user_id' }).catch(() => {});
+
+        // Real revenue record — previously never written, so Cockpit's
+        // Finance Center (which reads wallet_transactions) never showed any
+        // ORACLE subscription revenue at all.
+        await supabase.from('wallet_transactions').insert({
+          user_id: upUser, type: 'subscription', amount: amountUsdOracle, currency: 'USD', status: 'completed',
+          description: `ORACLE ${targetTier} tier upgrade`, reference_type: 'oracle_subscription',
+          reference_id: paymentId, door: 'ORACLE', metadata: { tier: targetTier, dodo_payment_id: paymentId },
+        }).catch(() => {});
+
         await supabase.from('activities').insert({
           user_id: upUser, activity_type: 'oracle_tier_upgraded',
-          metadata: { from: prof?.oracle_tier || 'signal', to: targetTier, paymentId },
+          metadata: { from: prof?.oracle_tier || 'observer', to: targetTier, paymentId },
         }).catch(() => {});
         if (prof?.email) {
           await sendEmail('tier_upgrade', prof.email, { name: prof.full_name, tier: (targetTier || '').toUpperCase() });
         }
-        await sendTelegramAlert(`⚡ <b>ORACLE TIER UPGRADE</b>\nUser: ${prof?.email || upUser}\nTo: <b>${targetTier}</b>\nAmount: $${amount / 100}`);
+        await sendTelegramAlert(`⚡ <b>ORACLE TIER UPGRADE</b>\nUser: ${prof?.email || upUser}\nTo: <b>${targetTier}</b>\nAmount: $${amountUsdOracle}`);
         return res.json({ received: true, oracle_tier_upgraded: true });
       }
 
