@@ -84,21 +84,21 @@ export default function Login() {
   return (
     <>
     <SEO title="Sign In" path="/auth/login" noindex />
-    <div style={{ background: '#05050C', minHeight: '100vh', display: 'flex' }}>
+    <div style={{ background: '#1A1B1E', minHeight: '100vh', display: 'flex' }}>
       {/* LEFT PANEL */}
       <div className="hidden lg:flex flex-1 relative flex-col items-center justify-center overflow-hidden"
-        style={{ borderRight: '1px solid #29293D' }}>
+        style={{ borderRight: '1px solid rgba(255,255,255,0.08)' }}>
         <ParticleOrb />
         <div className="relative z-10 text-center">
-          <div style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '16px' }}
-            className="w-20 h-20 flex items-center justify-center text-white font-black text-2xl mx-auto mb-6">
+          <div style={{ fontFamily: "'Satoshi', sans-serif", background: 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '16px' }}
+            className="w-20 h-20 flex items-center justify-center text-white font-medium text-2xl mx-auto mb-6">
             S4
           </div>
-          <h1 style={{ fontFamily: "'Orbitron', sans-serif", textShadow: '0 0 60px rgba(99,102,241,0.6)' }}
-            className="text-5xl font-black text-white mb-3">
+          <h1 style={{ fontFamily: "'Satoshi', sans-serif",  }}
+            className="text-5xl font-medium text-white mb-3">
             SOLVEN4
           </h1>
-          <p style={{ color: '#94A3B8', fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.3em', fontSize: '11px' }}>
+          <p style={{ color: '#94A3B8', fontFamily: "'Satoshi', sans-serif", letterSpacing: '0.3em', fontSize: '11px' }}>
             {t('INTELLIGENCE PLATFORM', 'منصة الذكاء')}
           </p>
           <div className="flex items-center justify-center gap-3 mt-10">
@@ -115,25 +115,25 @@ export default function Login() {
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-3 mb-10">
-            <div style={{ background: 'linear-gradient(135deg,#6366F1,#22D3EE)', fontFamily: "'Orbitron', sans-serif", borderRadius: '8px' }}
+            <div style={{ background: 'linear-gradient(135deg,#6366F1,#22D3EE)', fontFamily: "'Satoshi', sans-serif", borderRadius: '8px' }}
               className="w-9 h-9 flex items-center justify-center text-white font-bold text-sm">S4</div>
-            <span style={{ fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.15em', fontSize: '13px' }} className="text-white font-bold">SOLVEN4</span>
+            <span style={{ fontFamily: "'Satoshi', sans-serif", letterSpacing: '0.15em', fontSize: '13px' }} className="text-white font-bold">SOLVEN4</span>
           </div>
 
           <div className="mb-8 flex items-start justify-between gap-4">
             <div>
-              <div style={{ color: '#6366F1', fontFamily: "'Orbitron', sans-serif", fontSize: '10px', letterSpacing: '0.3em' }} className="mb-2">
+              <div style={{ color: '#6366F1', fontFamily: "'Satoshi', sans-serif", fontSize: '10px', letterSpacing: '0.3em' }} className="mb-2">
                 {t('OPERATOR ACCESS', 'دخول المشغل')}
               </div>
-              <h2 style={{ fontFamily: "'Orbitron', sans-serif" }} className="text-3xl font-black text-white">
+              <h2 style={{ fontFamily: "'Satoshi', sans-serif" }} className="text-3xl font-medium text-white">
                 {t('Welcome back,', 'أهلاً بعودتك،')}
               </h2>
-              <h2 style={{ fontFamily: "'Orbitron', sans-serif", color: '#6366F1' }} className="text-3xl font-black">
+              <h2 style={{ fontFamily: "'Satoshi', sans-serif", color: '#6366F1' }} className="text-3xl font-medium">
                 {t('Operator', 'أيها المشغل')}
               </h2>
             </div>
             <button type="button" onClick={() => setLang(isAr ? 'en' : 'ar')} aria-label={t('Switch language', 'تغيير اللغة')}
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #29293D', borderRadius: '8px', color: '#94A3B8', padding: '7px 10px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0 }}>
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', color: '#94A3B8', padding: '7px 10px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', flexShrink: 0 }}>
               {isAr ? 'EN' : 'ع'}
             </button>
           </div>
@@ -146,7 +146,7 @@ export default function Login() {
                 <input
                   type="email" value={email} onChange={e => setEmail(e.target.value)}
                   placeholder="operator@solven4.com"
-                  style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '40px' }}
+                  style={{ background: '#14161B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '9999px', color: '#fff', paddingLeft: '40px' }}
                   className="w-full py-3 pr-4 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600"
                 />
               </div>
@@ -159,7 +159,7 @@ export default function Login() {
                 <input
                   type={showPass ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  style={{ background: '#0A0C1E', border: '1px solid #29293D', borderRadius: '10px', color: '#fff', paddingLeft: '40px', paddingRight: '40px' }}
+                  style={{ background: '#14161B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '9999px', color: '#fff', paddingLeft: '40px', paddingRight: '40px' }}
                   className="w-full py-3 text-sm outline-none focus:border-indigo-500 transition-colors placeholder-gray-600"
                 />
                 <button type="button" onClick={() => setShowPass(v => !v)}
@@ -170,20 +170,20 @@ export default function Login() {
             </div>
 
             <button type="submit" disabled={loading}
-              style={{ background: loading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '10px', width: '100%' }}
+              style={{ background: loading ? 'rgba(99,102,241,0.5)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', borderRadius: '9999px', width: '100%' }}
               className="py-3.5 text-white font-bold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:cursor-not-allowed mt-2">
               {loading ? t('Connecting...', 'جارٍ الاتصال...') : (<>{t('Enter Platform', 'ادخل المنصة')} <ArrowRight size={16} style={isAr ? { transform: 'scaleX(-1)' } : undefined} /></>)}
             </button>
           </form>
 
           <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px" style={{ background: '#29293D' }} />
+            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
             <span style={{ color: '#94A3B8', fontSize: '12px' }}>{t('or', 'أو')}</span>
-            <div className="flex-1 h-px" style={{ background: '#29293D' }} />
+            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
           </div>
 
           <button onClick={handleGoogle}
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid #29293D', borderRadius: '10px', width: '100%' }}
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '9999px', width: '100%' }}
             className="py-3.5 text-white font-semibold text-sm flex items-center justify-center gap-3 hover:bg-white hover:bg-opacity-8 transition-all">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
