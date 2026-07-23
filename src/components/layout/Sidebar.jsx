@@ -70,12 +70,12 @@ const DOOR_LINKS = [
 ];
 
 const S = {
-  bg: 'rgba(10,12,30,0.95)',
-  border: '#29293D',
+  bg: '#14161B',
+  border: 'rgba(255,255,255,0.08)',
   text: '#94A3B8',
-  textHover: '#E0E7FF',
+  textHover: '#FFFFFF',
   accent: '#6366F1',
-  groupLabel: { fontFamily: "'Share Tech Mono', monospace", fontSize: '9.5px', letterSpacing: '0.22em', color: '#94A3B8' },
+  groupLabel: { fontFamily: "'Satoshi', sans-serif", fontSize: '10px', letterSpacing: '0.16em', color: '#94A3B8', fontWeight: 600 },
 };
 
 // Admin nav moved to the standalone SOLVEN4 COCKPIT platform (solven4_cockpit)
@@ -112,13 +112,12 @@ export default function Sidebar({ isAdmin = false }) {
     return (
       <NavLink to={to} style={({ isActive: ia }) => ({
         display: 'flex', alignItems: 'center', gap: '10px',
-        padding: collapsed ? '10px 0' : '8px 10px',
+        padding: collapsed ? '10px 0' : '8px 12px',
         justifyContent: collapsed ? 'center' : 'flex-start',
-        borderRadius: '8px', marginBottom: '2px', textDecoration: 'none',
+        borderRadius: '9999px', marginBottom: '2px', textDecoration: 'none',
         background: ia ? (accent ? `${accent}20` : 'rgba(99,102,241,0.12)') : 'transparent',
         border: ia ? `1px solid ${accent ? accent + '35' : 'rgba(99,102,241,0.22)'}` : '1px solid transparent',
         color: ia ? (accent || '#818CF8') : S.text,
-        boxShadow: ia && accent ? `0 0 16px ${accent}18` : 'none',
         transition: 'all 0.15s',
       })}>
         <Icon size={16} style={{ flexShrink: 0 }} />
@@ -144,7 +143,6 @@ export default function Sidebar({ isAdmin = false }) {
       style={{
         width: W, minWidth: W, maxWidth: W,
         background: S.bg,
-        backdropFilter: 'blur(24px)',
         [isAr ? 'borderLeft' : 'borderRight']: `1px solid ${S.border}`,
         display: 'flex', flexDirection: 'column',
         height: '100vh', position: 'sticky', top: 0,
@@ -158,17 +156,17 @@ export default function Sidebar({ isAdmin = false }) {
             background: 'linear-gradient(135deg,#6366F1,#818CF8)',
             borderRadius: '8px', width: '34px', height: '34px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0, fontFamily: "'Orbitron', sans-serif", fontSize: '11px', fontWeight: 900, color: '#fff',
+            flexShrink: 0, fontFamily: "'Satoshi', sans-serif", fontSize: '11px', fontWeight: 900, color: '#fff',
           }}>
             S4
           </div>
           <AnimatePresence>
             {!collapsed && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '11px', letterSpacing: '0.15em', color: '#fff', fontWeight: 700, lineHeight: 1.2 }}>
+                <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '11px', letterSpacing: '0.15em', color: '#fff', fontWeight: 700, lineHeight: 1.2 }}>
                   SOLVEN4
                 </div>
-                <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', letterSpacing: '0.2em', color: '#6366F1', fontWeight: 600 }}>
+                <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '8px', letterSpacing: '0.2em', color: '#6366F1', fontWeight: 600 }}>
                   HUB · INTELLIGENCE
                 </div>
               </motion.div>
@@ -275,7 +273,7 @@ export default function Sidebar({ isAdmin = false }) {
                 <AnimatePresence>
                   {!collapsed && (
                     <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
-                      style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '9px', letterSpacing: '0.1em', color, fontWeight: 700, flex: 1, textAlign: 'left' }}>
+                      style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '9px', letterSpacing: '0.1em', color, fontWeight: 700, flex: 1, textAlign: 'left' }}>
                       {label}
                     </motion.span>
                   )}
@@ -324,7 +322,7 @@ export default function Sidebar({ isAdmin = false }) {
                 <div style={{ fontSize: '12px', fontWeight: 600, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px' }}>
                   {displayName}
                 </div>
-                <div style={{ fontSize: '9px', color: '#D4A843', fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.08em' }}>
+                <div style={{ fontSize: '9px', color: '#D4A843', fontFamily: "'Satoshi', sans-serif", letterSpacing: '0.08em' }}>
                   {profile?.plan?.toUpperCase() || 'OPERATOR'}
                 </div>
               </motion.div>

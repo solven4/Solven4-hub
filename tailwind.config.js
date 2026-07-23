@@ -7,7 +7,7 @@ export default {
       colors: {
         // OPIOM Core (remapped to Emergent "Intelligence Layer" skin)
         gold:    { DEFAULT: '#D4A843', light: '#E8C56A', dark: '#B8892E' },
-        opiom:   { bg: '#05050C', surface: '#0A0C1E', border: '#29293D', muted: '#94A3B8' },
+        opiom:   { bg: '#1A1B1E', surface: '#14161B', border: 'rgba(255,255,255,0.08)', muted: '#94A3B8' },
         // Door Colors
         pulse:   { DEFAULT: '#3B82F6', dim: '#3B82F622' },
         network: { DEFAULT: '#D4A843', dim: '#D4A84322' },
@@ -19,9 +19,9 @@ export default {
         success: '#10B981',
         // SOLVEN4 Design Tokens
         s4: {
-          bg:      '#05050C',
-          surface: '#0A0C1E',
-          border:  '#29293D',
+          bg:      '#1A1B1E',
+          surface: '#14161B',
+          border:  'rgba(255,255,255,0.08)',
           muted:   '#94A3B8',
           ink:     '#E0E7FF',
           hub:     '#6366F1',
@@ -35,10 +35,13 @@ export default {
         },
       },
       fontFamily: {
-        heading: ['Orbitron', 'sans-serif'],
-        body:    ["'Space Grotesk'", 'system-ui', 'sans-serif'],
-        mono:    ["'Share Tech Mono'", 'monospace'],
+        heading: ["'Satoshi'", 'sans-serif'],
+        body:    ["'Satoshi'", 'system-ui', 'sans-serif'],
+        mono:    ["'Satoshi'", 'sans-serif'],
         arabic:  ["'IBM Plex Sans Arabic'", 'sans-serif'],
+      },
+      borderRadius: {
+        pill: '9999px',
       },
       animation: {
         'fade-in':     'fadeIn 0.4s ease-out',

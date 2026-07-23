@@ -1,29 +1,27 @@
 /* SOLVEN4 Neural Command HUD — shared kit styles.
    Set --accent / --accent-2 on the door root (see each door's index.css). */
 .s4hud {
-  --s4-bg: #05050c; --s4-bg-2: #0a0c1e;
-  --s4-panel: linear-gradient(135deg, rgba(20,22,50,0.5), rgba(10,12,30,0.72));
-  --s4-line: #29293d; --s4-line-2: rgba(129, 140, 248, 0.22);
-  --s4-ink: #e0e7ff; --s4-dim: #94a3b8; --s4-dimmer: #64748b;
-  --s4-mono: "Share Tech Mono", ui-monospace, "SF Mono", monospace;
-  --s4-disp: "Orbitron", system-ui, sans-serif;
+  --s4-bg: #1a1b1e; --s4-bg-2: #14161b;
+  --s4-panel: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+  --s4-line: rgba(255,255,255,0.08); --s4-line-2: rgba(255,255,255,0.12);
+  --s4-ink: #ffffff; --s4-dim: #94a3b8; --s4-dimmer: #64748b;
+  --s4-mono: "Satoshi", sans-serif;
+  --s4-disp: "Satoshi", system-ui, sans-serif;
   --s4-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* frosted glass */
+/* AlphaLedger-style flat card: soft dark gradient + 1px hairline border, no heavy blur/glow */
 .s4-glass {
-  position: relative; background: var(--s4-panel); border: 1px solid var(--s4-line);
-  border-radius: 14px; -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 60px -34px rgba(0,0,0,0.95);
-  transition: border-color .28s var(--s4-ease), transform .28s var(--s4-ease), box-shadow .28s var(--s4-ease);
+  position: relative; background: var(--s4-panel); background-color: #14161B; border: 1px solid var(--s4-line);
+  border-radius: 12px;
+  transition: border-color .28s var(--s4-ease), transform .28s var(--s4-ease);
 }
 .s4-glass.hoverable:hover {
   border-color: color-mix(in srgb, var(--accent) 42%, transparent); transform: translateY(-3px);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 30px 70px -34px rgba(0,0,0,0.95), 0 0 40px -8px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-/* corner brackets */
-.s4-bracket { position: absolute; width: 13px; height: 13px; opacity: .85; pointer-events: none;
+/* corner brackets — kept subtle, de-emphasized vs. flat AlphaLedger card language */
+.s4-bracket { position: absolute; width: 13px; height: 13px; opacity: 0; pointer-events: none;
   border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent); }
 .s4-bracket.tl { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
 .s4-bracket.tr { top: 8px; right: 8px; border-left: 0; border-bottom: 0; }
@@ -53,19 +51,16 @@
   background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%); }
 .s4-holo .content { position: relative; z-index: 1; }
 
-/* buttons */
-.s4-btn { position: relative; overflow: hidden; font-family: var(--s4-mono); font-size: 13px; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase; padding: 11px 20px; border-radius: 9px; cursor: pointer;
+/* buttons — fully pill-shaped, no sci-fi shine sweep, per AlphaLedger's button language */
+.s4-btn { position: relative; font-family: var(--s4-mono); font-size: 13.5px; font-weight: 500;
+  letter-spacing: 0.02em; padding: 10px 22px; border-radius: 9999px; cursor: pointer;
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   background: color-mix(in srgb, var(--accent) 15%, transparent); color: color-mix(in srgb, var(--accent) 92%, white);
   transition: background .2s, transform .08s; }
 .s4-btn:hover { background: color-mix(in srgb, var(--accent) 26%, transparent); }
 .s4-btn:active { transform: translateY(1px); }
 .s4-btn.ghost { background: transparent; border-color: var(--s4-line-2); color: var(--s4-dim); }
-.s4-btn .shine { position: absolute; top: 0; left: -60%; width: 40%; height: 100%; pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent); transform: skewX(-20deg);
-  animation: s4shine 5s ease-in-out infinite; }
-@keyframes s4shine { 0%,62% { left: -60%; } 86%,100% { left: 150%; } }
+.s4-btn .shine { display: none; }
 
 .s4-num { font-variant-numeric: tabular-nums; }
 

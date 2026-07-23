@@ -5,12 +5,12 @@ import { ArrowRight, Play, Zap, Brain, Users, TrendingUp, Shield, Star, Globe as
 import { SEO } from '@/components/SEO';
 import { useLang } from '@/lib/LanguageContext';
 
-// ── SOLVEN4 "Intelligence Layer" skin (ported from Emergent design) ──
+// ── SOLVEN4 marketing skin — AlphaLedger design DNA (light theme, pill CTAs, Satoshi) ──
 const C = {
-  bg: '#05050C', bg2: '#0A0C1E', panel: 'linear-gradient(135deg, rgba(20,22,50,0.55), rgba(10,12,30,0.75))',
-  line: '#29293D', ink: '#E0E7FF', dim: '#94A3B8', dimmer: '#64748B',
+  bg: '#FFFFFF', bg2: '#F7F7F8', panel: '#FFFFFF',
+  line: '#E5E5E5', ink: '#020202', dim: '#5B5B63', dimmer: '#8A8A93',
   indigo: '#6366F1', indigoLt: '#818CF8', cyan: '#22D3EE',
-  serif: "'Orbitron', sans-serif", sans: "'Space Grotesk', system-ui, sans-serif", mono: "'Share Tech Mono', 'JetBrains Mono', monospace",
+  serif: "'Satoshi', sans-serif", sans: "'Satoshi', system-ui, sans-serif", mono: "'Satoshi', sans-serif",
 };
 
 const DOORS = [
@@ -125,7 +125,7 @@ export default function Landing() {
 
         <div style={{ position: 'relative', zIndex: 1 }}>
           {/* ── NAV ── */}
-          <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(5,5,12,0.82)', backdropFilter: 'blur(20px)', borderBottom: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 60 }}>
+          <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(255,255,255,0.86)', backdropFilter: 'blur(20px)', borderBottom: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 60 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ background: `linear-gradient(135deg, ${C.indigo}, ${C.cyan})`, fontFamily: C.serif, borderRadius: 7, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: 13 }}>S4</div>
               <div>
@@ -137,10 +137,10 @@ export default function Landing() {
               {[[t('DOORS','الأبواب'),'doors'], [t('INTEL','الذكاء'),'intel'], [t('MATRIX','المصفوفة'),'matrix']].map(([x, key]) => <span key={key} style={{ ...label(), fontSize: 10.5, cursor: 'pointer' }} className="e-link">{x}</span>)}
               <span style={{ ...label(C.indigoLt), fontSize: 10.5 }}>{clock} UTC</span>
               <button onClick={() => setLang(isAr ? 'en' : 'ar')} aria-label={t('Switch language', 'تغيير اللغة')}
-                style={{ background: 'transparent', border: `1px solid ${C.line}`, color: C.dim, borderRadius: 8, padding: '8px 10px', fontSize: 11, fontFamily: C.mono, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+                style={{ background: 'transparent', border: `1px solid ${C.line}`, color: C.dim, borderRadius: 9999, padding: '8px 10px', fontSize: 11, fontFamily: C.mono, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <GlobeIcon size={13} /> {isAr ? 'EN' : 'ع'}
               </button>
-              <button onClick={() => navigate('/auth/login')} style={{ ...btnPrimary, borderRadius: 8, padding: '8px 16px', fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7 }}>
+              <button onClick={() => navigate('/auth/login')} style={{ ...btnPrimary, borderRadius: 9999, padding: '8px 16px', fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 7 }}>
                 {t('ENTER PLATFORM', 'ادخل المنصة')} <ArrowRight size={13} style={isAr ? { transform: 'scaleX(-1)' } : undefined} />
               </button>
             </div>
@@ -151,18 +151,18 @@ export default function Landing() {
             <motion.div variants={stagger} initial="hidden" animate="show" style={{ textAlign: 'center' }}>
               <motion.div variants={fadeUp}><Eyebrow>{t('SOLVEN4 INTELLIGENCE PLATFORM', 'منصة SOLVEN4 الذكية')}</Eyebrow></motion.div>
               {isAr ? (
-                <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(34px, 6.5vw, 72px)', lineHeight: 1.15, margin: '0 0 26px', color: C.ink, textShadow: '0 0 60px rgba(99,102,241,0.35)' }}>
+                <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(34px, 6.5vw, 72px)', lineHeight: 1.15, margin: '0 0 26px', color: C.ink }}>
                   <span style={{ color: C.ink }}>طبقة الذكاء </span>
-                  <span style={{ background: `linear-gradient(180deg, ${C.indigoLt}, ${C.indigo} 45%, ${C.cyan})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: `0 0 80px ${C.indigo}` }}>للتداول</span>
+                  <span style={{ background: `linear-gradient(180deg, ${C.indigoLt}, ${C.indigo} 45%, ${C.cyan})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>للتداول</span>
                 </motion.h1>
               ) : (
                 <>
-                  <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 6px', color: C.ink, textShadow: '0 0 60px rgba(99,102,241,0.35)' }}>
+                  <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 6px', color: C.ink }}>
                     THE INTELLIGENCE
                   </motion.h1>
                   <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 26px' }}>
                     <span style={{ color: C.ink }}>LAYER OF </span>
-                    <span style={{ background: `linear-gradient(180deg, ${C.indigoLt}, ${C.indigo} 45%, ${C.cyan})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: `0 0 80px ${C.indigo}` }}>TRADING</span>
+                    <span style={{ background: `linear-gradient(180deg, ${C.indigoLt}, ${C.indigo} 45%, ${C.cyan})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>TRADING</span>
                     <span className="e-cursor" style={{ color: C.cyan }}>_</span>
                   </motion.h1>
                 </>
@@ -173,10 +173,10 @@ export default function Landing() {
               </motion.p>
               <motion.div variants={fadeUp} style={{ ...label(C.dimmer), fontSize: 11, marginBottom: 30 }}>{t('// AUTH · SUBSCRIPTION · ANALYTICS · CROSS-DOOR CONTROL', '// الدخول · الاشتراك · التحليلات · التحكم عبر الأبواب')}</motion.div>
               <motion.div variants={fadeUp} style={{ display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center', marginBottom: 44 }}>
-                <button onClick={() => navigate('/auth/login')} style={{ ...btnPrimary, borderRadius: 11, padding: '15px 30px', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <button onClick={() => navigate('/auth/login')} style={{ ...btnPrimary, borderRadius: 9999, padding: '15px 30px', fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
                   {t('ENTER SOLVEN4', 'ادخل SOLVEN4')} <ArrowRight size={18} style={isAr ? { transform: 'scaleX(-1)' } : undefined} />
                 </button>
-                <button style={{ background: 'transparent', border: `1px solid ${C.line}`, color: C.ink, borderRadius: 11, padding: '15px 30px', fontSize: 14, fontFamily: C.mono, letterSpacing: '0.08em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <button style={{ background: 'transparent', border: `1px solid ${C.line}`, color: C.ink, borderRadius: 9999, padding: '15px 30px', fontSize: 14, fontFamily: C.mono, letterSpacing: '0.08em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
                   <Play size={16} /> {t('WATCH DEMO', 'شاهد العرض')}
                 </button>
               </motion.div>
@@ -234,7 +234,7 @@ export default function Landing() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18 }}>
               {DOORS.map((door, i) => (
                 <motion.div key={door.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }}>
-                  <div className="e-card" style={{ background: C.panel, border: `1px solid ${door.color}33`, boxShadow: `0 0 40px ${door.color}10`, borderRadius: 16, padding: 22, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <div className="e-card" style={{ background: C.panel, border: `1px solid ${door.color}33`, borderRadius: 16, padding: 22, height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <div style={{ ...label(door.color), fontSize: 9.5, marginBottom: 12 }}>{door.node}</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
                       <div style={{ width: 40, height: 40, borderRadius: 10, background: `${door.color}18`, border: `1px solid ${door.color}35`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -266,7 +266,7 @@ export default function Landing() {
           </section>
 
           {/* ── INTELLIGENCE MATRIX ── */}
-          <section style={{ padding: '70px 24px', background: 'rgba(10,12,30,0.5)', borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
+          <section style={{ padding: '70px 24px', background: C.bg2, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}` }}>
             <div style={{ maxWidth: 1100, margin: '0 auto' }}>
               <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', marginBottom: 40 }}>
                 <Eyebrow color={C.cyan}>{t('WHAT MAKES SOLVEN4 DIFFERENT', 'ما الذي يميز SOLVEN4')}</Eyebrow>
@@ -291,13 +291,13 @@ export default function Landing() {
           <section style={{ padding: '90px 24px', textAlign: 'center' }}>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <Eyebrow>{t('READY TO ENTER?', 'مستعد للدخول؟')}</Eyebrow>
-              <h2 style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(30px, 5vw, 58px)', color: C.ink, margin: '0 0 8px', textShadow: '0 0 50px rgba(99,102,241,0.4)' }}>{t('JOIN THE NEXT GENERATION', 'انضم للجيل القادم')}</h2>
+              <h2 style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(30px, 5vw, 58px)', color: C.ink, margin: '0 0 8px' }}>{t('JOIN THE NEXT GENERATION', 'انضم للجيل القادم')}</h2>
               <p style={{ color: C.dim, fontSize: 16, marginBottom: 30 }}>{t('Of MENA traders operating on the intelligence layer.', 'من متداولي الشرق الأوسط وشمال أفريقيا العاملين على طبقة الذكاء.')}</p>
               <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <button onClick={() => navigate('/auth/register')} style={{ ...btnPrimary, borderRadius: 12, padding: '16px 34px', fontSize: 15, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <button onClick={() => navigate('/auth/register')} style={{ ...btnPrimary, borderRadius: 9999, padding: '16px 34px', fontSize: 15, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
                   {t('CREATE YOUR ACCOUNT', 'أنشئ حسابك')} <ArrowRight size={18} style={isAr ? { transform: 'scaleX(-1)' } : undefined} />
                 </button>
-                <button onClick={() => navigate('/auth/login')} style={{ background: 'transparent', border: `1px solid ${C.line}`, color: C.ink, borderRadius: 12, padding: '16px 34px', fontSize: 15, fontFamily: C.mono, letterSpacing: '0.08em', cursor: 'pointer' }}>
+                <button onClick={() => navigate('/auth/login')} style={{ background: 'transparent', border: `1px solid ${C.line}`, color: C.ink, borderRadius: 9999, padding: '16px 34px', fontSize: 15, fontFamily: C.mono, letterSpacing: '0.08em', cursor: 'pointer' }}>
                   {t('SIGN IN', 'تسجيل الدخول')}
                 </button>
               </div>
