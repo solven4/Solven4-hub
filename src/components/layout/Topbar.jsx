@@ -60,7 +60,7 @@ export default function Topbar({ isAdmin }) {
   return (
     <>
       <header className={`h-14 flex items-center px-5 gap-4 flex-shrink-0 transition-all duration-300 sticky top-0 z-20 ${scrolled ? 'shadow-lg shadow-black/20' : ''}`}
-        style={{ background: scrolled ? 'rgba(5,5,12,0.95)' : 'rgba(10,12,30,0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid #29293D' }}>
+        style={{ background: '#14161B', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
 
         {/* Page identity */}
         <div className="flex-1 min-w-0">
@@ -123,7 +123,7 @@ export default function Topbar({ isAdmin }) {
       {/* Search overlay */}
       {searchOpen && (
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4" onClick={() => setSearchOpen(false)}
-          style={{ background: 'rgba(5,5,12,0.88)', backdropFilter: 'blur(20px)' }}>
+          style={{ background: 'rgba(20,22,27,0.9)', backdropFilter: 'blur(20px)' }}>
           <div className="w-full max-w-xl bg-opiom-surface border border-opiom-border rounded-2xl overflow-hidden shadow-2xl animate-appear-in"
             onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-3 px-5 py-4 border-b border-opiom-border">

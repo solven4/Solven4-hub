@@ -82,7 +82,10 @@ const S = {
 const ADMIN_NAV = [];
 
 export default function Sidebar({ isAdmin = false }) {
-  const [collapsed, setCollapsed] = useState(false);
+  // Defaults to the icon-only rail (AlphaLedger's real sidebar is a fixed
+  // ~96px icon column, no permanently-expanded labeled state) -- the user
+  // can still expand it via the chevron toggle for the full labeled view.
+  const [collapsed, setCollapsed] = useState(true);
   const [openGroups, setOpenGroups] = useState({ core: true, intelligence: false, network: false, connect: false });
   const { user, profile } = useAuthStore();
   const { openDoor } = useEmbed();
@@ -105,13 +108,13 @@ export default function Sidebar({ isAdmin = false }) {
 
   const isActive = (to) => location.pathname === to || location.pathname.startsWith(to + '/');
 
-  const W = collapsed ? 64 : 248;
+  const W = collapsed ? 88 : 248;
 
   const NavItem = ({ label, Icon, to, accent }) => {
     const active = isActive(to);
     return (
-      <NavLink to={to} style={({ isActive: ia }) => ({
-        display: 'flex', alignItems: 'center', gap: '10px',
+      <NavLink to={to} title={collapsed ? label : undefined} style={({ isActive: ia }) => ({
+        position: 'relative', display: 'flex', alignItems: 'center', gap: '10px',
         padding: collapsed ? '10px 0' : '8px 12px',
         justifyContent: collapsed ? 'center' : 'flex-start',
         borderRadius: '9999px', marginBottom: '2px', textDecoration: 'none',
@@ -120,7 +123,12 @@ export default function Sidebar({ isAdmin = false }) {
         color: ia ? (accent || '#818CF8') : S.text,
         transition: 'all 0.15s',
       })}>
-        <Icon size={16} style={{ flexShrink: 0 }} />
+        <Icon size={collapsed ? 19 : 16} style={{ flexShrink: 0 }} />
+        {collapsed && active && (
+          <span style={{ position: 'absolute', bottom: '-13px', fontSize: '8px', fontWeight: 600, letterSpacing: '0.02em', color: accent || '#818CF8', whiteSpace: 'nowrap' }}>
+            {label.length > 10 ? label.slice(0, 9) + '…' : label}
+          </span>
+        )}
         <AnimatePresence>
           {!collapsed && (
             <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.1 }}
