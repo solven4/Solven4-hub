@@ -1,9 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue, useSpring, animate } from 'framer-motion';
+import Lenis from 'lenis';
 import { ArrowRight, Play, Zap, Brain, Users, TrendingUp, Shield, Star, Globe as GlobeIcon } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { useLang } from '@/lib/LanguageContext';
+
+// Lenis momentum smooth-scroll — matches AlphaLedger's marketing site feel
+// (confirmed live: alphaledger.ai loads Lenis + GSAP ScrollTrigger for its
+// scroll-jacked storytelling sections). We don't pin/scrub sections the way
+// their Webflow+GSAP build does, but the same buttery momentum scroll plus
+// real scroll-linked reveals below gets the same felt experience in React.
+function useLenis() {
+  useEffect(() => {
+    const lenis = new Lenis({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 3) });
+    let raf;
+    function loop(time) { lenis.raf(time); raf = requestAnimationFrame(loop); }
+    raf = requestAnimationFrame(loop);
+    return () => { cancelAnimationFrame(raf); lenis.destroy(); };
+  }, []);
+}
+
+// Count-up-on-scroll-into-view stat, matching AlphaLedger's live-ticking
+// "Key Figures" band instead of a static number.
+function CountUp({ value, style }) {
+  const ref = useRef(null);
+  const mv = useMotionValue(0);
+  const [display, setDisplay] = useState('0');
+  const numeric = parseFloat(String(value).replace(/[^0-9.]/g, '')) || 0;
+  const suffix = String(value).replace(/^[\d,.\s]+/, '');
+  useEffect(() => {
+    const unsub = mv.on('change', (v) => setDisplay(Math.round(v).toLocaleString()));
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        animate(mv, numeric, { duration: 1.4, ease: [0.22, 1, 0.36, 1] });
+        obs.disconnect();
+      }
+    }, { threshold: 0.4 });
+    if (ref.current) obs.observe(ref.current);
+    return () => { unsub(); obs.disconnect(); };
+  }, []);
+  return <div ref={ref} style={style}>{display}{suffix}</div>;
+}
 
 // ── SOLVEN4 marketing skin — AlphaLedger design DNA (light theme, pill CTAs, Satoshi) ──
 const C = {
@@ -97,8 +135,15 @@ export default function Landing() {
   const { t, lang, setLang, isAr } = useLang();
   const [clock, setClock] = useState('00:00:00');
   useEffect(() => { const t = () => setClock(new Date().toISOString().slice(11, 19)); t(); const id = setInterval(t, 1000); return () => clearInterval(id); }, []);
+  useLenis();
 
-  const btnPrimary = { background: `linear-gradient(135deg, ${C.indigo}, #4F46E5)`, color: '#fff', border: 'none', boxShadow: `0 0 40px ${C.indigo}55`, fontFamily: C.mono, letterSpacing: '0.08em' };
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
+
+  // AlphaLedger's primary CTA is a flat solid-black pill, no neon glow.
+  const btnPrimary = { background: C.ink, color: '#fff', border: 'none', fontFamily: C.mono, letterSpacing: '0.02em' };
   const label = (color = C.dim) => ({ fontFamily: C.mono, fontSize: 11, letterSpacing: '0.2em', color });
 
   return (
@@ -147,20 +192,20 @@ export default function Landing() {
           </nav>
 
           {/* ── HERO ── */}
-          <section style={{ padding: '70px 24px 30px', maxWidth: 1160, margin: '0 auto' }}>
-            <motion.div variants={stagger} initial="hidden" animate="show" style={{ textAlign: 'center' }}>
+          <section ref={heroRef} style={{ padding: '70px 24px 30px', maxWidth: 1160, margin: '0 auto' }}>
+            <motion.div variants={stagger} initial="hidden" animate="show" style={{ textAlign: 'center', y: heroY, opacity: heroOpacity }}>
               <motion.div variants={fadeUp}><Eyebrow>{t('SOLVEN4 INTELLIGENCE PLATFORM', 'منصة SOLVEN4 الذكية')}</Eyebrow></motion.div>
               {isAr ? (
-                <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(34px, 6.5vw, 72px)', lineHeight: 1.15, margin: '0 0 26px', color: C.ink }}>
+                <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 'clamp(34px, 6.5vw, 72px)', lineHeight: 1.15, margin: '0 0 26px', color: C.ink }}>
                   <span style={{ color: C.ink }}>طبقة الذكاء </span>
                   <span style={{ background: `linear-gradient(180deg, ${C.indigoLt}, ${C.indigo} 45%, ${C.cyan})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>للتداول</span>
                 </motion.h1>
               ) : (
                 <>
-                  <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 6px', color: C.ink }}>
+                  <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 6px', color: C.ink }}>
                     THE INTELLIGENCE
                   </motion.h1>
-                  <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 26px' }}>
+                  <motion.h1 variants={fadeUp} style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 'clamp(38px, 7vw, 82px)', lineHeight: 1.04, margin: '0 0 26px' }}>
                     <span style={{ color: C.ink }}>LAYER OF </span>
                     <span style={{ background: `linear-gradient(180deg, ${C.indigoLt}, ${C.indigo} 45%, ${C.cyan})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>TRADING</span>
                     <span className="e-cursor" style={{ color: C.cyan }}>_</span>
@@ -186,7 +231,7 @@ export default function Landing() {
                 {STATS.map(s => (
                   <div key={s.k} style={{ background: C.bg, padding: '18px 12px' }}>
                     <div style={label()}>{s.k}</div>
-                    <div style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 26, color: C.ink, margin: '6px 0 3px', fontVariantNumeric: 'tabular-nums' }}>{s.v}</div>
+                    <CountUp value={s.v} style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 26, color: C.ink, margin: '6px 0 3px', fontVariantNumeric: 'tabular-nums' }} />
                     <div style={{ ...label(C.indigoLt), fontSize: 9.5 }}>// {s.s}</div>
                   </div>
                 ))}
@@ -228,7 +273,7 @@ export default function Landing() {
           <section style={{ padding: '80px 24px', maxWidth: 1160, margin: '0 auto' }}>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', marginBottom: 44 }}>
               <Eyebrow>{t('ARCHITECTURE', 'البنية')}</Eyebrow>
-              <h2 style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(26px, 4vw, 46px)', color: C.ink, margin: 0 }}>{t('THE FIVE DOORS OF SOLVEN4', 'أبواب SOLVEN4 الخمسة')}</h2>
+              <h2 style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 'clamp(26px, 4vw, 46px)', color: C.ink, margin: 0 }}>{t('THE FIVE DOORS OF SOLVEN4', 'أبواب SOLVEN4 الخمسة')}</h2>
               <p style={{ color: C.dim, fontSize: 15, marginTop: 12 }}>{t('A unified intelligence layer built from the ground up for serious MENA traders.', 'طبقة ذكاء موحدة مبنية من الصفر للمتداولين الجادين في منطقة الشرق الأوسط وشمال أفريقيا.')}</p>
             </motion.div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 18 }}>
@@ -270,7 +315,7 @@ export default function Landing() {
             <div style={{ maxWidth: 1100, margin: '0 auto' }}>
               <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} style={{ textAlign: 'center', marginBottom: 40 }}>
                 <Eyebrow color={C.cyan}>{t('WHAT MAKES SOLVEN4 DIFFERENT', 'ما الذي يميز SOLVEN4')}</Eyebrow>
-                <h2 style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(24px, 3.6vw, 40px)', color: C.ink, margin: 0 }}>{t('THE INTELLIGENCE MATRIX', 'مصفوفة الذكاء')}</h2>
+                <h2 style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 'clamp(24px, 3.6vw, 40px)', color: C.ink, margin: 0 }}>{t('THE INTELLIGENCE MATRIX', 'مصفوفة الذكاء')}</h2>
               </motion.div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
                 {FEATURES.map(({ Icon, title, titleAr, desc, descAr }, i) => (
@@ -291,7 +336,7 @@ export default function Landing() {
           <section style={{ padding: '90px 24px', textAlign: 'center' }}>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <Eyebrow>{t('READY TO ENTER?', 'مستعد للدخول؟')}</Eyebrow>
-              <h2 style={{ fontFamily: C.serif, fontWeight: 900, fontSize: 'clamp(30px, 5vw, 58px)', color: C.ink, margin: '0 0 8px' }}>{t('JOIN THE NEXT GENERATION', 'انضم للجيل القادم')}</h2>
+              <h2 style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 'clamp(30px, 5vw, 58px)', color: C.ink, margin: '0 0 8px' }}>{t('JOIN THE NEXT GENERATION', 'انضم للجيل القادم')}</h2>
               <p style={{ color: C.dim, fontSize: 16, marginBottom: 30 }}>{t('Of MENA traders operating on the intelligence layer.', 'من متداولي الشرق الأوسط وشمال أفريقيا العاملين على طبقة الذكاء.')}</p>
               <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <button onClick={() => navigate('/auth/register')} style={{ ...btnPrimary, borderRadius: 9999, padding: '16px 34px', fontSize: 15, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}>
