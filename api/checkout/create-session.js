@@ -19,13 +19,33 @@ function getSupabase() {
 
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', process.env.VITE_HUB_URL || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+}
+
+// Folded in from api/seats/inventory.js to stay under Vercel Hobby's
+// 12-function-per-deployment cap — both are founding-seat checkout concerns.
+async function handleInventory(req, res, supabase) {
+  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=30');
+  const { data, error } = await supabase
+    .from('founding_seat_inventory')
+    .select('tier, total_seats, seats_reserved, seats_confirmed')
+    .order('tier');
+  if (error) return res.status(500).json({ error: error.message });
+  const inventory = (data || []).map(row => ({
+    tier: row.tier,
+    total: row.total_seats,
+    confirmed: row.seats_confirmed,
+    reserved: row.seats_reserved,
+    available: row.total_seats - row.seats_confirmed - row.seats_reserved,
+  }));
+  return res.json(inventory);
 }
 
 export default async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method === 'GET') return handleInventory(req, res, getSupabase());
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {

@@ -1,17 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 import { verifyAuth } from '../_lib/guard.js';
 
-// Real wallet deposit-intent creation — the Vault's deposit flow was
+// Real wallet deposit + withdrawal — the Vault's deposit/withdraw flows were
 // entirely `setTimeout`-simulated (see TheVault.jsx's old StripeDepositFlow/
 // CryptoDepositFlow), the only real, webhook-verified payment rail was the
 // Founding-Member seat checkout. This reuses the exact same providers
 // (Dodo for card, NOWPayments for crypto) that checkout already proves work,
 // scoped to wallet top-ups instead of seat purchases. No card data is ever
 // collected by SOLVEN4 — both providers use hosted checkout pages.
+//
+// Deposit and withdraw are combined into one file (dispatched by
+// ?action=withdraw via vercel.json rewrite) to stay under Vercel Hobby's
+// 12-function-per-deployment cap — see api/webhooks/nowpayments.js for the
+// same reasoning applied to the wallet deposit IPN.
 const DODO_API = 'https://api.dodopayments.com/v1';
 const NOW_API = 'https://api.nowpayments.io/v1';
 const MIN_DEPOSIT_USD = 10;
 const MAX_DEPOSIT_USD = 50000;
+const MIN_WITHDRAWAL_USD = 20;
 
 function getSupabase() {
   return createClient(
@@ -27,17 +33,16 @@ function cors(res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
-export default async function handler(req, res) {
-  cors(res);
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+async function sendTelegramAlert(text) {
+  if (!process.env.TELEGRAM_BOT_TOKEN || !process.env.TELEGRAM_ADMIN_CHAT_ID) return;
+  await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: process.env.TELEGRAM_ADMIN_CHAT_ID, text, parse_mode: 'HTML' }),
+  }).catch(console.error);
+}
 
-  const supabase = getSupabase();
-  const verifiedUserId = await verifyAuth(req, supabase);
-  if (!verifiedUserId) return res.status(401).json({ error: 'Unauthorized — valid session required' });
-
+async function handleDeposit(req, res, supabase, userId) {
   const { userEmail, amount, method } = req.body || {};
-  const userId = verifiedUserId; // never trust a client-supplied userId for a money-moving endpoint
   const amountUsd = Number(amount);
 
   if (!userEmail) return res.status(400).json({ error: 'userEmail required' });
@@ -79,7 +84,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ checkoutUrl: link.url });
     }
 
-    // crypto
+    // crypto — IPN handled by api/webhooks/nowpayments.js (order_id prefix
+    // "wallet_" routes it to wallet-crediting logic there instead of the
+    // founding-seat path).
     if (!process.env.NOWPAYMENTS_API_KEY) return res.status(503).json({ error: 'Crypto deposits not configured' });
     const nowRes = await fetch(`${NOW_API}/invoice`, {
       method: 'POST',
@@ -87,7 +94,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         price_amount: amountUsd, price_currency: 'usd', order_id: orderId,
         order_description: `SOLVEN4 Vault deposit — $${amountUsd}`,
-        ipn_callback_url: `${hubUrl}/api/webhooks/wallet`,
+        ipn_callback_url: `${hubUrl}/api/webhooks/nowpayments`,
         success_url: `${hubUrl}/dashboard/vault?success=1`,
         cancel_url: `${hubUrl}/dashboard/vault?cancelled=1`,
         is_fixed_rate: true, is_fee_paid_by_user: false,
@@ -102,4 +109,58 @@ export default async function handler(req, res) {
     console.error('[wallet/deposit] failed:', err);
     return res.status(500).json({ error: err.message });
   }
+}
+
+async function handleWithdraw(req, res, supabase, userId) {
+  const { amount, destination, network } = req.body || {};
+  const amountUsd = Number(amount);
+
+  if (!amountUsd || amountUsd < MIN_WITHDRAWAL_USD) return res.status(400).json({ error: `Minimum withdrawal is $${MIN_WITHDRAWAL_USD}` });
+  if (!destination) return res.status(400).json({ error: 'destination address required' });
+
+  try {
+    const { data: txs, error: txErr } = await supabase
+      .from('wallet_transactions').select('type, amount, status').eq('user_id', userId);
+    if (txErr) throw txErr;
+
+    const CREDIT_TYPES = new Set(['commission', 'deposit', 'refund', 'referral', 'copy_trade', 'xp_bonus', 'arena_prize']);
+    const balance = (txs || []).reduce((sum, tx) => {
+      if (tx.status !== 'completed' && tx.status !== 'pending') return sum;
+      const signed = CREDIT_TYPES.has(tx.type) ? Number(tx.amount) : -Number(tx.amount);
+      return sum + signed;
+    }, 0);
+
+    if (amountUsd > balance) {
+      return res.status(400).json({ error: `Insufficient balance. Available: $${balance.toFixed(2)}` });
+    }
+
+    const { data: txRow, error: insErr } = await supabase.from('wallet_transactions').insert({
+      user_id: userId, type: 'withdrawal', amount: amountUsd, currency: 'USD', status: 'pending',
+      description: `Withdrawal request — ${network || 'crypto'} to ${destination.slice(0, 10)}...`,
+      reference_type: 'wallet_withdrawal', door: 'HUB',
+      metadata: { destination, network },
+    }).select('id').single();
+    if (insErr) throw insErr;
+
+    await sendTelegramAlert(`💸 <b>WITHDRAWAL REQUEST</b>\nUser: ${userId}\nAmount: $${amountUsd}\nDestination: ${destination}\nTx: ${txRow.id}\n\nReview in Cockpit → Finance Center.`);
+
+    return res.status(200).json({ success: true, transactionId: txRow.id, status: 'pending' });
+  } catch (err) {
+    console.error('[wallet/withdraw] failed:', err);
+    return res.status(500).json({ error: err.message });
+  }
+}
+
+export default async function handler(req, res) {
+  cors(res);
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const supabase = getSupabase();
+  const userId = await verifyAuth(req, supabase);
+  if (!userId) return res.status(401).json({ error: 'Unauthorized — valid session required' });
+
+  const action = req.query?.action || 'deposit';
+  if (action === 'withdraw') return handleWithdraw(req, res, supabase, userId);
+  return handleDeposit(req, res, supabase, userId);
 }

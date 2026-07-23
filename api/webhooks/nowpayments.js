@@ -30,6 +30,36 @@ async function sendTelegramAlert(text) {
   }).catch(console.error);
 }
 
+async function handleWalletDepositIpn(supabase, body) {
+  const { payment_id, payment_status, order_id, price_amount } = body;
+  try {
+    const { data: txRow } = await supabase.from('wallet_transactions').select('*').eq('reference_id', order_id).single();
+    if (!txRow) {
+      await sendTelegramAlert(`⚠️ Wallet webhook: confirmed payment but transaction <code>${order_id}</code> not found`);
+      return { received: true, warning: 'transaction not found' };
+    }
+    if (txRow.status === 'completed') return { received: true, duplicate: true };
+
+    const amountUsd = Number(price_amount);
+
+    await supabase.from('wallet_transactions').update({
+      status: 'completed', metadata: { ...txRow.metadata, nowpayments_payment_id: String(payment_id) },
+    }).eq('id', txRow.id);
+
+    await supabase.rpc('allocate_revenue', {
+      p_amount_usd: amountUsd, p_source: 'nowpayments', p_source_id: String(payment_id),
+      p_description: `Vault deposit — ${txRow.user_id}`,
+    }).catch(() => {});
+
+    await sendTelegramAlert(`💰 <b>VAULT CRYPTO DEPOSIT</b>\nUser: ${txRow.user_id}\nAmount: $${amountUsd}\nPayment ID: ${payment_id}`);
+    return { received: true };
+  } catch (err) {
+    console.error('[webhooks/nowpayments] wallet IPN failed:', err);
+    await sendTelegramAlert(`❌ Wallet webhook error: ${err.message}`);
+    throw err;
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
@@ -76,6 +106,15 @@ export default async function handler(req, res) {
     // Only process confirmed/finished payments
     if (!['confirmed', 'finished'].includes(payment_status)) {
       return res.json({ received: true, status: payment_status, action: 'ignored' });
+    }
+
+    // Wallet Vault deposits use order_id "wallet_<userId>_<ts>" (see
+    // api/wallet/deposit.js) — distinct from founding-seat reservation IDs.
+    // Handled here (rather than a separate webhook file) to stay under
+    // Vercel Hobby's 12-function-per-deployment cap.
+    if (reservationId?.startsWith('wallet_')) {
+      const result = await handleWalletDepositIpn(supabase, req.body);
+      return res.status(200).json(result);
     }
 
     // Look up the reservation to get tier + userId
