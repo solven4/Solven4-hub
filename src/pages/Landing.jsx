@@ -29,8 +29,9 @@ function CountUp({ value, style }) {
   const [display, setDisplay] = useState('0');
   const numeric = parseFloat(String(value).replace(/[^0-9.]/g, '')) || 0;
   const suffix = String(value).replace(/^[\d,.\s]+/, '');
+  const decimals = (String(value).match(/\.(\d+)/)?.[1] || '').length;
   useEffect(() => {
-    const unsub = mv.on('change', (v) => setDisplay(Math.round(v).toLocaleString()));
+    const unsub = mv.on('change', (v) => setDisplay(v.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals })));
     const obs = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         animate(mv, numeric, { duration: 1.4, ease: [0.22, 1, 0.36, 1] });
