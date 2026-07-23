@@ -123,7 +123,7 @@ function Waveform() {
   return (
     <svg viewBox="0 0 300 60" preserveAspectRatio="none" style={{ width: '100%', height: 56, display: 'block' }}>
       <defs><linearGradient id="wv" x1="0" x2="1"><stop offset="0" stopColor={C.indigoLt} /><stop offset="0.5" stopColor={C.indigo} /><stop offset="1" stopColor={C.cyan} /></linearGradient></defs>
-      <polyline points={pts} fill="none" stroke="url(#wv)" strokeWidth="1.6" style={{ filter: `drop-shadow(0 0 5px ${C.indigo})` }} />
+      <polyline points={pts} fill="none" stroke="url(#wv)" strokeWidth="1.6" style={{ }} />
     </svg>
   );
 }

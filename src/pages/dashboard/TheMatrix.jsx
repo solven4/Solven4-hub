@@ -120,7 +120,7 @@ function RadarChart({ data }) {
               {data[i].label}
             </text>
             <text x={lx} y={ly+12} textAnchor="middle" dominantBaseline="middle"
-              style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fill:'#6366F1', fontWeight:900 }}>
+              style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fill:'#6366F1', fontWeight:500 }}>
               {data[i].value}
             </text>
           </g>
@@ -140,7 +140,7 @@ export default function TheMatrix() {
   const maxPnl = Math.max(...TIMELINE.map(t => Math.abs(t.pnl)));
 
   return (
-    <div className="s4hud" style={{ ['--accent']:'#6366f1', color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:'#6366f1', color:'#fff', fontFamily:"'Satoshi',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
@@ -152,9 +152,8 @@ export default function TheMatrix() {
             <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
               <Activity size={13} /> {t('PERFORMANCE DNA', 'الحمض النووي للأداء')}
             </div>
-            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
-              background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-              filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('THE MATRIX', 'المصفوفة')}</h1>
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:500, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{t('THE MATRIX', 'المصفوفة')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Deep behavioral analysis of your cross-door trading patterns and performance genome', 'تحليل سلوكي عميق لأنماط تداولك عبر الأبواب وجينوم أدائك')}</p>
           </div>
           {/* Top 3 stats */}
@@ -165,7 +164,7 @@ export default function TheMatrix() {
               { label:t('DNA Score','نقاط الحمض النووي'),        value:'74 / 100', color:'#6366F1' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
-                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:s.color }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:s.color }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginTop:'3px' }}>{s.label}</div>
               </div>
             ))}
@@ -204,7 +203,7 @@ export default function TheMatrix() {
             </div>
             <RadarChart data={DNA_AXES} />
             <div style={{ marginTop:'12px', textAlign:'center' }}>
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:900, color:'#6366F1' }}>74</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:500, color:'#6366F1' }}>74</div>
               <div style={{ color:S.muted, fontSize:'10px' }}>{t('Overall DNA Score', 'إجمالي نقاط الحمض النووي')}</div>
               <div style={{ color:'#10B981', fontSize:'10px', marginTop:'3px' }}>▲ {t('+6 pts this month', '+6 نقاط هذا الشهر')}</div>
             </div>
@@ -225,7 +224,7 @@ export default function TheMatrix() {
                         <span style={{ color:S.muted, fontSize:'10px', marginLeft:'8px' }}>{ax.desc}</span>
                       </div>
                       <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
-                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:SCORE_COLOR(ax.value) }}>{ax.value}</span>
+                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:SCORE_COLOR(ax.value) }}>{ax.value}</span>
                         <span style={{ color:S.muted, fontSize:'10px' }}>/100</span>
                       </div>
                     </div>
@@ -258,7 +257,7 @@ export default function TheMatrix() {
                     </div>
                     <p style={{ color:'#CBD5E1', fontSize:'10px', lineHeight:1.5, marginBottom:'6px' }}>{c.trigger}</p>
                     <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px' }}>{c.effect}</div>
-                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:c.color }}>{c.delta}</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:c.color }}>{c.delta}</div>
                   </div>
                 ))}
               </div>
@@ -350,7 +349,7 @@ export default function TheMatrix() {
                 onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                 <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
                   <div style={{ width:'44px', height:'44px', borderRadius:'12px', background:`${p.color}12`, border:`1px solid ${p.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:p.color, fontWeight:900, textAlign:'center' }}>{p.pair.split('/')[0]}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:p.color, fontWeight:500, textAlign:'center' }}>{p.pair.split('/')[0]}</span>
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'8px' }}>
@@ -373,7 +372,7 @@ export default function TheMatrix() {
                         </div>
                       </div>
                       <div style={{ width:'60px', textAlign:'center', flexShrink:0 }}>
-                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:SCORE_COLOR(p.winRate) }}>
+                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:SCORE_COLOR(p.winRate) }}>
                           {p.winRate}%
                         </div>
                       </div>
@@ -403,7 +402,7 @@ export default function TheMatrix() {
                       {p.type==='strength'?t('STRENGTH','قوة'):p.type==='warning'?t('WARNING','تحذير'):t('INSIGHT','ملاحظة')}
                     </div>
                   </div>
-                  <div style={{ marginLeft:'auto', fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:p.color }}>
+                  <div style={{ marginLeft:'auto', fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:p.color }}>
                     {p.score > 0 ? `+${p.score}` : p.score}{typeof p.score === 'number' && Math.abs(p.score) < 100 ? '%' : ''}
                   </div>
                 </div>

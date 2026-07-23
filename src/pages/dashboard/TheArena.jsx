@@ -213,7 +213,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
               <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:challenge.color, fontWeight:700, letterSpacing:'0.12em', marginBottom:'3px' }}>
                 {challenge.door} · {challenge.type.toUpperCase()}
               </div>
-              <div style={{ color:'#fff', fontSize:'17px', fontWeight:800 }}>{challenge.name}</div>
+              <div style={{ color:'#fff', fontSize:'17px', fontWeight:500 }}>{challenge.name}</div>
             </div>
           </div>
           <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:'none', borderRadius:'8px', padding:'7px', cursor:'pointer', color:S.muted }}>
@@ -282,7 +282,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
           <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>CURRENT LEADERS</div>
           {challenge.leaderboard.map((p,i) => (
             <div key={i} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'7px 10px', borderRadius:'8px', background:'rgba(255,255,255,0.02)', marginBottom:'4px', border:'1px solid rgba(255,255,255,0.04)' }}>
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:['#D4A843','#94A3B8','#CD7F32'][i]??S.muted, width:'20px' }}>#{p.rank}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:500, color:['#D4A843','#94A3B8','#CD7F32'][i]??S.muted, width:'20px' }}>#{p.rank}</div>
               <span style={{ flex:1, color:p.name==='You'?challenge.color:'#CBD5E1', fontSize:'12px', fontWeight:p.name==='You'?700:400 }}>{p.name}{p.name==='You'?' (You)':''}</span>
               <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:700, color:challenge.color }}>
                 {challenge.isMoney ? `$${p.progress.toLocaleString()}` : `${p.progress}/${challenge.total}`}
@@ -296,7 +296,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
           <Gift size={20} style={{ color:challenge.color, flexShrink:0 }} />
           <div>
             <div style={{ color:S.muted, fontSize:'9px', marginBottom:'2px' }}>COMPLETION REWARD</div>
-            <div style={{ color:challenge.color, fontSize:'14px', fontWeight:800 }}>{challenge.reward}</div>
+            <div style={{ color:challenge.color, fontSize:'14px', fontWeight:500 }}>{challenge.reward}</div>
           </div>
         </div>
 
@@ -304,7 +304,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
           <button onClick={onClose} style={{ padding:'12px 20px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>Close</button>
           {!challenge.joined && (
             <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }} onClick={()=>onJoin(challenge)}
-              style={{ flex:1, padding:'12px', borderRadius:'10px', background:`linear-gradient(135deg,${challenge.color}cc,${challenge.color})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900 }}>
+              style={{ flex:1, padding:'12px', borderRadius:'10px', background:`linear-gradient(135deg,${challenge.color}cc,${challenge.color})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:500 }}>
               Join This Challenge
             </motion.button>
           )}
@@ -340,7 +340,7 @@ function JoinCompetitionModal({ prize, onClose }) {
         {step === 'joined' ? (
           <div style={{ textAlign:'center', padding:'20px 0' }}>
             <div style={{ fontSize:'48px', marginBottom:'16px' }}>🏆</div>
-            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>YOU'RE IN!</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:'#fff', marginBottom:'8px' }}>YOU'RE IN!</div>
             <div style={{ color:prize.color, fontSize:'14px', fontWeight:700, marginBottom:'8px' }}>{prize.name}</div>
             <p style={{ color:S.muted, fontSize:'12px', marginBottom:'20px', lineHeight:1.6 }}>
               You've successfully joined the competition. Your ranking will appear on the leaderboard within 15 minutes.
@@ -348,9 +348,9 @@ function JoinCompetitionModal({ prize, onClose }) {
             </p>
             <div style={{ background:`${prize.color}10`, border:`1px solid ${prize.color}25`, borderRadius:'12px', padding:'14px', marginBottom:'20px' }}>
               <div style={{ color:S.muted, fontSize:'10px', marginBottom:'4px' }}>COMPETING FOR</div>
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:prize.color }}>{prize.prize}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:prize.color }}>{prize.prize}</div>
             </div>
-            <button onClick={onClose} style={{ width:'100%', padding:'12px', borderRadius:'10px', background:`${prize.color}`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900 }}>
+            <button onClick={onClose} style={{ width:'100%', padding:'12px', borderRadius:'10px', background:`${prize.color}`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:500 }}>
               Start Competing
             </button>
           </div>
@@ -385,7 +385,7 @@ function JoinCompetitionModal({ prize, onClose }) {
             <div style={{ display:'flex', gap:'8px' }}>
               <button onClick={()=>setStep('overview')} style={{ padding:'12px 18px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>Back</button>
               <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }} onClick={handleJoin} disabled={!agreed}
-                style={{ flex:1, padding:'12px', borderRadius:'10px', background:agreed?`linear-gradient(135deg,${prize.color}cc,${prize.color})`:'rgba(255,255,255,0.06)', border:'none', cursor:agreed?'pointer':'not-allowed', color:agreed?'#000':'rgba(255,255,255,0.3)', fontSize:'13px', fontWeight:900 }}>
+                style={{ flex:1, padding:'12px', borderRadius:'10px', background:agreed?`linear-gradient(135deg,${prize.color}cc,${prize.color})`:'rgba(255,255,255,0.06)', border:'none', cursor:agreed?'pointer':'not-allowed', color:agreed?'#000':'rgba(255,255,255,0.3)', fontSize:'13px', fontWeight:500 }}>
                 Confirm Entry
               </motion.button>
             </div>
@@ -399,7 +399,7 @@ function JoinCompetitionModal({ prize, onClose }) {
                   <prize.Icon size={20} style={{ color:prize.color }} />
                 </div>
                 <div>
-                  <div style={{ color:'#fff', fontSize:'16px', fontWeight:800 }}>{prize.name}</div>
+                  <div style={{ color:'#fff', fontSize:'16px', fontWeight:500 }}>{prize.name}</div>
                   <div style={{ color:prize.color, fontSize:'11px', fontWeight:700 }}>Ends {prize.end} · {prize.participants} participants</div>
                 </div>
               </div>
@@ -408,7 +408,7 @@ function JoinCompetitionModal({ prize, onClose }) {
 
             <div style={{ background:`${prize.color}10`, border:`1px solid ${prize.color}25`, borderRadius:'12px', padding:'16px', textAlign:'center', marginBottom:'18px' }}>
               <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px', fontFamily:"'Satoshi',sans-serif", letterSpacing:'0.1em' }}>PRIZE</div>
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:900, color:prize.color }}>{prize.prize}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:500, color:prize.color }}>{prize.prize}</div>
             </div>
 
             <p style={{ color:'#CBD5E1', fontSize:'13px', lineHeight:1.7, marginBottom:'16px' }}>{prize.desc}</p>
@@ -418,7 +418,7 @@ function JoinCompetitionModal({ prize, onClose }) {
               {prize.steps.map((step,i)=>(
                 <div key={i} style={{ display:'flex', gap:'10px', marginBottom:'7px', alignItems:'flex-start' }}>
                   <div style={{ width:'18px', height:'18px', borderRadius:'50%', background:`${prize.color}15`, border:`1px solid ${prize.color}30`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:prize.color, fontWeight:900 }}>{i+1}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:prize.color, fontWeight:500 }}>{i+1}</span>
                   </div>
                   <span style={{ color:'#CBD5E1', fontSize:'12px', lineHeight:1.5 }}>{step}</span>
                 </div>
@@ -437,7 +437,7 @@ function JoinCompetitionModal({ prize, onClose }) {
                 </div>
               ) : (
                 <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }} onClick={()=>setStep('confirm')}
-                  style={{ flex:1, padding:'12px', borderRadius:'10px', background:`linear-gradient(135deg,${prize.color}cc,${prize.color})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900 }}>
+                  style={{ flex:1, padding:'12px', borderRadius:'10px', background:`linear-gradient(135deg,${prize.color}cc,${prize.color})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:500 }}>
                   Join Competition →
                 </motion.button>
               )}
@@ -507,7 +507,7 @@ export default function TheArena() {
   ];
 
   return (
-    <div className="s4hud" style={{ ['--accent']:'#D4A843', color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:'#D4A843', color:'#fff', fontFamily:"'Satoshi',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'16px' }}>
@@ -515,9 +515,8 @@ export default function TheArena() {
           <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:6, display:'flex', alignItems:'center', gap:'8px' }}>
             <Trophy size={13} /> {t('LIVE','مباشر')}
           </div>
-          <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
-            background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-            filter:'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE ARENA', 'الساحة')}</h1>
+          <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:500, margin:'0 0 6px',
+            background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{t('THE ARENA', 'الساحة')}</h1>
           <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Global XP rankings across all 4 SOLVEN4 doors', 'ترتيب نقاط الخبرة العالمي عبر أبواب SOLVEN4 الأربعة')}</p>
         </div>
         <Btn ghost onClick={shareRank} style={{ display:'flex', alignItems:'center', gap:'6px', padding:'8px 14px', fontSize:'11px' }}>
@@ -532,12 +531,12 @@ export default function TheArena() {
           borderColor:`${myRank.color}30` }}>
         <div style={{ position:'absolute', top:0, right:0, width:'200px', height:'100%', background:`radial-gradient(ellipse at top right,${myRank.color}15,transparent 70%)`, pointerEvents:'none' }} />
         <div style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', gap:'20px', flexWrap:'wrap' }}>
-          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'36px', fontWeight:900, color:myRank.color }}>#{myPos||'—'}</div>
+          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'36px', fontWeight:500, color:myRank.color }}>#{myPos||'—'}</div>
           <div style={{ width:'1px', height:'48px', background:`${myRank.color}30` }} />
           <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
             <div style={{ fontSize:'28px' }}>{myRank.emoji}</div>
             <div>
-              <div style={{ color:'#fff', fontWeight:800, fontSize:'15px' }}>{profile?.full_name || user?.email?.split('@')[0] || 'You'}</div>
+              <div style={{ color:'#fff', fontWeight:500, fontSize:'15px' }}>{profile?.full_name || user?.email?.split('@')[0] || 'You'}</div>
               <div style={{ display:'flex', alignItems:'center', gap:'6px', marginTop:'2px' }}>
                 <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:700, color:myRank.color }}>{myRank.name.toUpperCase()}</span>
                 <span style={{ color:S.muted, fontSize:'11px' }}>· {myXP.toLocaleString()} XP</span>
@@ -628,7 +627,7 @@ export default function TheArena() {
                           style={{ display:'flex', flexDirection:'column', alignItems:'center', width:'120px' }}>
                           <div style={{ fontSize:'22px', marginBottom:'6px' }}>{m.emoji}</div>
                           <div style={{ position:'relative', width:'52px', height:'52px', marginBottom:'8px' }}>
-                            <div style={{ width:'52px', height:'52px', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px', fontWeight:900, fontFamily:"'Satoshi',sans-serif",
+                            <div style={{ width:'52px', height:'52px', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px', fontWeight:500, fontFamily:"'Satoshi',sans-serif",
                               background:rs.bg, border:`2px solid ${rs.color}50`, color:rs.color, boxShadow:`0 0 20px ${rs.color}20` }}>
                               {p.full_name?.[0]??'?'}
                             </div>
@@ -641,7 +640,7 @@ export default function TheArena() {
                           <motion.div initial={{ height:0 }} animate={{ height:`${m.height}px` }} transition={{ delay:0.4+i*0.1, duration:0.7 }}
                             style={{ width:'96px', borderRadius:'8px 8px 0 0', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
                               background:`${m.color}12`, border:`1px solid ${m.color}25`, boxShadow:`0 0 20px ${m.glow}` }}>
-                            <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:900, fontSize:'14px', color:m.color }}>{pts.toLocaleString()}</div>
+                            <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:500, fontSize:'14px', color:m.color }}>{pts.toLocaleString()}</div>
                             <div style={{ fontSize:'8px', color:S.muted }}>XP</div>
                           </motion.div>
                         </motion.div>
@@ -672,21 +671,21 @@ export default function TheArena() {
                       background:isYou?`${myRank.color}06`:'transparent' }}
                       onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                       onMouseLeave={e=>e.currentTarget.style.background=isYou?`${myRank.color}06`:'transparent'}>
-                      <div style={{ width:'32px', textAlign:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:S.muted }}>{pos}</div>
-                      <div style={{ width:'36px', height:'36px', borderRadius:'10px', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:900, background:rs.bg, border:`1px solid ${rs.color}25`, color:rs.color }}>
+                      <div style={{ width:'32px', textAlign:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:500, color:S.muted }}>{pos}</div>
+                      <div style={{ width:'36px', height:'36px', borderRadius:'10px', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:500, background:rs.bg, border:`1px solid ${rs.color}25`, color:rs.color }}>
                         {p.full_name?.[0]??'?'}
                       </div>
                       <div style={{ flex:1, minWidth:0 }}>
                         <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
                           <span style={{ fontSize:'13px', fontWeight:700, color:'#fff', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.full_name}</span>
-                          {isYou && <span style={{ background:`${myRank.color}20`, color:myRank.color, fontSize:'8px', fontWeight:900, padding:'1px 5px', borderRadius:'4px', fontFamily:"'Satoshi',sans-serif", flexShrink:0 }}>YOU</span>}
+                          {isYou && <span style={{ background:`${myRank.color}20`, color:myRank.color, fontSize:'8px', fontWeight:500, padding:'1px 5px', borderRadius:'4px', fontFamily:"'Satoshi',sans-serif", flexShrink:0 }}>YOU</span>}
                         </div>
                         <div style={{ height:'3px', background:'rgba(255,255,255,0.06)', borderRadius:'2px', marginTop:'5px', maxWidth:'160px', overflow:'hidden' }}>
                           <div style={{ height:'100%', width:`${pct}%`, background:`linear-gradient(90deg,${rs.color}60,${rs.color})`, borderRadius:'2px', transition:'width 1s ease' }} />
                         </div>
                       </div>
                       <div style={{ fontSize:'9px', fontFamily:"'Satoshi',sans-serif", fontWeight:700, color:rs.color, flexShrink:0 }}>{rs.emoji} {p.rank?.split(' ').pop()?.toUpperCase()}</div>
-                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:900, fontSize:'13px', color:'#D4A843', width:'80px', textAlign:'right', flexShrink:0 }}>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:500, fontSize:'13px', color:'#D4A843', width:'80px', textAlign:'right', flexShrink:0 }}>
                         {pts.toLocaleString()} <span style={{ fontSize:'9px', color:S.muted, fontWeight:400 }}>XP</span>
                       </div>
                     </div>
@@ -833,12 +832,12 @@ export default function TheArena() {
                 </div>
                 <div style={{ background:`${p.color}10`, border:`1px solid ${p.color}25`, borderRadius:'12px', padding:'14px', marginBottom:'14px', textAlign:'center' }}>
                   <div style={{ fontSize:'9px', color:S.muted, marginBottom:'4px', fontFamily:"'Satoshi',sans-serif", letterSpacing:'0.1em' }}>PRIZE</div>
-                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:p.color }}>{p.prize}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:p.color }}>{p.prize}</div>
                 </div>
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
                     <span style={{ fontSize:'10px', color:S.muted }}>Your position:</span>
-                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:p.color }}>#{p.rank}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:p.color }}>#{p.rank}</span>
                   </div>
                   <motion.button whileHover={{ scale:1.05 }} onClick={e=>{ e.stopPropagation(); setPrizeDetail(p); }}
                     style={{ padding:'8px 16px', borderRadius:'8px', border:'none', cursor:'pointer', fontSize:'11px', fontWeight:700, color:'#000', background:p.color, boxShadow:`0 0 16px ${p.color}40` }}>
@@ -851,12 +850,12 @@ export default function TheArena() {
             <div className="s4-glass" style={{ gridColumn:'1/-1', borderColor:'rgba(168,85,247,0.2)', padding:'24px', display:'flex', alignItems:'center', gap:'20px' }}>
               <div style={{ fontSize:'40px' }}>🏆</div>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'12px', color:'#A855F7', fontWeight:900, marginBottom:'6px' }}>S4 LEGEND SEASON PRIZE POOL</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'12px', color:'#A855F7', fontWeight:500, marginBottom:'6px' }}>S4 LEGEND SEASON PRIZE POOL</div>
                 <div style={{ color:'#fff', fontSize:'14px', fontWeight:700, marginBottom:'4px' }}>Top 3 Legends share $15,000 + exclusive Legend NFTs + SOLVEN Board advisory seats. Season ends Sep 30, 2026.</div>
                 <div style={{ color:S.muted, fontSize:'12px' }}>1,247 participants competing · Daily XP rankings updated</div>
               </div>
               <div style={{ textAlign:'right', flexShrink:0 }}>
-                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:900, color:'#A855F7' }}>$15,000</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:500, color:'#A855F7' }}>$15,000</div>
                 <div style={{ color:S.muted, fontSize:'10px' }}>Total Pool</div>
               </div>
             </div>

@@ -144,7 +144,7 @@ function InnerApp() {
             backdropFilter: 'blur(16px) saturate(1.25)',
             WebkitBackdropFilter: 'blur(16px) saturate(1.25)',
             borderRadius: '14px',
-            fontFamily: "'Space Grotesk',sans-serif",
+            fontFamily: "'Satoshi',sans-serif",
             fontSize: '13px',
             letterSpacing: '0.01em',
             boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 60px -34px rgba(0,0,0,0.95)',

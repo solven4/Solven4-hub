@@ -56,7 +56,7 @@ export default function TheScore() {
   const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Satoshi',sans-serif" }}>
 
       {/* Header */}
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
@@ -64,8 +64,7 @@ export default function TheScore() {
           <DollarSign size={13} /> CROSS-DOOR COMMISSIONS
         </div>
         <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
-          background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE SCORE', 'النقاط')}</h1>
+          background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t('THE SCORE', 'النقاط')}</h1>
         <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door commissions, approvals, and payout tracking.', 'تتبع العمولات والموافقات والمدفوعات عبر الأبواب.')}</p>
       </motion.div>
 

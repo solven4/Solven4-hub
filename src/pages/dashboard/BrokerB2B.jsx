@@ -137,8 +137,7 @@ export default function BrokerB2B() {
           {t('SOLVEN4 HUB — B2B BROKER INTELLIGENCE', 'SOLVEN4 HUB — ذكاء الوسطاء B2B')}
         </motion.div>
         <motion.h1 variants={fadeUp} style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, margin: 0,
-          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>
+          background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           {t('Broker', 'شبكة')} {t('Network', 'الوسطاء')}
         </motion.h1>
         <motion.p variants={fadeUp} className="text-s4-muted text-sm">

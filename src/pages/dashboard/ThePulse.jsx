@@ -148,7 +148,7 @@ export default function ThePulse() {
   const dubaiTime = now.toLocaleTimeString('en-US', { timeZone:'Asia/Dubai', hour:'2-digit', minute:'2-digit', second:'2-digit' });
 
   return (
-    <div className="s4hud" style={{ ['--accent']:ACCENT, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:ACCENT, color:'#fff', fontFamily:"'Satoshi',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
@@ -163,9 +163,8 @@ export default function ThePulse() {
                 ● {t('LIVE','مباشر')}
               </span>
             </div>
-            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
-              background:'linear-gradient(135deg,#fff 0%,#6EE7B7 60%,#10B981 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-              filter:'drop-shadow(0 4px 22px rgba(16,185,129,0.35))' }}>{t('THE PULSE', 'النبض')}</h1>
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:500, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#6EE7B7 60%,#10B981 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{t('THE PULSE', 'النبض')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Real-time market intelligence across all 4 SOLVEN4 doors', 'ذكاء السوق المباشر عبر أبواب SOLVEN4 الأربعة')}</p>
           </div>
 
@@ -175,7 +174,7 @@ export default function ThePulse() {
           </div>
 
           <div style={{ textAlign:'right', flexShrink:0 }}>
-            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'22px', fontWeight:900, color:'#10B981' }}>{dubaiTime}</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'22px', fontWeight:500, color:'#10B981' }}>{dubaiTime}</div>
             <div style={{ color:S.muted, fontSize:'10px', marginTop:'2px' }}>{t('DUBAI','دبي')} · GST+4</div>
             <div style={{ color:S.muted, fontSize:'9px', marginTop:'1px' }}>UTC {utcTime}</div>
           </div>
@@ -224,7 +223,7 @@ export default function ThePulse() {
               <div key={v.door} className="s4-glass spatial lift" style={{ ['--accent']:v.color, padding:'14px' }}>
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'10px' }}>
                   <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:v.color, fontWeight:700 }}>{v.door}</span>
-                  <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:'#fff' }}>{v.vix}</span>
+                  <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:'#fff' }}>{v.vix}</span>
                 </div>
                 <div style={{ fontSize:'11px', color:'#CBD5E1', fontWeight:700, marginBottom:'2px' }}>{v.label}</div>
                 <div style={{ fontSize:'9px', color:S.muted, marginBottom:'8px' }}>{v.sub}</div>
@@ -255,7 +254,7 @@ export default function ThePulse() {
                     onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                     onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                     <div style={{ width:'36px', height:'36px', borderRadius:'10px', background:`${m.color}12`, border:`1px solid ${m.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                      <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:m.color, fontWeight:900, textAlign:'center', lineHeight:1.2 }}>
+                      <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:m.color, fontWeight:500, textAlign:'center', lineHeight:1.2 }}>
                         {m.symbol.split('/')[0]}
                       </span>
                     </div>
@@ -267,7 +266,7 @@ export default function ThePulse() {
                       <SparkLine positive={m.dir >= 0} />
                     </div>
                     <div style={{ textAlign:'right', flexShrink:0 }}>
-                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:900, color:'#fff' }}>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:500, color:'#fff' }}>
                         {typeof m.price === 'number' && m.price > 1000
                           ? m.price.toLocaleString('en-US',{minimumFractionDigits:2})
                           : m.price.toFixed(4)}
@@ -370,7 +369,7 @@ export default function ThePulse() {
                       onMouseLeave={ev=>ev.currentTarget.style.background='transparent'}>
                       <td style={{ padding:'12px 16px', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', color:'#CBD5E1', whiteSpace:'nowrap' }}>{e.time}</td>
                       <td style={{ padding:'12px 16px' }}>
-                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fontWeight:900, color:'#fff', background:'rgba(255,255,255,0.08)', padding:'2px 7px', borderRadius:'5px' }}>{e.currency}</span>
+                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fontWeight:500, color:'#fff', background:'rgba(255,255,255,0.08)', padding:'2px 7px', borderRadius:'5px' }}>{e.currency}</span>
                       </td>
                       <td style={{ padding:'12px 16px', color:'#fff', fontSize:'12px', fontWeight:600, maxWidth:'280px' }}>{e.event}</td>
                       <td style={{ padding:'12px 16px' }}>
@@ -410,8 +409,8 @@ export default function ThePulse() {
             {SENTIMENT.map(s => (
               <div key={s.asset} className="s4-glass spatial lift" style={{ ['--accent']:s.color, padding:'22px' }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'16px' }}>
-                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff' }}>{s.asset}</div>
-                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'22px', fontWeight:900, color: s.bull>50?'#10B981':'#EF4444' }}>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:'#fff' }}>{s.asset}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'22px', fontWeight:500, color: s.bull>50?'#10B981':'#EF4444' }}>
                     {s.bull>50?t('BULLISH','صاعد'):t('BEARISH','هابط')}
                   </div>
                 </div>
@@ -423,11 +422,11 @@ export default function ThePulse() {
                 </div>
                 <div style={{ display:'flex', justifyContent:'space-between' }}>
                   <div>
-                    <div style={{ color:'#10B981', fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:900 }}>{s.bull}%</div>
+                    <div style={{ color:'#10B981', fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:500 }}>{s.bull}%</div>
                     <div style={{ color:S.muted, fontSize:'10px' }}>{t('Bullish','صاعد')}</div>
                   </div>
                   <div style={{ textAlign:'right' }}>
-                    <div style={{ color:'#EF4444', fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:900 }}>{s.bear}%</div>
+                    <div style={{ color:'#EF4444', fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:500 }}>{s.bear}%</div>
                     <div style={{ color:S.muted, fontSize:'10px' }}>{t('Bearish','هابط')}</div>
                   </div>
                 </div>

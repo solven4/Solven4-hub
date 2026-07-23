@@ -118,7 +118,7 @@ function StreakRing({ days, total, color, size=56 }) {
           transition={{ delay:0.3, duration:0.8 }} />
       </svg>
       <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:900, color, lineHeight:1 }}>{days}</div>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:500, color, lineHeight:1 }}>{days}</div>
         <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'6px', color:S.muted, marginTop:'1px' }}>DAYS</div>
       </div>
     </div>
@@ -140,7 +140,7 @@ function ProgressRing({ pct, color, size=80 }) {
           transition={{ delay:0.3, duration:0.9 }} />
       </svg>
       <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color, lineHeight:1 }}>{pct}%</div>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:500, color, lineHeight:1 }}>{pct}%</div>
       </div>
     </div>
   );
@@ -162,7 +162,7 @@ export default function TheBlueprint() {
   const totalXP = WEEKLY_PLAN.flatMap(d => d.tasks).reduce((s,t) => s+t.xp, 0);
 
   return (
-    <div className="s4hud" style={{ ['--accent']:ACCENT, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:ACCENT, color:'#fff', fontFamily:"'Satoshi',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
@@ -174,9 +174,8 @@ export default function TheBlueprint() {
             <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
               <Map size={13} /> {t('AI ROADMAP OS', 'نظام خارطة الطريق الذكي')}
             </div>
-            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
-              background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-              filter:'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE BLUEPRINT', 'المخطط')}</h1>
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:500, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{t('THE BLUEPRINT', 'المخطط')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Your personal AI-generated 90-day roadmap across all 4 doors', 'خارطة طريقك الشخصية لـ90 يوماً مُولّدة بالذكاء الاصطناعي عبر الأبواب الأربعة')}</p>
           </div>
           {/* Stats */}
@@ -187,7 +186,7 @@ export default function TheBlueprint() {
               { label:t('Avg Progress','متوسط التقدم'), value:`${Math.round(GOALS.reduce((s,g)=>s+g.progress,0)/GOALS.length)}%`, color:'#10B981' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
-                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:s.color }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginTop:'3px' }}>{s.label}</div>
               </div>
             ))}
@@ -328,7 +327,7 @@ export default function TheBlueprint() {
               <span style={{ color:'#CBD5E1', fontSize:'12px' }}>This is a high-leverage week. Completing ORACLE Lesson 8 before Thursday's exam will directly lift your trade win-rate. Prioritize EDGE morning sessions — London open is your peak performance window.</span>
             </div>
             <div style={{ textAlign:'right', flexShrink:0 }}>
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:'#6366F1' }}>{totalXP} XP</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:'#6366F1' }}>{totalXP} XP</div>
               <div style={{ color:S.muted, fontSize:'9px' }}>{t('Available this week', 'متاح هذا الأسبوع')}</div>
             </div>
           </div>
@@ -338,7 +337,7 @@ export default function TheBlueprint() {
               <motion.div key={day.day} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.06 }}
                 className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
                 <div style={{ padding:'10px 10px 6px', borderBottom:`1px solid ${S.border}`, textAlign:'center' }}>
-                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:900, color: i===0?'#D4A843':'#CBD5E1' }}>{day.day}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:500, color: i===0?'#D4A843':'#CBD5E1' }}>{day.day}</div>
                 </div>
                 <div style={{ padding:'8px' }}>
                   {day.tasks.length === 0

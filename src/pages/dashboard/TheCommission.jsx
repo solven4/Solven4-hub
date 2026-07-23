@@ -41,7 +41,7 @@ export default function TheCommission() {
   const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '960px', margin: '0 auto' }}>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Satoshi',sans-serif", maxWidth: '960px', margin: '0 auto' }}>
 
       {/* header */}
       <motion.div {...rise} transition={{ duration: 0.5 }}
@@ -49,8 +49,7 @@ export default function TheCommission() {
         <div>
           <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('IB NETWORK EARNINGS', 'أرباح شبكة الوسطاء')}</div>
           <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
-            background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('COMMISSION ENGINE', 'محرك العمولات')}</h1>
+            background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t('COMMISSION ENGINE', 'محرك العمولات')}</h1>
           <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Track earnings across your entire network', 'تتبع الأرباح عبر شبكتك بالكامل')}</p>
         </div>
         <Btn ghost style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', padding: '10px 16px' }}>

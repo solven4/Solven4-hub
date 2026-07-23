@@ -171,7 +171,7 @@ export default function TheReferral() {
   const rise = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 } };
 
   return (
-    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Satoshi',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div {...rise} className="s4-glass spatial lift"

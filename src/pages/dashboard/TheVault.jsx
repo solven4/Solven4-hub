@@ -119,7 +119,7 @@ function TxRow({ tx }) {
         </div>
       </div>
       <div style={{ textAlign:'right', flexShrink:0 }}>
-        <div style={{ fontSize:'13px', fontWeight:800, color: isCredit?'#10B981':'#EF4444' }}>{isCredit?'+':'-'}{fmt(tx.amount)}</div>
+        <div style={{ fontSize:'13px', fontWeight:500, color: isCredit?'#10B981':'#EF4444' }}>{isCredit?'+':'-'}{fmt(tx.amount)}</div>
         <div style={{ display:'flex', alignItems:'center', gap:'3px', justifyContent:'flex-end', marginTop:'2px' }}>
           <SIcon size={10} style={{ color:sc.color }} /><span style={{ fontSize:'9px', color:sc.color }}>{sc.label}</span>
         </div>
@@ -156,7 +156,7 @@ function StripeDepositFlow({ amount, onSuccess, onBack }) {
   if (step === 'redirecting') return (
     <div style={{ textAlign:'center', padding:'40px 20px' }}>
       <div style={{ width:'48px', height:'48px', borderRadius:'50%', border:'3px solid rgba(99,102,241,0.2)', borderTopColor:'#6366F1', animation:'s4v-spin 1s linear infinite', margin:'0 auto 20px' }} />
-      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('REDIRECTING TO SECURE CHECKOUT', 'جارٍ التحويل إلى صفحة الدفع الآمنة')}</div>
+      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:'#fff', marginBottom:'8px' }}>{t('REDIRECTING TO SECURE CHECKOUT', 'جارٍ التحويل إلى صفحة الدفع الآمنة')}</div>
       <div style={{ color:S.muted, fontSize:'12px' }}>{t('Connecting to Dodo Payments...', 'جارٍ الاتصال بـ Dodo Payments...')}</div>
     </div>
   );
@@ -165,7 +165,7 @@ function StripeDepositFlow({ amount, onSuccess, onBack }) {
     <div>
       {/* Provider badge */}
       <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'18px', padding:'10px 14px', borderRadius:'10px', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)' }}>
-        <div style={{ background:'#635BFF', borderRadius:'6px', padding:'3px 8px', fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fontWeight:900, color:'#fff', letterSpacing:'0.05em' }}>dodo</div>
+        <div style={{ background:'#635BFF', borderRadius:'6px', padding:'3px 8px', fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fontWeight:500, color:'#fff', letterSpacing:'0.05em' }}>dodo</div>
         <span style={{ color:S.muted, fontSize:'11px' }}>{t('Secured by Dodo Payments · hosted checkout', 'محمي بواسطة Dodo Payments · صفحة دفع مستضافة')}</span>
         <Shield size={12} style={{ color:'#10B981', marginLeft:'auto' }} />
       </div>
@@ -173,7 +173,7 @@ function StripeDepositFlow({ amount, onSuccess, onBack }) {
       {/* Amount display */}
       <div style={{ textAlign:'center', marginBottom:'20px', padding:'14px', borderRadius:'12px', background:'rgba(255,255,255,0.03)', border:`1px solid ${S.border}` }}>
         <div style={{ color:S.muted, fontSize:'10px', marginBottom:'4px' }}>{t('DEPOSIT AMOUNT', 'مبلغ الإيداع')}</div>
-        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:900, color:'#10B981' }}>{fmt(parseFloat(amount)||0)}</div>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:500, color:'#10B981' }}>{fmt(parseFloat(amount)||0)}</div>
       </div>
 
       <p style={{ color:S.muted, fontSize:'12px', lineHeight:1.6, marginBottom:'8px' }}>
@@ -223,7 +223,7 @@ function CryptoDepositFlow({ selectedCrypto, onSelect, onBack }) {
   if (redirecting) return (
     <div style={{ textAlign:'center', padding:'40px 20px' }}>
       <div style={{ width:'48px', height:'48px', borderRadius:'50%', border:'3px solid rgba(249,115,22,0.2)', borderTopColor:'#F7931A', animation:'s4v-spin 1s linear infinite', margin:'0 auto 20px' }} />
-      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('CREATING SECURE INVOICE', 'جارٍ إنشاء فاتورة آمنة')}</div>
+      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:'#fff', marginBottom:'8px' }}>{t('CREATING SECURE INVOICE', 'جارٍ إنشاء فاتورة آمنة')}</div>
       <div style={{ color:S.muted, fontSize:'12px' }}>{t('Connecting to NOWPayments...', 'جارٍ الاتصال بـ NOWPayments...')}</div>
     </div>
   );
@@ -242,7 +242,7 @@ function CryptoDepositFlow({ selectedCrypto, onSelect, onBack }) {
               <button key={key} onClick={() => onSelect(c)}
                 style={{ padding:'8px 6px', borderRadius:'10px', cursor:'pointer', border:`1px solid ${isSelected?c.color+'50':'rgba(255,255,255,0.06)'}`,
                   background: isSelected?`${c.color}15`:'rgba(255,255,255,0.02)', transition:'all 0.15s', display:'flex', flexDirection:'column', alignItems:'center', gap:'3px' }}>
-                <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:900, color:isSelected?c.color:'#CBD5E1' }}>{c.symbol}</span>
+                <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:500, color:isSelected?c.color:'#CBD5E1' }}>{c.symbol}</span>
                 <span style={{ fontSize:'7px', color:S.muted, textAlign:'center', lineHeight:1.2 }}>{c.network}</span>
               </button>
             );
@@ -256,7 +256,7 @@ function CryptoDepositFlow({ selectedCrypto, onSelect, onBack }) {
             <div style={{ marginBottom:'14px' }}>
               <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'6px', textTransform:'uppercase' }}>{t('Amount (USD)', 'المبلغ (USD)')}</label>
               <input type="number" value={amount} onChange={e=>setAmount(e.target.value)} placeholder="0.00"
-                style={{ width:'100%', padding:'14px', borderRadius:'10px', fontSize:'22px', fontWeight:800, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif" }} />
+                style={{ width:'100%', padding:'14px', borderRadius:'10px', fontSize:'22px', fontWeight:500, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif" }} />
             </div>
 
             <div style={{ padding:'12px 14px', borderRadius:'10px', background:`${selectedCrypto.color}08`, border:`1px solid ${selectedCrypto.color}20`, marginBottom:'14px', fontSize:'11px', color:'#CBD5E1', lineHeight:1.6 }}>
@@ -320,7 +320,7 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
     <div>
       <div style={{ textAlign:'center', padding:'20px 0 10px' }}>
         <div style={{ width:'44px', height:'44px', borderRadius:'50%', border:'3px solid rgba(99,102,241,0.2)', borderTopColor:'#6366F1', animation:'s4v-spin 1s linear infinite', margin:'0 auto' }} />
-        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:900, color:'#fff', marginTop:'12px', marginBottom:'6px' }}>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:500, color:'#fff', marginTop:'12px', marginBottom:'6px' }}>
           {t('SUBMITTING WITHDRAWAL REQUEST','جارٍ إرسال طلب السحب')}
         </div>
         <div style={{ color:S.muted, fontSize:'11px' }}>{t('Your request will be reviewed and processed by the SOLVEN4 team.', 'سيتم مراجعة طلبك ومعالجته من قبل فريق SOLVEN4.')}</div>
@@ -374,7 +374,7 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
             <button key={key} onClick={()=>{ setSelectedCrypto(c); setError(''); }}
               style={{ padding:'8px 6px', borderRadius:'10px', cursor:'pointer', border:`1px solid ${isSel?c.color+'50':'rgba(255,255,255,0.06)'}`,
                 background:isSel?`${c.color}15`:'rgba(255,255,255,0.02)', transition:'all 0.15s', display:'flex', flexDirection:'column', alignItems:'center', gap:'3px' }}>
-              <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:900, color:isSel?c.color:'#CBD5E1' }}>{c.symbol}</span>
+              <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:500, color:isSel?c.color:'#CBD5E1' }}>{c.symbol}</span>
               <span style={{ fontSize:'7px', color:S.muted }}>{c.network}</span>
             </button>
           );
@@ -388,7 +388,7 @@ function CryptoWithdrawalFlow({ balance, onSuccess, onBack }) {
       <div style={{ marginBottom:'12px' }}>
         <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'5px', textTransform:'uppercase' }}>{t('Amount (USD)', 'المبلغ (USD)')}</label>
         <input type="number" value={amount} onChange={e=>{setAmount(e.target.value);setError('');}} placeholder="0.00"
-          style={{ width:'100%', padding:'12px 14px', borderRadius:'10px', fontSize:'20px', fontWeight:800, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif" }} />
+          style={{ width:'100%', padding:'12px 14px', borderRadius:'10px', fontSize:'20px', fontWeight:500, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif" }} />
         <div style={{ display:'flex', justifyContent:'space-between', marginTop:'5px', fontSize:'10px', color:S.muted }}>
           <span>{t('Min: $50', 'الحد الأدنى: 50$')}</span>
           <button onClick={()=>setAmount(String(Math.floor(balance)))} style={{ background:'none', border:'none', cursor:'pointer', color:'#6366F1', fontSize:'10px', fontWeight:700 }}>{t('Max','الحد الأقصى')}: {fmt(balance)}</button>
@@ -467,7 +467,7 @@ export default function TheVault() {
   function resetWithdraw() { setWithdrawMethod(null); setWithdrawSuccess(false); }
 
   return (
-    <div className="s4hud" style={{ ['--accent']:S.accent, minHeight:'100vh', padding:'20px', background:S.bg, color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:S.accent, minHeight:'100vh', padding:'20px', background:S.bg, color:'#fff', fontFamily:"'Satoshi',sans-serif" }}>
 
       {/* ── HERO BALANCE ── */}
       <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
@@ -481,7 +481,7 @@ export default function TheVault() {
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'24px', flexWrap:'wrap' }}>
             <div>
               <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8 }}>{t('AVAILABLE BALANCE · SOLVEN4 VAULT', 'الرصيد المتاح · خزنة SOLVEN4')}</div>
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'48px', fontWeight:900, color:'#fff', lineHeight:1, marginBottom:'6px' }}>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'48px', fontWeight:500, color:'#fff', lineHeight:1, marginBottom:'6px' }}>
                 {fmt(balance)}<span style={{ fontSize:'16px', color:S.muted, marginLeft:'8px', fontWeight:400 }}>{currency}</span>
               </div>
               <div style={{ display:'flex', gap:'16px', marginTop:'8px' }}>
@@ -507,7 +507,7 @@ export default function TheVault() {
               { label:t('Monthly Target','الهدف الشهري'),   value:`${targetPct}%`, color:'#6366F1', bar:true },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center' }}>
-                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color:s.color, marginBottom:'3px' }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:500, color:s.color, marginBottom:'3px' }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginBottom:s.bar?'6px':0 }}>{s.label}</div>
                 {s.bar && <div style={{ height:'3px', borderRadius:'2px', background:'rgba(255,255,255,0.08)', overflow:'hidden' }}>
                   <motion.div initial={{ width:0 }} animate={{ width:`${targetPct}%` }} transition={{ delay:0.6, duration:0.8 }}
@@ -613,7 +613,7 @@ export default function TheVault() {
                   <div style={{ flex:1 }}>
                     <div style={{ display:'flex', justifyContent:'space-between' }}>
                       <span style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{r.label}</span>
-                      <span style={{ color:r.color, fontSize:'14px', fontWeight:900, fontFamily:"'Satoshi',sans-serif" }}>{fmt(r.value)}</span>
+                      <span style={{ color:r.color, fontSize:'14px', fontWeight:500, fontFamily:"'Satoshi',sans-serif" }}>{fmt(r.value)}</span>
                     </div>
                     <div style={{ color:S.muted, fontSize:'10px', marginTop:'2px' }}>{r.desc}</div>
                   </div>
@@ -627,7 +627,7 @@ export default function TheVault() {
             ))}
             <div style={{ marginTop:'20px', paddingTop:'16px', borderTop:`1px solid ${S.border}`, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
               <span style={{ color:S.muted, fontSize:'12px' }}>{t('Total Monthly Income', 'إجمالي الدخل الشهري')}</span>
-              <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:900, color:'#10B981' }}>{fmt(INCOME_TOTAL)}</span>
+              <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:500, color:'#10B981' }}>{fmt(INCOME_TOTAL)}</span>
             </div>
           </div>
           <div style={{ display:'flex', flexDirection:'column', gap:'14px' }}>
@@ -643,7 +643,7 @@ export default function TheVault() {
                 ].map(s=>(
                   <div key={s.label} style={{ background:'rgba(255,255,255,0.02)', borderRadius:'10px', padding:'10px' }}>
                     <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px' }}>{s.label}</div>
-                    <div style={{ color:s.color, fontSize:'13px', fontWeight:800 }}>{s.value}</div>
+                    <div style={{ color:s.color, fontSize:'13px', fontWeight:500 }}>{s.value}</div>
                   </div>
                 ))}
               </div>
@@ -657,7 +657,7 @@ export default function TheVault() {
               ].map(s=>(
                 <div key={s.label} style={{ display:'flex', justifyContent:'space-between', padding:'8px 0', borderBottom:`1px solid ${S.border}` }}>
                   <span style={{ color:'#CBD5E1', fontSize:'12px' }}>{s.label}</span>
-                  <span style={{ fontSize:'13px', fontWeight:800, color:s.up?'#10B981':'#EF4444' }}>{s.value}</span>
+                  <span style={{ fontSize:'13px', fontWeight:500, color:s.up?'#10B981':'#EF4444' }}>{s.value}</span>
                 </div>
               ))}
             </div>
@@ -706,7 +706,7 @@ export default function TheVault() {
           {depositSuccess ? (
             <div className="s4-glass" style={{ padding:'40px', textAlign:'center', borderColor:'rgba(16,185,129,0.35)' }}>
               <CheckCircle2 size={52} style={{ color:'#10B981', margin:'0 auto 16px', display:'block' }} />
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('DEPOSIT CONFIRMED', 'تم تأكيد الإيداع')}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:'#fff', marginBottom:'8px' }}>{t('DEPOSIT CONFIRMED', 'تم تأكيد الإيداع')}</div>
               <div style={{ color:S.muted, fontSize:'13px', marginBottom:'24px' }}>{t('Your funds have been credited to your SOLVEN4 Vault.', 'تم إضافة أموالك إلى خزنة SOLVEN4 الخاصة بك.')}</div>
               <button onClick={resetDeposit} style={{ padding:'10px 28px', borderRadius:'10px', background:'#10B981', color:'#fff', fontWeight:700, fontSize:'12px', border:'none', cursor:'pointer' }}>
                 {t('Make Another Deposit', 'إجراء إيداع آخر')}
@@ -750,7 +750,7 @@ export default function TheVault() {
               </div>
               <label style={{ display:'block', fontSize:'10px', color:S.muted, fontWeight:700, letterSpacing:'0.1em', marginBottom:'6px', textTransform:'uppercase' }}>{t('Amount (USD)', 'المبلغ (USD)')}</label>
               <input type="number" value={depositAmount} onChange={e=>setDepositAmount(e.target.value)} placeholder="0.00"
-                style={{ width:'100%', padding:'14px', borderRadius:'10px', fontSize:'24px', fontWeight:800, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif", marginBottom:'10px' }} />
+                style={{ width:'100%', padding:'14px', borderRadius:'10px', fontSize:'24px', fontWeight:500, color:'#fff', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif", marginBottom:'10px' }} />
               <div style={{ display:'flex', gap:'8px', marginBottom:'18px' }}>
                 {[100,500,1000,5000].map(v=>(
                   <button key={v} onClick={()=>setDepositAmount(String(v))}
@@ -790,7 +790,7 @@ export default function TheVault() {
           {withdrawSuccess ? (
             <div className="s4-glass" style={{ padding:'40px', textAlign:'center', borderColor:'rgba(99,102,241,0.35)' }}>
               <CheckCircle2 size={52} style={{ color:'#6366F1', margin:'0 auto 16px', display:'block' }} />
-              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('WITHDRAWAL REQUESTED', 'تم طلب السحب')}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:'#fff', marginBottom:'8px' }}>{t('WITHDRAWAL REQUESTED', 'تم طلب السحب')}</div>
               <div style={{ color:S.muted, fontSize:'13px', marginBottom:'24px' }}>{t('Your request has been submitted and is pending review. You\'ll be notified once it\'s processed.', 'تم إرسال طلبك وهو قيد المراجعة. سيتم إشعارك بمجرد معالجته.')}</div>
               <button onClick={resetWithdraw} style={{ padding:'10px 28px', borderRadius:'10px', background:'#6366F1', color:'#fff', fontWeight:700, fontSize:'12px', border:'none', cursor:'pointer' }}>
                 {t('New Withdrawal', 'سحب جديد')}
@@ -803,7 +803,7 @@ export default function TheVault() {
               </div>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', borderRadius:'10px', background:'rgba(99,102,241,0.07)', border:'1px solid rgba(99,102,241,0.15)', marginBottom:'24px' }}>
                 <span style={{ color:S.muted, fontSize:'12px' }}>{t('Available Balance', 'الرصيد المتاح')}</span>
-                <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:'#fff' }}>{fmt(balance)}</span>
+                <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:'#fff' }}>{fmt(balance)}</span>
               </div>
               <p style={{ color:S.muted, fontSize:'12px', marginBottom:'20px' }}>{t('Select your withdrawal method. All withdrawals are processed with zero fees.', 'اختر طريقة السحب. تتم معالجة جميع عمليات السحب بدون رسوم.')}</p>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px' }}>
@@ -844,14 +844,14 @@ export default function TheVault() {
               </div>
               <div style={{ padding:'16px', borderRadius:'12px', background:'rgba(99,91,255,0.06)', border:'1px solid rgba(99,91,255,0.18)', marginBottom:'16px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'8px' }}>
-                  <div style={{ background:'#635BFF', borderRadius:'5px', padding:'2px 7px', fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:900, color:'#fff' }}>stripe</div>
+                  <div style={{ background:'#635BFF', borderRadius:'5px', padding:'2px 7px', fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:500, color:'#fff' }}>stripe</div>
                   <span style={{ color:S.muted, fontSize:'11px' }}>{t('Payouts powered by Stripe Connect', 'الدفعات مدعومة عبر سترايب كونيكت')}</span>
                 </div>
                 <p style={{ color:'#CBD5E1', fontSize:'11px', lineHeight:1.6 }}>{t('Connect your Stripe account to receive payouts directly to your bank. First-time setup requires Stripe identity verification (1–2 minutes).', 'اربط حساب سترايب الخاص بك لاستلام الدفعات مباشرة إلى بنكك. الإعداد لأول مرة يتطلب توثيق الهوية عبر سترايب (1-2 دقيقة).')}</p>
               </div>
               <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }}
                 onClick={()=>toast.info('Stripe Connect onboarding will open in a new window once connected to backend')}
-                style={{ width:'100%', padding:'14px', borderRadius:'12px', fontWeight:900, fontSize:'13px', color:'#fff', border:'none', cursor:'pointer',
+                style={{ width:'100%', padding:'14px', borderRadius:'12px', fontWeight:500, fontSize:'13px', color:'#fff', border:'none', cursor:'pointer',
                   background:'linear-gradient(135deg,#635BFF,#6366F1)', boxShadow:'0 0 24px rgba(99,91,255,0.3)' }}>
                 {t('Connect Stripe & Request Payout', 'ربط سترايب وطلب الدفعة')}
               </motion.button>
@@ -878,7 +878,7 @@ export default function TheVault() {
                     </div>
                   </div>
                   <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:'#fff' }}>${s.price}</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:'#fff' }}>${s.price}</div>
                     <div style={{ color:S.muted, fontSize:'9px' }}>/month</div>
                   </div>
                 </div>
@@ -901,7 +901,7 @@ export default function TheVault() {
               <div style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{t('Total Monthly Subscriptions', 'إجمالي الاشتراكات الشهرية')}</div>
               <div style={{ color:S.muted, fontSize:'11px' }}>{t('All 4 doors · billed monthly', 'كل الأبواب الأربعة · فوترة شهرية')}</div>
             </div>
-            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'22px', fontWeight:900, color:'#6366F1' }}>${SUBS.reduce((s,r)=>s+r.price,0)}/mo</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'22px', fontWeight:500, color:'#6366F1' }}>${SUBS.reduce((s,r)=>s+r.price,0)}/mo</div>
           </div>
         </motion.div>
       )}

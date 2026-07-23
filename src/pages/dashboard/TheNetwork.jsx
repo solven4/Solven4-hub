@@ -198,13 +198,13 @@ function ConnectModal({ member, onClose }) {
             <div style={{ width:'64px', height:'64px', borderRadius:'50%', background:'rgba(16,185,129,0.1)', border:'2px solid rgba(16,185,129,0.3)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px' }}>
               <CheckCircle2 size={28} style={{ color:'#10B981' }} />
             </div>
-            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('REQUEST SENT!', 'تم إرسال الطلب!')}</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:'#fff', marginBottom:'8px' }}>{t('REQUEST SENT!', 'تم إرسال الطلب!')}</div>
             <p style={{ color:S.muted, fontSize:'12px', marginBottom:'20px', lineHeight:1.6 }}>
               {t('Your connection request has been sent to', 'تم إرسال طلب الاتصال إلى')} <strong style={{ color:'#fff' }}>{member.name}</strong>.
               {t("You'll receive a notification when they accept.", 'ستصلك رسالة إشعار عند قبول الطلب.')}
             </p>
             <div style={{ background:`${member.rankColor}08`, border:`1px solid ${member.rankColor}20`, borderRadius:'12px', padding:'14px', marginBottom:'20px', display:'flex', gap:'12px', alignItems:'center' }}>
-              <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`${member.rankColor}20`, border:`2px solid ${member.rankColor}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'12px', fontWeight:900, color:member.rankColor, flexShrink:0 }}>
+              <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`${member.rankColor}20`, border:`2px solid ${member.rankColor}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'12px', fontWeight:500, color:member.rankColor, flexShrink:0 }}>
                 {member.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
               </div>
               <div style={{ textAlign:'left' }}>
@@ -213,7 +213,7 @@ function ConnectModal({ member, onClose }) {
                 {mentorshipReq && <div style={{ color:'#10B981', fontSize:'9px', fontWeight:700, marginTop:'2px' }}>+ {t('Mentorship request sent', 'تم إرسال طلب الإرشاد')}</div>}
               </div>
             </div>
-            <button onClick={onClose} style={{ width:'100%', padding:'12px', borderRadius:'10px', background:member.rankColor, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900 }}>
+            <button onClick={onClose} style={{ width:'100%', padding:'12px', borderRadius:'10px', background:member.rankColor, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:500 }}>
               {t('Back to Network', 'العودة إلى الشبكة')}
             </button>
           </div>
@@ -228,7 +228,7 @@ function ConnectModal({ member, onClose }) {
             </p>
             <textarea value={msg} onChange={e=>setMsg(e.target.value)} maxLength={300}
               placeholder={`Hi ${member.name.split(' ')[0]}, I came across your profile and would love to connect. I'm also active in the ${member.doorsActive[0]} door and think we could learn from each other...`}
-              style={{ width:'100%', minHeight:'100px', padding:'12px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, color:'#fff', fontSize:'12px', lineHeight:1.6, resize:'vertical', outline:'none', boxSizing:'border-box', fontFamily:"'Space Grotesk',sans-serif" }} />
+              style={{ width:'100%', minHeight:'100px', padding:'12px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, color:'#fff', fontSize:'12px', lineHeight:1.6, resize:'vertical', outline:'none', boxSizing:'border-box', fontFamily:"'Satoshi',sans-serif" }} />
             <div style={{ textAlign:'right', color:S.muted, fontSize:'10px', marginBottom:'14px' }}>{msg.length}/300</div>
             {member.mentor && (
               <div style={{ display:'flex', gap:'8px', alignItems:'center', marginBottom:'14px', padding:'10px 12px', borderRadius:'8px', background:'rgba(16,185,129,0.04)', border:'1px solid rgba(16,185,129,0.15)', cursor:'pointer' }}
@@ -242,7 +242,7 @@ function ConnectModal({ member, onClose }) {
             <div style={{ display:'flex', gap:'8px' }}>
               <button onClick={()=>setStep('profile')} style={{ padding:'11px 18px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>{t('Back','رجوع')}</button>
               <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }} onClick={send}
-                style={{ flex:1, padding:'11px', borderRadius:'10px', background:`linear-gradient(135deg,${member.rankColor}cc,${member.rankColor})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900, display:'flex', alignItems:'center', justifyContent:'center', gap:'6px' }}>
+                style={{ flex:1, padding:'11px', borderRadius:'10px', background:`linear-gradient(135deg,${member.rankColor}cc,${member.rankColor})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:500, display:'flex', alignItems:'center', justifyContent:'center', gap:'6px' }}>
                 <Send size={14} /> {t('Send Request','إرسال الطلب')}
               </motion.button>
             </div>
@@ -252,12 +252,12 @@ function ConnectModal({ member, onClose }) {
           <div>
             <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:'18px' }}>
               <div style={{ display:'flex', gap:'12px', alignItems:'center' }}>
-                <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${member.rankColor}40,${member.rankColor}20)`, border:`2px solid ${member.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color:member.rankColor, flexShrink:0 }}>
+                <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${member.rankColor}40,${member.rankColor}20)`, border:`2px solid ${member.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:500, color:member.rankColor, flexShrink:0 }}>
                   {member.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                 </div>
                 <div>
                   <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-                    <span style={{ color:'#fff', fontSize:'16px', fontWeight:800 }}>{member.name}</span>
+                    <span style={{ color:'#fff', fontSize:'16px', fontWeight:500 }}>{member.name}</span>
                     {member.verified && <CheckCircle2 size={14} style={{ color:'#10B981' }} />}
                   </div>
                   <div style={{ color:S.muted, fontSize:'11px', marginBottom:'4px' }}>{member.role} · {member.country}</div>
@@ -277,7 +277,7 @@ function ConnectModal({ member, onClose }) {
                 { label:'Posts',     val:member.posts,       color:'#8B5CF6' },
               ].map(s=>(
                 <div key={s.label} style={{ background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'10px', padding:'10px 8px', textAlign:'center' }}>
-                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:s.color }}>{s.val}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:s.color }}>{s.val}</div>
                   <div style={{ color:S.muted, fontSize:'8px', marginTop:'2px' }}>{s.label}</div>
                 </div>
               ))}
@@ -299,7 +299,7 @@ function ConnectModal({ member, onClose }) {
             <div style={{ display:'flex', gap:'8px' }}>
               <button onClick={onClose} style={{ padding:'11px 18px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:`1px solid ${S.border}`, cursor:'pointer', color:S.muted, fontSize:'12px', fontWeight:700 }}>Cancel</button>
               <motion.button whileHover={{ scale:1.02 }} whileTap={{ scale:0.97 }} onClick={()=>setStep('message')}
-                style={{ flex:1, padding:'11px', borderRadius:'10px', background:`linear-gradient(135deg,${member.rankColor}cc,${member.rankColor})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900, display:'flex', alignItems:'center', justifyContent:'center', gap:'6px' }}>
+                style={{ flex:1, padding:'11px', borderRadius:'10px', background:`linear-gradient(135deg,${member.rankColor}cc,${member.rankColor})`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:500, display:'flex', alignItems:'center', justifyContent:'center', gap:'6px' }}>
                 <UserPlus size={14} /> Connect with {member.name.split(' ')[0]}
               </motion.button>
             </div>
@@ -325,7 +325,7 @@ export default function TheNetwork() {
   const selected = selectedMember ? MEMBERS.find(m => m.id === selectedMember) : null;
 
   return (
-    <div className="s4hud" style={{ ['--accent']:'#6366f1', color:'#fff', fontFamily:"'Space Grotesk',sans-serif" }}>
+    <div className="s4hud" style={{ ['--accent']:'#6366f1', color:'#fff', fontFamily:"'Satoshi',sans-serif" }}>
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} className="s4-glass spatial lift"
@@ -337,9 +337,8 @@ export default function TheNetwork() {
             <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
               <Network size={13} /> {t('COMMUNITY INTELLIGENCE', 'ذكاء المجتمع')}
             </div>
-            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
-              background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
-              filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('THE NETWORK', 'الشبكة')}</h1>
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:500, margin:'0 0 6px',
+              background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{t('THE NETWORK', 'الشبكة')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Connect, learn, and grow with top SOLVEN4 operators across MENA', 'تواصل وتعلّم وانمُ مع أفضل مشغلي SOLVEN4 في المنطقة')}</p>
           </div>
           <div style={{ display:'flex', gap:'12px' }}>
@@ -349,7 +348,7 @@ export default function TheNetwork() {
               { label:t('Your Connections','اتصالاتك'),value:'23',    color:'#D4A843' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
-                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:500, color:s.color }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginTop:'3px' }}>{s.label}</div>
               </div>
             ))}
@@ -396,7 +395,7 @@ export default function TheNetwork() {
 
                 {/* Avatar + name */}
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'10px' }}>
-                  <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'12px', fontWeight:900, color:m.rankColor, flexShrink:0 }}>
+                  <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'12px', fontWeight:500, color:m.rankColor, flexShrink:0 }}>
                     {m.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
@@ -421,7 +420,7 @@ export default function TheNetwork() {
                     { label:t('Network','الشبكة'), val:m.connections, color:'#D4A843' },
                   ].map(s => (
                     <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', borderRadius:'8px', padding:'6px 4px' }}>
-                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:s.color }}>{s.val}</div>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:500, color:s.color }}>{s.val}</div>
                       <div style={{ color:S.muted, fontSize:'8px', marginTop:'1px' }}>{s.label}</div>
                     </div>
                   ))}
@@ -473,7 +472,7 @@ export default function TheNetwork() {
                 <motion.div key={selected.id} initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:20 }}
                   className="s4-glass spatial lift" style={{ ['--accent']:selected.rankColor, padding:'22px' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'14px' }}>
-                    <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${selected.rankColor}40,${selected.rankColor}20)`, border:`2px solid ${selected.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:selected.rankColor }}>
+                    <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${selected.rankColor}40,${selected.rankColor}20)`, border:`2px solid ${selected.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:500, color:selected.rankColor }}>
                       {selected.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                     </div>
                     <div>
@@ -494,7 +493,7 @@ export default function TheNetwork() {
                       { label:'Posts', val:selected.posts, color:'#8B5CF6' },
                     ].map(s => (
                       <div key={s.label} style={{ background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'10px', padding:'10px 12px' }}>
-                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color:s.color }}>{s.val}</div>
+                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:500, color:s.color }}>{s.val}</div>
                         <div style={{ color:S.muted, fontSize:'9px', marginTop:'2px' }}>{s.label}</div>
                       </div>
                     ))}
@@ -558,7 +557,7 @@ export default function TheNetwork() {
               <motion.div key={m.id} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.1 }}
                 className="s4-glass spatial lift" style={{ ['--accent']:'#10B981', padding:'20px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
-                  <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:m.rankColor }}>
+                  <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:m.rankColor }}>
                     {m.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                   </div>
                   <div>
@@ -578,11 +577,11 @@ export default function TheNetwork() {
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'6px', marginBottom:'12px' }}>
                   <div style={{ background:'rgba(255,255,255,0.03)', borderRadius:'8px', padding:'8px', textAlign:'center' }}>
-                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#10B981' }}>{m.winRate}%</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:'#10B981' }}>{m.winRate}%</div>
                     <div style={{ color:S.muted, fontSize:'8px' }}>{t('Win Rate','معدل الربح')}</div>
                   </div>
                   <div style={{ background:'rgba(255,255,255,0.03)', borderRadius:'8px', padding:'8px', textAlign:'center' }}>
-                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#6366F1' }}>{(m.xp/1000).toFixed(1)}k</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:500, color:'#6366F1' }}>{(m.xp/1000).toFixed(1)}k</div>
                     <div style={{ color:S.muted, fontSize:'8px' }}>XP</div>
                   </div>
                 </div>
@@ -698,7 +697,7 @@ export default function TheNetwork() {
             <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.09 }}
               className="s4-glass" style={{ padding:'18px 20px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
-                <div style={{ width:'38px', height:'38px', borderRadius:'50%', background:`linear-gradient(135deg,${DOOR_COLOR[f.door]}40,${DOOR_COLOR[f.door]}20)`, border:`1px solid ${DOOR_COLOR[f.door]}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:DOOR_COLOR[f.door], flexShrink:0 }}>
+                <div style={{ width:'38px', height:'38px', borderRadius:'50%', background:`linear-gradient(135deg,${DOOR_COLOR[f.door]}40,${DOOR_COLOR[f.door]}20)`, border:`1px solid ${DOOR_COLOR[f.door]}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:500, color:DOOR_COLOR[f.door], flexShrink:0 }}>
                   {f.avatar}
                 </div>
                 <div style={{ flex:1 }}>
