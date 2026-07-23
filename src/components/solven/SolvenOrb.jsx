@@ -114,7 +114,7 @@ function OrbCanvas({ color = '#6366F1', size = 44, active = false }) {
       const core = ctx.createRadialGradient(cx - R * 0.2, cy - R * 0.2, 1, cx, cy, R * 0.7);
       core.addColorStop(0, '#fff');
       core.addColorStop(0.3, color);
-      core.addColorStop(1, '#0A0C1E');
+      core.addColorStop(1, '#14161B');
       ctx.beginPath(); ctx.arc(cx, cy, R * 0.7, 0, Math.PI * 2);
       ctx.fillStyle = core; ctx.fill();
 
@@ -226,10 +226,10 @@ export default function SolvenOrb() {
             }}>
               <OrbCanvas color={ctx.color} size={32} active />
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '10px', fontWeight: 700, color: '#fff', letterSpacing: '0.1em' }}>
+                <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '10px', fontWeight: 700, color: '#fff', letterSpacing: '0.1em' }}>
                   SOLVEN AI
                 </div>
-                <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', color: ctx.color, letterSpacing: '0.15em' }}>
+                <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '8px', color: ctx.color, letterSpacing: '0.15em' }}>
                   {ctx.name}
                 </div>
               </div>
@@ -248,7 +248,7 @@ export default function SolvenOrb() {
 
             {/* Live Insights */}
             <div style={{ padding: '12px 14px', borderBottom: `1px solid rgba(255,255,255,0.05)` }}>
-              <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', letterSpacing: '0.2em', color: '#94A3B8', marginBottom: '8px' }}>
+              <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '8px', letterSpacing: '0.2em', color: '#94A3B8', marginBottom: '8px' }}>
                 LIVE INSIGHTS · {ctx.name}
               </div>
               {ctx.insights.map((ins, i) => (
@@ -260,7 +260,7 @@ export default function SolvenOrb() {
                   border: `1px solid ${i === 0 ? ctx.color + '20' : 'transparent'}`,
                 }}>
                   <div style={{
-                    fontFamily: "'Orbitron', sans-serif", fontSize: '7px', fontWeight: 700,
+                    fontFamily: "'Satoshi', sans-serif", fontSize: '7px', fontWeight: 700,
                     color: ctx.color, background: `${ctx.color}18`, borderRadius: '3px', padding: '1px 4px',
                     flexShrink: 0, marginTop: '1px',
                   }}>{ins.type}</div>
@@ -351,9 +351,9 @@ export default function SolvenOrb() {
         <div style={{
           position: 'absolute', top: '-4px', right: '-4px',
           width: '16px', height: '16px', borderRadius: '50%',
-          background: '#EF4444', border: '2px solid #05050C',
+          background: '#EF4444', border: '2px solid #1A1B1E',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: "'Orbitron', sans-serif", fontSize: '8px', fontWeight: 700, color: '#fff',
+          fontFamily: "'Satoshi', sans-serif", fontSize: '8px', fontWeight: 700, color: '#fff',
           zIndex: 1,
         }}>3</div>
 

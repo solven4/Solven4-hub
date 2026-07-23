@@ -28,15 +28,15 @@ export default function MaintenanceGate({ children }) {
 
   return (
     <div style={{
-      minHeight: '100vh', background: '#05050C', color: '#E2E8F0',
+      minHeight: '100vh', background: '#1A1B1E', color: '#E2E8F0',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       textAlign: 'center', padding: 24, gap: 14,
     }}>
-      <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 11, letterSpacing: '0.3em', color: '#6366F1' }}>
+      <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: 11, letterSpacing: '0.3em', color: '#6366F1' }}>
         SOLVEN4 · {DOOR}
       </div>
       <div style={{ fontSize: 44 }}>{state === 'disabled' ? '🔒' : '🛠️'}</div>
-      <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, color: '#fff' }}>
+      <h1 style={{ fontSize: 24, fontWeight: 500, margin: 0, color: '#fff' }}>
         {state === 'disabled' ? 'Temporarily Unavailable' : 'Under Maintenance'}
       </h1>
       <p style={{ color: '#94A3B8', fontSize: 14, maxWidth: 420, lineHeight: 1.6 }}>

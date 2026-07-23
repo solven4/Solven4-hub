@@ -173,7 +173,7 @@ export default function Landing() {
           {/* ── NAV ── */}
           <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(255,255,255,0.86)', backdropFilter: 'blur(20px)', borderBottom: `1px solid ${C.line}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', height: 60 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ background: `linear-gradient(135deg, ${C.indigo}, ${C.cyan})`, fontFamily: C.serif, borderRadius: 7, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: 13 }}>S4</div>
+              <div style={{ background: `linear-gradient(135deg, ${C.indigo}, ${C.cyan})`, fontFamily: C.serif, borderRadius: 7, width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 500, fontSize: 13 }}>S4</div>
               <div>
                 <div style={{ fontFamily: C.serif, letterSpacing: '0.18em', fontSize: 13, fontWeight: 700, color: C.ink, lineHeight: 1 }}>SOLVEN4</div>
                 <div style={{ ...label(C.indigoLt), fontSize: 8.5, marginTop: 2 }}>INTELLIGENCE.HUB</div>

@@ -48,7 +48,7 @@ export default function TheCommission() {
         style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', marginBottom: '22px' }}>
         <div>
           <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('IB NETWORK EARNINGS', 'أرباح شبكة الوسطاء')}</div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
             background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('COMMISSION ENGINE', 'محرك العمولات')}</h1>
           <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Track earnings across your entire network', 'تتبع الأرباح عبر شبكتك بالكامل')}</p>
@@ -71,7 +71,7 @@ export default function TheCommission() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                 <Icon size={18} color={color} />
               </div>
-              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{value}</div>
+              <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '22px', fontWeight: 500, color: '#fff', marginBottom: '4px' }}>{value}</div>
               <div className="s4-label" style={{ fontSize: '9px' }}>{label}</div>
             </GlassPanel>
           </motion.div>
@@ -90,7 +90,7 @@ export default function TheCommission() {
               {[['all', t('all', 'الكل')], ['paid', t('paid', 'مدفوع')], ['pending', t('pending', 'قيد الانتظار')], ['failed', t('failed', 'فشل')]].map(([f, fLabel]) => (
                 <button key={f} onClick={() => setFilter(f)}
                   style={{
-                    fontFamily: "'Orbitron',sans-serif", fontSize: '8px', letterSpacing: '0.1em', fontWeight: 700,
+                    fontFamily: "'Satoshi',sans-serif", fontSize: '8px', letterSpacing: '0.1em', fontWeight: 700,
                     padding: '5px 11px', borderRadius: '6px', cursor: 'pointer', border: 'none', textTransform: 'uppercase',
                     background: filter === f ? ACCENT : 'rgba(255,255,255,0.05)', color: filter === f ? '#000' : '#94A3B8',
                   }}>

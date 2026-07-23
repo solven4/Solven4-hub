@@ -85,16 +85,16 @@ function DoorTile({ door, onClick, t }) {
           </div>
         </div>
         <div style={{ minWidth:0 }}>
-          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:door.color, letterSpacing:'0.15em', fontWeight:700 }}>{door.label}</div>
+          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', color:door.color, letterSpacing:'0.15em', fontWeight:700 }}>{door.label}</div>
           <div style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{door.title}</div>
-          <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:'10px', letterSpacing:'0.14em', color:statusColor, textTransform:'uppercase', marginTop:'2px' }}>{door.status}</div>
+          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', letterSpacing:'0.14em', color:statusColor, textTransform:'uppercase', marginTop:'2px' }}>{door.status}</div>
         </div>
       </div>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'6px', marginBottom:'10px' }}>
         {door.kpis.slice(0,4).map(k => (
           <div key={k.label} style={{ background:'rgba(255,255,255,0.03)', borderRadius:'7px', padding:'7px' }}>
             <div style={{ color:'#94A3B8', fontSize:'8.5px', marginBottom:'2px' }}>{k.label}</div>
-            <div className="s4-num" style={{ color:'#fff', fontSize:'13px', fontWeight:800, fontFamily:"'Orbitron',sans-serif" }}>{k.value}</div>
+            <div className="s4-num" style={{ color:'#fff', fontSize:'13px', fontWeight:800, fontFamily:"'Satoshi',sans-serif" }}>{k.value}</div>
             {k.up !== null && <div style={{ color: k.up ? '#10B981' : '#EF4444', fontSize:'8.5px' }}>{k.up ? '▲' : '▼'} {k.delta}</div>}
           </div>
         ))}
@@ -130,12 +130,12 @@ export default function TheCommand() {
       <motion.div {...rise} transition={{ duration:0.5 }} style={{ marginTop:14, display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap:20, flexWrap:'wrap' }}>
         <div>
           <div className="s4-label s4-accent" style={{ letterSpacing:'0.35em', marginBottom:6 }}>{getGreeting(t)}, {t('OPERATOR','مشغل')}</div>
-          <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(24px,3vw,36px)', fontWeight:900, lineHeight:1.02, margin:0,
+          <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(24px,3vw,36px)', fontWeight:900, lineHeight:1.02, margin:0,
             background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
             filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{displayName.toUpperCase()}</h1>
         </div>
         <div style={{ textAlign:'right' }}>
-          <div className="s4-num" style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'26px', fontWeight:900, color:'#818CF8', letterSpacing:'0.05em', textShadow:'0 0 26px rgba(99,102,241,0.5)' }}>{timeStr}</div>
+          <div className="s4-num" style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'26px', fontWeight:900, color:'#818CF8', letterSpacing:'0.05em', textShadow:'0 0 26px rgba(99,102,241,0.5)' }}>{timeStr}</div>
           <div style={{ color:'#94A3B8', fontSize:'11px' }}>{dateStr}</div>
         </div>
       </motion.div>
@@ -154,7 +154,7 @@ export default function TheCommand() {
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ color:'#CBD5E1', fontSize:'11px' }}>{s.label}</div>
-                    <div className="s4-num" style={{ color:s.color, fontSize:'11px', fontWeight:700, fontFamily:"'Rajdhani',sans-serif", letterSpacing:'0.06em' }}>{s.pct}%</div>
+                    <div className="s4-num" style={{ color:s.color, fontSize:'11px', fontWeight:700, fontFamily:"'Satoshi',sans-serif", letterSpacing:'0.06em' }}>{s.pct}%</div>
                   </div>
                 </div>
               ))}
@@ -176,7 +176,7 @@ export default function TheCommand() {
                 <line x1="140" y1="140" x2="140" y2="24" stroke="url(#s4rg)" strokeWidth="2" />
               </svg>
               <div className="s4-readcenter">
-                <div className="s4-num" style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:800, fontSize:'34px', color:'#fff', textShadow:'0 0 24px rgba(99,102,241,0.6)' }}>
+                <div className="s4-num" style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:800, fontSize:'34px', color:'#fff', textShadow:'0 0 24px rgba(99,102,241,0.6)' }}>
                   <CountUp to={98.5} suffix="" />
                 </div>
                 <div className="s4-label" style={{ marginTop:4 }}>{t('System Integrity','سلامة النظام')}</div>
@@ -197,7 +197,7 @@ export default function TheCommand() {
             <Telemetry rows={TELEM_ROWS} />
             <div className="s4-label" style={{ marginTop:14, marginBottom:8 }}><span>{t('Arena Rank','رتبة الساحة')}</span></div>
             <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between' }}>
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:800, color:'#D4A843', fontSize:'18px' }}>GOLD 7</span>
+              <span style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:800, color:'#D4A843', fontSize:'18px' }}>GOLD 7</span>
               <span className="s4-num" style={{ color:'#94A3B8', fontSize:'11px' }}>4,250 XP</span>
             </div>
             <div className="s4-label" style={{ marginTop:14, marginBottom:8 }}><span>{t('Attitude','الاتجاه')}</span><span className="s4-accent">±</span></div>
@@ -244,7 +244,7 @@ export default function TheCommand() {
           <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']:'#10B981' }}>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'14px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'7px' }}><DollarSign size={13} color="#10B981" /><span className="s4-label" style={{ color:'#10B981' }}>{t('REVENUE STREAMS','مصادر الإيرادات')}</span></div>
-              <span className="s4-num" style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'13px', fontWeight:900, color:'#10B981' }}>$<CountUp to={REVENUE_TOTAL} /></span>
+              <span className="s4-num" style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:900, color:'#10B981' }}>$<CountUp to={REVENUE_TOTAL} /></span>
             </div>
             <div style={{ display:'flex', flexDirection:'column', gap:'9px' }}>
               {REVENUE_STREAMS.map(r => (
@@ -271,7 +271,7 @@ export default function TheCommand() {
             </div>
             <div style={{ display:'flex', gap:'6px', marginBottom:'12px', flexWrap:'wrap' }}>
               {['all','edge','forge','oracle','nexus'].map(t => (
-                <button key={t} onClick={() => setAlertTab(t)} style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', letterSpacing:'0.1em', fontWeight:700, padding:'4px 9px', borderRadius:'6px', cursor:'pointer', border:'none',
+                <button key={t} onClick={() => setAlertTab(t)} style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', letterSpacing:'0.1em', fontWeight:700, padding:'4px 9px', borderRadius:'6px', cursor:'pointer', border:'none',
                   background: alertTab===t ? '#6366F1' : 'rgba(255,255,255,0.05)', color: alertTab===t ? '#fff' : '#94A3B8' }}>{t.toUpperCase()}</button>
               ))}
             </div>
@@ -283,7 +283,7 @@ export default function TheCommand() {
                     <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:a.color, boxShadow:`0 0 6px ${a.color}`, marginTop:'4px', flexShrink:0 }} />
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ display:'flex', alignItems:'center', gap:'5px', marginBottom:'2px' }}>
-                        <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:a.color, fontWeight:700 }}>{a.door}</span>
+                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:a.color, fontWeight:700 }}>{a.door}</span>
                         <div style={{ width:'1px', height:'10px', background:'rgba(255,255,255,0.1)' }} />
                         <span style={{ color:'#94A3B8', fontSize:'9px' }}>{a.time} {t('ago','منذ')}</span>
                         {a.priority==='high' && <span style={{ background:'rgba(239,68,68,0.15)', color:'#EF4444', fontSize:'8px', fontWeight:700, padding:'1px 5px', borderRadius:'4px' }}>{t('HIGH','عالي')}</span>}

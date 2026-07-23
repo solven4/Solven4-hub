@@ -146,9 +146,9 @@ export function Gauge({ value = 0.7, size = 200, mini = false, animate = true, s
       <circle cx={c} cy={c} r={R + S * 0.03} fill="none" stroke="rgba(255,255,255,0.08)" />
       <circle cx={c} cy={c} r={R - S * 0.13} fill="none" stroke="rgba(255,255,255,0.05)" />
       {ticks}
-      {v > 0.01 && <path d={gArc(c, R - S * 0.065, start, vA)} fill="none" stroke="var(--accent)" strokeWidth={S * 0.03} strokeLinecap="round" style={{ filter: `drop-shadow(0 0 ${S * 0.03}px var(--accent))` }} />}
+      {v > 0.01 && <path d={gArc(c, R - S * 0.065, start, vA)} fill="none" stroke="var(--accent)" strokeWidth={S * 0.03} strokeLinecap="round"  />}
       <line x1={c} y1={c} x2={nx} y2={ny} stroke="#fff" strokeWidth={S * 0.012} strokeLinecap="round" />
-      <circle cx={c} cy={c} r={S * 0.03} fill="var(--accent)" style={{ filter: 'drop-shadow(0 0 6px var(--accent))' }} />
+      <circle cx={c} cy={c} r={S * 0.03} fill="var(--accent)"  />
       <circle cx={c} cy={c} r={S * 0.012} fill="#fff" />
     </svg>
   );
@@ -239,7 +239,7 @@ export function CommandDeck({
                   <div style={{ width: 40, height: 40, flexShrink: 0 }}><Gauge value={v.pct / 100} size={40} mini /></div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: '#CBD5E1', fontSize: 11 }}>{v.label}</div>
-                    <div className="s4-num" style={{ color: v.color || accent, fontSize: 11, fontWeight: 700, fontFamily: "'Rajdhani',sans-serif", letterSpacing: '0.06em' }}>{v.pct}%</div>
+                    <div className="s4-num" style={{ color: v.color || accent, fontSize: 11, fontWeight: 700, fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.06em' }}>{v.pct}%</div>
                   </div>
                 </div>
               ))}
@@ -260,7 +260,7 @@ export function CommandDeck({
                 <line x1="140" y1="140" x2="140" y2="24" stroke={`url(#rg${code})`} strokeWidth="2" />
               </svg>
               <div className="s4-readcenter">
-                <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 800, fontSize: 34, color: '#fff', textShadow: `0 0 24px ${accent}99` }}><CountUp to={pct} /></div>
+                <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontWeight: 500, fontSize: 34, color: '#fff' }}><CountUp to={pct} /></div>
                 <div className="s4-label" style={{ marginTop: 4 }}>{integrityLabel}</div>
               </div>
             </div>

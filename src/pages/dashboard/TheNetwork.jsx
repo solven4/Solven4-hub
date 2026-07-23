@@ -8,7 +8,7 @@ import {
 import { toast } from 'sonner';
 import { useLang } from '@/lib/LanguageContext';
 
-const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
+const S = { bg:'#1A1B1E', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 /* ── COMMUNITY MEMBERS ── */
@@ -139,7 +139,7 @@ function NetworkGraph({ members, activeId, onSelect }) {
         ctx.stroke();
 
         // label
-        ctx.font = `bold ${n.id===0?9:8}px Orbitron, monospace`;
+        ctx.font = `bold ${n.id===0?9:8}px Satoshi, monospace`;
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
         ctx.fillText(n.label, n.x, n.y + n.r + 12);
@@ -198,13 +198,13 @@ function ConnectModal({ member, onClose }) {
             <div style={{ width:'64px', height:'64px', borderRadius:'50%', background:'rgba(16,185,129,0.1)', border:'2px solid rgba(16,185,129,0.3)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px' }}>
               <CheckCircle2 size={28} style={{ color:'#10B981' }} />
             </div>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('REQUEST SENT!', 'تم إرسال الطلب!')}</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>{t('REQUEST SENT!', 'تم إرسال الطلب!')}</div>
             <p style={{ color:S.muted, fontSize:'12px', marginBottom:'20px', lineHeight:1.6 }}>
               {t('Your connection request has been sent to', 'تم إرسال طلب الاتصال إلى')} <strong style={{ color:'#fff' }}>{member.name}</strong>.
               {t("You'll receive a notification when they accept.", 'ستصلك رسالة إشعار عند قبول الطلب.')}
             </p>
             <div style={{ background:`${member.rankColor}08`, border:`1px solid ${member.rankColor}20`, borderRadius:'12px', padding:'14px', marginBottom:'20px', display:'flex', gap:'12px', alignItems:'center' }}>
-              <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`${member.rankColor}20`, border:`2px solid ${member.rankColor}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'12px', fontWeight:900, color:member.rankColor, flexShrink:0 }}>
+              <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`${member.rankColor}20`, border:`2px solid ${member.rankColor}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'12px', fontWeight:900, color:member.rankColor, flexShrink:0 }}>
                 {member.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
               </div>
               <div style={{ textAlign:'left' }}>
@@ -220,7 +220,7 @@ function ConnectModal({ member, onClose }) {
         ) : step === 'message' ? (
           <div>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'20px' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:member.rankColor, fontWeight:700, letterSpacing:'0.12em' }}>{t('ADD A MESSAGE', 'أضف رسالة')}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', color:member.rankColor, fontWeight:700, letterSpacing:'0.12em' }}>{t('ADD A MESSAGE', 'أضف رسالة')}</div>
               <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:'none', borderRadius:'8px', padding:'6px', cursor:'pointer', color:S.muted }}><X size={14} /></button>
             </div>
             <p style={{ color:'#CBD5E1', fontSize:'12px', lineHeight:1.6, marginBottom:'14px' }}>
@@ -252,7 +252,7 @@ function ConnectModal({ member, onClose }) {
           <div>
             <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:'18px' }}>
               <div style={{ display:'flex', gap:'12px', alignItems:'center' }}>
-                <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${member.rankColor}40,${member.rankColor}20)`, border:`2px solid ${member.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'15px', fontWeight:900, color:member.rankColor, flexShrink:0 }}>
+                <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${member.rankColor}40,${member.rankColor}20)`, border:`2px solid ${member.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color:member.rankColor, flexShrink:0 }}>
                   {member.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                 </div>
                 <div>
@@ -261,7 +261,7 @@ function ConnectModal({ member, onClose }) {
                     {member.verified && <CheckCircle2 size={14} style={{ color:'#10B981' }} />}
                   </div>
                   <div style={{ color:S.muted, fontSize:'11px', marginBottom:'4px' }}>{member.role} · {member.country}</div>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:member.rankColor, fontWeight:700, background:`${member.rankColor}12`, border:`1px solid ${member.rankColor}25`, borderRadius:'4px', padding:'2px 7px', display:'inline-block' }}>{member.rank}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:member.rankColor, fontWeight:700, background:`${member.rankColor}12`, border:`1px solid ${member.rankColor}25`, borderRadius:'4px', padding:'2px 7px', display:'inline-block' }}>{member.rank}</div>
                 </div>
               </div>
               <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:'none', borderRadius:'8px', padding:'7px', cursor:'pointer', color:S.muted }}><X size={14} /></button>
@@ -277,7 +277,7 @@ function ConnectModal({ member, onClose }) {
                 { label:'Posts',     val:member.posts,       color:'#8B5CF6' },
               ].map(s=>(
                 <div key={s.label} style={{ background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'10px', padding:'10px 8px', textAlign:'center' }}>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:s.color }}>{s.val}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:s.color }}>{s.val}</div>
                   <div style={{ color:S.muted, fontSize:'8px', marginTop:'2px' }}>{s.label}</div>
                 </div>
               ))}
@@ -285,9 +285,9 @@ function ConnectModal({ member, onClose }) {
 
             <div style={{ display:'flex', gap:'5px', marginBottom:'16px' }}>
               {member.doorsActive.map(d=>(
-                <span key={d} style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'5px', padding:'3px 8px', fontWeight:700 }}>{d}</span>
+                <span key={d} style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'5px', padding:'3px 8px', fontWeight:700 }}>{d}</span>
               ))}
-              {member.mentor && <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#10B981', background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.25)', borderRadius:'5px', padding:'3px 8px', fontWeight:700 }}>{t('MENTOR','مرشد')}</span>}
+              {member.mentor && <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:'#10B981', background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.25)', borderRadius:'5px', padding:'3px 8px', fontWeight:700 }}>{t('MENTOR','مرشد')}</span>}
             </div>
 
             <div style={{ background:'rgba(255,255,255,0.02)', border:`1px solid ${S.border}`, borderRadius:'10px', padding:'10px 14px', marginBottom:'16px', display:'flex', gap:'16px' }}>
@@ -337,7 +337,7 @@ export default function TheNetwork() {
             <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
               <Network size={13} /> {t('COMMUNITY INTELLIGENCE', 'ذكاء المجتمع')}
             </div>
-            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
               background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
               filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('THE NETWORK', 'الشبكة')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Connect, learn, and grow with top SOLVEN4 operators across MENA', 'تواصل وتعلّم وانمُ مع أفضل مشغلي SOLVEN4 في المنطقة')}</p>
@@ -349,7 +349,7 @@ export default function TheNetwork() {
               { label:t('Your Connections','اتصالاتك'),value:'23',    color:'#D4A843' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginTop:'3px' }}>{s.label}</div>
               </div>
             ))}
@@ -368,7 +368,7 @@ export default function TheNetwork() {
           { id:'feed',      label:t('Live Feed','البث المباشر') },
         ].map(tb => (
           <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
-            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 14px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
+            style={{ fontFamily:"'Satoshi',sans-serif", padding:'7px 14px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
               background: activeTab===tb.id?'#6366F1':'transparent', color: activeTab===tb.id?'#fff':S.muted }}>
             {tb.label}
           </button>
@@ -396,7 +396,7 @@ export default function TheNetwork() {
 
                 {/* Avatar + name */}
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'10px' }}>
-                  <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'12px', fontWeight:900, color:m.rankColor, flexShrink:0 }}>
+                  <div style={{ width:'44px', height:'44px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'12px', fontWeight:900, color:m.rankColor, flexShrink:0 }}>
                     {m.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
@@ -410,7 +410,7 @@ export default function TheNetwork() {
 
                 {/* Rank */}
                 <div style={{ background:`${m.rankColor}10`, border:`1px solid ${m.rankColor}20`, borderRadius:'8px', padding:'4px 8px', display:'inline-block', marginBottom:'10px' }}>
-                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:m.rankColor, fontWeight:700 }}>{m.rank}</span>
+                  <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:m.rankColor, fontWeight:700 }}>{m.rank}</span>
                 </div>
 
                 {/* Stats */}
@@ -421,7 +421,7 @@ export default function TheNetwork() {
                     { label:t('Network','الشبكة'), val:m.connections, color:'#D4A843' },
                   ].map(s => (
                     <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', borderRadius:'8px', padding:'6px 4px' }}>
-                      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:900, color:s.color }}>{s.val}</div>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:s.color }}>{s.val}</div>
                       <div style={{ color:S.muted, fontSize:'8px', marginTop:'1px' }}>{s.label}</div>
                     </div>
                   ))}
@@ -430,9 +430,9 @@ export default function TheNetwork() {
                 {/* Doors active */}
                 <div style={{ display:'flex', gap:'4px', marginBottom:'10px' }}>
                   {m.doorsActive.map(d => (
-                    <span key={d} style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{d}</span>
+                    <span key={d} style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{d}</span>
                   ))}
-                  {m.mentor && <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:'#10B981', background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.25)', borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{t('MENTOR','مرشد')}</span>}
+                  {m.mentor && <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:'#10B981', background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.25)', borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{t('MENTOR','مرشد')}</span>}
                 </div>
 
                 <p style={{ color:S.muted, fontSize:'10px', lineHeight:1.5, marginBottom:'12px' }}>{m.bio}</p>
@@ -462,7 +462,7 @@ export default function TheNetwork() {
         <motion.div key="graph" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}
           style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:'16px', alignItems:'start' }}>
           <div className="s4-glass spatial lift" style={{ padding:'20px' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'14px' }}>{t('NETWORK MAP', 'خريطة الشبكة')}</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'14px' }}>{t('NETWORK MAP', 'خريطة الشبكة')}</div>
             <NetworkGraph members={MEMBERS} activeId={selectedMember} onSelect={setSelectedMember} />
             <div style={{ marginTop:'12px', textAlign:'center', color:S.muted, fontSize:'10px' }}>{t('Click a node to see profile', 'انقر على عقدة لمشاهدة الملف الشخصي')}</div>
           </div>
@@ -473,7 +473,7 @@ export default function TheNetwork() {
                 <motion.div key={selected.id} initial={{ opacity:0, x:20 }} animate={{ opacity:1, x:0 }} exit={{ opacity:0, x:20 }}
                   className="s4-glass spatial lift" style={{ ['--accent']:selected.rankColor, padding:'22px' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'14px' }}>
-                    <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${selected.rankColor}40,${selected.rankColor}20)`, border:`2px solid ${selected.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:selected.rankColor }}>
+                    <div style={{ width:'56px', height:'56px', borderRadius:'50%', background:`linear-gradient(135deg,${selected.rankColor}40,${selected.rankColor}20)`, border:`2px solid ${selected.rankColor}60`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:selected.rankColor }}>
                       {selected.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                     </div>
                     <div>
@@ -482,7 +482,7 @@ export default function TheNetwork() {
                         {selected.verified && <CheckCircle2 size={13} style={{ color:'#10B981' }} />}
                       </div>
                       <div style={{ color:S.muted, fontSize:'11px' }}>{selected.role} · {selected.country}</div>
-                      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:selected.rankColor, fontWeight:700, marginTop:'2px' }}>{selected.rank}</div>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', color:selected.rankColor, fontWeight:700, marginTop:'2px' }}>{selected.rank}</div>
                     </div>
                   </div>
                   <p style={{ color:'#CBD5E1', fontSize:'12px', lineHeight:1.6, marginBottom:'14px' }}>{selected.bio}</p>
@@ -494,7 +494,7 @@ export default function TheNetwork() {
                       { label:'Posts', val:selected.posts, color:'#8B5CF6' },
                     ].map(s => (
                       <div key={s.label} style={{ background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'10px', padding:'10px 12px' }}>
-                        <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'15px', fontWeight:900, color:s.color }}>{s.val}</div>
+                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color:s.color }}>{s.val}</div>
                         <div style={{ color:S.muted, fontSize:'9px', marginTop:'2px' }}>{s.label}</div>
                       </div>
                     ))}
@@ -526,13 +526,13 @@ export default function TheNetwork() {
 
             {/* Connection stats */}
             <div className="s4-glass spatial lift" style={{ padding:'18px' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'12px' }}>{t('NETWORK BREAKDOWN', 'تفصيل الشبكة')}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'12px' }}>{t('NETWORK BREAKDOWN', 'تفصيل الشبكة')}</div>
               {Object.entries(DOOR_COLOR).map(([door, color]) => {
                 const count = MEMBERS.filter(m => m.doorsActive.includes(door)).length;
                 return (
                   <div key={door} style={{ marginBottom:'8px' }}>
                     <div style={{ display:'flex', justifyContent:'space-between', fontSize:'10px', marginBottom:'3px' }}>
-                      <span style={{ color, fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>{door}</span>
+                      <span style={{ color, fontFamily:"'Satoshi',sans-serif", fontWeight:700 }}>{door}</span>
                       <span style={{ color:'#CBD5E1' }}>{count} {t('operators','مشغل')}</span>
                     </div>
                     <div style={{ height:'4px', borderRadius:'2px', background:'rgba(255,255,255,0.06)', overflow:'hidden' }}>
@@ -558,7 +558,7 @@ export default function TheNetwork() {
               <motion.div key={m.id} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.1 }}
                 className="s4-glass spatial lift" style={{ ['--accent']:'#10B981', padding:'20px' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
-                  <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:m.rankColor }}>
+                  <div style={{ width:'48px', height:'48px', borderRadius:'50%', background:`linear-gradient(135deg,${m.rankColor}40,${m.rankColor}20)`, border:`2px solid ${m.rankColor}50`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:m.rankColor }}>
                     {m.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
                   </div>
                   <div>
@@ -566,23 +566,23 @@ export default function TheNetwork() {
                     <div style={{ color:S.muted, fontSize:'10px' }}>{m.country}</div>
                     <div style={{ display:'flex', alignItems:'center', gap:'4px', marginTop:'2px' }}>
                       <Shield size={9} style={{ color:'#10B981' }} />
-                      <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:'#10B981', fontWeight:700 }}>{t('VERIFIED MENTOR', 'مرشد موثّق')}</span>
+                      <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:'#10B981', fontWeight:700 }}>{t('VERIFIED MENTOR', 'مرشد موثّق')}</span>
                     </div>
                   </div>
                 </div>
                 <p style={{ color:'#CBD5E1', fontSize:'11px', lineHeight:1.5, marginBottom:'12px' }}>{m.bio}</p>
                 <div style={{ display:'flex', gap:'4px', marginBottom:'12px' }}>
                   {m.doorsActive.map(d => (
-                    <span key={d} style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{d}</span>
+                    <span key={d} style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{d}</span>
                   ))}
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'6px', marginBottom:'12px' }}>
                   <div style={{ background:'rgba(255,255,255,0.03)', borderRadius:'8px', padding:'8px', textAlign:'center' }}>
-                    <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#10B981' }}>{m.winRate}%</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#10B981' }}>{m.winRate}%</div>
                     <div style={{ color:S.muted, fontSize:'8px' }}>{t('Win Rate','معدل الربح')}</div>
                   </div>
                   <div style={{ background:'rgba(255,255,255,0.03)', borderRadius:'8px', padding:'8px', textAlign:'center' }}>
-                    <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:'#6366F1' }}>{(m.xp/1000).toFixed(1)}k</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:'#6366F1' }}>{(m.xp/1000).toFixed(1)}k</div>
                     <div style={{ color:S.muted, fontSize:'8px' }}>XP</div>
                   </div>
                 </div>
@@ -611,7 +611,7 @@ export default function TheNetwork() {
                       <span style={{ color:'#fff', fontSize:'15px', fontWeight:700 }}>{sq.name}</span>
                       <div style={{ display:'flex', gap:'4px' }}>
                         {sq.doors.map(d => (
-                          <span key={d} style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{d}</span>
+                          <span key={d} style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:DOOR_COLOR[d], background:`${DOOR_COLOR[d]}12`, border:`1px solid ${DOOR_COLOR[d]}25`, borderRadius:'4px', padding:'2px 5px', fontWeight:700 }}>{d}</span>
                         ))}
                       </div>
                     </div>
@@ -636,7 +636,7 @@ export default function TheNetwork() {
                     </div>
                     <div style={{ background:`${sq.color}10`, border:`1px solid ${sq.color}20`, borderRadius:'8px', padding:'6px 10px', marginBottom:'8px' }}>
                       <div style={{ color:S.muted, fontSize:'8px', marginBottom:'2px' }}>{t('Squad Reward','مكافأة الفريق')}</div>
-                      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:sq.color, fontWeight:700 }}>{sq.reward}</div>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', color:sq.color, fontWeight:700 }}>{sq.reward}</div>
                     </div>
                     <button style={{ padding:'7px 14px', borderRadius:'8px', background:`${sq.color}12`, border:`1px solid ${sq.color}25`, cursor:'pointer', color:sq.color, fontSize:'10px', fontWeight:700 }}>
                       {t('Join Squad','انضم للفريق')}
@@ -666,13 +666,13 @@ export default function TheNetwork() {
                 onMouseLeave={e=>{ e.currentTarget.style.borderColor=`${d.doorColor}18`; }}>
                 <div style={{ display:'flex', alignItems:'flex-start', gap:'14px' }}>
                   <div style={{ background:`${d.doorColor}12`, border:`1px solid ${d.doorColor}25`, borderRadius:'10px', padding:'6px 10px', flexShrink:0 }}>
-                    <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:d.doorColor, fontWeight:700 }}>{d.type.toUpperCase()}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:d.doorColor, fontWeight:700 }}>{d.type.toUpperCase()}</span>
                   </div>
                   <div style={{ flex:1 }}>
                     <div style={{ color:'#fff', fontSize:'14px', fontWeight:700, marginBottom:'6px' }}>{d.title}</div>
                     <div style={{ display:'flex', gap:'14px', fontSize:'11px', color:S.muted }}>
                       <span>{t('By','بواسطة')} <span style={{ color:'#CBD5E1', fontWeight:700 }}>{d.author}</span></span>
-                      <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:d.doorColor, fontWeight:700 }}>{d.door}</span>
+                      <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:d.doorColor, fontWeight:700 }}>{d.door}</span>
                       <span>{t('Budget:','الميزانية:')} <span style={{ color:'#D4A843' }}>{d.budget}</span></span>
                       <span>{t('Deadline:','الموعد النهائي:')} {d.deadline}</span>
                     </div>
@@ -698,14 +698,14 @@ export default function TheNetwork() {
             <motion.div key={i} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.09 }}
               className="s4-glass" style={{ padding:'18px 20px' }}>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px' }}>
-                <div style={{ width:'38px', height:'38px', borderRadius:'50%', background:`linear-gradient(135deg,${DOOR_COLOR[f.door]}40,${DOOR_COLOR[f.door]}20)`, border:`1px solid ${DOOR_COLOR[f.door]}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:900, color:DOOR_COLOR[f.door], flexShrink:0 }}>
+                <div style={{ width:'38px', height:'38px', borderRadius:'50%', background:`linear-gradient(135deg,${DOOR_COLOR[f.door]}40,${DOOR_COLOR[f.door]}20)`, border:`1px solid ${DOOR_COLOR[f.door]}40`, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:DOOR_COLOR[f.door], flexShrink:0 }}>
                   {f.avatar}
                 </div>
                 <div style={{ flex:1 }}>
                   <span style={{ color:'#fff', fontSize:'12px', fontWeight:700 }}>{f.author}</span>
                   <span style={{ color:S.muted, fontSize:'10px', marginLeft:'8px' }}>{f.time} {t('ago','منذ')}</span>
                 </div>
-                <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:DOOR_COLOR[f.door], background:`${DOOR_COLOR[f.door]}12`, border:`1px solid ${DOOR_COLOR[f.door]}25`, borderRadius:'5px', padding:'3px 7px', fontWeight:700 }}>{f.door}</span>
+                <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:DOOR_COLOR[f.door], background:`${DOOR_COLOR[f.door]}12`, border:`1px solid ${DOOR_COLOR[f.door]}25`, borderRadius:'5px', padding:'3px 7px', fontWeight:700 }}>{f.door}</span>
               </div>
               <p style={{ color:'#CBD5E1', fontSize:'13px', lineHeight:1.6, marginBottom:'12px' }}>{f.post}</p>
               <div style={{ display:'flex', gap:'12px', fontSize:'11px' }}>

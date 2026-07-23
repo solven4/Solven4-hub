@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Calendar } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
-const S = { bg: '#05050C', border: '#29293D', ink: '#E0E7FF', dim: '#94A3B8', accent: '#6366F1' };
+const S = { bg: '#1A1B1E', border: 'rgba(255,255,255,0.08)', ink: '#E0E7FF', dim: '#94A3B8', accent: '#6366F1' };
 
 function fmtDate(iso) {
   if (!iso) return '';
@@ -41,7 +41,7 @@ export function BlogList() {
         </Link>
       </div>
       <div style={{ maxWidth: 780, margin: '0 auto', padding: '48px 24px' }}>
-        <h1 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 32, fontWeight: 900, margin: '0 0 8px' }}>Blog</h1>
+        <h1 style={{ fontFamily: "'Satoshi', sans-serif", fontSize: 32, fontWeight: 500, margin: '0 0 8px' }}>Blog</h1>
         <p style={{ color: S.dim, fontSize: 14, marginBottom: 40 }}>Insights on trading, markets, and the SOLVEN4 platform.</p>
 
         {loading ? (
@@ -106,7 +106,7 @@ export function BlogPost() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: S.dim, fontSize: 11, marginBottom: 12 }}>
           <Calendar size={11} /> {fmtDate(post.published_at)}
         </div>
-        <h1 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: 28, fontWeight: 900, margin: '0 0 24px', lineHeight: 1.25 }}>{post.title}</h1>
+        <h1 style={{ fontFamily: "'Satoshi', sans-serif", fontSize: 28, fontWeight: 500, margin: '0 0 24px', lineHeight: 1.25 }}>{post.title}</h1>
         <div style={{ color: '#CBD5E1', fontSize: 15, lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>{post.body}</div>
       </article>
     </div>

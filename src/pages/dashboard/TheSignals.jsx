@@ -87,12 +87,12 @@ export default function TheSignals() {
           <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6, display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Bell size={13} /> CROSS-DOOR INTELLIGENCE
             {unread > 0 && (
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '18px', height: '18px', borderRadius: '50%', background: ACCENT, color: '#000', fontSize: '9px', fontWeight: 900, fontFamily: "'Orbitron',sans-serif", letterSpacing: 'normal' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '18px', height: '18px', borderRadius: '50%', background: ACCENT, color: '#000', fontSize: '9px', fontWeight: 500, fontFamily: "'Satoshi',sans-serif", letterSpacing: 'normal' }}>
                 {unread}
               </span>
             )}
           </div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
             background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>THE SIGNALS</h1>
           <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>Cross-door intelligence alerts and system notifications.</p>
@@ -113,7 +113,7 @@ export default function TheSignals() {
           { label: 'Alerts', val: notifs.filter(n => n.type === 'alert').length, color: '#EF4444' },
         ].map(s => (
           <GlassPanel key={s.label} className="spatial lift" brackets={false} style={{ ['--accent']: s.color, textAlign: 'center' }}>
-            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 900, marginBottom: '3px', color: s.color }}>{s.val}</div>
+            <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '20px', fontWeight: 500, marginBottom: '3px', color: s.color }}>{s.val}</div>
             <div className="s4-label" style={{ fontSize: '9px' }}>{s.label}</div>
           </GlassPanel>
         ))}
@@ -123,7 +123,7 @@ export default function TheSignals() {
       <div style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '12px', background: 'rgba(10,12,30,0.8)', border: '1px solid var(--s4-line)', marginBottom: '20px', width: 'fit-content', flexWrap: 'wrap' }}>
         {['all', 'unread', 'reward', 'info', 'warning', 'alert'].map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            style={{ fontFamily: "'Orbitron',sans-serif", padding: '7px 16px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
+            style={{ fontFamily: "'Satoshi',sans-serif", padding: '7px 16px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
               background: filter === f ? ACCENT : 'transparent', color: filter === f ? '#000' : '#94A3B8' }}>
             {f.toUpperCase()}
           </button>
@@ -165,7 +165,7 @@ export default function TheSignals() {
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{n.title ?? 'Signal'}</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                        <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '8px', fontWeight: 900, padding: '2px 6px', borderRadius: '4px', color: cfg.color, background: `${cfg.color}15` }}>{cfg.label}</span>
+                        <span style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '8px', fontWeight: 500, padding: '2px 6px', borderRadius: '4px', color: cfg.color, background: `${cfg.color}15` }}>{cfg.label}</span>
                         <span style={{ fontSize: '10px', color: '#94A3B8' }}>{timeAgo(n.created_at)}</span>
                       </div>
                     </div>

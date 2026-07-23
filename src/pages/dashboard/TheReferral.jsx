@@ -113,7 +113,7 @@ function StatCard({ label, value, sub, color, Icon }) {
         <span className="s4-label" style={{ fontSize: '9px' }}>{label}</span>
         <Icon size={12} style={{ color }} />
       </div>
-      <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 900, color: '#fff', marginBottom: '3px' }}>{value}</div>
+      <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '20px', fontWeight: 500, color: '#fff', marginBottom: '3px' }}>{value}</div>
       {sub && <div style={{ color, fontSize: '10px' }}>{sub}</div>}
     </GlassPanel>
   );
@@ -185,7 +185,7 @@ export default function TheReferral() {
           <div>
             <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 8, display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Network size={13} /> {t('REFERRAL & AFFILIATE', 'الإحالة والتسويق بالعمولة')}
-              <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '6px', padding: '2px 8px', fontSize: '9px', fontWeight: 700, color: '#10B981', fontFamily: "'Orbitron',sans-serif", letterSpacing: 'normal' }}>
+              <span style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '6px', padding: '2px 8px', fontSize: '9px', fontWeight: 700, color: '#10B981', fontFamily: "'Satoshi',sans-serif", letterSpacing: 'normal' }}>
                 {t('PROGRAM ACTIVE', 'البرنامج نشط')}
               </span>
             </div>
@@ -204,7 +204,7 @@ export default function TheReferral() {
               </Btn>
             </div>
             <div style={{ display: 'flex', gap: '6px', marginTop: '8px' }}>
-              <span style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '6px', padding: '3px 8px', fontSize: '9px', color: '#6366F1', fontFamily: "'Orbitron',sans-serif", fontWeight: 700 }}>
+              <span style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '6px', padding: '3px 8px', fontSize: '9px', color: '#6366F1', fontFamily: "'Satoshi',sans-serif", fontWeight: 700 }}>
                 {t('CODE', 'الرمز')}: {refCode}
               </span>
               <span style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: '6px', padding: '3px 8px', fontSize: '9px', color: '#10B981' }}>
@@ -219,7 +219,7 @@ export default function TheReferral() {
       <div style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '12px', background: 'rgba(10,12,30,0.8)', border: `1px solid ${S.border}`, marginBottom: '16px', width: 'fit-content' }}>
         {[['overview', t('Overview', 'نظرة عامة')], ['programs', t('Programs', 'البرامج')], ['network', t('Network', 'الشبكة')], ['kit', t('Marketing Kit', 'حقيبة التسويق')]].map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)}
-            style={{ fontFamily: "'Orbitron',sans-serif", padding: '7px 18px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
+            style={{ fontFamily: "'Satoshi',sans-serif", padding: '7px 18px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
               background: tab === key ? ACCENT : 'transparent', color: tab === key ? '#fff' : S.muted }}>
             {label}
           </button>
@@ -248,14 +248,14 @@ export default function TheReferral() {
                 {COMMISSION_TIERS.map(ct => (
                   <div key={ct.level} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: `1px solid ${S.border}` }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                      <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontFamily: "'Orbitron',sans-serif", fontSize: '11px', fontWeight: 900,
+                      <div style={{ width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontFamily: "'Satoshi',sans-serif", fontSize: '11px', fontWeight: 500,
                         background: `${ct.color}15`, border: `2px solid ${ct.color}40`, color: ct.color }}>
                         {ct.level}
                       </div>
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>{ct.label}</span>
-                          <span className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '13px', fontWeight: 900, color: ct.color }}>{ct.pct}</span>
+                          <span className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '13px', fontWeight: 500, color: ct.color }}>{ct.pct}</span>
                         </div>
                         <div style={{ color: S.muted, fontSize: '10px', marginTop: '2px' }}>{ct.desc}</div>
                       </div>
@@ -278,7 +278,7 @@ export default function TheReferral() {
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                           <span style={{ color: '#CBD5E1', fontSize: '11px' }}>{p.label}</span>
-                          <span className="s4-num" style={{ color: p.color, fontSize: '12px', fontWeight: 800, fontFamily: "'Orbitron',sans-serif" }}>${p.stats.earned.toLocaleString()}</span>
+                          <span className="s4-num" style={{ color: p.color, fontSize: '12px', fontWeight: 500, fontFamily: "'Satoshi',sans-serif" }}>${p.stats.earned.toLocaleString()}</span>
                         </div>
                         <div style={{ height: '4px', borderRadius: '2px', background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
                           <motion.div initial={{ width: 0 }} animate={{ width: `${(p.stats.earned / 6400) * 100}%` }}
@@ -326,7 +326,7 @@ export default function TheReferral() {
                     <p.Icon size={14} style={{ color: p.color }} />
                   </div>
                   <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '8px', color: p.color, fontWeight: 700 }}>{p.label}</div>
+                    <div style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '8px', color: p.color, fontWeight: 700 }}>{p.label}</div>
                     <div style={{ color: '#CBD5E1', fontSize: '11px' }}>{p.title}</div>
                   </div>
                 </button>
@@ -344,7 +344,7 @@ export default function TheReferral() {
                     </div>
                     <div>
                       <div className="s4-label" style={{ color: prog.color, fontSize: '9px' }}>{prog.label} {t('AFFILIATE PROGRAM', 'برنامج التسويق بالعمولة')}</div>
-                      <div style={{ color: '#fff', fontSize: '16px', fontWeight: 800 }}>{prog.title}</div>
+                      <div style={{ color: '#fff', fontSize: '16px', fontWeight: 500 }}>{prog.title}</div>
                     </div>
                   </div>
                   <p style={{ color: '#CBD5E1', fontSize: '12px', lineHeight: 1.7 }}>{prog.desc}</p>
@@ -354,7 +354,7 @@ export default function TheReferral() {
                   {prog.tiers.map(pt => (
                     <div key={pt.name} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${prog.color}15`, borderRadius: '12px', padding: '14px' }}>
                       <div style={{ fontSize: '9px', color: S.muted, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{pt.name}</div>
-                      <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '22px', fontWeight: 900, color: prog.color, marginBottom: '4px' }}>{pt.value}</div>
+                      <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '22px', fontWeight: 500, color: prog.color, marginBottom: '4px' }}>{pt.value}</div>
                       <div style={{ fontSize: '10px', color: '#CBD5E1' }}>{pt.desc}</div>
                     </div>
                   ))}
@@ -407,15 +407,15 @@ export default function TheReferral() {
           <motion.div key="net" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '10px', marginBottom: '16px' }}>
               <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: '#6366F1', textAlign: 'center' }}>
-                <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '28px', fontWeight: 900, color: '#6366F1', marginBottom: '4px' }}>{MY_STATS.tier1Refs}</div>
+                <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '28px', fontWeight: 500, color: '#6366F1', marginBottom: '4px' }}>{MY_STATS.tier1Refs}</div>
                 <div style={{ color: S.muted, fontSize: '10px' }}>{t('Tier 1 (Direct)', 'المستوى 1 (مباشر)')}</div>
               </GlassPanel>
               <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: '#D4A843', textAlign: 'center' }}>
-                <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '28px', fontWeight: 900, color: '#D4A843', marginBottom: '4px' }}>{MY_STATS.tier2Refs}</div>
+                <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '28px', fontWeight: 500, color: '#D4A843', marginBottom: '4px' }}>{MY_STATS.tier2Refs}</div>
                 <div style={{ color: S.muted, fontSize: '10px' }}>{t('Tier 2 (Sub-refs)', 'المستوى 2 (إحالات فرعية)')}</div>
               </GlassPanel>
               <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: '#10B981', textAlign: 'center' }}>
-                <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '28px', fontWeight: 900, color: '#10B981', marginBottom: '4px' }}>{MY_STATS.tier3Refs}</div>
+                <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '28px', fontWeight: 500, color: '#10B981', marginBottom: '4px' }}>{MY_STATS.tier3Refs}</div>
                 <div style={{ color: S.muted, fontSize: '10px' }}>{t('Tier 3 (Deep)', 'المستوى 3 (عميق)')}</div>
               </GlassPanel>
             </div>
@@ -434,24 +434,24 @@ export default function TheReferral() {
                 <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
                   style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '10px', marginBottom: '4px', background: 'rgba(255,255,255,0.01)' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: r.color, boxShadow: `0 0 6px ${r.color}`, flexShrink: 0 }} />
-                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: `${r.color}15`, border: `1px solid ${r.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontWeight: 800, fontSize: '12px', color: r.color }}>
+                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: `${r.color}15`, border: `1px solid ${r.color}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontWeight: 500, fontSize: '12px', color: r.color }}>
                     {r.name[0]}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: '#fff', fontSize: '13px', fontWeight: 700 }}>{r.name}</div>
                     <div style={{ display: 'flex', gap: '8px', marginTop: '2px' }}>
-                      <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '8px', color: r.color, fontWeight: 700 }}>{r.door}</span>
+                      <span style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '8px', color: r.color, fontWeight: 700 }}>{r.door}</span>
                       <span style={{ color: S.muted, fontSize: '10px' }}>{t('Joined', 'انضم')} {r.joined}</span>
                     </div>
                   </div>
-                  <div style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '6px', padding: '3px 8px', fontSize: '9px', fontFamily: "'Orbitron',sans-serif", fontWeight: 700, color: '#6366F1' }}>
+                  <div style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: '6px', padding: '3px 8px', fontSize: '9px', fontFamily: "'Satoshi',sans-serif", fontWeight: 700, color: '#6366F1' }}>
                     {t('TIER', 'المستوى')} {r.tier}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: r.status === 'active' ? '#10B981' : '#F97316' }} />
                     <span style={{ fontSize: '10px', color: r.status === 'active' ? '#10B981' : '#F97316' }}>{r.status}</span>
                   </div>
-                  <div className="s4-num" style={{ textAlign: 'right', flexShrink: 0, fontFamily: "'Orbitron',sans-serif", fontSize: '13px', fontWeight: 900, color: '#10B981' }}>
+                  <div className="s4-num" style={{ textAlign: 'right', flexShrink: 0, fontFamily: "'Satoshi',sans-serif", fontSize: '13px', fontWeight: 500, color: '#10B981' }}>
                     ${r.earned}
                   </div>
                 </motion.div>

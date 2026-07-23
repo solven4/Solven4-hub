@@ -23,7 +23,7 @@ function AppContent({ isAdmin }) {
   }, [location.pathname]);
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: '#05050C' }}>
+    <div className="flex h-screen overflow-hidden" style={{ background: '#1A1B1E' }}>
       <Helmet><title>S4 HUB | Command Center</title></Helmet>
       {/* Ambient dual-accent background (Emergent skin) */}
       <div className="fixed inset-0 pointer-events-none z-0">

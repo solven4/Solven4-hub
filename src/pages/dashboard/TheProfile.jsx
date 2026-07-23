@@ -12,7 +12,7 @@ import { GlassPanel, Btn } from '@/hud';
 const ACCENT = '#6366f1';
 
 const S = {
-  label: { fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' },
+  label: { fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '8px' },
   input: { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', fontSize: '13px', outline: 'none', boxSizing: 'border-box' },
   btn: { padding: '10px 20px', borderRadius: '10px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.15s' },
 };
@@ -71,7 +71,7 @@ export default function TheProfile() {
       {/* Header */}
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
         <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('UNIFIED IDENTITY', 'هوية موحدة')}</div>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+        <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
           background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('PROFILE & KYC', 'الملف الشخصي والتحقق')}</h1>
         <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Unified identity across all S4 doors', 'هوية موحدة عبر جميع أبواب S4')}</p>
@@ -100,7 +100,7 @@ export default function TheProfile() {
                 </div>
                 <div style={{ fontSize: '12px', color: '#94A3B8' }}>{user?.email}</div>
                 <div style={{ display: 'flex', gap: '6px', marginTop: '6px' }}>
-                  <span style={{ fontSize: '10px', padding: '2px 10px', borderRadius: '20px', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontWeight: 600, fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em' }}>
+                  <span style={{ fontSize: '10px', padding: '2px 10px', borderRadius: '20px', background: 'rgba(99,102,241,0.15)', color: '#818CF8', fontWeight: 600, fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.08em' }}>
                     {profile?.plan?.toUpperCase() || t('FREE','مجاني')}
                   </span>
                   <span style={{ fontSize: '10px', padding: '2px 10px', borderRadius: '20px', background: 'rgba(212,168,67,0.15)', color: '#D4A843', fontWeight: 600 }}>
@@ -158,7 +158,7 @@ export default function TheProfile() {
                 <Shield size={16} color={ACCENT} />
                 <span className="s4-label s4-accent">{t('KYC STATUS', 'حالة التحقق')}</span>
               </div>
-              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '18px', fontWeight: 900, color: kycPct === 100 ? '#10B981' : '#D4A843' }}>{kycPct}%</div>
+              <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '18px', fontWeight: 500, color: kycPct === 100 ? '#10B981' : '#D4A843' }}>{kycPct}%</div>
             </div>
 
             {/* Progress bar */}
@@ -200,9 +200,9 @@ export default function TheProfile() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {DOOR_STATS.map(({ door, color, label, stat, statAr, value }) => (
                 <div key={door} style={{ padding: '12px', borderRadius: '10px', background: `${color}08`, border: `1px solid ${color}25` }}>
-                  <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', color: color, fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>{door}</div>
+                  <div style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '9px', color: color, fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>{door}</div>
                   <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '2px' }}>{t(stat, statAr)}</div>
-                  <div className="s4-num" style={{ fontSize: '18px', fontWeight: 800, color: '#fff' }}>{value}</div>
+                  <div className="s4-num" style={{ fontSize: '18px', fontWeight: 500, color: '#fff' }}>{value}</div>
                 </div>
               ))}
             </div>

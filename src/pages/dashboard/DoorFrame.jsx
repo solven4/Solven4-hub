@@ -75,7 +75,7 @@ export default function DoorFrame() {
   }
 
   return (
-    <div className="s4hud" style={{ ['--accent']: door.color, display: 'flex', flexDirection: 'column', height: '100%', background: '#05050C' }}>
+    <div className="s4hud" style={{ ['--accent']: door.color, display: 'flex', flexDirection: 'column', height: '100%', background: '#1A1B1E' }}>
       <Helmet><title>{door.label} | S4 HUB</title></Helmet>
       {/* Door top bar — doors with their own embedded-mode header (currently NEXUS) skip this and provide it themselves */}
       {!hasOwnChrome && (
@@ -170,7 +170,7 @@ export default function DoorFrame() {
             style={{
               position: 'absolute', inset: 0, zIndex: 10,
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              background: '#05050C',
+              background: '#1A1B1E',
             }}>
             <div style={{ position: 'relative', width: '80px', height: '80px', marginBottom: '24px' }}>
               <div style={{

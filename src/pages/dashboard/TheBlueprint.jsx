@@ -9,7 +9,7 @@ import { useLang } from '@/lib/LanguageContext';
 import { Btn } from '@/hud';
 
 const ACCENT = '#D4A843';
-const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
+const S = { bg:'#1A1B1E', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 /* ── ACTIVE GOALS ── */
@@ -118,8 +118,8 @@ function StreakRing({ days, total, color, size=56 }) {
           transition={{ delay:0.3, duration:0.8 }} />
       </svg>
       <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-        <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'13px', fontWeight:900, color, lineHeight:1 }}>{days}</div>
-        <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'6px', color:S.muted, marginTop:'1px' }}>DAYS</div>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'13px', fontWeight:900, color, lineHeight:1 }}>{days}</div>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'6px', color:S.muted, marginTop:'1px' }}>DAYS</div>
       </div>
     </div>
   );
@@ -140,7 +140,7 @@ function ProgressRing({ pct, color, size=80 }) {
           transition={{ delay:0.3, duration:0.9 }} />
       </svg>
       <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-        <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'15px', fontWeight:900, color, lineHeight:1 }}>{pct}%</div>
+        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'15px', fontWeight:900, color, lineHeight:1 }}>{pct}%</div>
       </div>
     </div>
   );
@@ -174,7 +174,7 @@ export default function TheBlueprint() {
             <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
               <Map size={13} /> {t('AI ROADMAP OS', 'نظام خارطة الطريق الذكي')}
             </div>
-            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
               background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
               filter:'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE BLUEPRINT', 'المخطط')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Your personal AI-generated 90-day roadmap across all 4 doors', 'خارطة طريقك الشخصية لـ90 يوماً مُولّدة بالذكاء الاصطناعي عبر الأبواب الأربعة')}</p>
@@ -187,7 +187,7 @@ export default function TheBlueprint() {
               { label:t('Avg Progress','متوسط التقدم'), value:`${Math.round(GOALS.reduce((s,g)=>s+g.progress,0)/GOALS.length)}%`, color:'#10B981' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:s.color }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginTop:'3px' }}>{s.label}</div>
               </div>
             ))}
@@ -212,7 +212,7 @@ export default function TheBlueprint() {
           { id:'milestones',label:t('Milestones','المحطات') },
         ].map(tb => (
           <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
-            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 18px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
+            style={{ fontFamily:"'Satoshi',sans-serif", padding:'7px 18px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
               background: activeTab===tb.id?ACCENT:'transparent', color: activeTab===tb.id?'#000':S.muted }}>
             {tb.label}
           </button>
@@ -236,7 +236,7 @@ export default function TheBlueprint() {
                   <ProgressRing pct={g.progress} color={g.color} size={70} />
                   <div style={{ flex:1 }}>
                     <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'4px' }}>
-                      <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:g.color, fontWeight:700 }}>{g.door}</span>
+                      <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:g.color, fontWeight:700 }}>{g.door}</span>
                       <span style={{ color:S.muted, fontSize:'10px' }}>{g.category}</span>
                     </div>
                     <div style={{ color:'#fff', fontSize:'15px', fontWeight:700, marginBottom:'8px' }}>{g.title}</div>
@@ -265,7 +265,7 @@ export default function TheBlueprint() {
                       <div style={{ padding:'18px 20px', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px' }}>
                         {/* Milestones */}
                         <div>
-                          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:g.color, letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>{t('30 · 60 · 90 DAY MILESTONES', 'محطات 30 · 60 · 90 يوماً')}</div>
+                          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:g.color, letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>{t('30 · 60 · 90 DAY MILESTONES', 'محطات 30 · 60 · 90 يوماً')}</div>
                           {[
                             { label:t('30 days','30 يوماً'), val:g.milestone30, done:g.progress >= 33 },
                             { label:t('60 days','60 يوماً'), val:g.milestone60, done:g.progress >= 66 },
@@ -277,7 +277,7 @@ export default function TheBlueprint() {
                                 : <Circle size={14} style={{ color:S.muted, flexShrink:0, marginTop:'2px' }} />
                               }
                               <div>
-                                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:m.done?'#10B981':S.muted, fontWeight:700, marginBottom:'2px' }}>{m.label}</div>
+                                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:m.done?'#10B981':S.muted, fontWeight:700, marginBottom:'2px' }}>{m.label}</div>
                                 <p style={{ color: m.done?'#CBD5E1':'rgba(136,153,180,0.6)', fontSize:'11px', lineHeight:1.5 }}>{m.val}</p>
                               </div>
                             </div>
@@ -286,7 +286,7 @@ export default function TheBlueprint() {
 
                         {/* This week's actions */}
                         <div>
-                          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>{t("THIS WEEK'S ACTIONS", 'إجراءات هذا الأسبوع')}</div>
+                          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>{t("THIS WEEK'S ACTIONS", 'إجراءات هذا الأسبوع')}</div>
                           {g.actions.map((a, ai) => {
                             const ck = checkedActions[`${g.id}-${ai}`] ?? a.done;
                             return (
@@ -328,7 +328,7 @@ export default function TheBlueprint() {
               <span style={{ color:'#CBD5E1', fontSize:'12px' }}>This is a high-leverage week. Completing ORACLE Lesson 8 before Thursday's exam will directly lift your trade win-rate. Prioritize EDGE morning sessions — London open is your peak performance window.</span>
             </div>
             <div style={{ textAlign:'right', flexShrink:0 }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#6366F1' }}>{totalXP} XP</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:'#6366F1' }}>{totalXP} XP</div>
               <div style={{ color:S.muted, fontSize:'9px' }}>{t('Available this week', 'متاح هذا الأسبوع')}</div>
             </div>
           </div>
@@ -338,14 +338,14 @@ export default function TheBlueprint() {
               <motion.div key={day.day} initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} transition={{ delay:i*0.06 }}
                 className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
                 <div style={{ padding:'10px 10px 6px', borderBottom:`1px solid ${S.border}`, textAlign:'center' }}>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', fontWeight:900, color: i===0?'#D4A843':'#CBD5E1' }}>{day.day}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:900, color: i===0?'#D4A843':'#CBD5E1' }}>{day.day}</div>
                 </div>
                 <div style={{ padding:'8px' }}>
                   {day.tasks.length === 0
                     ? <div style={{ color:'rgba(255,255,255,0.15)', fontSize:'9px', textAlign:'center', padding:'8px 0' }}>{t('Rest','راحة')}</div>
                     : day.tasks.map((t, ti) => (
                       <div key={ti} style={{ marginBottom:'6px', padding:'6px 8px', borderRadius:'8px', background:`${t.color}08`, border:`1px solid ${t.color}18` }}>
-                        <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'6px', color:t.color, fontWeight:700, marginBottom:'3px' }}>{t.door}</div>
+                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'6px', color:t.color, fontWeight:700, marginBottom:'3px' }}>{t.door}</div>
                         <div style={{ color:'#CBD5E1', fontSize:'9px', lineHeight:1.4 }}>{t.label}</div>
                         <div style={{ color:'#6366F1', fontSize:'8px', fontWeight:700, marginTop:'3px' }}>+{t.xp} XP</div>
                       </div>
@@ -386,7 +386,7 @@ export default function TheBlueprint() {
                   </div>
                 </div>
                 <div style={{ background:`${a.color}12`, border:`1px solid ${a.color}20`, borderRadius:'8px', padding:'4px 10px', flexShrink:0 }}>
-                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:a.color, fontWeight:700, textTransform:'uppercase' }}>{a.type}</span>
+                  <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:a.color, fontWeight:700, textTransform:'uppercase' }}>{a.type}</span>
                 </div>
               </div>
             </motion.div>
@@ -405,7 +405,7 @@ export default function TheBlueprint() {
                     <g.icon size={16} style={{ color:g.color }} />
                   </div>
                   <div>
-                    <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:g.color, fontWeight:700 }}>{g.door}</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:g.color, fontWeight:700 }}>{g.door}</div>
                     <div style={{ color:'#fff', fontSize:'12px', fontWeight:700 }}>{g.title}</div>
                   </div>
                   <div style={{ marginLeft:'auto' }}>
@@ -425,7 +425,7 @@ export default function TheBlueprint() {
                     <div key={mi} style={{ position:'relative', marginBottom:'14px', paddingLeft:'14px' }}>
                       {/* Node */}
                       <div style={{ position:'absolute', left:'-10px', top:'2px', width:'12px', height:'12px', borderRadius:'50%', background: m.done?g.color:`rgba(255,255,255,0.06)`, border:`2px solid ${m.done?g.color:'rgba(255,255,255,0.1)'}`, boxShadow: m.done?`0 0 8px ${g.color}60`:undefined }} />
-                      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color: m.done?g.color:S.muted, fontWeight:700, marginBottom:'2px' }}>{m.label} {m.done && '✓'}</div>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color: m.done?g.color:S.muted, fontWeight:700, marginBottom:'2px' }}>{m.label} {m.done && '✓'}</div>
                       <p style={{ color: m.done?'#CBD5E1':'rgba(136,153,180,0.5)', fontSize:'10px', lineHeight:1.5 }}>{m.val}</p>
                     </div>
                   ))}

@@ -10,7 +10,7 @@ import { GlassPanel } from '@/hud';
 const ACCENT = '#D4A843';
 
 const CHART_STYLE = {
-  contentStyle: { background: '#0A0C1E', border: '1px solid #29293D', borderRadius: 12, color: '#fff', fontSize: 11 },
+  contentStyle: { background: '#14161B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#fff', fontSize: 11 },
   cursor: { fill: 'rgba(212,168,67,0.04)' },
 };
 
@@ -63,7 +63,7 @@ export default function TheScore() {
         <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6, display: 'flex', alignItems: 'center', gap: '8px' }}>
           <DollarSign size={13} /> CROSS-DOOR COMMISSIONS
         </div>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+        <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
           background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE SCORE', 'النقاط')}</h1>
         <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door commissions, approvals, and payout tracking.', 'تتبع العمولات والموافقات والمدفوعات عبر الأبواب.')}</p>
@@ -86,7 +86,7 @@ export default function TheScore() {
                   <Icon size={13} style={{ color: s.color }} />
                 </div>
               </div>
-              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '22px', fontWeight: 900, color: s.color, marginBottom: '3px' }}>
+              <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '22px', fontWeight: 500, color: s.color, marginBottom: '3px' }}>
                 {s.suffix}{loading ? '—' : s.val.toFixed(0)}
               </div>
               <div style={{ fontSize: '10px', color: '#94A3B8' }}>{s.sub}</div>
@@ -102,7 +102,7 @@ export default function TheScore() {
             <div className="s4-label s4-accent" style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
               <BarChart3 size={12} /> {t('MONTHLY COMMISSIONS', 'العمولات الشهرية')}
             </div>
-            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '13px', fontWeight: 900, color: ACCENT }}>${totalEarned.toFixed(2)} {t('total', 'إجمالي')}</div>
+            <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '13px', fontWeight: 500, color: ACCENT }}>${totalEarned.toFixed(2)} {t('total', 'إجمالي')}</div>
           </div>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart data={chartData}>
@@ -125,7 +125,7 @@ export default function TheScore() {
       <div style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '12px', background: 'rgba(10,12,30,0.8)', border: '1px solid var(--s4-line)', marginBottom: '16px', width: 'fit-content' }}>
         {[['commissions', t('commissions', 'العمولات')], ['payouts', t('payouts', 'المدفوعات')]].map(([tabKey, tabLabel]) => (
           <button key={tabKey} onClick={() => setTab(tabKey)}
-            style={{ fontFamily: "'Orbitron',sans-serif", padding: '7px 18px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
+            style={{ fontFamily: "'Satoshi',sans-serif", padding: '7px 18px', borderRadius: '8px', fontSize: '10px', letterSpacing: '0.06em', fontWeight: 700, cursor: 'pointer', border: 'none', transition: 'all 0.15s',
               background: tab === tabKey ? ACCENT : 'transparent', color: tab === tabKey ? '#000' : '#94A3B8' }}>
             {tabLabel.toUpperCase()}
           </button>
@@ -158,8 +158,8 @@ export default function TheScore() {
                       <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.description ?? t('Commission', 'عمولة')}</div>
                       <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '2px' }}>{new Date(c.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
                     </div>
-                    <div style={{ fontSize: '9px', fontFamily: "'Orbitron',sans-serif", fontWeight: 900, padding: '3px 8px', borderRadius: '6px', color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
-                    <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 900, color: ACCENT }}>${(c.amount ?? 0).toFixed(2)}</div>
+                    <div style={{ fontSize: '9px', fontFamily: "'Satoshi',sans-serif", fontWeight: 500, padding: '3px 8px', borderRadius: '6px', color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
+                    <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontWeight: 500, color: ACCENT }}>${(c.amount ?? 0).toFixed(2)}</div>
                   </div>
                 );
               })}
@@ -182,8 +182,8 @@ export default function TheScore() {
                       <div style={{ fontSize: '13px', fontWeight: 600, color: '#fff' }}>{p.method ?? t('Bank Transfer', 'تحويل بنكي')}</div>
                       <div style={{ fontSize: '10px', color: '#94A3B8' }}>{new Date(p.created_at).toLocaleDateString()}</div>
                     </div>
-                    <div style={{ fontSize: '9px', fontFamily: "'Orbitron',sans-serif", fontWeight: 900, padding: '3px 8px', borderRadius: '6px', color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
-                    <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 900, color: ACCENT }}>${(p.amount ?? 0).toFixed(2)}</div>
+                    <div style={{ fontSize: '9px', fontFamily: "'Satoshi',sans-serif", fontWeight: 500, padding: '3px 8px', borderRadius: '6px', color: s.color, background: s.bg }}>{t(s.label, s.labelAr)}</div>
+                    <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontWeight: 500, color: ACCENT }}>${(p.amount ?? 0).toFixed(2)}</div>
                   </div>
                 );
               })}

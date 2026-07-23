@@ -170,11 +170,11 @@ export default function TheBrain() {
               background: persona.id === p.id ? p.bg : undefined,
             }}>
             <div className="text-xl mb-2">{p.emoji}</div>
-            <div className="text-[11px] font-heading font-black tracking-wider mb-0.5"
+            <div className="text-[11px] font-heading font-medium tracking-wider mb-0.5"
               style={{ color: persona.id === p.id ? p.color : '#fff' }}>{p.name}</div>
             <div className="text-[9px] text-opiom-muted">{p.sub}</div>
             {persona.id === p.id && (
-              <div className="mt-2 flex items-center gap-1 text-[9px] font-heading font-black tracking-wider" style={{ color: p.color }}>
+              <div className="mt-2 flex items-center gap-1 text-[9px] font-heading font-medium tracking-wider" style={{ color: p.color }}>
                 {t('ACTIVE', 'نشط')} <ChevronRight size={9} />
               </div>
             )}
@@ -190,7 +190,7 @@ export default function TheBrain() {
           <div className="flex items-center gap-3">
             <div className="text-2xl">{persona.emoji}</div>
             <div>
-              <div className="text-sm font-heading font-black tracking-wider" style={{ color: persona.color }}>{persona.name}</div>
+              <div className="text-sm font-heading font-medium tracking-wider" style={{ color: persona.color }}>{persona.name}</div>
               <div className="text-[10px] text-opiom-muted">{persona.sub} · {t('SOLVEN4 Intelligence', 'ذكاء SOLVEN4')}</div>
             </div>
           </div>

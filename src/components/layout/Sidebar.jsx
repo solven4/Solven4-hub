@@ -164,7 +164,7 @@ export default function Sidebar({ isAdmin = false }) {
             background: 'linear-gradient(135deg,#6366F1,#818CF8)',
             borderRadius: '8px', width: '34px', height: '34px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0, fontFamily: "'Satoshi', sans-serif", fontSize: '11px', fontWeight: 900, color: '#fff',
+            flexShrink: 0, fontFamily: "'Satoshi', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff',
           }}>
             S4
           </div>

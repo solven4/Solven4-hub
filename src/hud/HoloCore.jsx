@@ -43,7 +43,7 @@ export default function HoloCore({ accent = '#6366f1', variant = 'core', classNa
       const wire = (ax, ay, scale, alpha, lw) => {
         const pts = V.map(p => { const [x, y, z] = rot(p, ax, ay); const pp = f / (f + z); return [cx + x * pp * scale, cy + y * pp * scale, z]; });
         E.forEach(([i, j]) => { const depth = (pts[i][2] + pts[j][2]) / 2; const a = alpha * (0.35 + 0.4 * (1 - (depth + PHI) / (2 * PHI))); ctx.strokeStyle = `rgba(${rgb},${a.toFixed(3)})`; ctx.lineWidth = lw; ctx.beginPath(); ctx.moveTo(pts[i][0], pts[i][1]); ctx.lineTo(pts[j][0], pts[j][1]); ctx.stroke(); });
-        pts.forEach(p => { ctx.beginPath(); ctx.arc(p[0], p[1], 1.8, 0, 7); ctx.fillStyle = `rgba(${rgb},${alpha})`; ctx.shadowColor = accent; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0; });
+        pts.forEach(p => { ctx.beginPath(); ctx.arc(p[0], p[1], 1.8, 0, 7); ctx.fillStyle = `rgba(${rgb},${alpha})`;  ctx.fill(); });
       };
       wire(spin * 0.7, spin, R, 0.7, 1.1); wire(-spin * 0.5 + 0.6, -spin * 1.3, R * 0.6, 0.4, 0.9);
       centerPulse(cx, cy, R * 0.12);
@@ -66,7 +66,7 @@ export default function HoloCore({ accent = '#6366f1', variant = 'core', classNa
         ctx.strokeStyle = `rgba(${rgb},0.16)`; ctx.beginPath(); ctx.ellipse(cx, cy, R * 0.34, R, 0, 0, 7); ctx.stroke(); // meridian
         ctx.strokeStyle = `rgba(${rgb},0.30)`; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.stroke();               // limb
       }
-      pts.forEach(p => { const pr = 2 + (reduce ? 0 : Math.sin(t * 0.004 + p.p) * 1.2); ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.6, pr), 0, 7); ctx.fillStyle = `rgba(${rgb},0.95)`; ctx.shadowColor = accent; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0; });
+      pts.forEach(p => { const pr = 2 + (reduce ? 0 : Math.sin(t * 0.004 + p.p) * 1.2); ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.6, pr), 0, 7); ctx.fillStyle = `rgba(${rgb},0.95)`;  ctx.fill(); });
       centerPulse(cx, cy, R * 0.1);
     }
 
@@ -84,10 +84,10 @@ export default function HoloCore({ accent = '#6366f1', variant = 'core', classNa
         if (i % 30 === 12) y += Math.sin(ph * 6) * R * 0.22; // spikes
         i ? ctx.lineTo(x, cy + y) : ctx.moveTo(x, cy + y);
       }
-      ctx.strokeStyle = `rgba(${rgb},0.9)`; ctx.lineWidth = 2; ctx.shadowColor = accent; ctx.shadowBlur = 12; ctx.stroke(); ctx.shadowBlur = 0;
+      ctx.strokeStyle = `rgba(${rgb},0.9)`; ctx.lineWidth = 2;  ctx.stroke();
       // scan dot
       const sx = cx - R + ((reduce ? 0.5 : (t * 0.06 % (R * 2)) / (R * 2))) * R * 2;
-      ctx.beginPath(); ctx.arc(sx, cy, 3, 0, 7); ctx.fillStyle = '#fff'; ctx.shadowColor = accent; ctx.shadowBlur = 12; ctx.fill(); ctx.shadowBlur = 0;
+      ctx.beginPath(); ctx.arc(sx, cy, 3, 0, 7); ctx.fillStyle = '#fff';  ctx.fill();
     }
 
     function drawReactor() { // NEXUS business power core
@@ -98,7 +98,7 @@ export default function HoloCore({ accent = '#6366f1', variant = 'core', classNa
       centerPulse(cx, cy, R * 0.16);
     }
 
-    function centerPulse(cx, cy, base) { const pr = base * (1 + (reduce ? 0 : Math.sin(t * 0.003) * 0.15)); const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, pr * 3); cg.addColorStop(0, 'rgba(255,255,255,0.9)'); cg.addColorStop(0.4, `rgba(${rgb},0.8)`); cg.addColorStop(1, `rgba(${rgb},0)`); ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, pr * 3, 0, 7); ctx.fill(); }
+    function centerPulse(cx, cy, base) { const pr = base * (1 + (reduce ? 0 : Math.sin(t * 0.003) * 0.15)); const cg = ctx.createRadialGradient(cx, cy, 0, cx, cy, pr * 1.6); cg.addColorStop(0, `rgba(${rgb},0.35)`); cg.addColorStop(1, `rgba(${rgb},0)`); ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, cy, pr * 1.6, 0, 7); ctx.fill(); }
 
     const draw = () => {
       ctx.clearRect(0, 0, W, H); glow();

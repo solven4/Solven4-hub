@@ -65,9 +65,9 @@ export default function Topbar({ isAdmin }) {
         {/* Page identity */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <div className="font-heading text-sm font-black text-white tracking-wider truncate">{pageInfo.title}</div>
+            <div className="font-heading text-sm font-medium text-white tracking-wider truncate">{pageInfo.title}</div>
             {isAdmin && (
-              <span className="text-[9px] bg-command/20 text-command border border-command/30 px-1.5 py-0.5 rounded font-heading font-black tracking-wider">{t('ADMIN', 'إدارة')}</span>
+              <span className="text-[9px] bg-command/20 text-command border border-command/30 px-1.5 py-0.5 rounded font-heading font-medium tracking-wider">{t('ADMIN', 'إدارة')}</span>
             )}
           </div>
           <div className="text-[10px] text-opiom-muted hidden sm:block truncate">{pageInfo.sub}</div>
@@ -78,7 +78,7 @@ export default function Topbar({ isAdmin }) {
           <Zap size={11} style={{ color: rankStyle.color }} />
           <div>
             <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="text-[10px] font-heading font-black tracking-wider" style={{ color: rankStyle.color }}>{rankStyle.label}</span>
+              <span className="text-[10px] font-heading font-medium tracking-wider" style={{ color: rankStyle.color }}>{rankStyle.label}</span>
               <span className="text-[10px] text-opiom-muted font-bold">{xp} XP</span>
             </div>
             <div className="w-24 h-1 bg-opiom-border rounded-full overflow-hidden">
@@ -114,7 +114,7 @@ export default function Topbar({ isAdmin }) {
         </button>
 
         {/* Avatar */}
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center font-heading font-black text-sm cursor-pointer transition-transform hover:scale-105 flex-shrink-0"
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center font-heading font-medium text-sm cursor-pointer transition-transform hover:scale-105 flex-shrink-0"
           style={{ background: `${rankStyle.color}20`, color: rankStyle.color, border: `1px solid ${rankStyle.color}30` }}>
           {profile?.full_name?.[0]?.toUpperCase() ?? 'O'}
         </div>

@@ -106,7 +106,7 @@ function DoorChip({ doorName }) {
         padding: '3px 9px', borderRadius: '20px', marginTop: '6px', marginRight: '5px',
         background: `${door.color}15`, border: `1px solid ${door.color}40`,
         color: door.color, fontSize: '10px', fontWeight: 700,
-        fontFamily: "'Orbitron', sans-serif", letterSpacing: '0.05em',
+        fontFamily: "'Satoshi', sans-serif", letterSpacing: '0.05em',
         cursor: 'pointer', transition: 'all 0.15s',
       }}
       onMouseEnter={e => { e.currentTarget.style.background = `${door.color}28`; }}
@@ -251,8 +251,8 @@ export default function SolvenAI() {
           <div style={{
             width: '420px',
             maxHeight: '640px',
-            background: '#0A0C1E',
-            border: '1px solid #29293D',
+            background: '#14161B',
+            border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '18px',
             overflow: 'hidden',
             display: 'flex',
@@ -265,7 +265,7 @@ export default function SolvenAI() {
             <div style={{
               padding: '14px 16px',
               background: 'rgba(99,102,241,0.08)',
-              borderBottom: '1px solid #29293D',
+              borderBottom: '1px solid rgba(255,255,255,0.08)',
               display: 'flex', alignItems: 'center', gap: '12px',
               flexShrink: 0,
             }}>
@@ -274,16 +274,16 @@ export default function SolvenAI() {
                 width: '36px', height: '36px', borderRadius: '10px', flexShrink: 0,
                 background: 'linear-gradient(135deg,#6366F1,#818CF8)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: "'Orbitron', sans-serif", fontSize: '11px', fontWeight: 900, color: '#fff',
+                fontFamily: "'Satoshi', sans-serif", fontSize: '11px', fontWeight: 500, color: '#fff',
                 boxShadow: '0 0 16px rgba(99,102,241,0.4)',
               }}>S4</div>
 
               {/* Title */}
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.15em' }}>
+                <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.15em' }}>
                   SOLVEN AI
                 </div>
-                <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', color: '#6366F1', letterSpacing: '0.2em', marginTop: '2px' }}>
+                <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '8px', color: '#6366F1', letterSpacing: '0.2em', marginTop: '2px' }}>
                   CONNECTED TO 5 DOORS
                 </div>
               </div>
@@ -328,11 +328,11 @@ export default function SolvenAI() {
             {/* ── Quick Commands Grid ── */}
             <div style={{
               padding: '12px 14px',
-              borderBottom: '1px solid #29293D',
+              borderBottom: '1px solid rgba(255,255,255,0.08)',
               flexShrink: 0,
             }}>
               <div style={{
-                fontFamily: "'Orbitron', sans-serif", fontSize: '8px',
+                fontFamily: "'Satoshi', sans-serif", fontSize: '8px',
                 letterSpacing: '0.22em', color: '#94A3B8', marginBottom: '9px',
               }}>
                 QUICK COMMANDS
@@ -367,7 +367,7 @@ export default function SolvenAI() {
                     }}>
                     {/* Door tag */}
                     <div style={{
-                      fontFamily: "'Orbitron', sans-serif", fontSize: '7px', fontWeight: 700,
+                      fontFamily: "'Satoshi', sans-serif", fontSize: '7px', fontWeight: 700,
                       color: cmd.color, marginBottom: '4px', letterSpacing: '0.05em',
                     }}>{cmd.door}</div>
                     {/* Label */}
@@ -403,7 +403,7 @@ export default function SolvenAI() {
                   }}>
                     <Brain size={22} color="#fff" />
                   </div>
-                  <div style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '10px', color: '#fff', marginBottom: '6px', letterSpacing: '0.1em' }}>
+                  <div style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '10px', color: '#fff', marginBottom: '6px', letterSpacing: '0.1em' }}>
                     SOLVEN AI READY
                   </div>
                   <div style={{ fontSize: '11px', lineHeight: 1.6 }}>
@@ -487,7 +487,7 @@ export default function SolvenAI() {
             </div>
 
             {/* ── Example Queries (collapsible) ── */}
-            <div style={{ borderTop: '1px solid #29293D', flexShrink: 0 }}>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', flexShrink: 0 }}>
               <button
                 onClick={() => setShowExamples(v => !v)}
                 style={{
@@ -496,7 +496,7 @@ export default function SolvenAI() {
                   background: 'transparent', border: 'none', cursor: 'pointer',
                   color: '#94A3B8',
                 }}>
-                <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '8px', letterSpacing: '0.2em' }}>
+                <span style={{ fontFamily: "'Satoshi', sans-serif", fontSize: '8px', letterSpacing: '0.2em' }}>
                   EXAMPLE QUERIES
                 </span>
                 <ChevronDown size={12} style={{ transform: showExamples ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
@@ -525,7 +525,7 @@ export default function SolvenAI() {
             {/* ── Input Bar ── */}
             <div style={{
               padding: '10px 14px',
-              borderTop: '1px solid #29293D',
+              borderTop: '1px solid rgba(255,255,255,0.08)',
               display: 'flex', gap: '8px', alignItems: 'center',
               flexShrink: 0,
               background: 'rgba(0,0,0,0.2)',
@@ -588,9 +588,9 @@ export default function SolvenAI() {
             <div style={{
               position: 'absolute', top: '-5px', right: '-5px',
               width: '18px', height: '18px', borderRadius: '50%',
-              background: '#6366F1', border: '2px solid #05050C',
+              background: '#6366F1', border: '2px solid #1A1B1E',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: "'Orbitron', sans-serif", fontSize: '8px', fontWeight: 700, color: '#fff',
+              fontFamily: "'Satoshi', sans-serif", fontSize: '8px', fontWeight: 700, color: '#fff',
               zIndex: 1,
             }}>
               {Math.min(messages.filter(m => m.role === 'agent').length, 9)}

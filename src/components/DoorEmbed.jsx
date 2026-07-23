@@ -53,7 +53,7 @@ export default function DoorEmbed({ door, onClose }) {
             background: config.color, boxShadow: `0 0 8px ${config.color}`,
           }} />
           <span style={{
-            fontFamily: "'Orbitron',sans-serif", fontSize: '10px',
+            fontFamily: "'Satoshi',sans-serif", fontSize: '10px',
             color: config.color, fontWeight: 700, letterSpacing: '0.1em',
           }}>
             {config.label}
@@ -138,7 +138,7 @@ export default function DoorEmbed({ door, onClose }) {
             </div>
             <div>
               <div style={{
-                fontFamily: "'Orbitron',sans-serif", fontSize: '11px',
+                fontFamily: "'Satoshi',sans-serif", fontSize: '11px',
                 color: config.color, fontWeight: 700, letterSpacing: '0.12em',
               }}>
                 {config.label}
@@ -154,7 +154,7 @@ export default function DoorEmbed({ door, onClose }) {
               }} />
               <span style={{
                 fontSize: '9px', color: '#10B981',
-                fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em',
+                fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.08em',
               }}>LIVE</span>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function DoorEmbed({ door, onClose }) {
         {/* iFrame */}
         <iframe
           src={url}
-          style={{ flex: 1, border: 'none', background: '#05050C' }}
+          style={{ flex: 1, border: 'none', background: '#1A1B1E' }}
           title={config.label}
           allow="clipboard-read; clipboard-write"
         />

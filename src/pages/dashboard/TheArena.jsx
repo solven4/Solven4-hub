@@ -187,7 +187,7 @@ const DOOR_TABS = [
   { id:'nexus',  label:'NEXUS',  color:'#EF4444', Icon:Building2 },
 ];
 const PAGE_TABS = ['leaderboard','challenges','achievements','prizes'];
-const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
+const S = { bg:'#1A1B1E', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 
 function getRankForXP(xp) { return RANKS.slice().reverse().find(r=>xp>=r.minXP) ?? RANKS[0]; }
 function getNextRank(xp)  { return RANKS.find(r=>r.minXP>xp); }
@@ -210,7 +210,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
               <challenge.Icon size={22} style={{ color:challenge.color }} />
             </div>
             <div>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:challenge.color, fontWeight:700, letterSpacing:'0.12em', marginBottom:'3px' }}>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:challenge.color, fontWeight:700, letterSpacing:'0.12em', marginBottom:'3px' }}>
                 {challenge.door} · {challenge.type.toUpperCase()}
               </div>
               <div style={{ color:'#fff', fontSize:'17px', fontWeight:800 }}>{challenge.name}</div>
@@ -243,14 +243,14 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
 
         {/* Description */}
         <div style={{ marginBottom:'18px' }}>
-          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:S.muted, letterSpacing:'0.12em', fontWeight:700, marginBottom:'8px' }}>CHALLENGE BRIEF</div>
+          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:S.muted, letterSpacing:'0.12em', fontWeight:700, marginBottom:'8px' }}>CHALLENGE BRIEF</div>
           <p style={{ color:'#CBD5E1', fontSize:'13px', lineHeight:1.7 }}>{challenge.desc}</p>
         </div>
 
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'14px', marginBottom:'18px' }}>
           {/* Rules */}
           <div style={{ background:'rgba(255,255,255,0.02)', border:`1px solid ${S.border}`, borderRadius:'12px', padding:'14px' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#EF4444', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>RULES</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:'#EF4444', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>RULES</div>
             {challenge.rules.map((r,i) => (
               <div key={i} style={{ display:'flex', gap:'6px', marginBottom:'7px', alignItems:'flex-start' }}>
                 <div style={{ width:'4px', height:'4px', borderRadius:'50%', background:'#EF4444', marginTop:'5px', flexShrink:0 }} />
@@ -261,7 +261,7 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
 
           {/* Milestones */}
           <div style={{ background:'rgba(255,255,255,0.02)', border:`1px solid ${S.border}`, borderRadius:'12px', padding:'14px' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#10B981', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>MILESTONES</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:'#10B981', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>MILESTONES</div>
             {challenge.milestones.map((m,i) => {
               const achieved = challenge.isMoney ? challenge.progress >= m.at : challenge.progress >= m.at;
               return (
@@ -279,12 +279,12 @@ function ChallengeModal({ challenge, onClose, onJoin }) {
 
         {/* Mini leaderboard */}
         <div style={{ marginBottom:'18px' }}>
-          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>CURRENT LEADERS</div>
+          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:'#D4A843', letterSpacing:'0.12em', fontWeight:700, marginBottom:'10px' }}>CURRENT LEADERS</div>
           {challenge.leaderboard.map((p,i) => (
             <div key={i} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'7px 10px', borderRadius:'8px', background:'rgba(255,255,255,0.02)', marginBottom:'4px', border:'1px solid rgba(255,255,255,0.04)' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:900, color:['#D4A843','#94A3B8','#CD7F32'][i]??S.muted, width:'20px' }}>#{p.rank}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:['#D4A843','#94A3B8','#CD7F32'][i]??S.muted, width:'20px' }}>#{p.rank}</div>
               <span style={{ flex:1, color:p.name==='You'?challenge.color:'#CBD5E1', fontSize:'12px', fontWeight:p.name==='You'?700:400 }}>{p.name}{p.name==='You'?' (You)':''}</span>
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:700, color:challenge.color }}>
+              <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:700, color:challenge.color }}>
                 {challenge.isMoney ? `$${p.progress.toLocaleString()}` : `${p.progress}/${challenge.total}`}
               </span>
             </div>
@@ -340,7 +340,7 @@ function JoinCompetitionModal({ prize, onClose }) {
         {step === 'joined' ? (
           <div style={{ textAlign:'center', padding:'20px 0' }}>
             <div style={{ fontSize:'48px', marginBottom:'16px' }}>🏆</div>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>YOU'RE IN!</div>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:'#fff', marginBottom:'8px' }}>YOU'RE IN!</div>
             <div style={{ color:prize.color, fontSize:'14px', fontWeight:700, marginBottom:'8px' }}>{prize.name}</div>
             <p style={{ color:S.muted, fontSize:'12px', marginBottom:'20px', lineHeight:1.6 }}>
               You've successfully joined the competition. Your ranking will appear on the leaderboard within 15 minutes.
@@ -348,7 +348,7 @@ function JoinCompetitionModal({ prize, onClose }) {
             </p>
             <div style={{ background:`${prize.color}10`, border:`1px solid ${prize.color}25`, borderRadius:'12px', padding:'14px', marginBottom:'20px' }}>
               <div style={{ color:S.muted, fontSize:'10px', marginBottom:'4px' }}>COMPETING FOR</div>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:prize.color }}>{prize.prize}</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:prize.color }}>{prize.prize}</div>
             </div>
             <button onClick={onClose} style={{ width:'100%', padding:'12px', borderRadius:'10px', background:`${prize.color}`, border:'none', cursor:'pointer', color:'#000', fontSize:'13px', fontWeight:900 }}>
               Start Competing
@@ -357,7 +357,7 @@ function JoinCompetitionModal({ prize, onClose }) {
         ) : step === 'confirm' ? (
           <div>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'20px' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', color:prize.color, fontWeight:700, letterSpacing:'0.12em' }}>CONFIRM ENTRY</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', color:prize.color, fontWeight:700, letterSpacing:'0.12em' }}>CONFIRM ENTRY</div>
               <button onClick={onClose} style={{ background:'rgba(255,255,255,0.06)', border:'none', borderRadius:'8px', padding:'6px', cursor:'pointer', color:S.muted }}><X size={14} /></button>
             </div>
             <div style={{ display:'flex', flexDirection:'column', gap:'8px', marginBottom:'18px' }}>
@@ -407,18 +407,18 @@ function JoinCompetitionModal({ prize, onClose }) {
             </div>
 
             <div style={{ background:`${prize.color}10`, border:`1px solid ${prize.color}25`, borderRadius:'12px', padding:'16px', textAlign:'center', marginBottom:'18px' }}>
-              <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px', fontFamily:"'Orbitron',sans-serif", letterSpacing:'0.1em' }}>PRIZE</div>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'20px', fontWeight:900, color:prize.color }}>{prize.prize}</div>
+              <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px', fontFamily:"'Satoshi',sans-serif", letterSpacing:'0.1em' }}>PRIZE</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'20px', fontWeight:900, color:prize.color }}>{prize.prize}</div>
             </div>
 
             <p style={{ color:'#CBD5E1', fontSize:'13px', lineHeight:1.7, marginBottom:'16px' }}>{prize.desc}</p>
 
             <div style={{ marginBottom:'16px' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:S.muted, letterSpacing:'0.12em', fontWeight:700, marginBottom:'8px' }}>HOW TO WIN</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:S.muted, letterSpacing:'0.12em', fontWeight:700, marginBottom:'8px' }}>HOW TO WIN</div>
               {prize.steps.map((step,i)=>(
                 <div key={i} style={{ display:'flex', gap:'10px', marginBottom:'7px', alignItems:'flex-start' }}>
                   <div style={{ width:'18px', height:'18px', borderRadius:'50%', background:`${prize.color}15`, border:`1px solid ${prize.color}30`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                    <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:prize.color, fontWeight:900 }}>{i+1}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:prize.color, fontWeight:900 }}>{i+1}</span>
                   </div>
                   <span style={{ color:'#CBD5E1', fontSize:'12px', lineHeight:1.5 }}>{step}</span>
                 </div>
@@ -515,7 +515,7 @@ export default function TheArena() {
           <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:6, display:'flex', alignItems:'center', gap:'8px' }}>
             <Trophy size={13} /> {t('LIVE','مباشر')}
           </div>
-          <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+          <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
             background:'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
             filter:'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE ARENA', 'الساحة')}</h1>
           <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Global XP rankings across all 4 SOLVEN4 doors', 'ترتيب نقاط الخبرة العالمي عبر أبواب SOLVEN4 الأربعة')}</p>
@@ -532,14 +532,14 @@ export default function TheArena() {
           borderColor:`${myRank.color}30` }}>
         <div style={{ position:'absolute', top:0, right:0, width:'200px', height:'100%', background:`radial-gradient(ellipse at top right,${myRank.color}15,transparent 70%)`, pointerEvents:'none' }} />
         <div style={{ position:'relative', zIndex:1, display:'flex', alignItems:'center', gap:'20px', flexWrap:'wrap' }}>
-          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'36px', fontWeight:900, color:myRank.color }}>#{myPos||'—'}</div>
+          <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'36px', fontWeight:900, color:myRank.color }}>#{myPos||'—'}</div>
           <div style={{ width:'1px', height:'48px', background:`${myRank.color}30` }} />
           <div style={{ display:'flex', alignItems:'center', gap:'10px' }}>
             <div style={{ fontSize:'28px' }}>{myRank.emoji}</div>
             <div>
               <div style={{ color:'#fff', fontWeight:800, fontSize:'15px' }}>{profile?.full_name || user?.email?.split('@')[0] || 'You'}</div>
               <div style={{ display:'flex', alignItems:'center', gap:'6px', marginTop:'2px' }}>
-                <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', fontWeight:700, color:myRank.color }}>{myRank.name.toUpperCase()}</span>
+                <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', fontWeight:700, color:myRank.color }}>{myRank.name.toUpperCase()}</span>
                 <span style={{ color:S.muted, fontSize:'11px' }}>· {myXP.toLocaleString()} XP</span>
               </div>
             </div>
@@ -561,7 +561,7 @@ export default function TheArena() {
                 </div>
               </>
             ) : (
-              <div style={{ color:'#A855F7', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:700 }}>👑 {t('MAXIMUM RANK ACHIEVED', 'أعلى رتبة تم تحقيقها')}</div>
+              <div style={{ color:'#A855F7', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:700 }}>👑 {t('MAXIMUM RANK ACHIEVED', 'أعلى رتبة تم تحقيقها')}</div>
             )}
           </div>
           <div>
@@ -614,7 +614,7 @@ export default function TheArena() {
                   backgroundImage:'linear-gradient(rgba(212,168,67,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,67,0.07) 1px,transparent 1px)',
                   backgroundSize:'32px 32px', pointerEvents:'none' }} />
                 <div style={{ position:'relative', zIndex:1 }}>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.3em', color:S.muted, textAlign:'center', marginBottom:'28px' }}>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', letterSpacing:'0.3em', color:S.muted, textAlign:'center', marginBottom:'28px' }}>
                     TOP AGENTS — {doorTab.toUpperCase()} {doorTab!=='global'?'DOOR':'GLOBAL'}
                   </div>
                   <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'center', gap:'16px' }}>
@@ -628,7 +628,7 @@ export default function TheArena() {
                           style={{ display:'flex', flexDirection:'column', alignItems:'center', width:'120px' }}>
                           <div style={{ fontSize:'22px', marginBottom:'6px' }}>{m.emoji}</div>
                           <div style={{ position:'relative', width:'52px', height:'52px', marginBottom:'8px' }}>
-                            <div style={{ width:'52px', height:'52px', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px', fontWeight:900, fontFamily:"'Orbitron',sans-serif",
+                            <div style={{ width:'52px', height:'52px', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px', fontWeight:900, fontFamily:"'Satoshi',sans-serif",
                               background:rs.bg, border:`2px solid ${rs.color}50`, color:rs.color, boxShadow:`0 0 20px ${rs.color}20` }}>
                               {p.full_name?.[0]??'?'}
                             </div>
@@ -641,7 +641,7 @@ export default function TheArena() {
                           <motion.div initial={{ height:0 }} animate={{ height:`${m.height}px` }} transition={{ delay:0.4+i*0.1, duration:0.7 }}
                             style={{ width:'96px', borderRadius:'8px 8px 0 0', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
                               background:`${m.color}12`, border:`1px solid ${m.color}25`, boxShadow:`0 0 20px ${m.glow}` }}>
-                            <div style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:900, fontSize:'14px', color:m.color }}>{pts.toLocaleString()}</div>
+                            <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:900, fontSize:'14px', color:m.color }}>{pts.toLocaleString()}</div>
                             <div style={{ fontSize:'8px', color:S.muted }}>XP</div>
                           </motion.div>
                         </motion.div>
@@ -659,7 +659,7 @@ export default function TheArena() {
 
               <div style={{ borderRadius:'16px', border:`1px solid ${S.border}`, overflow:'hidden', background:'rgba(6,13,24,0.95)' }}>
                 <div style={{ padding:'12px 18px', borderBottom:`1px solid ${S.border}` }}>
-                  <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.2em', color:S.muted }}>FULL RANKINGS · {filtered.length} AGENTS</span>
+                  <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', letterSpacing:'0.2em', color:S.muted }}>FULL RANKINGS · {filtered.length} AGENTS</span>
                 </div>
                 {rest.map(p=>{
                   const isYou = p.id === user?.id;
@@ -672,21 +672,21 @@ export default function TheArena() {
                       background:isYou?`${myRank.color}06`:'transparent' }}
                       onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                       onMouseLeave={e=>e.currentTarget.style.background=isYou?`${myRank.color}06`:'transparent'}>
-                      <div style={{ width:'32px', textAlign:'center', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:900, color:S.muted }}>{pos}</div>
+                      <div style={{ width:'32px', textAlign:'center', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:900, color:S.muted }}>{pos}</div>
                       <div style={{ width:'36px', height:'36px', borderRadius:'10px', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:900, background:rs.bg, border:`1px solid ${rs.color}25`, color:rs.color }}>
                         {p.full_name?.[0]??'?'}
                       </div>
                       <div style={{ flex:1, minWidth:0 }}>
                         <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
                           <span style={{ fontSize:'13px', fontWeight:700, color:'#fff', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.full_name}</span>
-                          {isYou && <span style={{ background:`${myRank.color}20`, color:myRank.color, fontSize:'8px', fontWeight:900, padding:'1px 5px', borderRadius:'4px', fontFamily:"'Orbitron',sans-serif", flexShrink:0 }}>YOU</span>}
+                          {isYou && <span style={{ background:`${myRank.color}20`, color:myRank.color, fontSize:'8px', fontWeight:900, padding:'1px 5px', borderRadius:'4px', fontFamily:"'Satoshi',sans-serif", flexShrink:0 }}>YOU</span>}
                         </div>
                         <div style={{ height:'3px', background:'rgba(255,255,255,0.06)', borderRadius:'2px', marginTop:'5px', maxWidth:'160px', overflow:'hidden' }}>
                           <div style={{ height:'100%', width:`${pct}%`, background:`linear-gradient(90deg,${rs.color}60,${rs.color})`, borderRadius:'2px', transition:'width 1s ease' }} />
                         </div>
                       </div>
-                      <div style={{ fontSize:'9px', fontFamily:"'Orbitron',sans-serif", fontWeight:700, color:rs.color, flexShrink:0 }}>{rs.emoji} {p.rank?.split(' ').pop()?.toUpperCase()}</div>
-                      <div style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:900, fontSize:'13px', color:'#D4A843', width:'80px', textAlign:'right', flexShrink:0 }}>
+                      <div style={{ fontSize:'9px', fontFamily:"'Satoshi',sans-serif", fontWeight:700, color:rs.color, flexShrink:0 }}>{rs.emoji} {p.rank?.split(' ').pop()?.toUpperCase()}</div>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontWeight:900, fontSize:'13px', color:'#D4A843', width:'80px', textAlign:'right', flexShrink:0 }}>
                         {pts.toLocaleString()} <span style={{ fontSize:'9px', color:S.muted, fontWeight:400 }}>XP</span>
                       </div>
                     </div>
@@ -711,14 +711,14 @@ export default function TheArena() {
                   <c.Icon size={17} style={{ color:c.color }} />
                 </div>
                 <div>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:c.color, fontWeight:700, letterSpacing:'0.1em' }}>{c.door} · {c.type.toUpperCase()}</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', color:c.color, fontWeight:700, letterSpacing:'0.1em' }}>{c.door} · {c.type.toUpperCase()}</div>
                   <div style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{c.name}</div>
                 </div>
                 <div style={{ marginLeft:'auto', display:'flex', flexDirection:'column', alignItems:'flex-end', gap:'3px' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'4px', color:'#F97316', fontSize:'10px' }}>
                     <Timer size={11} /> {c.deadline}
                   </div>
-                  {c.joined && <span style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:'4px', padding:'1px 6px', fontSize:'8px', color:'#10B981', fontWeight:700, fontFamily:"'Orbitron',sans-serif" }}>ENROLLED</span>}
+                  {c.joined && <span style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:'4px', padding:'1px 6px', fontSize:'8px', color:'#10B981', fontWeight:700, fontFamily:"'Satoshi',sans-serif" }}>ENROLLED</span>}
                 </div>
               </div>
               <p style={{ color:'#CBD5E1', fontSize:'11px', lineHeight:1.6, marginBottom:'12px' }}>{c.desc.slice(0,100)}...</p>
@@ -829,16 +829,16 @@ export default function TheArena() {
                       <div style={{ fontSize:'10px', color:S.muted, marginTop:'2px' }}>Ends {p.end} · {p.participants} participants</div>
                     </div>
                   </div>
-                  {p.joined && <span style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:'5px', padding:'2px 8px', fontSize:'8px', color:'#10B981', fontWeight:700, fontFamily:"'Orbitron',sans-serif", flexShrink:0 }}>ENROLLED</span>}
+                  {p.joined && <span style={{ background:'rgba(16,185,129,0.1)', border:'1px solid rgba(16,185,129,0.2)', borderRadius:'5px', padding:'2px 8px', fontSize:'8px', color:'#10B981', fontWeight:700, fontFamily:"'Satoshi',sans-serif", flexShrink:0 }}>ENROLLED</span>}
                 </div>
                 <div style={{ background:`${p.color}10`, border:`1px solid ${p.color}25`, borderRadius:'12px', padding:'14px', marginBottom:'14px', textAlign:'center' }}>
-                  <div style={{ fontSize:'9px', color:S.muted, marginBottom:'4px', fontFamily:"'Orbitron',sans-serif", letterSpacing:'0.1em' }}>PRIZE</div>
-                  <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:p.color }}>{p.prize}</div>
+                  <div style={{ fontSize:'9px', color:S.muted, marginBottom:'4px', fontFamily:"'Satoshi',sans-serif", letterSpacing:'0.1em' }}>PRIZE</div>
+                  <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:p.color }}>{p.prize}</div>
                 </div>
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
                     <span style={{ fontSize:'10px', color:S.muted }}>Your position:</span>
-                    <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:p.color }}>#{p.rank}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:p.color }}>#{p.rank}</span>
                   </div>
                   <motion.button whileHover={{ scale:1.05 }} onClick={e=>{ e.stopPropagation(); setPrizeDetail(p); }}
                     style={{ padding:'8px 16px', borderRadius:'8px', border:'none', cursor:'pointer', fontSize:'11px', fontWeight:700, color:'#000', background:p.color, boxShadow:`0 0 16px ${p.color}40` }}>
@@ -851,12 +851,12 @@ export default function TheArena() {
             <div className="s4-glass" style={{ gridColumn:'1/-1', borderColor:'rgba(168,85,247,0.2)', padding:'24px', display:'flex', alignItems:'center', gap:'20px' }}>
               <div style={{ fontSize:'40px' }}>🏆</div>
               <div style={{ flex:1 }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'12px', color:'#A855F7', fontWeight:900, marginBottom:'6px' }}>S4 LEGEND SEASON PRIZE POOL</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'12px', color:'#A855F7', fontWeight:900, marginBottom:'6px' }}>S4 LEGEND SEASON PRIZE POOL</div>
                 <div style={{ color:'#fff', fontSize:'14px', fontWeight:700, marginBottom:'4px' }}>Top 3 Legends share $15,000 + exclusive Legend NFTs + SOLVEN Board advisory seats. Season ends Sep 30, 2026.</div>
                 <div style={{ color:S.muted, fontSize:'12px' }}>1,247 participants competing · Daily XP rankings updated</div>
               </div>
               <div style={{ textAlign:'right', flexShrink:0 }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#A855F7' }}>$15,000</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:900, color:'#A855F7' }}>$15,000</div>
                 <div style={{ color:S.muted, fontSize:'10px' }}>Total Pool</div>
               </div>
             </div>

@@ -171,7 +171,7 @@ export default function TheSubscription() {
       <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '1080px', margin: '0 auto' }}>
         <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
           <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('ONE-TIME · LIFETIME · 250 SEATS', 'دفعة واحدة · مدى الحياة · 250 مقعداً')}</div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
             background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('FOUNDING MEMBER ACCESS', 'وصول الأعضاء المؤسسين')}</h1>
           <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('One-time lifetime access — no subscriptions, no renewals. 250 seats total.', 'وصول مدى الحياة لمرة واحدة — بدون اشتراكات أو تجديدات. 250 مقعداً إجمالاً.')}</p>
@@ -186,7 +186,7 @@ export default function TheSubscription() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '4px' }}>{t('Founding Member', 'عضو مؤسس')}</div>
-              <div className="s4-num" style={{ fontSize: '18px', fontWeight: 800, color: '#D4A843', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.1em' }}>
+              <div className="s4-num" style={{ fontSize: '18px', fontWeight: 500, color: '#D4A843', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.1em' }}>
                 {memberTier?.toUpperCase()} {t('ACCESS', 'وصول')}
               </div>
             </div>
@@ -215,7 +215,7 @@ export default function TheSubscription() {
                 return (
                   <div key={tier.key}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                      <span style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', color: tier.color, fontWeight: 700 }}>{tier.label}</span>
+                      <span style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '9px', color: tier.color, fontWeight: 700 }}>{tier.label}</span>
                       <span className="s4-num" style={{ fontSize: '11px', color: available === 0 ? '#EF4444' : '#10B981', fontWeight: 700 }}>{available} {t('left', 'متبقٍ')}</span>
                     </div>
                     <div style={{ height: '4px', background: 'rgba(255,255,255,0.06)', borderRadius: '2px', overflow: 'hidden' }}>
@@ -251,25 +251,25 @@ export default function TheSubscription() {
                   opacity: soldOut && !isCurrent ? 0.7 : 1,
                 }}>
                 {tier.popular && !isCurrent && !soldOut && (
-                  <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#000', fontSize: '9px', fontWeight: 800, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+                  <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#000', fontSize: '9px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
                     {t('MOST POPULAR', 'الأكثر شيوعاً')}
                   </div>
                 )}
                 {isCurrent && (
-                  <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#000', fontSize: '9px', fontWeight: 800, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+                  <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: tier.color, color: '#000', fontSize: '9px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
                     {t('YOUR TIER', 'باقتك')}
                   </div>
                 )}
                 {soldOut && !isCurrent && (
-                  <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: '#EF4444', color: '#fff', fontSize: '9px', fontWeight: 800, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+                  <div style={{ position: 'absolute', top: '-11px', left: '50%', transform: 'translateX(-50%)', background: '#EF4444', color: '#fff', fontSize: '9px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
                     {t('SOLD OUT', 'نفدت الكمية')}
                   </div>
                 )}
 
-                <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '11px', letterSpacing: '0.15em', color: tier.color, fontWeight: 700, marginBottom: '8px' }}>{tier.label}</div>
+                <div style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '11px', letterSpacing: '0.15em', color: tier.color, fontWeight: 700, marginBottom: '8px' }}>{tier.label}</div>
 
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px', marginBottom: '4px' }}>
-                  <span style={{ fontSize: '26px', fontWeight: 800, color: '#fff' }}>${tier.price}</span>
+                  <span style={{ fontSize: '26px', fontWeight: 500, color: '#fff' }}>${tier.price}</span>
                 </div>
                 <div style={{ fontSize: '10px', color: '#94A3B8', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Zap size={10} color="#D4A843" /> {t('One-time · Lifetime access', 'دفعة واحدة · وصول مدى الحياة')}
@@ -278,7 +278,7 @@ export default function TheSubscription() {
                 {/* Door access */}
                 <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap', marginBottom: '14px' }}>
                   {tier.doors.map(d => (
-                    <span key={d} style={{ fontSize: '8px', padding: '2px 6px', borderRadius: '4px', background: `${DOOR_COLORS[d]}18`, color: DOOR_COLORS[d], fontFamily: "'Orbitron',sans-serif", fontWeight: 700, letterSpacing: '0.05em' }}>{d}</span>
+                    <span key={d} style={{ fontSize: '8px', padding: '2px 6px', borderRadius: '4px', background: `${DOOR_COLORS[d]}18`, color: DOOR_COLORS[d], fontFamily: "'Satoshi',sans-serif", fontWeight: 700, letterSpacing: '0.05em' }}>{d}</span>
                   ))}
                 </div>
 
@@ -299,7 +299,7 @@ export default function TheSubscription() {
                     cursor: isCurrent || soldOut ? 'default' : 'pointer',
                     background: isCurrent ? 'rgba(255,255,255,0.05)' : soldOut ? 'rgba(255,255,255,0.03)' : `${tier.color}20`,
                     color: isCurrent ? '#94A3B8' : soldOut ? '#555' : tier.color,
-                    fontSize: '11px', fontWeight: 700, fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.08em',
+                    fontSize: '11px', fontWeight: 700, fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.08em',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                     transition: 'all 0.15s',
                     opacity: isLoading ? 0.7 : 1,

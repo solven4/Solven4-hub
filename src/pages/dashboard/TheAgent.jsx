@@ -337,7 +337,7 @@ function SolvenCore({ size=110, activeColor='#6366F1' }) {
       for(let i=0;i<3;i++){ ctx.save(); ctx.translate(cx,cy); ctx.rotate(t*(0.9+i*0.35)+(i*2.1)); ctx.beginPath(); ctx.arc(0,0,R*(0.84+i*0.05),-0.5,0.5); ctx.strokeStyle=`rgba(${rgb},${0.55-i*0.14})`; ctx.lineWidth=1.5; ctx.stroke(); ctx.restore(); }
       pts.forEach(p=>{ p.angle+=p.spd; const x=cx+Math.cos(p.angle)*p.r, y=cy+Math.sin(p.angle)*p.r, pulse=0.35+0.65*Math.sin(t*2.5+p.ph); ctx.beginPath(); ctx.arc(x,y,p.sz,0,Math.PI*2); ctx.fillStyle=`rgba(${rgb},${pulse*0.55})`; ctx.fill(); });
       const core=ctx.createRadialGradient(cx-R*0.18,cy-R*0.18,1,cx,cy,R*0.72);
-      core.addColorStop(0,'#fff'); core.addColorStop(0.18,col); core.addColorStop(0.8,'#0A0C1E'); core.addColorStop(1,'#05050C');
+      core.addColorStop(0,'#fff'); core.addColorStop(0.18,col); core.addColorStop(0.8,'#14161B'); core.addColorStop(1,'#1A1B1E');
       ctx.beginPath(); ctx.arc(cx,cy,R*0.72,0,Math.PI*2); ctx.fillStyle=core; ctx.fill();
       ctx.save(); ctx.globalAlpha=0.06;
       for(let i=0;i<10;i++){ const a=(i/10)*Math.PI*2+t*0.1; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*R*0.72,cy+Math.sin(a)*R*0.72); ctx.strokeStyle='#fff'; ctx.lineWidth=0.5; ctx.stroke(); }
@@ -360,8 +360,8 @@ function ScoreMeter({ label, value, color }) {
   return (
     <div style={{flex:1}}>
       <div style={{display:'flex',justifyContent:'space-between',marginBottom:'3px'}}>
-        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{label}</span>
-        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color,fontWeight:700}}>{value}%</span>
+        <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{label}</span>
+        <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color,fontWeight:700}}>{value}%</span>
       </div>
       <div style={{height:'4px',borderRadius:'2px',background:'rgba(255,255,255,0.06)',overflow:'hidden'}}>
         <motion.div initial={{width:0}} animate={{width:`${value}%`}} transition={{duration:0.8,ease:'easeOut'}}
@@ -418,7 +418,7 @@ function SolvenCalendar({ events, onAddEvent }) {
             style={{background:'rgba(255,255,255,0.05)',border:'none',borderRadius:'7px',width:'28px',height:'28px',cursor:'pointer',color:'#94A3B8',display:'flex',alignItems:'center',justifyContent:'center'}}>
             <ChevronLeft size={13}/>
           </button>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>
+          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'11px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>
             {MONTHS[m]} {y}
           </div>
           <button onClick={()=>setViewDate(new Date(y,m+1,1))}
@@ -430,7 +430,7 @@ function SolvenCalendar({ events, onAddEvent }) {
         {/* Day headers */}
         <div style={{display:'grid',gridTemplateColumns:'repeat(7,1fr)',gap:'2px',marginBottom:'4px'}}>
           {DAYS.map(d=>(
-            <div key={d} style={{textAlign:'center',fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',padding:'3px 0',letterSpacing:'0.05em'}}>{d}</div>
+            <div key={d} style={{textAlign:'center',fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',padding:'3px 0',letterSpacing:'0.05em'}}>{d}</div>
           ))}
         </div>
 
@@ -482,7 +482,7 @@ function SolvenCalendar({ events, onAddEvent }) {
       <div>
         <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}}>
           <div>
-            <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#6366F1',fontWeight:700,letterSpacing:'0.1em'}}>
+            <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'10px',color:'#6366F1',fontWeight:700,letterSpacing:'0.1em'}}>
               {selectedDate.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}
             </div>
             <div style={{fontSize:'10px',color:'#94A3B8',marginTop:'1px'}}>{selEvents.length} {t('events scheduled','فعاليات مجدولة')}</div>
@@ -512,11 +512,11 @@ function SolvenCalendar({ events, onAddEvent }) {
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr auto',gap:'6px'}}>
                 <select value={newEvent.door} onChange={e=>setNewEvent(p=>({...p,door:e.target.value}))}
                   style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'6px',padding:'6px 8px',color:'#fff',fontSize:'11px',outline:'none'}}>
-                  {['EDGE','FORGE','ORACLE','NEXUS','ALL'].map(d=><option key={d} value={d} style={{background:'#0A0C1E'}}>{d}</option>)}
+                  {['EDGE','FORGE','ORACLE','NEXUS','ALL'].map(d=><option key={d} value={d} style={{background:'#14161B'}}>{d}</option>)}
                 </select>
                 <select value={newEvent.type} onChange={e=>setNewEvent(p=>({...p,type:e.target.value}))}
                   style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'6px',padding:'6px 8px',color:'#fff',fontSize:'11px',outline:'none'}}>
-                  {['SCHEDULE','ORDER','ALERT'].map(t=><option key={t} value={t} style={{background:'#0A0C1E'}}>{t}</option>)}
+                  {['SCHEDULE','ORDER','ALERT'].map(t=><option key={t} value={t} style={{background:'#14161B'}}>{t}</option>)}
                 </select>
                 <button onClick={addEvent}
                   style={{background:'#6366F1',border:'none',borderRadius:'6px',padding:'6px 12px',cursor:'pointer',color:'#fff',fontSize:'11px',fontWeight:700}}>
@@ -543,13 +543,13 @@ function SolvenCalendar({ events, onAddEvent }) {
                   background:`${ev.color}0C`,border:`1px solid ${ev.color}22`,
                   borderLeft:`3px solid ${ev.color}`,
                 }}>
-                <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'12px',fontWeight:700,color:ev.color,flexShrink:0,minWidth:'44px'}}>{ev.time}</div>
+                <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'12px',fontWeight:700,color:ev.color,flexShrink:0,minWidth:'44px'}}>{ev.time}</div>
                 <EIcon size={12} color={ev.color} style={{flexShrink:0,marginTop:'2px'}}/>
                 <div style={{flex:1}}>
                   <div style={{color:'#CBD5E1',fontSize:'12px',lineHeight:1.4}}>{ev.title}</div>
                   <div style={{display:'flex',gap:'6px',marginTop:'3px'}}>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:ev.color,background:`${ev.color}15`,borderRadius:'3px',padding:'1px 5px'}}>{ev.door}</span>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'1px 5px'}}>{ev.type}</span>
+                    <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:ev.color,background:`${ev.color}15`,borderRadius:'3px',padding:'1px 5px'}}>{ev.door}</span>
+                    <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'1px 5px'}}>{ev.type}</span>
                   </div>
                 </div>
               </motion.div>
@@ -588,15 +588,15 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           <door.Icon size={22} color={door.color}/>
         </div>
         <div style={{flex:1}}>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'16px',fontWeight:900,color:'#fff',letterSpacing:'0.08em'}}>{door.name}</div>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:door.color,letterSpacing:'0.18em',marginTop:'2px'}}>{door.tagline}</div>
+          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'16px',fontWeight:900,color:'#fff',letterSpacing:'0.08em'}}>{door.name}</div>
+          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:door.color,letterSpacing:'0.18em',marginTop:'2px'}}>{door.tagline}</div>
         </div>
         <div style={{display:'flex',gap:'22px',alignItems:'center'}}>
           {door.stats.map((s,i)=>(
             <div key={i} style={{textAlign:'center'}}>
-              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'15px',fontWeight:900,color:s.up?'#10B981':'#F59E0B'}}>{s.value}</div>
+              <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'15px',fontWeight:900,color:s.up?'#10B981':'#F59E0B'}}>{s.value}</div>
               <div style={{fontSize:'9px',color:'#94A3B8',marginTop:'1px'}}>{s.label}</div>
-              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:s.up?'#10B981':'#EF4444',marginTop:'1px'}}>{s.delta}</div>
+              <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:s.up?'#10B981':'#EF4444',marginTop:'1px'}}>{s.delta}</div>
             </div>
           ))}
         </div>
@@ -607,8 +607,8 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           </button>
           <div style={{textAlign:'right'}}>
             <span style={{color:'#94A3B8',fontSize:'9px'}}>{door.forecast.label}: </span>
-            <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#10B981',fontWeight:700}}>{door.forecast.target} </span>
-            <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',background:'rgba(16,185,129,0.12)',borderRadius:'4px',padding:'1px 5px'}}>{door.forecast.pct}</span>
+            <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'10px',color:'#10B981',fontWeight:700}}>{door.forecast.target} </span>
+            <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:'#10B981',background:'rgba(16,185,129,0.12)',borderRadius:'4px',padding:'1px 5px'}}>{door.forecast.pct}</span>
           </div>
         </div>
       </div>
@@ -621,7 +621,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
           {id:'schedule',label:t("Today's Schedule","جدول اليوم"),count:door.schedule.length},
         ].map(tb=>(
           <button key={tb.id} onClick={()=>setTab(tb.id)}
-            style={{padding:'8px 18px',borderRadius:'8px 8px 0 0',border:'none',cursor:'pointer',background:tab===tb.id?`${door.color}18`:'transparent',color:tab===tb.id?door.color:'#94A3B8',fontSize:'11px',fontWeight:tab===tb.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',borderBottom:tab===tb.id?`2px solid ${door.color}`:'2px solid transparent',transition:'all 0.15s',display:'flex',alignItems:'center',gap:'6px'}}>
+            style={{padding:'8px 18px',borderRadius:'8px 8px 0 0',border:'none',cursor:'pointer',background:tab===tb.id?`${door.color}18`:'transparent',color:tab===tb.id?door.color:'#94A3B8',fontSize:'11px',fontWeight:tab===tb.id?700:400,fontFamily:"'Satoshi',sans-serif",letterSpacing:'0.06em',borderBottom:tab===tb.id?`2px solid ${door.color}`:'2px solid transparent',transition:'all 0.15s',display:'flex',alignItems:'center',gap:'6px'}}>
             {tb.label}
             {tb.count!=null && (
               <span style={{background:tb.alert?'#EF4444':(tab===tb.id?door.color:'rgba(255,255,255,0.1)'),color:(tb.alert||tab===tb.id)?'#fff':'#94A3B8',borderRadius:'999px',fontSize:'8px',fontWeight:700,padding:'1px 6px',minWidth:'16px',textAlign:'center',animation:tb.alert?'agent-blink 1.5s infinite':'none'}}>
@@ -657,8 +657,8 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                           transition:'all 0.2s',
                         }}>
                         <div style={{flexShrink:0,display:'flex',flexDirection:'column',gap:'3px',minWidth:'72px'}}>
-                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',fontWeight:700,color:ins.color,background:`${ins.color}18`,borderRadius:'3px',padding:'2px 5px',textAlign:'center'}}>{ins.type}</div>
-                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:PRIORITY_COLORS[ins.priority],background:`${PRIORITY_COLORS[ins.priority]}12`,borderRadius:'3px',padding:'2px 5px',textAlign:'center'}}>{ins.priority}</div>
+                          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',fontWeight:700,color:ins.color,background:`${ins.color}18`,borderRadius:'3px',padding:'2px 5px',textAlign:'center'}}>{ins.type}</div>
+                          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:PRIORITY_COLORS[ins.priority],background:`${PRIORITY_COLORS[ins.priority]}12`,borderRadius:'3px',padding:'2px 5px',textAlign:'center'}}>{ins.priority}</div>
                         </div>
                         <div style={{flex:1}}>
                           <p style={{color:'#CBD5E1',fontSize:'13px',lineHeight:1.55,margin:'0 0 8px',fontWeight:500}}>{ins.text}</p>
@@ -686,19 +686,19 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                             <div style={{padding:'16px 18px',background:`${ins.color}08`,border:`1px solid ${ins.color}20`,borderRadius:'0 0 11px 11px',borderTop:'none',marginTop:'-2px'}}>
                               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:'12px'}}>
                                 <div style={{padding:'12px',background:'rgba(255,255,255,0.04)',borderRadius:'9px',border:'1px solid rgba(255,255,255,0.06)'}}>
-                                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
+                                  <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
                                     <Activity size={10}/> {t('WHAT THIS MEANS', 'ماذا يعني هذا')}
                                   </div>
                                   <p style={{color:'#CBD5E1',fontSize:'11px',lineHeight:1.6,margin:0}}>{ins.description}</p>
                                 </div>
                                 <div style={{padding:'12px',background:'rgba(16,185,129,0.06)',borderRadius:'9px',border:'1px solid rgba(16,185,129,0.15)'}}>
-                                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
+                                  <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
                                     <CheckCircle size={10}/> {t('IF YOU ACT NOW', 'إذا تصرفت الآن')}
                                   </div>
                                   <p style={{color:'#CBD5E1',fontSize:'11px',lineHeight:1.6,margin:0}}>{ins.benefit}</p>
                                 </div>
                                 <div style={{padding:'12px',background:'rgba(239,68,68,0.06)',borderRadius:'9px',border:'1px solid rgba(239,68,68,0.15)'}}>
-                                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#EF4444',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
+                                  <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:'#EF4444',letterSpacing:'0.12em',marginBottom:'6px',display:'flex',alignItems:'center',gap:'4px'}}>
                                     <AlertTriangle size={10}/> {t('IF YOU IGNORE IT', 'إذا تجاهلت الأمر')}
                                   </div>
                                   <p style={{color:'#CBD5E1',fontSize:'11px',lineHeight:1.6,margin:0}}>{ins.consequence}</p>
@@ -731,7 +731,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                       <div style={{display:'flex',gap:'8px',alignItems:'flex-start',marginBottom:'8px'}}>
                         <div style={{flex:1}}>
                           <div style={{display:'flex',gap:'5px',alignItems:'center',marginBottom:'4px'}}>
-                            <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',fontWeight:700,color:PRIORITY_COLORS[order.priority],background:`${PRIORITY_COLORS[order.priority]}15`,borderRadius:'3px',padding:'2px 6px'}}>{order.priority}</span>
+                            <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',fontWeight:700,color:PRIORITY_COLORS[order.priority],background:`${PRIORITY_COLORS[order.priority]}15`,borderRadius:'3px',padding:'2px 6px'}}>{order.priority}</span>
                           </div>
                           <div style={{color:'#fff',fontSize:'13px',fontWeight:600}}>{order.title}</div>
                         </div>
@@ -769,14 +769,14 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                     <div style={{padding:'12px 14px',background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:'12px'}}>
                       <div style={{display:'flex',alignItems:'center',gap:'6px',marginBottom:'10px'}}>
                         <CheckCircle size={13} color="#10B981"/>
-                        <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#10B981',letterSpacing:'0.15em',fontWeight:700}}>{t('EXECUTED ORDERS LOG', 'سجل الأوامر المنفذة')}</span>
+                        <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',color:'#10B981',letterSpacing:'0.15em',fontWeight:700}}>{t('EXECUTED ORDERS LOG', 'سجل الأوامر المنفذة')}</span>
                       </div>
                       <div style={{display:'flex',flexDirection:'column',gap:'5px'}}>
                         {executedLog.map((o,i)=>(
                           <div key={i} style={{display:'flex',alignItems:'center',gap:'10px',padding:'7px 10px',background:'rgba(16,185,129,0.06)',borderRadius:'7px',border:'1px solid rgba(16,185,129,0.12)'}}>
                             <CheckCircle size={11} color="#10B981" style={{flexShrink:0}}/>
                             <span style={{color:'#CBD5E1',fontSize:'12px',flex:1}}>{o.title}</span>
-                            <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981'}}>{o.executedAt}</span>
+                            <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:'#10B981'}}>{o.executedAt}</span>
                           </div>
                         ))}
                       </div>
@@ -797,7 +797,7 @@ function DoorDetail({ door, onAddCalendarEvent }) {
                 {door.schedule.map((item,i)=>(
                   <motion.div key={item.id} initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:i*0.07}}
                     style={{display:'flex',gap:'14px',alignItems:'center',padding:'12px 16px',borderRadius:'10px',background:'rgba(255,255,255,0.025)',border:`1px solid rgba(255,255,255,0.06)`}}>
-                    <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'13px',fontWeight:700,color:door.color,flexShrink:0,minWidth:'52px'}}>{item.time}</div>
+                    <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'13px',fontWeight:700,color:door.color,flexShrink:0,minWidth:'52px'}}>{item.time}</div>
                     <div style={{width:'8px',height:'8px',borderRadius:'50%',background:door.color,boxShadow:`0 0 10px ${door.color}`,flexShrink:0}}/>
                     <p style={{color:'#CBD5E1',fontSize:'13px',margin:0,flex:1}}>{item.text}</p>
                     <button
@@ -817,13 +817,13 @@ function DoorDetail({ door, onAddCalendarEvent }) {
               <div style={{background:'rgba(255,255,255,0.02)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:'12px',padding:'14px'}}>
                 <div style={{display:'flex',alignItems:'center',gap:'6px',marginBottom:'10px'}}>
                   <Calendar size={12} color="#6366F1"/>
-                  <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',letterSpacing:'0.15em',fontWeight:700}}>{t('SOLVEN CALENDAR PREVIEW', 'معاينة تقويم SOLVEN')}</span>
+                  <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',color:'#6366F1',letterSpacing:'0.15em',fontWeight:700}}>{t('SOLVEN CALENDAR PREVIEW', 'معاينة تقويم SOLVEN')}</span>
                   <span style={{color:'#94A3B8',fontSize:'10px',marginLeft:'auto'}}>{t('Click "SOLVEN Calendar" tab to open full calendar →', 'اضغط على تبويب "تقويم SOLVEN" لفتح التقويم الكامل ←')}</span>
                 </div>
                 <div style={{display:'flex',gap:'6px',flexWrap:'wrap'}}>
                   {door.schedule.map((item,i)=>(
                     <div key={i} style={{padding:'5px 10px',borderRadius:'6px',background:`${door.color}10`,border:`1px solid ${door.color}25`,display:'flex',alignItems:'center',gap:'5px'}}>
-                      <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:door.color,fontWeight:700}}>{item.time}</span>
+                      <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',color:door.color,fontWeight:700}}>{item.time}</span>
                       <span style={{color:'#CBD5E1',fontSize:'10px'}}>{item.text.slice(0,30)}{item.text.length>30?'...':''}</span>
                     </div>
                   ))}
@@ -926,26 +926,26 @@ export default function TheAgent() {
             <div key={d.id} style={{display:'flex',alignItems:'center',gap:'5px'}}>
               <div style={{width:'7px',height:'7px',borderRadius:'50%',background:d.color,boxShadow:`0 0 10px ${d.color}`,animation:'agent-pulse 2s infinite'}}/>
               <div>
-                <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:d.color,fontWeight:700}}>{d.name}</div>
+                <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:d.color,fontWeight:700}}>{d.name}</div>
                 <div style={{fontSize:'8px',color:'#94A3B8'}}>{t('ACTIVE','نشط')}</div>
               </div>
             </div>
           ))}
         </div>
         <div style={{textAlign:'center'}}>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('AFEOS · AI OPERATING SYSTEM', 'AFEOS · نظام تشغيل الذكاء الاصطناعي')}</div>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'20px',fontWeight:900,color:'#fff',letterSpacing:'0.12em'}}>SOLVEN AI</div>
-          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.2em',marginTop:'1px'}}>{t('ALL 8 SKILLS · ALL DOORS MONITORED', 'كل المهارات الثمانية · جميع الأبواب مُراقبة')}</div>
+          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('AFEOS · AI OPERATING SYSTEM', 'AFEOS · نظام تشغيل الذكاء الاصطناعي')}</div>
+          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'20px',fontWeight:900,color:'#fff',letterSpacing:'0.12em'}}>SOLVEN AI</div>
+          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:'#10B981',letterSpacing:'0.2em',marginTop:'1px'}}>{t('ALL 8 SKILLS · ALL DOORS MONITORED', 'كل المهارات الثمانية · جميع الأبواب مُراقبة')}</div>
         </div>
         <div style={{display:'flex',gap:'12px',alignItems:'center',justifyContent:'flex-end'}}>
           <div style={{textAlign:'right'}}>
-            <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'18px',fontWeight:900,color:'#6366F1'}}>{clock.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</div>
+            <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'18px',fontWeight:900,color:'#6366F1'}}>{clock.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}</div>
             <div style={{fontSize:'10px',color:'#94A3B8'}}>{clock.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'})}</div>
           </div>
           {[{l:t('PLATFORM SCORE','درجة المنصة'),v:'71',c:'#6366F1'},{l:t('ORDERS PENDING','الأوامر المعلقة'),v:String(totalOrders),c:'#EF4444'},{l:t("TODAY'S EVENTS",'فعاليات اليوم'),v:String(todayEvents.length),c:'#D4A843'}].map(s=>(
             <div key={s.l} style={{background:`${s.c}12`,border:`1px solid ${s.c}25`,borderRadius:'10px',padding:'7px 12px',textAlign:'center'}}>
-              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'18px',fontWeight:900,color:s.c}}>{s.v}</div>
-              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{s.l}</div>
+              <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'18px',fontWeight:900,color:s.c}}>{s.v}</div>
+              <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{s.l}</div>
             </div>
           ))}
         </div>
@@ -955,7 +955,7 @@ export default function TheAgent() {
       <div style={{display:'flex',gap:'6px',marginBottom:'16px',background:'rgba(10,12,30,0.95)',border:'1px solid rgba(255,255,255,0.06)',borderRadius:'12px',padding:'6px'}}>
         {SECTION_TABS.map(t=>(
           <button key={t.id} onClick={()=>setActiveSection(t.id)}
-            style={{flex:1,padding:'10px 16px',borderRadius:'8px',border:'none',cursor:'pointer',background:activeSection===t.id?'rgba(99,102,241,0.2)':'transparent',color:activeSection===t.id?'#A5B4FC':'#94A3B8',fontSize:'12px',fontWeight:activeSection===t.id?700:400,fontFamily:"'Orbitron',sans-serif",letterSpacing:'0.06em',outline:activeSection===t.id?'1px solid rgba(99,102,241,0.35)':'none',transition:'all 0.15s',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px'}}>
+            style={{flex:1,padding:'10px 16px',borderRadius:'8px',border:'none',cursor:'pointer',background:activeSection===t.id?'rgba(99,102,241,0.2)':'transparent',color:activeSection===t.id?'#A5B4FC':'#94A3B8',fontSize:'12px',fontWeight:activeSection===t.id?700:400,fontFamily:"'Satoshi',sans-serif",letterSpacing:'0.06em',outline:activeSection===t.id?'1px solid rgba(99,102,241,0.35)':'none',transition:'all 0.15s',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px'}}>
             <t.Icon size={13}/>{t.label}
           </button>
         ))}
@@ -972,8 +972,8 @@ export default function TheAgent() {
             {activeSection==='cockpit' && (
               <motion.div key="cockpit" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
                 <div>
-                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('YOUR COMPANY COCKPIT · SELECT A DOOR TO COMMAND', 'قمرة قيادة شركتك · اختر باباً للتحكم فيه')}</div>
-                  <h1 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff 0%,#A5B4FC 55%,#6366F1 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('SOLVEN COMMAND CENTER', 'مركز قيادة SOLVEN')}</h1>
+                  <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('YOUR COMPANY COCKPIT · SELECT A DOOR TO COMMAND', 'قمرة قيادة شركتك · اختر باباً للتحكم فيه')}</div>
+                  <h1 style={{fontFamily:"'Satoshi',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff 0%,#A5B4FC 55%,#6366F1 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('SOLVEN COMMAND CENTER', 'مركز قيادة SOLVEN')}</h1>
                   <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>{t('Select a door to view AI insights, execute orders, and review your SOLVEN-planned schedule for that platform.', 'اختر باباً لعرض رؤى الذكاء الاصطناعي، وتنفيذ الأوامر، ومراجعة الجدول المخطط من SOLVEN لتلك المنصة.')}</p>
                 </div>
 
@@ -987,25 +987,25 @@ export default function TheAgent() {
                         style={{position:'relative',overflow:'hidden',background:active?`${d.color}18`:'rgba(10,12,30,0.95)',border:`2px solid ${active?d.color:d.color+'30'}`,borderRadius:'16px',padding:'18px 14px',cursor:'pointer',textAlign:'left',boxShadow:active?`0 0 40px ${d.glow},0 4px 24px rgba(0,0,0,0.3)`:'0 2px 12px rgba(0,0,0,0.2)',transition:'all 0.25s'}}>
                         {active && <motion.div layoutId="door-bar" style={{position:'absolute',top:0,left:0,right:0,height:'3px',background:`linear-gradient(90deg,${d.color},${d.color}88)`}}/>}
                         {d.orders.length>0 && (
-                          <div style={{position:'absolute',top:'10px',right:'10px',background:d.orders.some(o=>o.priority==='CRITICAL')?'#EF4444':'rgba(255,255,255,0.12)',borderRadius:'999px',minWidth:'18px',height:'18px',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Orbitron',sans-serif",fontSize:'9px',fontWeight:700,color:'#fff',padding:'0 4px',animation:d.orders.some(o=>o.priority==='CRITICAL')?'agent-blink 1.5s infinite':'none'}}>
+                          <div style={{position:'absolute',top:'10px',right:'10px',background:d.orders.some(o=>o.priority==='CRITICAL')?'#EF4444':'rgba(255,255,255,0.12)',borderRadius:'999px',minWidth:'18px',height:'18px',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Satoshi',sans-serif",fontSize:'9px',fontWeight:700,color:'#fff',padding:'0 4px',animation:d.orders.some(o=>o.priority==='CRITICAL')?'agent-blink 1.5s infinite':'none'}}>
                             {d.orders.length}
                           </div>
                         )}
                         <div style={{width:'38px',height:'38px',borderRadius:'10px',background:`${d.color}18`,border:`1px solid ${d.color}35`,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'10px',boxShadow:active?`0 0 20px ${d.color}40`:'none'}}>
                           <d.Icon size={20} color={d.color}/>
                         </div>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:900,color:active?'#fff':'#CBD5E1',letterSpacing:'0.06em',marginBottom:'2px'}}>{d.name}</div>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:d.color,letterSpacing:'0.15em',marginBottom:'10px'}}>{d.subtitle}</div>
+                        <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'11px',fontWeight:900,color:active?'#fff':'#CBD5E1',letterSpacing:'0.06em',marginBottom:'2px'}}>{d.name}</div>
+                        <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:d.color,letterSpacing:'0.15em',marginBottom:'10px'}}>{d.subtitle}</div>
                         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4px'}}>
                           {d.stats.slice(0,2).map((s,i)=>(
                             <div key={i} style={{background:'rgba(255,255,255,0.04)',borderRadius:'6px',padding:'5px 7px'}}>
-                              <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:700,color:s.up?'#10B981':'#F59E0B'}}>{s.value}</div>
+                              <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'11px',fontWeight:700,color:s.up?'#10B981':'#F59E0B'}}>{s.value}</div>
                               <div style={{fontSize:'9px',color:'#94A3B8',marginTop:'1px'}}>{s.label}</div>
                             </div>
                           ))}
                         </div>
                         {active && (
-                          <motion.div initial={{opacity:0}} animate={{opacity:1}} style={{marginTop:'8px',fontFamily:"'Orbitron',sans-serif",fontSize:'8px',color:d.color,letterSpacing:'0.12em',display:'flex',alignItems:'center',gap:'4px'}}>
+                          <motion.div initial={{opacity:0}} animate={{opacity:1}} style={{marginTop:'8px',fontFamily:"'Satoshi',sans-serif",fontSize:'8px',color:d.color,letterSpacing:'0.12em',display:'flex',alignItems:'center',gap:'4px'}}>
                             <div style={{width:'5px',height:'5px',borderRadius:'50%',background:d.color,boxShadow:`0 0 8px ${d.color}`}}/> {t('SELECTED','مُحدد')}
                           </motion.div>
                         )}
@@ -1025,8 +1025,8 @@ export default function TheAgent() {
             {activeSection==='calendar' && (
               <motion.div key="calendar" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
                 <div>
-                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('SOLVEN AI · SYNCED SCHEDULE', 'SOLVEN AI · جدول متزامن')}</div>
-                  <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('COMMAND CALENDAR', 'تقويم القيادة')}</h2>
+                  <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('SOLVEN AI · SYNCED SCHEDULE', 'SOLVEN AI · جدول متزامن')}</div>
+                  <h2 style={{fontFamily:"'Satoshi',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('COMMAND CALENDAR', 'تقويم القيادة')}</h2>
                   <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>{t('All 4 doors, AI orders, and SOLVEN-planned events in one synced view. Add any schedule item from any door with one click.', 'جميع الأبواب الأربعة وأوامر الذكاء الاصطناعي والفعاليات المخططة من SOLVEN في عرض متزامن واحد. أضف أي عنصر جدول من أي باب بنقرة واحدة.')}</p>
                 </div>
 
@@ -1034,11 +1034,11 @@ export default function TheAgent() {
                 <div style={{background:'rgba(99,102,241,0.08)',border:'1px solid rgba(99,102,241,0.2)',borderRadius:'12px',padding:'12px 18px',display:'flex',gap:'16px',alignItems:'center',flexWrap:'wrap'}}>
                   <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
                     <Clock size={13} color="#6366F1"/>
-                    <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:'#6366F1',fontWeight:700,letterSpacing:'0.12em'}}>{t('TODAY','اليوم')}</span>
+                    <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',color:'#6366F1',fontWeight:700,letterSpacing:'0.12em'}}>{t('TODAY','اليوم')}</span>
                   </div>
                   {todayEvents.slice(0,5).map(ev=>(
                     <div key={ev.id} style={{display:'flex',alignItems:'center',gap:'5px',padding:'4px 8px',background:`${ev.color}12`,border:`1px solid ${ev.color}25`,borderRadius:'6px'}}>
-                      <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:ev.color,fontWeight:700}}>{ev.time}</span>
+                      <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',color:ev.color,fontWeight:700}}>{ev.time}</span>
                       <span style={{color:'#CBD5E1',fontSize:'10px'}}>{ev.title.slice(0,28)}{ev.title.length>28?'...':''}</span>
                     </div>
                   ))}
@@ -1055,8 +1055,8 @@ export default function TheAgent() {
             {activeSection==='briefing' && (
               <motion.div key="briefing" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0}} style={{display:'flex',flexDirection:'column',gap:'14px'}}>
                 <div>
-                  <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('SOLVEN AI · EXECUTIVE INTELLIGENCE', 'SOLVEN AI · ذكاء تنفيذي')}</div>
-                  <h2 style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('CHIEF BRIEFING', 'الإحاطة التنفيذية')}</h2>
+                  <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',letterSpacing:'0.35em',color:'#6366F1',marginBottom:'2px'}}>{t('SOLVEN AI · EXECUTIVE INTELLIGENCE', 'SOLVEN AI · ذكاء تنفيذي')}</div>
+                  <h2 style={{fontFamily:"'Satoshi',sans-serif",fontSize:'22px',fontWeight:900,margin:'0 0 4px',background:'linear-gradient(135deg,#fff,#A5B4FC)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t('CHIEF BRIEFING', 'الإحاطة التنفيذية')}</h2>
                   <p style={{color:'#94A3B8',fontSize:'12px',margin:0}}>{t("SOLVEN's ranked action plan for today — ordered by revenue impact, risk, and time sensitivity across all 4 doors.", 'خطة عمل SOLVEN المرتبة لليوم — مرتبة حسب الأثر على الإيرادات، والمخاطرة، والحساسية الزمنية عبر الأبواب الأربعة.')}</p>
                 </div>
 
@@ -1074,8 +1074,8 @@ export default function TheAgent() {
                       }}>
                       {/* Rank */}
                       <div style={{flexShrink:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'4px',minWidth:'36px'}}>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'22px',fontWeight:900,color:i===0?rec.color:'#94A3B8',lineHeight:1}}>{rec.rank}</div>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{t('RANK','الترتيب')}</div>
+                        <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'22px',fontWeight:900,color:i===0?rec.color:'#94A3B8',lineHeight:1}}>{rec.rank}</div>
+                        <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',letterSpacing:'0.1em'}}>{t('RANK','الترتيب')}</div>
                       </div>
 
                       <div style={{width:'1px',background:'rgba(255,255,255,0.06)',flexShrink:0}}/>
@@ -1083,13 +1083,13 @@ export default function TheAgent() {
                       {/* Content */}
                       <div style={{flex:1}}>
                         <div style={{display:'flex',gap:'6px',alignItems:'center',marginBottom:'5px',flexWrap:'wrap'}}>
-                          <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',fontWeight:700,color:PRIORITY_COLORS[rec.priority],background:`${PRIORITY_COLORS[rec.priority]}15`,borderRadius:'3px',padding:'2px 6px',animation:rec.priority==='CRITICAL'?'agent-blink 1.5s infinite':'none'}}>{rec.priority}</span>
-                          <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:rec.color,background:`${rec.color}15`,borderRadius:'3px',padding:'2px 6px'}}>{rec.door}</span>
-                          <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'2px 6px',display:'flex',alignItems:'center',gap:'3px'}}>
+                          <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',fontWeight:700,color:PRIORITY_COLORS[rec.priority],background:`${PRIORITY_COLORS[rec.priority]}15`,borderRadius:'3px',padding:'2px 6px',animation:rec.priority==='CRITICAL'?'agent-blink 1.5s infinite':'none'}}>{rec.priority}</span>
+                          <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:rec.color,background:`${rec.color}15`,borderRadius:'3px',padding:'2px 6px'}}>{rec.door}</span>
+                          <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',background:'rgba(255,255,255,0.06)',borderRadius:'3px',padding:'2px 6px',display:'flex',alignItems:'center',gap:'3px'}}>
                             <Clock size={8}/> {rec.timeframe}
                           </span>
                         </div>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'13px',fontWeight:800,color:'#fff',marginBottom:'5px',letterSpacing:'0.03em'}}>{rec.title}</div>
+                        <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'13px',fontWeight:800,color:'#fff',marginBottom:'5px',letterSpacing:'0.03em'}}>{rec.title}</div>
                         <p style={{color:'#CBD5E1',fontSize:'12px',lineHeight:1.6,margin:'0 0 10px'}}>{rec.why}</p>
                         <div style={{display:'flex',gap:'10px'}}>
                           <ScoreMeter label={t('IMPACT','الأثر')} value={rec.impact} color={rec.color}/>
@@ -1100,8 +1100,8 @@ export default function TheAgent() {
                       {/* Right metrics */}
                       <div style={{flexShrink:0,display:'flex',flexDirection:'column',gap:'8px',alignItems:'flex-end',justifyContent:'center',minWidth:'110px'}}>
                         <div style={{background:`${rec.color}15`,border:`1px solid ${rec.color}30`,borderRadius:'8px',padding:'8px 12px',textAlign:'center'}}>
-                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'13px',fontWeight:900,color:rec.color}}>{rec.revenue}</div>
-                          <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:'#94A3B8',marginTop:'1px'}}>{t('EXPECTED','متوقع')}</div>
+                          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'13px',fontWeight:900,color:rec.color}}>{rec.revenue}</div>
+                          <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:'#94A3B8',marginTop:'1px'}}>{t('EXPECTED','متوقع')}</div>
                         </div>
                         <div style={{fontSize:'10px',color:'#94A3B8',display:'flex',alignItems:'center',gap:'3px'}}>
                           <Zap size={9} color="#F59E0B"/> {t('Effort','الجهد')}: {rec.effort}
@@ -1128,7 +1128,7 @@ export default function TheAgent() {
                         onMouseEnter={e=>{e.currentTarget.style.background=`${d.color}15`;e.currentTarget.style.borderColor=`${d.color}35`;}}
                         onMouseLeave={e=>{e.currentTarget.style.background=`${d.color}08`;e.currentTarget.style.borderColor=`${d.color}20`;}}>
                         <d.Icon size={14} color={d.color} style={{display:'block',marginBottom:'7px'}}/>
-                        <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'9px',color:d.color,fontWeight:700,marginBottom:'5px'}}>{d.name}</div>
+                        <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'9px',color:d.color,fontWeight:700,marginBottom:'5px'}}>{d.name}</div>
                         <p style={{color:'#CBD5E1',fontSize:'10px',lineHeight:1.55,margin:'0 0 8px'}}>{d.insights[0].text.slice(0,65)}...</p>
                         <div style={{display:'flex',gap:'8px'}}>
                           <div style={{flex:1}}>
@@ -1164,7 +1164,7 @@ export default function TheAgent() {
                     <Brain size={18} color="#fff"/>
                   </div>
                   <div style={{flex:1}}>
-                    <div style={{fontFamily:"'Orbitron',sans-serif",fontSize:'11px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>SOLVEN AI</div>
+                    <div style={{fontFamily:"'Satoshi',sans-serif",fontSize:'11px',fontWeight:700,color:'#fff',letterSpacing:'0.1em'}}>SOLVEN AI</div>
                     <div style={{fontSize:'10px',color:'#10B981',display:'flex',alignItems:'center',gap:'4px'}}>
                       <div style={{width:'5px',height:'5px',borderRadius:'50%',background:'#10B981',animation:'agent-pulse 1.5s infinite'}}/> {t('8 skills active · All doors', '8 مهارات نشطة · جميع الأبواب')}
                     </div>
@@ -1180,7 +1180,7 @@ export default function TheAgent() {
                   {CSUITE_SKILLS.map(s=>(
                     <div key={s.label} style={{display:'flex',alignItems:'center',gap:'3px',padding:'3px 7px',borderRadius:'20px',background:`${s.color}12`,border:`1px solid ${s.color}25`}}>
                       <s.Icon size={8} color={s.color}/>
-                      <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'7px',color:s.color,fontWeight:700}}>{s.label}</span>
+                      <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'7px',color:s.color,fontWeight:700}}>{s.label}</span>
                     </div>
                   ))}
                 </div>
@@ -1252,7 +1252,7 @@ export default function TheAgent() {
                 boxShadow:'0 4px 20px rgba(99,102,241,0.3)',
               }}>
               <Brain size={16} color="#fff"/>
-              <span style={{fontFamily:"'Orbitron',sans-serif",fontSize:'10px',color:'#fff',fontWeight:700,writingMode:'vertical-rl',transform:'rotate(180deg)',letterSpacing:'0.1em'}}>{t('ASK SOLVEN','اسأل SOLVEN')}</span>
+              <span style={{fontFamily:"'Satoshi',sans-serif",fontSize:'10px',color:'#fff',fontWeight:700,writingMode:'vertical-rl',transform:'rotate(180deg)',letterSpacing:'0.1em'}}>{t('ASK SOLVEN','اسأل SOLVEN')}</span>
             </motion.button>
           )}
         </div>

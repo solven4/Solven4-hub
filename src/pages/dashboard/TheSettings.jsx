@@ -9,7 +9,7 @@ import { GlassPanel, Btn } from '@/hud';
 const ACCENT = '#6366f1';
 
 const S = {
-  label: { fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
+  label: { fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' },
   row: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' },
   toggle: (on) => ({
     width: '40px', height: '22px', borderRadius: '11px',
@@ -98,7 +98,7 @@ export default function TheSettings() {
     <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '780px', margin: '0 auto' }}>
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
         <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('GLOBAL PREFERENCES', 'التفضيلات العامة')}</div>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+        <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
           background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('SETTINGS', 'الإعدادات')}</h1>
         <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Global preferences across all S4 doors', 'التفضيلات العامة عبر جميع أبواب S4')}</p>

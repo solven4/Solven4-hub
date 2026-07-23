@@ -118,7 +118,7 @@ function IntegrationCard({ integration, idx }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
             {integration.fields.map(field => (
               <div key={field.key}>
-                <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", letterSpacing: '0.12em', display: 'block', marginBottom: '5px' }}>
+                <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", letterSpacing: '0.12em', display: 'block', marginBottom: '5px' }}>
                   {t(field.label, field.labelAr)}
                 </label>
                 <div style={{ position: 'relative' }}>
@@ -157,7 +157,7 @@ export default function TheIntegrations() {
     <div className="s4hud" style={{ ['--accent']: ACCENT, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", maxWidth: '860px', margin: '0 auto' }}>
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
         <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('CONNECTED SERVICES', 'الخدمات المتصلة')}</div>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+        <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
           background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('INTEGRATIONS', 'التكاملات')}</h1>
         <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Connect messaging, social, and broker accounts — shared across all S4 doors', 'اربط حسابات المراسلة والتواصل والوسطاء — مشتركة عبر جميع أبواب S4')}</p>
@@ -171,7 +171,7 @@ export default function TheIntegrations() {
           { label: t('Pending', 'قيد الانتظار'), value: '0', color: '#F59E0B' },
         ].map(({ label, value, color }) => (
           <GlassPanel key={label} className="spatial lift" brackets={false} style={{ ['--accent']: color, textAlign: 'center' }}>
-            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '24px', fontWeight: 900, color }}>{value}</div>
+            <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '24px', fontWeight: 500, color }}>{value}</div>
             <div className="s4-label" style={{ fontSize: '9px', marginTop: '4px' }}>{label}</div>
           </GlassPanel>
         ))}

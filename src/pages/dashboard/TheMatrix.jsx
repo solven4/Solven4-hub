@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useLang } from '@/lib/LanguageContext';
 
-const S = { bg:'#05050C', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
+const S = { bg:'#1A1B1E', surface:'rgba(10,12,30,0.9)', border:'rgba(255,255,255,0.06)', muted:'#94A3B8' };
 const DOOR_COLOR = { EDGE:'#06B6D4', FORGE:'#D4A843', ORACLE:'#10B981', NEXUS:'#EF4444' };
 
 /* ── DNA PROFILE ── */
@@ -116,11 +116,11 @@ function RadarChart({ data }) {
         return (
           <g key={i}>
             <text x={lx} y={ly} textAnchor="middle" dominantBaseline="middle"
-              style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', fill:'#CBD5E1', fontWeight:700 }}>
+              style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', fill:'#CBD5E1', fontWeight:700 }}>
               {data[i].label}
             </text>
             <text x={lx} y={ly+12} textAnchor="middle" dominantBaseline="middle"
-              style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', fill:'#6366F1', fontWeight:900 }}>
+              style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', fill:'#6366F1', fontWeight:900 }}>
               {data[i].value}
             </text>
           </g>
@@ -152,7 +152,7 @@ export default function TheMatrix() {
             <div className="s4-label s4-accent" style={{ letterSpacing:'0.3em', marginBottom:8, display:'flex', alignItems:'center', gap:'8px' }}>
               <Activity size={13} /> {t('PERFORMANCE DNA', 'الحمض النووي للأداء')}
             </div>
-            <h1 style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
+            <h1 style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'clamp(20px,3vw,26px)', fontWeight:900, margin:'0 0 6px',
               background:'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
               filter:'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('THE MATRIX', 'المصفوفة')}</h1>
             <p style={{ color:S.muted, fontSize:'12px', margin:0 }}>{t('Deep behavioral analysis of your cross-door trading patterns and performance genome', 'تحليل سلوكي عميق لأنماط تداولك عبر الأبواب وجينوم أدائك')}</p>
@@ -165,7 +165,7 @@ export default function TheMatrix() {
               { label:t('DNA Score','نقاط الحمض النووي'),        value:'74 / 100', color:'#6366F1' },
             ].map(s => (
               <div key={s.label} style={{ textAlign:'center', background:'rgba(255,255,255,0.03)', border:`1px solid rgba(255,255,255,0.06)`, borderRadius:'12px', padding:'12px 16px', minWidth:'110px' }}>
-                <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:s.color }}>{s.value}</div>
+                <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:s.color }}>{s.value}</div>
                 <div style={{ color:S.muted, fontSize:'9px', marginTop:'3px' }}>{s.label}</div>
               </div>
             ))}
@@ -183,7 +183,7 @@ export default function TheMatrix() {
           { id:'timeline',label:t('Evolution','التطور') },
         ].map(tb => (
           <button key={tb.id} onClick={()=>setActiveTab(tb.id)}
-            style={{ fontFamily:"'Orbitron',sans-serif", padding:'7px 16px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
+            style={{ fontFamily:"'Satoshi',sans-serif", padding:'7px 16px', borderRadius:'8px', fontSize:'10px', letterSpacing:'0.05em', fontWeight:700, cursor:'pointer', border:'none', whiteSpace:'nowrap', transition:'all 0.15s',
               background: activeTab===tb.id?'#6366F1':'transparent', color: activeTab===tb.id?'#fff':S.muted }}>
             {tb.label}
           </button>
@@ -199,12 +199,12 @@ export default function TheMatrix() {
 
           {/* Radar */}
           <div className="s4-glass spatial lift" style={{ padding:'24px', display:'flex', flexDirection:'column', alignItems:'center' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
               {t('TRADING DNA RADAR', 'رادار الحمض النووي للتداول')}
             </div>
             <RadarChart data={DNA_AXES} />
             <div style={{ marginTop:'12px', textAlign:'center' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'28px', fontWeight:900, color:'#6366F1' }}>74</div>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'28px', fontWeight:900, color:'#6366F1' }}>74</div>
               <div style={{ color:S.muted, fontSize:'10px' }}>{t('Overall DNA Score', 'إجمالي نقاط الحمض النووي')}</div>
               <div style={{ color:'#10B981', fontSize:'10px', marginTop:'3px' }}>▲ {t('+6 pts this month', '+6 نقاط هذا الشهر')}</div>
             </div>
@@ -213,7 +213,7 @@ export default function TheMatrix() {
           {/* Axis details */}
           <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
             <div className="s4-glass spatial lift" style={{ padding:'20px' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'16px' }}>
                 {t('DNA AXIS BREAKDOWN', 'تفصيل محاور الحمض النووي')}
               </div>
               <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
@@ -225,7 +225,7 @@ export default function TheMatrix() {
                         <span style={{ color:S.muted, fontSize:'10px', marginLeft:'8px' }}>{ax.desc}</span>
                       </div>
                       <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
-                        <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'14px', fontWeight:900, color:SCORE_COLOR(ax.value) }}>{ax.value}</span>
+                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'14px', fontWeight:900, color:SCORE_COLOR(ax.value) }}>{ax.value}</span>
                         <span style={{ color:S.muted, fontSize:'10px' }}>/100</span>
                       </div>
                     </div>
@@ -240,7 +240,7 @@ export default function TheMatrix() {
 
             {/* Cross-door correlations */}
             <div className="s4-glass spatial lift" style={{ padding:'20px' }}>
-              <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'14px' }}>
+              <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#D4A843', fontWeight:700, marginBottom:'14px' }}>
                 {t('CROSS-DOOR CORRELATIONS', 'الارتباطات عبر الأبواب')}
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px' }}>
@@ -251,14 +251,14 @@ export default function TheMatrix() {
                         <c.Icon size={11} style={{ color:c.color }} />
                       </div>
                       <div style={{ display:'flex', gap:'4px' }}>
-                        <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:DOOR_COLOR[c.doorA], fontWeight:700 }}>{c.doorA}</span>
+                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:DOOR_COLOR[c.doorA], fontWeight:700 }}>{c.doorA}</span>
                         <ChevronRight size={8} style={{ color:S.muted }} />
-                        <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:DOOR_COLOR[c.doorB], fontWeight:700 }}>{c.doorB}</span>
+                        <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:DOOR_COLOR[c.doorB], fontWeight:700 }}>{c.doorB}</span>
                       </div>
                     </div>
                     <p style={{ color:'#CBD5E1', fontSize:'10px', lineHeight:1.5, marginBottom:'6px' }}>{c.trigger}</p>
                     <div style={{ color:S.muted, fontSize:'9px', marginBottom:'4px' }}>{c.effect}</div>
-                    <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'16px', fontWeight:900, color:c.color }}>{c.delta}</div>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'16px', fontWeight:900, color:c.color }}>{c.delta}</div>
                   </div>
                 ))}
               </div>
@@ -271,7 +271,7 @@ export default function TheMatrix() {
       {activeTab === 'heatmap' && (
         <motion.div key="heatmap" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div className="s4-glass spatial lift" style={{ padding:'24px' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'5px' }}>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'5px' }}>
               {t('PERFORMANCE HEATMAP — BY DAY & HOUR', 'خريطة الأداء الحرارية — حسب اليوم والساعة')}
             </div>
             <p style={{ color:S.muted, fontSize:'11px', marginBottom:'20px' }}>{t('Win-rate intensity by hour of day. Green = high performance window.', 'كثافة معدل الربح حسب ساعة اليوم. الأخضر = نافذة أداء عالٍ.')}</p>
@@ -341,7 +341,7 @@ export default function TheMatrix() {
           <div className="s4-glass spatial lift" style={{ overflow:'hidden' }}>
             <div style={{ padding:'16px 20px', borderBottom:`1px solid ${S.border}`, display:'flex', alignItems:'center', gap:'8px' }}>
               <BarChart2 size={12} color="#6366F1" />
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('INSTRUMENT PERFORMANCE BREAKDOWN', 'تفصيل أداء الأدوات')}</span>
+              <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700 }}>{t('INSTRUMENT PERFORMANCE BREAKDOWN', 'تفصيل أداء الأدوات')}</span>
             </div>
             {PAIRS.map((p, i) => (
               <motion.div key={p.pair} initial={{ opacity:0, x:-10 }} animate={{ opacity:1, x:0 }} transition={{ delay:i*0.08 }}
@@ -350,7 +350,7 @@ export default function TheMatrix() {
                 onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
                 <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
                   <div style={{ width:'44px', height:'44px', borderRadius:'12px', background:`${p.color}12`, border:`1px solid ${p.color}25`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                    <span style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'7px', color:p.color, fontWeight:900, textAlign:'center' }}>{p.pair.split('/')[0]}</span>
+                    <span style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'7px', color:p.color, fontWeight:900, textAlign:'center' }}>{p.pair.split('/')[0]}</span>
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'8px' }}>
@@ -373,7 +373,7 @@ export default function TheMatrix() {
                         </div>
                       </div>
                       <div style={{ width:'60px', textAlign:'center', flexShrink:0 }}>
-                        <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:SCORE_COLOR(p.winRate) }}>
+                        <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:SCORE_COLOR(p.winRate) }}>
                           {p.winRate}%
                         </div>
                       </div>
@@ -399,11 +399,11 @@ export default function TheMatrix() {
                   </div>
                   <div>
                     <div style={{ color:'#fff', fontSize:'13px', fontWeight:700 }}>{p.label}</div>
-                    <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'8px', color:p.type==='strength'?'#10B981':p.type==='warning'?'#EF4444':'#D4A843', fontWeight:700 }}>
+                    <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'8px', color:p.type==='strength'?'#10B981':p.type==='warning'?'#EF4444':'#D4A843', fontWeight:700 }}>
                       {p.type==='strength'?t('STRENGTH','قوة'):p.type==='warning'?t('WARNING','تحذير'):t('INSIGHT','ملاحظة')}
                     </div>
                   </div>
-                  <div style={{ marginLeft:'auto', fontFamily:"'Orbitron',sans-serif", fontSize:'18px', fontWeight:900, color:p.color }}>
+                  <div style={{ marginLeft:'auto', fontFamily:"'Satoshi',sans-serif", fontSize:'18px', fontWeight:900, color:p.color }}>
                     {p.score > 0 ? `+${p.score}` : p.score}{typeof p.score === 'number' && Math.abs(p.score) < 100 ? '%' : ''}
                   </div>
                 </div>
@@ -418,7 +418,7 @@ export default function TheMatrix() {
       {activeTab === 'timeline' && (
         <motion.div key="timeline" initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0 }}>
           <div className="s4-glass spatial lift" style={{ padding:'24px' }}>
-            <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'20px' }}>
+            <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'10px', letterSpacing:'0.15em', color:'#6366F1', fontWeight:700, marginBottom:'20px' }}>
               {t('6-MONTH PERFORMANCE EVOLUTION', 'تطور الأداء لـ6 أشهر')}
             </div>
 
@@ -431,7 +431,7 @@ export default function TheMatrix() {
                   const pos = t.pnl > 0;
                   return (
                     <div key={t.month} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:'4px' }}>
-                      <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'9px', color:pos?'#10B981':'#EF4444', fontWeight:700 }}>
+                      <div style={{ fontFamily:"'Satoshi',sans-serif", fontSize:'9px', color:pos?'#10B981':'#EF4444', fontWeight:700 }}>
                         {pos?'+':'-'}${Math.abs(t.pnl).toLocaleString()}
                       </div>
                       <div style={{ width:'100%', display:'flex', justifyContent:'center' }}>
@@ -451,7 +451,7 @@ export default function TheMatrix() {
               <thead>
                 <tr style={{ borderBottom:`1px solid ${S.border}` }}>
                   {[t('Month','الشهر'),t('Win Rate','معدل الربح'),t('PnL','الأرباح والخسائر'),t('Avg R:R','متوسط R:R'),t('Trades','الصفقات')].map(h => (
-                    <th key={h} style={{ padding:'8px 12px', textAlign:'left', color:S.muted, fontSize:'9px', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>{h}</th>
+                    <th key={h} style={{ padding:'8px 12px', textAlign:'left', color:S.muted, fontSize:'9px', fontFamily:"'Satoshi',sans-serif", fontWeight:700 }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -459,9 +459,9 @@ export default function TheMatrix() {
                 {TIMELINE.map((t, i) => (
                   <motion.tr key={t.month} initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:i*0.07 }}
                     style={{ borderBottom:'1px solid rgba(255,255,255,0.03)' }}>
-                    <td style={{ padding:'10px 12px', fontFamily:"'Orbitron',sans-serif", fontSize:'11px', fontWeight:700, color:'#fff' }}>{t.month}</td>
+                    <td style={{ padding:'10px 12px', fontFamily:"'Satoshi',sans-serif", fontSize:'11px', fontWeight:700, color:'#fff' }}>{t.month}</td>
                     <td style={{ padding:'10px 12px', color:SCORE_COLOR(t.winRate), fontWeight:700 }}>{t.winRate}%</td>
-                    <td style={{ padding:'10px 12px', color:t.pnl>0?'#10B981':'#EF4444', fontFamily:"'Orbitron',sans-serif", fontWeight:700 }}>
+                    <td style={{ padding:'10px 12px', color:t.pnl>0?'#10B981':'#EF4444', fontFamily:"'Satoshi',sans-serif", fontWeight:700 }}>
                       {t.pnl>0?'+':''}{t.pnl < 0 ? '-' : ''}${Math.abs(t.pnl).toLocaleString()}
                     </td>
                     <td style={{ padding:'10px 12px', color:'#D4A843', fontWeight:700 }}>{t.rr}:1</td>

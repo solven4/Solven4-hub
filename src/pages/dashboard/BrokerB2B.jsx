@@ -33,7 +33,7 @@ function StatCard({ icon: Icon, label, value, sub, color = '#6366F1', delay = 0 
           </div>
           <ArrowUpRight className="w-3.5 h-3.5 text-s4-muted" />
         </div>
-        <div className="s4-num font-heading text-2xl font-black text-white mb-0.5">{value}</div>
+        <div className="s4-num font-heading text-2xl font-medium text-white mb-0.5">{value}</div>
         <div className="s4-label" style={{ fontSize: '9px' }}>{label}</div>
         {sub && <div className="text-[10px] mt-1" style={{ color }}>{sub}</div>}
       </GlassPanel>
@@ -50,8 +50,8 @@ function IBRow({ broker, rank }) {
       className="flex items-center gap-4 p-4 rounded-xl transition-all cursor-pointer hover:bg-white/[0.02]"
       style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}
     >
-      <span className="font-heading text-sm font-black text-s4-muted w-6 text-center">#{rank}</span>
-      <div className="w-9 h-9 rounded-full flex items-center justify-center font-heading font-black text-sm"
+      <span className="font-heading text-sm font-medium text-s4-muted w-6 text-center">#{rank}</span>
+      <div className="w-9 h-9 rounded-full flex items-center justify-center font-heading font-medium text-sm"
         style={{ background: `${tier.color}20`, color: tier.color }}>
         {(broker.name ?? 'B').charAt(0)}
       </div>
@@ -129,14 +129,14 @@ export default function BrokerB2B() {
   ];
 
   return (
-    <div className="s4hud min-h-screen p-6 space-y-6" style={{ ['--accent']: ACCENT, background: '#05050C' }}>
+    <div className="s4hud min-h-screen p-6 space-y-6" style={{ ['--accent']: ACCENT, background: '#1A1B1E' }}>
       {/* Header */}
       <motion.div initial="hidden" animate="show" variants={container} className="space-y-1">
         <motion.div variants={fadeUp} className="s4-label s4-accent flex items-center gap-2" style={{ letterSpacing: '0.3em' }}>
           <Building2 className="w-3 h-3" />
           {t('SOLVEN4 HUB — B2B BROKER INTELLIGENCE', 'SOLVEN4 HUB — ذكاء الوسطاء B2B')}
         </motion.div>
-        <motion.h1 variants={fadeUp} style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, margin: 0,
+        <motion.h1 variants={fadeUp} style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, margin: 0,
           background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>
           {t('Broker', 'شبكة')} {t('Network', 'الوسطاء')}
@@ -177,7 +177,7 @@ export default function BrokerB2B() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className="px-4 py-2 rounded-lg text-xs font-bold transition-all"
-            style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase',
+            style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '10px', letterSpacing: '0.06em', textTransform: 'uppercase',
               ...(activeTab === tab.id ? { background: ACCENT, color: '#fff' } : { color: '#94A3B8' }) }}
           >
             {tab.label}

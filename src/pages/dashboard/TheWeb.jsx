@@ -50,7 +50,7 @@ export default function TheWeb() {
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', marginBottom: '22px' }}>
         <div>
           <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('S4 FORGE · IB EMPIRE', 'S4 FORGE · إمبراطورية الوسطاء')}</div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
             background: 'linear-gradient(135deg,#fff 0%,#F0DCA0 60%,#D4A843 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 4px 22px rgba(212,168,67,0.35))' }}>{t('THE WEB', 'الشبكة')}</h1>
           <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>
@@ -78,7 +78,7 @@ export default function TheWeb() {
                 <div className="s4-label" style={{ fontSize: '9px' }}>{s.label}</div>
                 <Icon size={14} style={{ color: s.color }} />
               </div>
-              <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '20px', fontWeight: 900, color: s.color }}>{loading ? '—' : s.val}</div>
+              <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '20px', fontWeight: 500, color: s.color }}>{loading ? '—' : s.val}</div>
             </GlassPanel>
           );
         })}
@@ -171,7 +171,7 @@ export default function TheWeb() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '12px' }}>
           {NETWORK_MODULES.map(mod => (
             <div key={mod.group} className="s4-glass" style={{ ['--accent']: mod.color, padding: '16px', borderColor: `${mod.color}30` }}>
-              <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '9px', fontWeight: 900, letterSpacing: '0.1em', color: mod.color, marginBottom: '10px' }}>{mod.group}</div>
+              <div style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '9px', fontWeight: 500, letterSpacing: '0.1em', color: mod.color, marginBottom: '10px' }}>{mod.group}</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {mod.items.map(item => (
                   <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#94A3B8' }}>

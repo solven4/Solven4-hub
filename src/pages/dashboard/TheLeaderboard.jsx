@@ -46,7 +46,7 @@ export default function TheLeaderboard() {
 
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ marginBottom: '22px' }}>
         <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('CROSS-DOOR RANKINGS', 'الترتيب عبر الأبواب')}</div>
-        <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+        <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
           background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('LEADERBOARD', 'لوحة الصدارة')}</h1>
         <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door rankings — unified across SOLVEN4', 'ترتيب موحد عبر جميع أبواب SOLVEN4')}</p>
@@ -62,7 +62,7 @@ export default function TheLeaderboard() {
               outline: activeTab === d.key ? `1px solid ${d.color}40` : 'none',
               transition: 'all 0.15s',
             }}>
-            <div style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', color: activeTab === d.key ? d.color : '#94A3B8' }}>{d.label}</div>
+            <div style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', color: activeTab === d.key ? d.color : '#94A3B8' }}>{d.label}</div>
             <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '2px' }}>{d.sublabel}</div>
           </button>
         ))}
@@ -71,7 +71,7 @@ export default function TheLeaderboard() {
       {/* My rank card */}
       {myRank > 0 && (
         <GlassPanel className="spatial lift" brackets={false} style={{ ['--accent']: activeDoor.color, marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div className="s4-num" style={{ fontSize: '28px', fontWeight: 800, color: activeDoor.color, fontFamily: "'Orbitron',sans-serif", minWidth: '48px', textAlign: 'center' }}>
+          <div className="s4-num" style={{ fontSize: '28px', fontWeight: 500, color: activeDoor.color, fontFamily: "'Satoshi',sans-serif", minWidth: '48px', textAlign: 'center' }}>
             #{myRank}
           </div>
           <div style={{ flex: 1 }}>

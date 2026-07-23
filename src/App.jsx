@@ -41,7 +41,7 @@ import MaintenanceGate from '@/components/MaintenanceGate';
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuthStore();
   if (loading) return (
-    <div style={{ minHeight: '100vh', background: '#05050C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ minHeight: '100vh', background: '#1A1B1E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ width: '32px', height: '32px', borderRadius: '50%', border: '2px solid transparent', borderTopColor: '#6366F1', animation: 'spin 1s linear infinite' }} />
       <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
     </div>

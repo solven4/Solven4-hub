@@ -49,7 +49,7 @@ function RuleCard({ rule, idx }) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff' }}>{rule.name}</span>
-            <span style={{ fontSize: '9px', padding: '2px 7px', borderRadius: '4px', background: `${doorColor}18`, color: doorColor, fontFamily: "'Orbitron',sans-serif", fontWeight: 700, letterSpacing: '0.06em' }}>{rule.door}</span>
+            <span style={{ fontSize: '9px', padding: '2px 7px', borderRadius: '4px', background: `${doorColor}18`, color: doorColor, fontFamily: "'Satoshi',sans-serif", fontWeight: 700, letterSpacing: '0.06em' }}>{rule.door}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: '#94A3B8' }}>
             {trigger && <span style={{ color: trigger.color }}>⚡ {t(trigger.label, trigger.labelAr)}</span>}
@@ -60,7 +60,7 @@ function RuleCard({ rule, idx }) {
 
         {/* Stats */}
         <div style={{ textAlign: 'right', fontSize: '11px', color: '#94A3B8', marginRight: '8px' }}>
-          <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff' }}>{rule.runs}</div>
+          <div style={{ fontSize: '16px', fontWeight: 500, color: '#fff' }}>{rule.runs}</div>
           <div>{t('runs', 'تشغيل')}</div>
         </div>
 
@@ -100,7 +100,7 @@ export default function TheAutomation() {
       <motion.div {...rise} transition={{ duration: 0.5 }} style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', marginBottom: '22px' }}>
         <div>
           <div className="s4-label s4-accent" style={{ letterSpacing: '0.35em', marginBottom: 6 }}>{t('CROSS-DOOR RULES', 'قواعد عبر الأبواب')}</div>
-          <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 900, lineHeight: 1.02, margin: 0,
+          <h1 style={{ fontFamily: "'Satoshi',sans-serif", fontSize: 'clamp(22px,3vw,30px)', fontWeight: 500, lineHeight: 1.02, margin: 0,
             background: 'linear-gradient(135deg,#fff 0%,#A5B4FC 60%,#6366F1 120%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
             filter: 'drop-shadow(0 4px 22px rgba(99,102,241,0.35))' }}>{t('AUTOMATION CENTER', 'مركز الأتمتة')}</h1>
           <p style={{ fontSize: '13px', color: '#94A3B8', margin: '6px 0 0' }}>{t('Cross-door automation rules — triggered by any door, acting on any channel', 'قواعد أتمتة عبر الأبواب — تُفعّل من أي باب وتعمل على أي قناة')}</p>
@@ -118,7 +118,7 @@ export default function TheAutomation() {
           { label: t('Channels', 'القنوات'), value: '3', color: '#D4A843' },
         ].map(({ label, value, color }) => (
           <GlassPanel key={label} className="spatial lift" brackets={false} style={{ ['--accent']: color, textAlign: 'center' }}>
-            <div className="s4-num" style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '24px', fontWeight: 900, color }}>{value}</div>
+            <div className="s4-num" style={{ fontFamily: "'Satoshi',sans-serif", fontSize: '24px', fontWeight: 500, color }}>{value}</div>
             <div className="s4-label" style={{ fontSize: '9px', marginTop: '4px' }}>{label}</div>
           </GlassPanel>
         ))}
@@ -136,29 +136,29 @@ export default function TheAutomation() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>{t('RULE NAME', 'اسم القاعدة')}</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", display: 'block', marginBottom: '6px' }}>{t('RULE NAME', 'اسم القاعدة')}</label>
                   <input value={builder.name} onChange={e => setBuilder(p => ({ ...p, name: e.target.value }))}
                     placeholder={t('e.g. Welcome New Trader', 'مثال: ترحيب بمتداول جديد')}
                     style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }} />
                 </div>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>{t('WHEN THIS HAPPENS (TRIGGER)', 'عند حدوث هذا (المحفز)')}</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", display: 'block', marginBottom: '6px' }}>{t('WHEN THIS HAPPENS (TRIGGER)', 'عند حدوث هذا (المحفز)')}</label>
                   <select value={builder.trigger} onChange={e => setBuilder(p => ({ ...p, trigger: e.target.value }))}
-                    style={{ width: '100%', background: '#0A0C1E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
+                    style={{ width: '100%', background: '#14161B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
                     <option value="">{t('Select trigger...', 'اختر المحفز...')}</option>
                     {TRIGGERS.map(tr => <option key={tr.key} value={tr.key}>{t(tr.label, tr.labelAr)} ({tr.door})</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>{t('DO THIS (ACTION)', 'افعل هذا (الإجراء)')}</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", display: 'block', marginBottom: '6px' }}>{t('DO THIS (ACTION)', 'افعل هذا (الإجراء)')}</label>
                   <select value={builder.action} onChange={e => setBuilder(p => ({ ...p, action: e.target.value }))}
-                    style={{ width: '100%', background: '#0A0C1E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
+                    style={{ width: '100%', background: '#14161B', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none' }}>
                     <option value="">{t('Select action...', 'اختر الإجراء...')}</option>
                     {ACTIONS.map(a => <option key={a.key} value={a.key}>{t(a.label, a.labelAr)}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Orbitron',sans-serif", display: 'block', marginBottom: '6px' }}>{t('MESSAGE (optional)', 'الرسالة (اختياري)')}</label>
+                  <label style={{ fontSize: '10px', color: '#94A3B8', fontFamily: "'Satoshi',sans-serif", display: 'block', marginBottom: '6px' }}>{t('MESSAGE (optional)', 'الرسالة (اختياري)')}</label>
                   <input value={builder.message} onChange={e => setBuilder(p => ({ ...p, message: e.target.value }))}
                     placeholder={t('Hello {{name}}, welcome!', 'مرحباً {{name}}، أهلاً بك!')}
                     style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '9px 12px', color: '#fff', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }} />
